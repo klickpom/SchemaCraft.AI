@@ -980,7 +980,7 @@ async function fetchWithTimeout(url: string, timeoutMs = 5000): Promise<Response
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { 'Accept': 'text/html,text/plain,application/json,*/*', 'User-Agent': 'SchemaCraftAI-Auditor/1.0' },
+      headers: { 'Accept': 'text/html,text/plain,application/json,*/*' },
       redirect: 'follow',
     });
     clearTimeout(id);
@@ -1026,6 +1026,7 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
 
   const lines = content.split('\n').map(l => l.trim());
   let currentAgents: string[] = [];
+  let lastLineWasDirective = false;
 
   for (const line of lines) {
     const lower = line.toLowerCase();
@@ -1033,13 +1034,19 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
     if (lower.startsWith('#') || lower === '') {
       if (lower === '' && currentAgents.length > 0) {
         currentAgents = [];
+        lastLineWasDirective = false;
       }
       continue;
     }
 
     if (lower.startsWith('user-agent:')) {
+      // If previous line was a directive (Allow/Disallow), this starts a NEW block
+      if (lastLineWasDirective) {
+        currentAgents = [];
+      }
       const agent = lower.replace('user-agent:', '').trim();
       currentAgents.push(agent);
+      lastLineWasDirective = false;
     } else if (lower.startsWith('disallow:')) {
       const path = lower.replace('disallow:', '').trim();
       if (path === '/' || path === '/*') {
@@ -1047,6 +1054,7 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
           result[agent] = 'disallowed';
         }
       }
+      lastLineWasDirective = true;
     } else if (lower.startsWith('allow:')) {
       const path = lower.replace('allow:', '').trim();
       if (path === '/' || path === '/*') {
@@ -1054,6 +1062,9 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
           result[agent] = 'allowed';
         }
       }
+      lastLineWasDirective = true;
+    } else {
+      lastLineWasDirective = true; // sitemap: or other directives
     }
   }
 
@@ -1168,12 +1179,12 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
       }
     }
 
-    // Wave 3: Google webcache as absolute last resort
+    // Wave 3: Instead of deprecated Google WebCache, try one more batch
     if (!htmlFetched) {
-      const cacheUrl = `https://webcache.googleusercontent.com/search?q=cache:${encodeURIComponent(targetUrl)}&strip=0`;
+      // Last attempt with longer timeout
       try {
-        html = await tryProxy(cacheUrl, 6000);
-        if (html && html.length > 200) {
+        html = await tryAlloriginsJson(targetUrl, 8000);
+        if (html && html.length > 100) {
           htmlFetched = true;
           httpStatus = 200;
         }
@@ -1321,14 +1332,33 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     detectedSiteType = 'agency';
   }
 
-  // Sitemap check from robots.txt content
-  const sitemapFound = robotsFetched
-    ? robotsTxtContent.toLowerCase().includes('sitemap:')
-    : null;
+  // Sitemap check: First check robots.txt, then probe /sitemap.xml directly
+  let sitemapFound: boolean | null = null;
+  let sitemapUrl = '';
 
-  const sitemapUrl = robotsFetched
-    ? (robotsTxtContent.match(/Sitemap:\s*(.*)/i)?.[1]?.trim() || '')
-    : '';
+  if (robotsFetched && robotsTxtContent.toLowerCase().includes('sitemap:')) {
+    sitemapFound = true;
+    sitemapUrl = robotsTxtContent.match(/Sitemap:\s*(.*)/i)?.[1]?.trim() || `${origin}/sitemap.xml`;
+  } else {
+    // Probe /sitemap.xml directly via proxy (don't falsely penalize)
+    const sitemapProbeUrl = `${origin}/sitemap.xml`;
+    const sitemapEncoded = encodeURIComponent(sitemapProbeUrl);
+    try {
+      const sitemapRes = await Promise.any([
+        tryProxy(`https://corsproxy.io/?url=${sitemapEncoded}`, 3000),
+        tryProxy(`https://api.allorigins.win/raw?url=${sitemapEncoded}`, 3000),
+      ]);
+      if (sitemapRes && (sitemapRes.includes('<urlset') || sitemapRes.includes('<sitemapindex') || sitemapRes.includes('<?xml'))) {
+        sitemapFound = true;
+        sitemapUrl = sitemapProbeUrl;
+      } else {
+        sitemapFound = false;
+      }
+    } catch (e) {
+      // Could not determine
+      sitemapFound = robotsFetched ? false : null;
+    }
+  }
 
   return {
     httpStatus,

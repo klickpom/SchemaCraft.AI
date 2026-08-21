@@ -11,6 +11,7 @@ import {
   RawEvidence,
 } from '@/lib/auditEngine';
 import { translations, Language } from '@/lib/translations';
+import { isProUnlockedClient, setProUnlockedClient } from '@/lib/payment';
 import FixGeneratorModal from '@/components/FixGeneratorModal';
 import PayPalCheckout from '@/components/PayPalCheckout';
 import {
@@ -46,6 +47,7 @@ export default function Home() {
   const [isScanning, setIsScanning] = useState(false);
   const [scanStep, setScanStep] = useState(0);
   const [scanPercent, setScanPercent] = useState(0);
+  const [scanError, setScanError] = useState<string | null>(null);
   const [report, setReport] = useState<AuditReport | null>(null);
   const [isProUnlocked, setIsProUnlocked] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
@@ -58,6 +60,7 @@ export default function Home() {
 
   // Initialize with a high-impact demo audit on mount & listen to Escape key
   useEffect(() => {
+    if (isProUnlockedClient()) setIsProUnlocked(true);
     handleRunAudit('https://saasmetrics-app.io', SAMPLE_PROFILES.saas.raw, 'saas');
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -77,6 +80,7 @@ export default function Home() {
   };
 
   const handleRunAudit = async (url: string, rawData?: RawEvidence, profileKey?: string) => {
+    setScanError(null);
     setIsScanning(true);
     setScanStep(1);
     setScanPercent(12);
@@ -85,22 +89,29 @@ export default function Home() {
     // Smooth percentage ticker
     const interval = setInterval(() => {
       setScanPercent((prev) => {
-        if (prev < 30) return prev + 6;
-        if (prev < 65) return prev + 4;
-        if (prev < 92) return prev + 2;
+        if (prev < 20) return prev + 3;
+        if (prev < 45) return prev + 2;
+        if (prev < 70) return prev + 1.5;
+        if (prev < 88) return prev + 0.5;
         return prev;
       });
-    }, 90);
+    }, 200);
 
-    const timer1 = setTimeout(() => setScanStep(2), 400);
-    const timer2 = setTimeout(() => setScanStep(3), 800);
-    const timer3 = setTimeout(() => setScanStep(4), 1200);
+    const timer1 = setTimeout(() => setScanStep(2), 800);
+    const timer2 = setTimeout(() => setScanStep(3), 2500);
+    const timer3 = setTimeout(() => setScanStep(4), 5000);
+    const timer4 = setTimeout(() => setScanStep(5), 8000);
 
     try {
       let evidence = rawData;
       if (!evidence) {
         // Perform 100% REAL live HTTP crawl & DOM inspection
         evidence = await fetchLiveEvidence(url);
+      } else {
+        setTimeout(() => setScanStep(2), 300);
+        setTimeout(() => setScanStep(3), 700);
+        setTimeout(() => setScanStep(4), 1100);
+        await new Promise((r) => setTimeout(r, 1500));
       }
 
       const generatedReport = evaluateEvidence(url, evidence);
@@ -120,6 +131,11 @@ export default function Home() {
 
     } catch (err) {
       console.error('Live audit fetch error:', err);
+      setScanError(
+        lang === 'ar'
+          ? 'لم نتمكن من الوصول لهذا الموقع. تحقق من الرابط وحاول مرة أخرى.'
+          : 'Could not reach this website. Please check the URL and try again.'
+      );
       setIsScanning(false);
       setScanStep(0);
       setScanPercent(0);
@@ -128,6 +144,7 @@ export default function Home() {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
+      clearTimeout(timer4);
     }
   };
 
@@ -150,6 +167,7 @@ export default function Home() {
   };
 
   const handlePaymentSuccess = () => {
+    setProUnlockedClient(true);
     setIsProUnlocked(true);
     setShowPaywall(false);
   };
@@ -361,6 +379,14 @@ export default function Home() {
               </div>
             </div>
           </section>
+        )}
+
+        {/* Scan Error Banner */}
+        {scanError && !isScanning && (
+          <div className="max-w-2xl mx-auto p-4 sm:p-5 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-300 flex items-center gap-3 animate-in fade-in duration-300 shadow-xl">
+            <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0" />
+            <p className="text-sm font-medium">{scanError}</p>
+          </div>
         )}
 
         {/* Audit Results Dashboard */}
@@ -732,7 +758,7 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-xl font-black text-white">
-                        {lang === 'ar' ? 'جميع المشاكل وفرص التحسين المكتشفة (17+)' : 'All Detected Issues & Improvement Opportunities (17+)'}
+                        {lang === 'ar' ? `جميع المشاكل وفرص التحسين المكتشفة (${report.allIssues.length})` : `All Detected Issues & Improvement Opportunities (${report.allIssues.length})`}
                       </h3>
                       <p className="text-xs text-slate-400">
                         {lang === 'ar' ? 'انقر على أي مشكلة للحصول على كود الإصلاح المباشر لمنصتك' : 'Click on any issue to view exact code fixes for WordPress, Next.js, and Shopify'}

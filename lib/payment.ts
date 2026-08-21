@@ -11,36 +11,20 @@ export interface ProPlan {
 
 export const PRO_PLANS: ProPlan[] = [
   {
-    id: 'single-pass',
-    name: 'Instant Single Pass',
-    price: '$4.99',
+    id: 'fix-my-website',
+    name: 'Fix My Website — Full Audit',
+    price: '$9',
     period: 'one-time',
-    badge: 'Immediate Value',
-    description: 'Instant full export & dynamic CMS injection bundle for your current project.',
+    badge: 'Lifetime Access',
+    description: 'Unlock all detected issues, platform-specific code fixes, and AI search opportunities for your website.',
     features: [
-      'Instant Production-Ready HTML & Script Bundle',
-      'Next.js 15 & Shopify Liquid Variable Injections',
-      '100% Google Rich Results AST Compliance Report',
-      'Direct Knowledge Graph Entity Disambiguation',
-      'No recurring charges or subscription',
+      'All detected issues & blockers revealed',
+      'Platform-specific code fixes (WordPress, Next.js, Shopify)',
+      'AI Search Opportunity Finder matrix',
+      'Context-aware Schema.org JSON-LD generator',
+      '30-Day Money-Back Guarantee',
     ],
-  },
-  {
-    id: 'pro-monthly',
-    name: 'Pro Lifetime Access',
-    price: '$14.00',
-    period: '/month',
-    badge: 'Most Popular',
     recommended: true,
-    description: 'Full unlimited batch exports, dynamic site crawl generators, and priority AEO tools.',
-    features: [
-      'Unlimited Batch Schema Site Generator (Up to 5,000 URLs)',
-      'Automated Dynamic Variable CMS Script Engine',
-      'Production HTML Bundle & REST API Webhooks',
-      'Perplexity & ChatGPT AI Overview Ranking Simulator Pro',
-      'Continuous Schema.org 2026 Core Algorithm Updates',
-      'Priority 24/7 Developer Support',
-    ],
   },
 ];
 

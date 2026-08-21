@@ -107,30 +107,71 @@ Sitemap: {{ 'sitemap.xml' | full_url }}`,
       break;
 
     case 'schema':
-      const schemaJson = siteType === 'saas' ? {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": brandName,
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "All Modern Web Browsers",
-        "url": `https://${domain}`,
-        "offers": {
-          "@type": "Offer",
-          "price": "9.00",
-          "priceCurrency": "USD"
-        },
-        "author": {
+      let schemaJson: Record<string, any>;
+
+      if (siteType === 'ecommerce') {
+        schemaJson = {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": `${brandName} Flagship Product`,
+          "image": `https://${domain}/product.jpg`,
+          "description": `High quality products by ${brandName}`,
+          "brand": {
+            "@type": "Brand",
+            "name": brandName
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": `https://${domain}/product`,
+            "priceCurrency": "USD",
+            "price": "29.99",
+            "availability": "https://schema.org/InStock"
+          }
+        };
+      } else if (siteType === 'clinic') {
+        schemaJson = {
+          "@context": "https://schema.org",
+          "@type": "MedicalBusiness",
+          "name": `${brandName} Medical Clinic`,
+          "url": `https://${domain}`,
+          "image": `https://${domain}/clinic.jpg`,
+          "telephone": "+1-800-555-0199",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Health Ave",
+            "addressLocality": "Medical City",
+            "addressCountry": "US"
+          },
+          "medicalSpecialty": "PrimaryCare"
+        };
+      } else if (siteType === 'saas') {
+        schemaJson = {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": brandName,
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "All Modern Web Browsers",
+          "url": `https://${domain}`,
+          "offers": {
+            "@type": "Offer",
+            "price": "9.00",
+            "priceCurrency": "USD"
+          },
+          "author": {
+            "@type": "Organization",
+            "name": `${brandName} Global Inc.`,
+            "url": `https://${domain}`
+          }
+        };
+      } else {
+        schemaJson = {
+          "@context": "https://schema.org",
           "@type": "Organization",
-          "name": `${brandName} Global Inc.`,
-          "url": `https://${domain}`
-        }
-      } : {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": brandName,
-        "url": `https://${domain}`,
-        "logo": `https://${domain}/icon.png`
-      };
+          "name": brandName,
+          "url": `https://${domain}`,
+          "logo": `https://${domain}/icon.png`
+        };
+      }
 
       const jsonStr = JSON.stringify(schemaJson, null, 2);
 
@@ -196,7 +237,7 @@ ${jsonStr}
         fileLocationAr: 'مكون الهيرو في الصفحة الرئيسية',
         codeSnippet: `<!-- Add BLUF Answer Block Directly Below H1 -->
 <h1 className="text-4xl font-extrabold text-white">
-  ${issue.title}
+  [Your Primary Headline Here]
 </h1>
 
 <!-- Definitive 40-60 Word Direct Answer Paragraph -->
@@ -238,6 +279,158 @@ ${jsonStr}
 </div>`,
         installationInstructions: 'Add this direct answer text block under the main section title in your hero banner section.',
         installationInstructionsAr: 'أضف هذا البلوك النصي أسفل العنوان في قسم الهيرو المخصص لمتجرك.',
+      });
+      break;
+
+    case 'sitemap':
+      // 1. Next.js Sitemap
+      fixes.push({
+        platform: 'nextjs',
+        platformName: 'Next.js 15 (App Router)',
+        fileLocation: 'app/sitemap.ts',
+        fileLocationAr: 'ملف app/sitemap.ts في مشروع Next.js',
+        codeSnippet: `import type { MetadataRoute } from 'next';
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    {
+      url: 'https://${domain}',
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 1,
+    },
+    {
+      url: 'https://${domain}/about',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://${domain}/products',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+  ];
+}`,
+        installationInstructions: 'Create app/sitemap.ts to automatically generate an XML sitemap at /sitemap.xml with proper cache headers.',
+        installationInstructionsAr: 'أنشئ ملف app/sitemap.ts لإنشاء خريطة موقع sitemap.xml تلقائياً مع ترويسات التخزين المناسبة.',
+      });
+
+      // 2. WordPress Sitemap
+      fixes.push({
+        platform: 'wordpress',
+        platformName: 'WordPress / WooCommerce',
+        fileLocation: 'functions.php (Child Theme) or SEO Plugin',
+        fileLocationAr: 'ملف functions.php أو عبر إضافات سيو مثل Yoast / RankMath',
+        codeSnippet: `<?php
+/**
+ * Ensure native WordPress XML Sitemap is enabled and add custom entries if needed
+ */
+add_filter('wp_sitemaps_enabled', '__return_true');
+
+// If using Yoast SEO or Rank Math, ensure XML Sitemaps are active in plugin settings:
+// - Rank Math: Dashboard > General Settings > XML Sitemap -> ON
+// - Yoast SEO: Settings > Site features > XML sitemaps -> ON
+// Sitemap URL: https://${domain}/sitemap_index.xml (or https://${domain}/wp-sitemap.xml)`,
+        installationInstructions: 'WordPress 5.5+ includes core XML sitemaps at /wp-sitemap.xml. If using Yoast or Rank Math, enable the Sitemap feature in plugin settings and verify /sitemap_index.xml.',
+        installationInstructionsAr: 'يتضمن ووردبريس 5.5+ خريطة موقع افتراضية على wp-sitemap.xml. إذا كنت تستخدم Yoast أو Rank Math، فعّل ميزة الخريطة في الإعدادات وتأكد من رابط sitemap_index.xml.',
+      });
+
+      // 3. Shopify Sitemap
+      fixes.push({
+        platform: 'shopify',
+        platformName: 'Shopify Store',
+        fileLocation: 'Shopify Admin / Google Search Console',
+        fileLocationAr: 'لوحة تحكم شوبيفاي / Google Search Console',
+        codeSnippet: `<!-- Shopify automatically generates and updates sitemap.xml at your root domain -->
+<!-- Primary Sitemap URL: https://${domain}/sitemap.xml -->
+
+<!-- Verification Steps: -->
+<!-- 1. Open https://${domain}/sitemap.xml in browser to verify availability -->
+<!-- 2. Submit https://${domain}/sitemap.xml in Google Search Console under Sitemaps -->
+<!-- 3. Verify that products, collections, pages, and blogs are properly listed -->`,
+        installationInstructions: `Shopify generates your sitemap automatically at https://${domain}/sitemap.xml. Verify it in your browser and submit the URL to Google Search Console and Bing Webmaster Tools.`,
+        installationInstructionsAr: `يقوم شوبيفاي بتوليد خريطة الموقع تلقائياً على https://${domain}/sitemap.xml. تأكد من فتح الرابط ثم أرسله إلى أدوات مشرفي المواقع Google Search Console.`,
+      });
+      break;
+
+    case 'headers':
+      // 1. Next.js Headers Configuration
+      fixes.push({
+        platform: 'nextjs',
+        platformName: 'Next.js 15 (next.config.js)',
+        fileLocation: 'next.config.js',
+        fileLocationAr: 'ملف next.config.js في جذر المشروع',
+        codeSnippet: `/** @type {import('next').NextConfig} */
+const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'index, follow',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;`,
+        installationInstructions: 'Add this headers configuration to your next.config.js to ensure crawlers and AI bots are not blocked by invalid response headers.',
+        installationInstructionsAr: 'أضف تكوين الترويسات هذا إلى next.config.js للتأكد من عدم حظر روبوتات البحث والذكاء الاصطناعي بواسطة ترويسات استجابة غير صحيحة.',
+      });
+
+      // 2. WordPress WAF / .htaccess Safelist
+      fixes.push({
+        platform: 'wordpress',
+        platformName: 'WordPress / Web Server (.htaccess)',
+        fileLocation: '.htaccess (Apache/LiteSpeed) or Cloudflare WAF',
+        fileLocationAr: 'ملف .htaccess في خادم أباتشي أو قواعد WAF في Cloudflare',
+        codeSnippet: `# Allow AI Search Bots and Search Engines through WAF/Security Rules
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} (OAI-SearchBot|PerplexityBot|Googlebot|bingbot) [NC]
+RewriteRule .* - [E=WAF_BYPASS:1,L]
+</IfModule>
+
+# Ensure X-Robots-Tag does not block indexing
+<IfModule mod_headers.c>
+Header set X-Robots-Tag "index, follow"
+</IfModule>`,
+        installationInstructions: 'Add this snippet to your root .htaccess file or configure your WordPress security plugin (Wordfence, iThemes) / Cloudflare WAF to safelist OAI-SearchBot and PerplexityBot user-agents.',
+        installationInstructionsAr: 'أضف هذا الكود إلى ملف .htaccess أو قم بتهيئة إضافة الحماية (Wordfence) أو Cloudflare WAF للسماح لروبوتات OAI-SearchBot و PerplexityBot.',
+      });
+
+      // 3. Shopify CDN / WAF Safelist
+      fixes.push({
+        platform: 'shopify',
+        platformName: 'Shopify Store / Cloudflare',
+        fileLocation: 'Shopify Admin / Cloudflare Domain DNS/WAF',
+        fileLocationAr: 'لوحة تحكم شوبيفاي / إعدادات Cloudflare WAF',
+        codeSnippet: `# Shopify Cloudflare / Reverse Proxy Configuration
+# If using custom Cloudflare proxy in front of Shopify:
+# 1. Navigate to Cloudflare Dashboard > Security > WAF > Custom Rules
+# 2. Create Rule: "Allow AI Search Crawlers"
+# 3. Expression:
+(http.user_agent contains "OAI-SearchBot") or (http.user_agent contains "PerplexityBot")
+# 4. Action: Skip / Bypass WAF & Managed Challenge
+
+# Verify in Shopify Admin:
+# Online Store > Preferences > Ensure store is NOT password-protected.`,
+        installationInstructions: 'If using Cloudflare or a CDN proxy in front of Shopify, create a WAF bypass rule for OAI-SearchBot and PerplexityBot. Ensure your store password protection is disabled for public indexing.',
+        installationInstructionsAr: 'إذا كنت تستخدم Cloudflare أمام شوبيفاي، أنشئ قاعدة استثناء (Bypass) في WAF لروبوتات OAI-SearchBot و PerplexityBot، وتأكد من تعطيل كلمة مرور المتجر.',
       });
       break;
 
