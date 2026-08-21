@@ -30,6 +30,10 @@ export interface Translations {
     step2: string;
     step3: string;
     step4: string;
+    step5: string;
+  };
+  errors: {
+    scanFailed: string;
   };
   scoreSection: {
     overallTitle: string;
@@ -41,6 +45,10 @@ export interface Translations {
     aiSearchReadiness: string;
     evidenceLedgerTitle: string;
     evidenceLedgerSubtitle: string;
+    badgeHealthy: string;
+    badgeNeedsOpt: string;
+    badgeCritical: string;
+    scanAnother: string;
   };
   blockers: {
     badge: string;
@@ -51,6 +59,7 @@ export interface Translations {
     evidenceLabel: string;
     whyMattersLabel: string;
     actionLabel: string;
+    impactLabel: string;
   };
   lockedSection: {
     badge: string;
@@ -83,6 +92,13 @@ export interface Translations {
     guarantee: string;
     support: string;
     instantAccess: string;
+    close: string;
+    cancel: string;
+  };
+  issuesSection: {
+    title: string;
+    subtitle: string;
+    generateFix: string;
   };
   knowledge: {
     badge: string;
@@ -142,6 +158,10 @@ export const translations: Record<Language, Translations> = {
       step2: 'Inspecting robots.txt, OAI-SearchBot & Bot Firewalls...',
       step3: 'Parsing Content, Headings & Direct BLUF Answerability...',
       step4: 'Auditing Schema.org Entity Graph & Weighted Score Matrix...',
+      step5: 'Compiling AI Search visibility report...',
+    },
+    errors: {
+      scanFailed: 'Could not reach this website. Please check the URL and try again.',
     },
     scoreSection: {
       overallTitle: 'AI Search Visibility Score',
@@ -153,6 +173,10 @@ export const translations: Record<Language, Translations> = {
       aiSearchReadiness: 'AI Search Readiness',
       evidenceLedgerTitle: 'Raw Evidence Ledger (Why this score exists)',
       evidenceLedgerSubtitle: 'Deterministic signals inspected directly on the target website.',
+      badgeHealthy: 'Optimized & Healthy',
+      badgeNeedsOpt: 'Needs Optimization',
+      badgeCritical: 'Critical Action Required',
+      scanAnother: 'Scan Another Website',
     },
     blockers: {
       badge: 'Immediate Action Required',
@@ -163,6 +187,7 @@ export const translations: Record<Language, Translations> = {
       evidenceLabel: 'Raw Evidence:',
       whyMattersLabel: 'Why It Matters:',
       actionLabel: 'Recommended Action:',
+      impactLabel: 'Impact',
     },
     lockedSection: {
       badge: 'Full Action Plan',
@@ -195,6 +220,13 @@ export const translations: Record<Language, Translations> = {
       guarantee: '100% Satisfaction Guarantee or Full Refund within 30 Days',
       support: 'Official Inquiries: support@schemacraft-ai.site',
       instantAccess: 'Instant Unlock via PayPal Checkout',
+      close: 'Close',
+      cancel: 'Cancel and return',
+    },
+    issuesSection: {
+      title: 'All Detected Issues & Improvement Opportunities',
+      subtitle: 'Click on any issue to view exact code fixes for WordPress, Next.js, and Shopify',
+      generateFix: 'Generate Platform Fix',
     },
     knowledge: {
       badge: 'Authoritative 2026 Knowledge Standard',
@@ -252,6 +284,10 @@ export const translations: Record<Language, Translations> = {
       step2: 'فحص ملف robots.txt وبوت شات جي بي تي (OAI-SearchBot)...',
       step3: 'تحليل المحتوى والعناوين وقابلية الإجابة المباشرة (BLUF)...',
       step4: 'تدقيق شبكة بيانات السكيما المنظمة وحساب مصفوفة النقاط...',
+      step5: 'تجميع تقرير الظهور في بحث AI...',
+    },
+    errors: {
+      scanFailed: 'لم نتمكن من الوصول لهذا الموقع. تحقق من الرابط وحاول مرة أخرى.',
     },
     scoreSection: {
       overallTitle: 'مقياس جاهزية الظهور في محركات البحث والذكاء الاصطناعي',
@@ -263,6 +299,10 @@ export const translations: Record<Language, Translations> = {
       aiSearchReadiness: 'الجاهزية للذكاء الاصطناعي',
       evidenceLedgerTitle: 'سجل الأدلة المرصودة (لماذا حصلت على هذه النتيجة؟)',
       evidenceLedgerSubtitle: 'إشارات حتمية تم فحصها والتأكد منها مباشرة في كود موقعك.',
+      badgeHealthy: 'ممتاز ومستقر',
+      badgeNeedsOpt: 'يحتاج تحسين فوري',
+      badgeCritical: 'حرج — عوائق رئيسية',
+      scanAnother: 'فحص موقع آخر',
     },
     blockers: {
       badge: 'مطلوب اتخاذ إجراء فوري',
@@ -273,6 +313,7 @@ export const translations: Record<Language, Translations> = {
       evidenceLabel: 'الدليل المباشر:',
       whyMattersLabel: 'لماذا يهم محركات البحث؟',
       actionLabel: 'الإجراء الموصى به:',
+      impactLabel: 'التأثير',
     },
     lockedSection: {
       badge: 'خطة العمل الشاملة',
@@ -305,6 +346,13 @@ export const translations: Record<Language, Translations> = {
       guarantee: 'ضمان رضا كامل بنسبة 100% أو استرجاع المبلغ خلال 30 يوماً',
       support: 'الدعم الرسمي: support@schemacraft-ai.site',
       instantAccess: 'دفع وتفعيل فوري عبر PayPal الآمن',
+      close: 'إغلاق',
+      cancel: 'إلغاء والعودة',
+    },
+    issuesSection: {
+      title: 'جميع المشاكل وفرص التحسين المكتشفة',
+      subtitle: 'انقر على أي مشكلة للحصول على كود الإصلاح المباشر لمنصتك',
+      generateFix: 'توليد كود الإصلاح',
     },
     knowledge: {
       badge: 'المرجع التقني المعتمد لعام 2026',

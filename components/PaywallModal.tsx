@@ -12,7 +12,7 @@ interface PaywallModalProps {
 }
 
 export function PaywallModal({ isOpen, onClose, onSuccess }: PaywallModalProps) {
-  const [selectedPlanId, setSelectedPlanId] = useState<string>('pro-monthly');
+  const [selectedPlanId] = useState<string>('fix-my-website');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [licenseKey, setLicenseKey] = useState<string>('');
@@ -46,7 +46,7 @@ export function PaywallModal({ isOpen, onClose, onSuccess }: PaywallModalProps) 
     }, 1200);
   };
 
-  const selectedPlan = PRO_PLANS.find((p) => p.id === selectedPlanId) || PRO_PLANS[1];
+  const selectedPlan = PRO_PLANS.find((p) => p.id === selectedPlanId) || PRO_PLANS[0];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
@@ -79,38 +79,25 @@ export function PaywallModal({ isOpen, onClose, onSuccess }: PaywallModalProps) 
               </p>
             </div>
 
-            {/* Plan Selector Matrix */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {PRO_PLANS.map((plan) => {
-                const isSelected = selectedPlanId === plan.id;
-                return (
-                  <div
-                    key={plan.id}
-                    onClick={() => setSelectedPlanId(plan.id)}
-                    className={`relative rounded-xl border p-4 cursor-pointer transition-all duration-200 ${
-                      isSelected
-                        ? 'border-indigo-500 bg-indigo-950/30 ring-1 ring-indigo-500/50 shadow-lg shadow-indigo-500/10'
-                        : 'border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04]'
-                    }`}
-                  >
-                    {plan.recommended && (
-                      <span className="absolute -top-2.5 right-3 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">
-                        {plan.badge}
-                      </span>
-                    )}
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-bold text-white">{plan.name}</h4>
-                      <div className="text-right">
-                        <span className="text-xl font-extrabold text-white">{plan.price}</span>
-                        <span className="text-[10px] text-zinc-400 block">{plan.period}</span>
-                      </div>
-                    </div>
-                    <p className="text-[11px] text-zinc-400 mt-2 leading-relaxed">
-                      {plan.description}
-                    </p>
-                  </div>
-                );
-              })}
+            {/* Single Plan Display */}
+            <div className="relative rounded-xl border border-indigo-500 bg-indigo-950/30 ring-1 ring-indigo-500/50 shadow-lg shadow-indigo-500/10 p-4">
+              {selectedPlan.badge && (
+                <span className="absolute -top-2.5 right-3 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">
+                  {selectedPlan.badge}
+                </span>
+              )}
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-bold text-white">{selectedPlan.name}</h4>
+                  <p className="text-[11px] text-zinc-400 mt-1 leading-relaxed">
+                    {selectedPlan.description}
+                  </p>
+                </div>
+                <div className="text-right shrink-0 ml-4">
+                  <span className="text-xl font-extrabold text-white">{selectedPlan.price}</span>
+                  <span className="text-[10px] text-zinc-400 block">{selectedPlan.period}</span>
+                </div>
+              </div>
             </div>
 
             {/* Selected Plan Feature List */}

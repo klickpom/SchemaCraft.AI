@@ -77,6 +77,7 @@ export default function Home() {
     const nextLang = lang === 'en' ? 'ar' : 'en';
     setLang(nextLang);
     document.documentElement.dir = nextLang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = nextLang;
   };
 
   const handleRunAudit = async (url: string, rawData?: RawEvidence, profileKey?: string) => {
@@ -131,11 +132,7 @@ export default function Home() {
 
     } catch (err) {
       console.error('Live audit fetch error:', err);
-      setScanError(
-        lang === 'ar'
-          ? 'لم نتمكن من الوصول لهذا الموقع. تحقق من الرابط وحاول مرة أخرى.'
-          : 'Could not reach this website. Please check the URL and try again.'
-      );
+      setScanError(t.errors.scanFailed);
       setIsScanning(false);
       setScanStep(0);
       setScanPercent(0);
@@ -178,10 +175,22 @@ export default function Home() {
     return 'text-rose-400 border-rose-500/40 bg-rose-500/10';
   };
 
+  const getCategoryBarColor = (score: number) => {
+    if (score >= 80) return 'bg-emerald-400';
+    if (score >= 50) return 'bg-amber-400';
+    return 'bg-rose-400';
+  };
+
+  const getCategoryTextColor = (score: number) => {
+    if (score >= 80) return 'text-emerald-400';
+    if (score >= 50) return 'text-amber-400';
+    return 'text-rose-400';
+  };
+
   const getScoreBadgeText = (score: number) => {
-    if (score >= 80) return lang === 'ar' ? 'ممتاز ومستقر' : 'Optimized & Healthy';
-    if (score >= 50) return lang === 'ar' ? 'يحتاج تحسين فوري' : 'Needs Optimization';
-    return lang === 'ar' ? 'حرج — عوائق رئيسية' : 'Critical Action Required';
+    if (score >= 80) return t.scoreSection.badgeHealthy;
+    if (score >= 50) return t.scoreSection.badgeNeedsOpt;
+    return t.scoreSection.badgeCritical;
   };
 
   return (
@@ -350,7 +359,7 @@ export default function Home() {
                 {t.hero.scanningText}
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-slate-400 font-mono">Step {scanStep}/4</span>
+                <span className="text-slate-400 font-mono">{lang === 'ar' ? `خطوة ${scanStep}/5` : `Step ${scanStep}/5`}</span>
                 <span className="font-mono text-sm font-black px-2 py-0.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
                   {scanPercent}%
                 </span>
@@ -377,6 +386,9 @@ export default function Home() {
               <div className={scanStep >= 4 ? 'text-emerald-400 font-bold' : 'text-slate-500'}>
                 {scanStep >= 4 ? '✓' : '○'} {t.scanning.step4}
               </div>
+              <div className={scanStep >= 5 ? 'text-emerald-400 font-bold' : 'text-slate-500'}>
+                {scanStep >= 5 ? '✓' : '○'} {t.scanning.step5}
+              </div>
             </div>
           </section>
         )}
@@ -399,9 +411,9 @@ export default function Home() {
               {/* Snapshot Header Details */}
               <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/10 pb-6 gap-4">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-xs uppercase font-mono font-bold px-2.5 py-0.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 text-cyan-300">
-                      Snapshot ID: #{report.id}
+                      {lang === 'ar' ? `رقم اللقطة: #${report.id}` : `Snapshot ID: #${report.id}`}
                     </span>
                     <span className="text-xs text-slate-400 font-mono">
                       {report.engineVersion}
@@ -412,7 +424,21 @@ export default function Home() {
                   </h2>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUrlInput('');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      setTimeout(() => {
+                        (document.querySelector('input[type="text"]') as HTMLInputElement)?.focus();
+                      }, 400);
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 text-xs font-bold text-cyan-300 transition cursor-pointer active:scale-95"
+                  >
+                    <Search className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>{t.scoreSection.scanAnother}</span>
+                  </button>
                   <button
                     type="button"
                     onClick={handleShareSnapshot}
@@ -424,17 +450,42 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Executive Summary Badges */}
+              <div className="flex flex-wrap items-center gap-2 pt-5 pb-2">
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400">
+                  {report.criticalBlockers.length} {lang === 'ar' ? 'عوائق حرجة' : 'Critical Blockers'}
+                </span>
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400">
+                  {report.allIssues.length} {lang === 'ar' ? 'مشكلة مكتشفة' : 'Issues Found'}
+                </span>
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+                  {report.evidenceLedger.filter(e => e.status === 'pass').length} {lang === 'ar' ? 'فحص ناجح' : 'Checks Passed'}
+                </span>
+              </div>
+
               {/* Score & 5 Category Breakdown Grid */}
-              <div className="pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="pt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
-                {/* Master Score Dial */}
+                {/* Master Score Ring (Animated SVG) */}
                 <div className="lg:col-span-4 flex flex-col items-center justify-center p-6 rounded-2xl border border-white/10 bg-[#09090e]/80 text-center space-y-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                     {t.scoreSection.overallTitle}
                   </span>
                   
-                  <div className={`flex items-center justify-center h-28 w-28 rounded-full border-4 font-black text-4xl shadow-2xl ${getScoreColor(report.overallScore)}`}>
-                    {report.overallScore}
+                  <div className="relative h-32 w-32 flex items-center justify-center">
+                    <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
+                      <circle
+                        cx="60" cy="60" r="52" fill="none"
+                        strokeWidth="8" strokeLinecap="round"
+                        className={`transition-all duration-1000 ease-out ${report.overallScore >= 80 ? 'stroke-emerald-400' : report.overallScore >= 50 ? 'stroke-amber-400' : 'stroke-rose-400'}`}
+                        strokeDasharray={`${2 * Math.PI * 52}`}
+                        strokeDashoffset={`${2 * Math.PI * 52 * (1 - report.overallScore / 100)}`}
+                      />
+                    </svg>
+                    <span className={`relative text-4xl font-black ${report.overallScore >= 80 ? 'text-emerald-400' : report.overallScore >= 50 ? 'text-amber-400' : 'text-rose-400'}`}>
+                      {report.overallScore}
+                    </span>
                   </div>
 
                   <span className={`text-xs font-bold px-3 py-1 rounded-full border ${getScoreColor(report.overallScore)}`}>
@@ -446,46 +497,46 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* 5 Dimension Metrics */}
+                {/* 5 Dimension Metrics — Dynamic Colors */}
                 <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.technicalSEO}</span>
-                      <span className="font-mono font-bold text-emerald-400">{report.categoryScores.technicalSEO}/100</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.technicalSEO)}`}>{report.categoryScores.technicalSEO}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-emerald-400 h-full rounded-full" style={{ width: `${report.categoryScores.technicalSEO}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.technicalSEO)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.technicalSEO}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.crawlability}</span>
-                      <span className="font-mono font-bold text-cyan-400">{report.categoryScores.crawlability}/100</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.crawlability)}`}>{report.categoryScores.crawlability}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-cyan-400 h-full rounded-full" style={{ width: `${report.categoryScores.crawlability}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.crawlability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.crawlability}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.contentAnswerability}</span>
-                      <span className="font-mono font-bold text-indigo-400">{report.categoryScores.contentAnswerability}/100</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.contentAnswerability)}`}>{report.categoryScores.contentAnswerability}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-indigo-400 h-full rounded-full" style={{ width: `${report.categoryScores.contentAnswerability}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.contentAnswerability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.contentAnswerability}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.entitySchema}</span>
-                      <span className="font-mono font-bold text-amber-400">{report.categoryScores.entitySchema}/100</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.entitySchema)}`}>{report.categoryScores.entitySchema}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-amber-400 h-full rounded-full" style={{ width: `${report.categoryScores.entitySchema}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.entitySchema)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.entitySchema}%` }} />
                     </div>
                   </div>
 
@@ -495,7 +546,7 @@ export default function Home() {
                         <Cpu className="w-4 h-4 text-cyan-400" />
                         {t.scoreSection.aiSearchReadiness}
                       </span>
-                      <span className="font-mono font-bold text-cyan-300">{report.categoryScores.aiSearchReadiness}/100</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.aiSearchReadiness)}`}>{report.categoryScores.aiSearchReadiness}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
                       <div className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full rounded-full" style={{ width: `${report.categoryScores.aiSearchReadiness}%` }} />
@@ -693,8 +744,8 @@ export default function Home() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {report.lockedIssues.slice(0, 4).map((item, idx) => (
                       <div key={idx} className="p-4 rounded-xl border border-white/10 bg-white/5 space-y-1">
-                        <span className="text-xs font-bold text-amber-400">Opportunity #{idx + 4}: {item.title}</span>
-                        <p className="text-[11px] text-slate-400">Signal: {item.signalDetected}</p>
+                        <span className="text-xs font-bold text-amber-400">{lang === 'ar' ? `فرصة #${idx + 4}` : `Opportunity #${idx + 4}`}: {lang === 'ar' ? item.titleAr : item.title}</span>
+                        <p className="text-[11px] text-slate-400">{lang === 'ar' ? item.signalDetectedAr : item.signalDetected}</p>
                       </div>
                     ))}
                   </div>
@@ -758,10 +809,10 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-xl font-black text-white">
-                        {lang === 'ar' ? `جميع المشاكل وفرص التحسين المكتشفة (${report.allIssues.length})` : `All Detected Issues & Improvement Opportunities (${report.allIssues.length})`}
+                        {t.issuesSection.title} ({report.allIssues.length})
                       </h3>
                       <p className="text-xs text-slate-400">
-                        {lang === 'ar' ? 'انقر على أي مشكلة للحصول على كود الإصلاح المباشر لمنصتك' : 'Click on any issue to view exact code fixes for WordPress, Next.js, and Shopify'}
+                        {t.issuesSection.subtitle}
                       </p>
                     </div>
                   </div>
@@ -801,7 +852,7 @@ export default function Home() {
                           className="flex items-center justify-center gap-1.5 py-1.5 rounded-lg bg-white/5 hover:bg-indigo-600 text-slate-200 hover:text-white font-semibold text-xs transition cursor-pointer border border-white/10"
                         >
                           <Terminal className="w-3.5 h-3.5" />
-                          <span>{lang === 'ar' ? 'توليد كود الإصلاح' : 'Generate Platform Fix'}</span>
+                          <span>{t.issuesSection.generateFix}</span>
                         </button>
                       </div>
                     ))}

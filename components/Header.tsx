@@ -44,13 +44,16 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
           <Link href="/schema/nextjs-software" className="hover:text-white transition-colors">
             Next.js 15 SaaS
           </Link>
-          <Link href="/schema/faq-page" className="hover:text-white transition-colors">
+          <Link href="/schema/saas-faq" className="hover:text-white transition-colors">
             FAQ Expanders
           </Link>
-          <Link href="/schema/local-business" className="hover:text-white transition-colors">
+          <Link href="/schema/local-seo-schema" className="hover:text-white transition-colors">
             Local Business
           </Link>
-          <Link href="/schema/article-blog" className="hover:text-white transition-colors">
+          <Link href="/schema/course-education-schema" className="hover:text-white transition-colors">
+            Course & Education
+          </Link>
+          <Link href="/schema/article-google-discover-schema" className="hover:text-white transition-colors">
             Article / News
           </Link>
         </nav>

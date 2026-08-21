@@ -47,17 +47,22 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/schema/faq-page" className="hover:text-cyan-400 transition-colors">
+                <Link href="/schema/saas-faq" className="hover:text-cyan-400 transition-colors">
                   FAQPage Rich Snippets
                 </Link>
               </li>
               <li>
-                <Link href="/schema/local-business" className="hover:text-cyan-400 transition-colors">
+                <Link href="/schema/local-seo-schema" className="hover:text-cyan-400 transition-colors">
                   Local Business Maps & NAP
                 </Link>
               </li>
               <li>
-                <Link href="/schema/article-blog" className="hover:text-cyan-400 transition-colors">
+                <Link href="/schema/course-education-schema" className="hover:text-cyan-400 transition-colors">
+                  Online Course & Education
+                </Link>
+              </li>
+              <li>
+                <Link href="/schema/article-google-discover-schema" className="hover:text-cyan-400 transition-colors">
                   Article & Discover News
                 </Link>
               </li>
