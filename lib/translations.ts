@@ -182,8 +182,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   en: {
     nav: {
       title: 'SchemaCraft',
-      engineVersion: 'v2.4 Engine',
-      unlockPro: 'Get Lifetime Access ($4.99)',
+      engineVersion: 'v2.4',
+      unlockPro: 'Unlock Pro ($4.99)',
       proActive: 'Pro Active',
       astActive: 'AST Validator: Active',
       langEn: 'English',
@@ -359,10 +359,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   },
   ar: {
     nav: {
-      title: 'سكيما كرافت',
-      engineVersion: 'محرك v2.4 الذكي',
-      unlockPro: 'احصل على رخصة مدى الحياة ($4.99)',
-      proActive: 'رخصة برو مفعلة',
+      title: 'SchemaCraft',
+      engineVersion: 'v2.4',
+      unlockPro: 'فتح رخصة برو ($4.99)',
+      proActive: 'برو مفعل',
       astActive: 'مدقق السكيما: نشط 100%',
       langEn: 'English',
       langAr: 'العربية',
