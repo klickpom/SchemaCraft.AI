@@ -39,10 +39,14 @@ import {
   GraduationCap,
   Calendar,
   Mail,
+  FolderArchive,
+  FileCode2,
+  ShieldQuestion,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
 import { TRANSLATIONS, Language } from "@/lib/translations";
+import { generateEnterpriseBundle } from "@/lib/bundleGenerator";
 
 const STORAGE_KEYS = {
   FORM_DATA: "schemacraft_form_data_v1",
@@ -169,6 +173,7 @@ export default function HomePage() {
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [isMinified, setIsMinified] = useState<boolean>(false);
+  const [isDownloading, setIsDownloading] = useState<boolean>(false);
 
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
 
@@ -559,18 +564,31 @@ ${JSON.stringify(generatedSchema, null, 2)}
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const triggerDownload = () => {
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = href;
-    const baseName = (formData.name || formData.headline || formData.courseTitle || formData.eventName || "schema")
-      .toLowerCase()
-      .replace(/\s+/g, "-");
-    link.download = `${baseName}-schema.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const triggerEnterpriseZipDownload = async () => {
+    setIsDownloading(true);
+    try {
+      const entityName = formData.name || formData.headline || formData.courseTitle || formData.eventName || "schema";
+      const blob = await generateEnterpriseBundle({
+        entityName,
+        schemaType,
+        jsonSchema: generatedSchema,
+        url: formData.url || "https://schemacraft-ai.site",
+        date: new Date().toISOString().split("T")[0],
+      });
+
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = href;
+      const safeName = entityName.toLowerCase().replace(/[^a-z0-9]/g, "-");
+      link.download = `schemacraft-${safeName}-enterprise-bundle.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const handleDownloadBundle = () => {
@@ -578,7 +596,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
       setShowPaywall(true);
       return;
     }
-    triggerDownload();
+    triggerEnterpriseZipDownload();
   };
 
   const handlePayPalSuccess = () => {
@@ -590,7 +608,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
     } catch {
       // ignore
     }
-    triggerDownload();
+    triggerEnterpriseZipDownload();
     setTimeout(() => setShowCelebrationBanner(false), 6000);
   };
 
@@ -1047,10 +1065,21 @@ ${JSON.stringify(generatedSchema, null, 2)}
                 <button
                   type="button"
                   onClick={handleDownloadBundle}
-                  className="w-full sm:w-auto flex items-center justify-center gap-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/25 active:scale-95 cursor-pointer"
+                  disabled={isDownloading}
+                  className="w-full sm:w-auto flex items-center justify-center gap-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/25 active:scale-95 cursor-pointer disabled:opacity-50"
                 >
-                  {isProUnlocked ? <Download className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
-                  <span>{t.builder.downloadBundle}</span>
+                  {isProUnlocked ? (
+                    <FolderArchive className="w-3.5 h-3.5" />
+                  ) : (
+                    <Lock className="w-3.5 h-3.5" />
+                  )}
+                  <span>
+                    {isDownloading
+                      ? "Generating ZIP..."
+                      : isProUnlocked
+                      ? "Download Enterprise Bundle (ZIP)"
+                      : t.builder.downloadBundle}
+                  </span>
                 </button>
               </div>
             </div>
@@ -1344,6 +1373,72 @@ ${JSON.stringify(generatedSchema, null, 2)}
           </div>
         </div>
 
+        {/* What's Inside the $4.99 Enterprise Bundle (High Value Stacking) */}
+        <section className="border-t border-white/[0.1] pt-10 space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-1.5">
+            <div className="inline-flex items-center gap-1 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-1">
+              <FolderArchive className="w-4 h-4" />
+              <span>Full Production Bundle Architecture</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              {t.bundleValue.title}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300">
+              {t.bundleValue.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-stretch">
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-indigo-500/30 transition">
+              <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
+                <FileCode2 className="w-4 h-4" />
+                <span>{t.bundleValue.f1Title}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f1Desc}</p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-cyan-500/30 transition">
+              <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
+                <Terminal className="w-4 h-4" />
+                <span>{t.bundleValue.f2Title}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f2Desc}</p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-emerald-500/30 transition">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                <ShoppingBag className="w-4 h-4" />
+                <span>{t.bundleValue.f3Title}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f3Desc}</p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-amber-500/30 transition">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
+                <Globe className="w-4 h-4" />
+                <span>{t.bundleValue.f4Title}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f4Desc}</p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-emerald-400/30 transition">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                <ShieldCheck className="w-4 h-4" />
+                <span>{t.bundleValue.f5Title}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f5Desc}</p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-indigo-400/30 transition">
+              <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
+                <Sparkles className="w-4 h-4" />
+                <span>{t.bundleValue.f6Title}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f6Desc}</p>
+            </div>
+          </div>
+        </section>
+
         {/* 30-Second Integration Across All Platforms */}
         <section className="border-t border-white/[0.1] pt-10 space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5">
@@ -1607,7 +1702,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
 
                 {/* 100% Money-Back Guarantee Seal */}
                 <div className="flex items-center justify-center gap-2 rounded-lg bg-white/[0.02] border border-white/5 p-2.5 text-[11px] text-slate-300 font-medium">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
                   <span>{t.modal.guarantee}</span>
                 </div>
 

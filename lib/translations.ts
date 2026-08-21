@@ -27,6 +27,22 @@ export interface Translations {
     course: string;
     event: string;
   };
+  bundleValue: {
+    title: string;
+    subtitle: string;
+    f1Title: string;
+    f1Desc: string;
+    f2Title: string;
+    f2Desc: string;
+    f3Title: string;
+    f3Desc: string;
+    f4Title: string;
+    f4Desc: string;
+    f5Title: string;
+    f5Desc: string;
+    f6Title: string;
+    f6Desc: string;
+  };
   score: {
     title: string;
     status: string;
@@ -191,6 +207,22 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       course: '🎓 Online Course',
       event: '🎟️ Tech Webinar',
     },
+    bundleValue: {
+      title: 'What is inside the $4.99 Enterprise ZIP Bundle?',
+      subtitle: 'Instant multi-framework developer starter kit containing everything you need for production client deployments.',
+      f1Title: '1. Validated JSON-LD Schema (.json)',
+      f1Desc: 'Full Schema.org v26.0 machine-readable structured data block.',
+      f2Title: '2. Next.js 15 Server Component (.tsx)',
+      f2Desc: 'Ready-to-use TypeScript React component for instant App Router embedding.',
+      f3Title: '3. Shopify Liquid Theme Snippet (.liquid)',
+      f3Desc: 'Pre-configured theme snippet for Shopify stores and e-commerce themes.',
+      f4Title: '4. WordPress Header Hook (.php)',
+      f4Desc: 'Clean PHP script ready for functions.php or Code Snippets plugin.',
+      f5Title: '5. Commercial Perpetual License (.txt)',
+      f5Desc: 'Unrestricted royalty-free commercial rights for unlimited personal & client projects.',
+      f6Title: '6. GEO 2026 Citation Playbook (.md)',
+      f6Desc: 'Exclusive 12-step technical guide for dominating Perplexity and ChatGPT Search citations.',
+    },
     score: {
       title: 'GEO / AEO Citation Readiness Score',
       status: 'Engine Grounding Optimal',
@@ -222,7 +254,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       eventDate: 'Event Start Date (YYYY-MM-DD)',
       eventLocation: 'Venue or Online URL',
       astValid: 'AST Validation: 100% Valid',
-      downloadBundle: 'Download Bundle ($4.99)',
+      downloadBundle: 'Download Pro Bundle ($4.99)',
     },
     benchmarks: {
       title: 'Citation Engine Benchmarks',
@@ -303,10 +335,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       originalPrice: '$49.00',
       currentPrice: '$4.99',
       oneTimeFee: 'USD One-Time',
-      feat1: 'Unlimited Batch JSON-LD, Next.js 15 JSX & Shopify Liquid Exports',
-      feat2: 'Full Commercial License for Unlimited Client & Personal Websites',
-      feat3: '100% Schema.org v26.0 & Google Rich Results Guarantee',
-      feat4: 'Instant Automatic Download Bundle immediately upon checkout',
+      feat1: 'Instant 6-File Enterprise ZIP Bundle (Next.js 15, Shopify Liquid, WordPress PHP, JSON-LD)',
+      feat2: 'Full Perpetual Commercial License for Unlimited Client & Personal Websites',
+      feat3: 'Exclusive GEO 2026 AI Search & Citation Technical Playbook included',
+      feat4: '100% Schema.org v26.0 & Google Rich Results Zero-Error Guarantee',
       guarantee: '🛡️ 30-Day 100% Money-Back Guarantee • Zero Risk',
       priceNote: 'Instant unlock via PayPal or Credit/Debit Card',
       instantUnlock: 'Unlock Pro Lifetime ($4.99 USD)',
@@ -316,7 +348,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     },
     toast: {
       title: 'Pro License Verified & Activated!',
-      desc: 'Your production JSON-LD bundle has been downloaded automatically.',
+      desc: 'Your 6-File Enterprise Production ZIP Bundle has been downloaded automatically.',
     },
     footer: {
       text1: 'SchemaCraft AI Engine - Pure Single-Utility SaaS Architecture.',
@@ -353,6 +385,22 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       course: '🎓 دورة تعليمية وكورس',
       event: '🎟️ ويبينار وحدث تقني',
     },
+    bundleValue: {
+      title: 'ماذا تتضمن حزمة الشركات الشاملة (Enterprise ZIP Bundle) بسعر $4.99؟',
+      subtitle: 'حزمة برمجية متكاملة بـ 6 ملفات جاهزة للإنتاج والاستخدام المباشر في جميع مشاريعك ومشاريع عملائك.',
+      f1Title: '1. ملف سكيما JSON-LD القياسي (.json)',
+      f1Desc: 'بيانات منظمة متطابقة 100% مع معايير W3C و Schema.org v26.0.',
+      f2Title: '2. مكون Next.js 15 Server Component (.tsx)',
+      f2Desc: 'كود جاهز للتضمين المباشر في مشاريع App Router و React 19.',
+      f3Title: '3. سكريبت شوبيفاي المخصص (.liquid)',
+      f3Desc: 'كود Liquid مهيأ للتضمين في قوالب شوبيفاي ومتاجر سلة بدون تطبيقات خارجية.',
+      f4Title: '4. كود ووردبريس وووكومرس (.php)',
+      f4Desc: 'سكريبت PHP جاهز للربط مع functions.php أو إضافة Snippets.',
+      f5Title: '5. وثيقة الترخيص التجاري الدائم (.txt)',
+      f5Desc: 'حقوق استخدام تجاري غير محدودة لعدد لا نهائي من مواقعك ومواقع عملائك مدى الحياة.',
+      f6Title: '6. كتيب استراتيجيات تصدر الذكاء الاصطناعي GEO 2026 (.md)',
+      f6Desc: 'دليل تقني حصري من 12 خطوة لتصدر استشهادات Perplexity و ChatGPT Search.',
+    },
     score: {
       title: 'مقياس جاهزية الاقتباس في الذكاء الاصطناعي (GEO/AEO)',
       status: 'جاهزية واقتباس مثالي بنسبة 100%',
@@ -384,7 +432,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       eventDate: 'تاريخ بدء الفعالية (YYYY-MM-DD)',
       eventLocation: 'مقر الفعالية أو رابط البث المباشر',
       astValid: 'فحص الـ AST: صالح بنسبة 100%',
-      downloadBundle: 'تحميل حزمة السكيما ($4.99)',
+      downloadBundle: 'تحميل حزمة برو الشاملة ($4.99)',
     },
     benchmarks: {
       title: 'مقاييس محركات الاقتباس الذكية',
@@ -465,10 +513,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       originalPrice: '$49.00',
       currentPrice: '$4.99',
       oneTimeFee: 'دولار لمرة واحدة فقط',
-      feat1: 'تصدير وتحميل غير محدود لأكواد JSON-LD و Next.js 15 و Shopify Liquid',
-      feat2: 'ترخيص تجاري كامل وغير محدود لجميع مواقعك ومواقع عملائك',
-      feat3: 'ضمان مطابقة 100% لمواصفات Schema.org v26.0 و Google Rich Results',
-      feat4: 'تحميل فوري وتلقائي للحزمة البرمجية الكاملة فور الدفع مباشرة',
+      feat1: 'حزمة الشركات الفورية ZIP بـ 6 ملفات (Next.js 15, Shopify Liquid, WordPress PHP, JSON-LD)',
+      feat2: 'ترخيص تجاري دائم وغير محدود لجميع مواقعك ومواقع عملائك',
+      feat3: 'كتيب استراتيجيات تصدر الذكاء الاصطناعي GEO 2026 الحصري متضمن داخل الحزمة',
+      feat4: 'ضمان مطابقة 100% لمواصفات Schema.org v26.0 و Google Rich Results بدون أخطاء',
       guarantee: '🛡️ ضمان استرجاع الأموال بالكامل لمدة 30 يوماً • تجربة خالية من أي مخاطرة',
       priceNote: 'فتح فوري وآمن عبر باي بال أو بطاقة الدفع (Credit/Debit Card)',
       instantUnlock: 'فتح رخصة برو مدى الحياة ($4.99 USD)',
@@ -478,7 +526,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     },
     toast: {
       title: 'تم التحقق وتفعيل رخصة برو بنجاح!',
-      desc: 'تم بدء تحميل حزمة الـ JSON-LD الخاصة بك تلقائياً.',
+      desc: 'تم بدء تحميل حزمة الشركات الشاملة (6 ملفات ZIP) تلقائياً.',
     },
     footer: {
       text1: 'منظومة SchemaCraft AI - معمارية SaaS أحادية الأداة فائقة الأداء.',
