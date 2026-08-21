@@ -147,6 +147,7 @@ export interface Translations {
     priceNote: string;
     instantUnlock: string;
     sslNote: string;
+    supportNote: string;
     close: string;
   };
   toast: {
@@ -157,6 +158,7 @@ export interface Translations {
     text1: string;
     text2: string;
     guaranteeBadge: string;
+    supportEmail: string;
   };
 }
 
@@ -309,6 +311,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       priceNote: 'Instant unlock via PayPal or Credit/Debit Card',
       instantUnlock: 'Unlock Pro Lifetime ($4.99 USD)',
       sslNote: 'Verified 256-bit SSL Encrypted & PayPal Protected Checkout',
+      supportNote: 'Need help or refund? Email support@schemacraft-ai.site for 24h resolution.',
       close: 'Close (Esc)',
     },
     toast: {
@@ -319,6 +322,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       text1: 'SchemaCraft AI Engine - Pure Single-Utility SaaS Architecture.',
       text2: 'Direct PayPal Integration | 0ms Client Latency | 2026 Standards',
       guaranteeBadge: '100% Satisfaction or Full Refund within 30 Days',
+      supportEmail: 'Official Support & Inquiries: support@schemacraft-ai.site',
     },
   },
   ar: {
@@ -469,6 +473,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       priceNote: 'فتح فوري وآمن عبر باي بال أو بطاقة الدفع (Credit/Debit Card)',
       instantUnlock: 'فتح رخصة برو مدى الحياة ($4.99 USD)',
       sslNote: 'معاملة مشفرة وآمنة 256-bit SSL محمية بالكامل عبر PayPal',
+      supportNote: 'هل تحتاج مساعدة أو استرداد؟ راسلنا على support@schemacraft-ai.site وستتم المعالجة خلال 24 ساعة.',
       close: 'إغلاق (Esc)',
     },
     toast: {
@@ -479,6 +484,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       text1: 'منظومة SchemaCraft AI - معمارية SaaS أحادية الأداة فائقة الأداء.',
       text2: 'تكامل مباشر مع PayPal | سرعة 0ms | معايير 2026 العالمية',
       guaranteeBadge: 'ضمان رضا كامل أو استرداد أموالك خلال 30 يوماً',
+      supportEmail: 'الدعم الفني والاستفسارات: support@schemacraft-ai.site',
     },
   },
 };

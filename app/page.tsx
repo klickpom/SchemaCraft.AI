@@ -38,8 +38,7 @@ import {
   Flame,
   GraduationCap,
   Calendar,
-  ArrowUpRight,
-  Shield,
+  Mail,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -605,8 +604,8 @@ ${JSON.stringify(generatedSchema, null, 2)}
       a: lang === "ar" ? "السيو التقليدي يركز على الكلمات المفتاحية والروابط الخلفية للحصول على نقرة كلاسيكية في محرك البحث. بينما GEO يركز على تأصيل الكيانات الرقمية (Entity Grounding) وفقرات إجابة BLUF المباشرة ليتم تلخيص واقتباس علامتك التجارية في نتائج الذكاء الاصطناعي الفورية." : "Traditional SEO optimizes for keyword density and backlink signals to earn standard blue link clicks. GEO optimizes for machine-readable entity grounding and BLUF answer blocks so your brand is directly synthesized and cited inside AI answer engines.",
     },
     {
-      q: lang === "ar" ? "هل هناك ضمان استرجاع أموال إذا لم أكن راضياً عن الخدمة؟" : "Is there a money-back guarantee if I am not satisfied?",
-      a: lang === "ar" ? "نعم بالتأكيد! نقدم ضمان استرجاع أموال كامل بنسبة 100% لمدة 30 يوماً بدون أي أسئلة. إذا لم تكن راضياً تماماً عن الأداة يمكنك استرداد أموالك فوراً." : "Yes, absolutely! We offer an unconditional 30-day 100% money-back guarantee. If SchemaCraft AI doesn't save you hours of work and boost your rich snippet coverage, we will issue a full refund immediately.",
+      q: lang === "ar" ? "كيف يعمل ضمان استرجاع الأموال واسترداد المبلغ في حال لم تعجبني الخدمة؟" : "How does the 30-Day 100% Money-Back Guarantee work in practice?",
+      a: lang === "ar" ? "الأمر بسيط وفوري للغاية! إذا لم تكن راضياً 100% عن سكيما كرافت برو خلال 30 يوماً من الشراء، فقط أرسل بريداً إلكترونياً إلى support@schemacraft-ai.site مع رقم معاملة PayPal الخاصة بك، وسيقوم فريقنا بإرجاع كامل المبلغ ($4.99) إلى حسابك أو بطاقتك فوراً وبدون أي أسئلة." : "It is completely frictionless! If you are not 100% thrilled with SchemaCraft Pro within 30 days of purchase, simply email support@schemacraft-ai.site with your PayPal transaction ID. Our team will issue a full $4.99 refund directly back to your PayPal/card within 24 hours, zero questions asked.",
     },
   ];
 
@@ -1607,9 +1606,15 @@ ${JSON.stringify(generatedSchema, null, 2)}
                 </div>
 
                 {/* 100% Money-Back Guarantee Seal */}
-                <div className="flex items-center justify-center gap-2 rounded-lg bg-white/[0.02] border border-white/5 p-2 text-[11px] text-slate-300 font-medium">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <div className="flex items-center justify-center gap-2 rounded-lg bg-white/[0.02] border border-white/5 p-2.5 text-[11px] text-slate-300 font-medium">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>{t.modal.guarantee}</span>
+                </div>
+
+                {/* Support & Refund Direct Note */}
+                <div className="text-[10px] text-slate-400 text-center flex items-center justify-center gap-1.5">
+                  <Mail className="w-3 h-3 text-indigo-400 shrink-0" />
+                  <span>{t.modal.supportNote}</span>
                 </div>
 
                 {/* PayPal Smart Buttons Container */}
@@ -1625,13 +1630,19 @@ ${JSON.stringify(generatedSchema, null, 2)}
         )}
       </main>
 
-      {/* Footer */}
+      {/* Footer with Clear Support & Refund Link */}
       <footer className="border-t border-white/[0.08] py-8 text-center text-xs text-slate-400 space-y-2.5 bg-[#060608]">
-        <div className="inline-flex items-center gap-1.5 text-slate-400 text-xs">
+        <div className="inline-flex items-center gap-1.5 text-slate-300 text-xs font-medium">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
           <span>{t.footer.guaranteeBadge}</span>
         </div>
         <p className="text-slate-300 font-medium">{t.footer.text1}</p>
+        <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+          <Mail className="w-3.5 h-3.5 text-indigo-400 inline" />
+          <a href="mailto:support@schemacraft-ai.site" className="text-slate-300 hover:text-white underline">
+            {t.footer.supportEmail}
+          </a>
+        </p>
         <p className="text-[11px] text-slate-500">{t.footer.text2}</p>
       </footer>
     </div>

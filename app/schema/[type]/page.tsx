@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: pageData.title,
       description: pageData.metaDescription,
-      url: `https://schemacraft.ai/schema/${type}`,
+      url: `https://schemacraft-ai.site/schema/${type}`,
       type: 'article',
       siteName: 'SchemaCraft AI',
     },
@@ -84,8 +84,8 @@ export default async function ProgrammaticSchemaPage({ params }: PageProps) {
     description: pageData.blufSummary,
     author: {
       '@type': 'Organization',
-      name: 'SchemaCraft Data Systems',
-      url: 'https://schemacraft.ai',
+      name: 'SchemaCraft AI Global',
+      url: 'https://schemacraft-ai.site',
     },
     about: {
       '@type': 'Thing',
