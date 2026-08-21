@@ -1,0 +1,37 @@
+# SchemaCraft AI - Bot Access Governance
+# Explicitly allowing modern AI crawlers & Generative search engines
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# OpenAI Search & ChatGPT Crawler
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+# Perplexity AI Citation Engine
+User-agent: PerplexityBot
+Allow: /
+
+# Google Search & Google-Extended AI
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic Claude Search
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Bing / Microsoft Copilot
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://schemacraft.ai/sitemap.xml
