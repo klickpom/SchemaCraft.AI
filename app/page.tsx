@@ -53,9 +53,18 @@ export default function Home() {
 
   const t = translations[lang];
 
-  // Initialize with a high-impact demo audit on mount
+  // Initialize with a high-impact demo audit on mount & listen to Escape key
   useEffect(() => {
     handleRunAudit('https://saasmetrics-app.io', SAMPLE_PROFILES.saas.raw, 'saas');
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowPaywall(false);
+        setSelectedIssueForFix(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const handleLanguageToggle = () => {
@@ -760,10 +769,25 @@ export default function Home() {
 
       {/* $9 PayPal Checkout Paywall Modal */}
       {showPaywall && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md rounded-2xl border border-white/15 bg-[#12121a] p-6 shadow-2xl space-y-5">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+          onClick={() => setShowPaywall(false)}
+        >
+          <div
+            className="relative w-full max-w-md rounded-2xl border border-white/15 bg-[#12121a] p-6 shadow-2xl space-y-5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Top Close Button X */}
+            <button
+              type="button"
+              onClick={() => setShowPaywall(false)}
+              className="absolute top-4 right-4 rtl:right-auto rtl:left-4 p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white transition cursor-pointer"
+              title={lang === 'ar' ? 'إغلاق' : 'Close'}
+            >
+              <XCircle className="w-5 h-5" />
+            </button>
             
-            <div className="text-center space-y-1.5">
+            <div className="text-center space-y-1.5 pt-2">
               <div className="h-10 w-10 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center mx-auto text-cyan-300">
                 <Zap className="w-5 h-5 fill-cyan-300/20" />
               </div>

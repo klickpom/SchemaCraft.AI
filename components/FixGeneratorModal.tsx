@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuditIssue } from '@/lib/auditEngine';
 import { generatePlatformFix, PlatformFix } from '@/lib/fixGenerator';
 import { X, Copy, Check, Terminal, Globe, ShoppingBag, ArrowRight } from 'lucide-react';
@@ -28,6 +28,14 @@ export default function FixGeneratorModal({
 
   const currentFix = fixes.find((f) => f.platform === activePlatform) || fixes[0];
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const handleCopy = () => {
     if (currentFix) {
       navigator.clipboard.writeText(currentFix.codeSnippet);
@@ -37,8 +45,14 @@ export default function FixGeneratorModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl rounded-2xl border border-white/15 bg-[#12121a] shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col max-h-[90vh]">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-2xl rounded-2xl border border-white/15 bg-[#12121a] shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
         
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 bg-[#161622]">
