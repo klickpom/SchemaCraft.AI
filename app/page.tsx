@@ -44,6 +44,7 @@ export default function Home() {
   const [urlInput, setUrlInput] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [scanStep, setScanStep] = useState(0);
+  const [scanPercent, setScanPercent] = useState(0);
   const [report, setReport] = useState<AuditReport | null>(null);
   const [isProUnlocked, setIsProUnlocked] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
@@ -77,11 +78,22 @@ export default function Home() {
   const handleRunAudit = async (url: string, rawData?: RawEvidence, profileKey?: string) => {
     setIsScanning(true);
     setScanStep(1);
+    setScanPercent(12);
     setActiveDemoProfile(profileKey || null);
 
-    const timer1 = setTimeout(() => setScanStep(2), 350);
-    const timer2 = setTimeout(() => setScanStep(3), 700);
-    const timer3 = setTimeout(() => setScanStep(4), 1050);
+    // Smooth percentage ticker
+    const interval = setInterval(() => {
+      setScanPercent((prev) => {
+        if (prev < 30) return prev + 6;
+        if (prev < 65) return prev + 4;
+        if (prev < 92) return prev + 2;
+        return prev;
+      });
+    }, 90);
+
+    const timer1 = setTimeout(() => setScanStep(2), 400);
+    const timer2 = setTimeout(() => setScanStep(3), 800);
+    const timer3 = setTimeout(() => setScanStep(4), 1200);
 
     try {
       let evidence = rawData;
@@ -91,12 +103,27 @@ export default function Home() {
       }
 
       const generatedReport = evaluateEvidence(url, evidence);
-      setReport(generatedReport);
+      setScanPercent(100);
+      
+      setTimeout(() => {
+        setReport(generatedReport);
+        setIsScanning(false);
+        setScanStep(0);
+        setScanPercent(0);
+
+        // Smooth scroll to results
+        setTimeout(() => {
+          document.getElementById('audit-results')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }, 350);
+
     } catch (err) {
       console.error('Live audit fetch error:', err);
-    } finally {
       setIsScanning(false);
       setScanStep(0);
+      setScanPercent(0);
+    } finally {
+      clearInterval(interval);
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
@@ -295,20 +322,28 @@ export default function Home() {
 
         {/* Live Scanning Step Feedback */}
         {isScanning && (
-          <section className="max-w-2xl mx-auto p-6 rounded-2xl border border-indigo-500/30 bg-[#0d0d14] space-y-4 shadow-2xl animate-in fade-in duration-300">
-            <div className="flex items-center justify-between text-xs font-bold text-indigo-300 uppercase tracking-wider">
-              <span>{t.hero.scanningText}</span>
-              <span>Step {scanStep} / 4</span>
+          <section className="max-w-2xl mx-auto p-6 sm:p-8 rounded-2xl border border-indigo-500/40 bg-[#0d0d16] space-y-5 shadow-2xl shadow-indigo-950/50 animate-in fade-in duration-300">
+            <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+              <span className="text-cyan-300 flex items-center gap-2">
+                <RotateCcw className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+                {t.hero.scanningText}
+              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-slate-400 font-mono">Step {scanStep}/4</span>
+                <span className="font-mono text-sm font-black px-2 py-0.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                  {scanPercent}%
+                </span>
+              </div>
             </div>
 
-            <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-white/10 h-3 rounded-full overflow-hidden p-0.5">
               <div
-                className="bg-gradient-to-r from-indigo-500 via-cyan-400 to-teal-300 h-full transition-all duration-300"
-                style={{ width: `${(scanStep / 4) * 100}%` }}
+                className="bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 h-full rounded-full transition-all duration-150 shadow-lg shadow-cyan-500/50"
+                style={{ width: `${scanPercent}%` }}
               />
             </div>
 
-            <div className="text-xs text-slate-300 font-mono space-y-1.5 pt-2">
+            <div className="text-xs text-slate-300 font-mono space-y-2 pt-1">
               <div className={scanStep >= 1 ? 'text-emerald-400 font-bold' : 'text-slate-500'}>
                 ✓ {t.scanning.step1}
               </div>
@@ -327,7 +362,7 @@ export default function Home() {
 
         {/* Audit Results Dashboard */}
         {report && !isScanning && (
-          <div className="space-y-10 animate-in fade-in duration-500">
+          <div id="audit-results" className="space-y-10 animate-in fade-in duration-500 scroll-mt-24">
             
             {/* Overall Score Banner Card */}
             <div className="rounded-3xl border border-white/15 bg-gradient-to-br from-[#12121a] via-[#0c0c12] to-[#07070a] p-6 sm:p-8 shadow-2xl">

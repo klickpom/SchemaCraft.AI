@@ -775,8 +775,27 @@ function generateAIOpportunities(siteType: string, url: string): AIOpportunity[]
 }
 
 /**
- * Real Live Web Crawler & DOM Parser
- * Fetches target website HTML and robots.txt via live proxy gateways and extracts authentic raw evidence.
+ * Helper to fetch with strict timeout
+ */
+async function fetchWithTimeout(url: string, timeoutMs = 2200): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: { 'Accept': 'text/html,text/plain,*/*' }
+    });
+    clearTimeout(id);
+    return res;
+  } catch (err) {
+    clearTimeout(id);
+    throw err;
+  }
+}
+
+/**
+ * Real Live Web Crawler & DOM Parser with Strict Timeout Protection
+ * Fetches target website HTML and robots.txt in parallel and extracts authentic raw evidence.
  */
 export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence> {
   let html = '';
@@ -793,36 +812,32 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     origin = targetUrl;
   }
 
-  // 1. Fetch HTML of target URL with live proxy strategies
-  const htmlProxyUrls = [
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-    `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`,
-  ];
+  // 1. Fetch HTML and robots.txt in parallel with fast 2.2s timeout
+  const proxyHtmlUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+  const proxyRobotsUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`${origin}/robots.txt`)}`;
 
-  for (const proxyUrl of htmlProxyUrls) {
-    try {
-      const res = await fetch(proxyUrl);
-      if (res.ok) {
-        html = await res.text();
-        httpStatus = res.status;
-        break;
-      }
-    } catch (e) {}
-  }
-
-  // 2. Fetch live robots.txt
-  const robotsUrl = `${origin}/robots.txt`;
   try {
-    const resRobots = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(robotsUrl)}`);
-    if (resRobots.ok) {
-      robotsTxtContent = await resRobots.text();
+    const [htmlRes, robotsRes] = await Promise.allSettled([
+      fetchWithTimeout(proxyHtmlUrl, 2200),
+      fetchWithTimeout(proxyRobotsUrl, 2000),
+    ]);
+
+    if (htmlRes.status === 'fulfilled' && htmlRes.value.ok) {
+      html = await htmlRes.value.text();
+      httpStatus = htmlRes.value.status;
+    }
+
+    if (robotsRes.status === 'fulfilled' && robotsRes.value.ok) {
+      robotsTxtContent = await robotsRes.value.text();
       if (robotsTxtContent && robotsTxtContent.toLowerCase().includes('user-agent')) {
         robotsTxtFound = true;
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    potentialBotBarrier = true;
+  }
 
-  // 3. Real DOM Parser
+  // 2. Real DOM Parser
   let title: string | null = null;
   let metaDescription: string | null = null;
   let canonicalUrl: string | null = null;
