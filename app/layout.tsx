@@ -154,6 +154,36 @@ export default function RootLayout({
           "https://github.com/klickpom/SchemaCraft.AI",
         ],
       },
+      {
+        "@type": "FAQPage",
+        "@id": "https://schemacraft-ai.site/#faq",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "How does SchemaCraft AI audit websites for Google, ChatGPT Search and Perplexity?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "SchemaCraft AI executes a multi-wave deterministic diagnostic inspecting server HTTP status, indexability gates, robots.txt bot directives (including OAI-SearchBot and PerplexityBot), BLUF content answerability, and Schema.org JSON-LD entity graph completeness.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What platforms does SchemaCraft AI provide ready code fixes for?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "SchemaCraft AI generates 100% production-ready, copy-paste code fixes for WordPress (functions.php hooks & filters), Next.js 15 App Router (TypeScript metadata, sitemaps & JSON-LD scripts), and Shopify Liquid themes.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How much does SchemaCraft AI cost and what is the guarantee?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "SchemaCraft AI offers a single lifetime full audit access pass for $9.00 USD with zero recurring fees, backed by an unconditional 30-Day Money-Back Guarantee.",
+            },
+          },
+        ],
+      },
     ],
   };
 

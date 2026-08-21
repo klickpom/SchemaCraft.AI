@@ -1,0 +1,66 @@
+# SchemaCraft AI — Full Knowledge Base & Technical Architecture Guide
+
+> Canonical Website: https://schemacraft-ai.site
+> Author: SchemaCraft AI Architect Labs
+> Standard: Generative Engine Optimization (GEO) & Answer Engine Optimization (AEO) v26.0
+
+---
+
+## 1. Executive Summary & Purpose
+SchemaCraft AI is an automated, real-time website audit engine specifically engineered to analyze, score, and optimize websites for discoverability, indexability, and direct answer synthesis across modern search engines (Google, Bing) and generative AI search agents (ChatGPT Search, OpenAI SearchBot, Perplexity AI, Google AI Overviews, Claude Web, Gemini).
+
+---
+
+## 2. Core Audit Architecture & 5 Diagnostic Dimensions
+
+### A. Indexability Gate & Technical SEO (Weight: 5x)
+- **HTTP Response Verification**: Ensures authoritative HTTP 200 OK status. Rejects soft 404s, redirect loops, and server-side timeouts.
+- **Sequential Gate**: A page must clear: HTTP 200 -> robots.txt allow -> absence of noindex header/meta -> self-referencing canonical URL.
+- **Canonical Tag Integrity**: Validates that `<link rel="canonical" href="...">` matches the authoritative HTTPS origin, avoiding duplicate content dilution in LLM citation indices.
+
+### B. Multi-Level Bot Crawlability & AI Directives (Weight: 3x)
+- **OpenAI SearchBot (OAI-SearchBot)**: Direct validation for ChatGPT Search indexing. Ensures bots are not blocked by robots.txt or Cloudflare/WAF bot fighting modes.
+- **OpenAI Training (GPTBot)** & **Google-Extended**: Independent auditing of AI training permissions vs active search citation permissions.
+- **PerplexityBot & ClaudeBot**: Ensures retrieval-augmented generation (RAG) scrapers have uninterrupted access to public semantic text.
+
+### C. Content Structure & BLUF Answerability (Weight: 2x)
+- **Bottom Line Up Front (BLUF)**: Validates presence of high-density summary paragraphs (40-60 words) immediately below the primary `<h1>` tag for direct LLM fact extraction.
+- **Heading Hierarchy**: Evaluates single `<h1>` tag usage, logical `<h2>`/`<h3>` topical nesting, and semantic answer paragraphs.
+- **Meta Description Density**: Checks character length (50-160 chars) and entity keyword clarity.
+
+### D. Entity Graph & Schema.org JSON-LD (Weight: 2x)
+- **Context-Aware Entity Graphs**: Generates targeted Schema.org types:
+  - `SoftwareApplication` for SaaS & cloud developer tools.
+  - `Product` with `offers` & `aggregateRating` for E-Commerce stores.
+  - `MedicalBusiness` / `LocalBusiness` for clinics & physical practices.
+  - `Article` & `NewsArticle` for Google Discover and blog publishers.
+  - `FAQPage` for SERP dropdown accordions and Perplexity Q&A models.
+
+### E. AI Search Readiness & Query Matrix (Weight: 1x)
+- Evaluates topical coverage against high-intent commercial prompts asked to conversational AI models.
+
+---
+
+## 3. Platform Remediation Engines & Code Generators
+
+SchemaCraft AI provides instant, copy-paste code fixes across 3 major tech stacks:
+1. **Next.js 15 App Router**: TypeScript metadata exports, dynamic JSON-LD injection, server sitemaps (`app/sitemap.ts`), and security headers.
+2. **WordPress**: Functions.php hooks, `wp_head` JSON-LD filters, RankMath/Yoast integrations, and `.htaccess` rules.
+3. **Shopify**: Liquid theme templates (`theme.liquid`), JSON-LD product/collection schemas, and CDN bypasses.
+
+---
+
+## 4. Programmatic Schema Documentation Endpoints
+- Shopify Product Schema: https://schemacraft-ai.site/schema/shopify-product/
+- Next.js 15 Software Schema: https://schemacraft-ai.site/schema/nextjs-software/
+- SaaS FAQPage Rich Snippet: https://schemacraft-ai.site/schema/saas-faq/
+- Local Business SEO Schema: https://schemacraft-ai.site/schema/local-seo-schema/
+- Course & Education Structured Data: https://schemacraft-ai.site/schema/course-education-schema/
+- Article & Google Discover Schema: https://schemacraft-ai.site/schema/article-google-discover-schema/
+
+---
+
+## 5. Commercial Information
+- Single Audit Pass: $9.00 USD (Lifetime full report + platform code generators)
+- Risk Protection: 30-Day Money-Back Guarantee
+- Support Email: support@schemacraft-ai.site
