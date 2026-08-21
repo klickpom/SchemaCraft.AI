@@ -46,7 +46,7 @@ export default function FixGeneratorModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
@@ -55,10 +55,10 @@ export default function FixGeneratorModal({
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 bg-[#161622]">
-          <div className="space-y-0.5">
-            <div className="flex items-center gap-2">
-              <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded-full border ${
+        <div className="flex items-start justify-between gap-3 border-b border-white/10 p-4 sm:p-5 bg-[#161622]">
+          <div className="space-y-1 min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded-full border shrink-0 ${
                 issue.severity === 'critical'
                   ? 'bg-rose-500/15 border-rose-500/40 text-rose-300'
                   : issue.severity === 'high'
@@ -67,18 +67,18 @@ export default function FixGeneratorModal({
               }`}>
                 {issue.severity.toUpperCase()}
               </span>
-              <h3 className="text-sm font-bold text-white tracking-tight">
+              <h3 className="text-xs sm:text-sm font-bold text-white tracking-tight leading-snug">
                 {lang === 'ar' ? issue.titleAr : issue.title}
               </h3>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-[11px] sm:text-xs text-slate-400">
               {lang === 'ar' ? 'مولد الإصلاح البرمجي الفوري' : 'Interactive Multi-Platform Fix Generator'}
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition cursor-pointer"
+            className="p-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition cursor-pointer shrink-0"
           >
             <X className="w-4 h-4" />
           </button>
@@ -151,14 +151,14 @@ export default function FixGeneratorModal({
           {/* Generated Code & Instructions */}
           {currentFix && (
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-[11px] text-slate-400">
-                <span className="font-mono font-medium text-indigo-300">
+              <div className="flex items-center justify-between text-[11px] text-slate-400 gap-2 flex-wrap">
+                <span className="font-mono font-medium text-indigo-300 truncate max-w-[280px] sm:max-w-md">
                   📁 {lang === 'ar' ? currentFix.fileLocationAr : currentFix.fileLocation}
                 </span>
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-white/10 hover:bg-indigo-600 text-white font-semibold transition cursor-pointer"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-white/10 hover:bg-indigo-600 text-white font-semibold transition cursor-pointer shrink-0"
                 >
                   {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                   <span>{copied ? (lang === 'ar' ? 'تم النسخ!' : 'Copied!') : (lang === 'ar' ? 'نسخ الكود' : 'Copy Fix')}</span>

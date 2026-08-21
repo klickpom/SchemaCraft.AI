@@ -1091,58 +1091,90 @@ export default function Home() {
       {/* $9 PayPal Checkout Paywall Modal */}
       {showPaywall && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-lg animate-in fade-in duration-200"
           onClick={() => setShowPaywall(false)}
         >
           <div
-            className="relative w-full max-w-md rounded-2xl border border-white/15 bg-[#12121a] p-6 shadow-2xl space-y-5"
+            className="relative w-full max-w-lg rounded-3xl border border-white/15 bg-[#0c0c14] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Top Close Button X */}
-            <button
-              type="button"
-              onClick={() => setShowPaywall(false)}
-              className="absolute top-4 right-4 rtl:right-auto rtl:left-4 p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white transition cursor-pointer"
-              title={t.modal.close}
-            >
-              <XCircle className="w-5 h-5" />
-            </button>
+            {/* Glow Effects */}
+            <div className="absolute -top-24 -left-24 h-48 w-48 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none" />
             
-            <div className="text-center space-y-1.5 pt-2">
-              <div className="h-10 w-10 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center mx-auto text-cyan-300">
-                <Zap className="w-5 h-5 fill-cyan-300/20" />
-              </div>
-              <h3 className="text-lg font-black text-white tracking-tight">
-                {t.modal.title}
-              </h3>
-              <p className="text-xs text-slate-400">
-                {t.modal.subtitle}
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 text-center space-y-1">
-              <div className="text-xl font-black text-white">
-                {t.modal.price}
-              </div>
-              <div className="text-[11px] text-emerald-400 font-medium flex items-center justify-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>{t.modal.guarantee}</span>
-              </div>
-            </div>
-
-            <div className="space-y-3 pt-1">
-              <PayPalCheckout onSuccess={handlePaymentSuccess} price="9.00" />
-            </div>
-
-            <div className="text-center space-y-1 border-t border-white/10 pt-3">
-              <p className="text-[10px] text-slate-400">{t.modal.support}</p>
+            <div className="relative p-5 sm:p-8 space-y-5">
+              {/* Top Close Button X */}
               <button
                 type="button"
                 onClick={() => setShowPaywall(false)}
-                className="text-xs text-slate-400 hover:text-white transition cursor-pointer"
+                className="absolute top-3 right-3 rtl:right-auto rtl:left-3 p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white transition cursor-pointer z-10"
+                title={t.modal.close}
               >
-                {t.modal.cancel}
+                <XCircle className="w-5 h-5" />
               </button>
+              
+              {/* Header */}
+              <div className="text-center space-y-2 pt-2">
+                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 border border-indigo-500/30 flex items-center justify-center mx-auto">
+                  <Zap className="w-6 h-6 text-cyan-300 fill-cyan-300/20" />
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  {t.modal.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
+                  {t.modal.subtitle}
+                </p>
+              </div>
+
+              {/* Price Card */}
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-950/40 to-cyan-950/20 border border-indigo-500/20 text-center space-y-1.5">
+                <div className="text-3xl font-black text-white">
+                  {t.modal.price}
+                </div>
+                <div className="text-[11px] text-emerald-400 font-semibold flex items-center justify-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>{t.modal.guarantee}</span>
+                </div>
+              </div>
+
+              {/* Features Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="text-slate-300">{lang === 'ar' ? 'كشف جميع المشاكل والعوائق' : 'All issues & blockers revealed'}</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="text-slate-300">{lang === 'ar' ? 'أكواد إصلاح لكل منصة' : 'Platform-specific code fixes'}</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="text-slate-300">{lang === 'ar' ? 'فرص ظهور بحث AI' : 'AI search opportunities'}</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="text-slate-300">{lang === 'ar' ? 'ضمان استرداد 30 يوم' : '30-day money-back guarantee'}</span>
+                </div>
+              </div>
+
+              {/* PayPal Checkout Container */}
+              <div className="space-y-3">
+                <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4">
+                  <PayPalCheckout onSuccess={handlePaymentSuccess} price="9.00" />
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="text-center space-y-1.5 border-t border-white/10 pt-4">
+                <p className="text-[10px] text-slate-500">{t.modal.support}</p>
+                <button
+                  type="button"
+                  onClick={() => setShowPaywall(false)}
+                  className="text-xs text-slate-400 hover:text-white transition cursor-pointer"
+                >
+                  {t.modal.cancel}
+                </button>
+              </div>
             </div>
 
           </div>
