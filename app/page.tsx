@@ -481,45 +481,78 @@ export default function Home() {
               </div>
 
               {/* Live Extracted Real Data Transparency Card */}
-              <div className="mt-6 p-4 rounded-2xl border border-cyan-500/20 bg-cyan-950/15 space-y-3">
-                <div className="flex items-center justify-between text-xs font-bold text-cyan-300">
-                  <span className="flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-cyan-400" />
-                    {lang === 'ar' ? 'البيانات الحقيقية المستخرجة مباشرة من كود الصفحة:' : 'Live Data Extracted Directly From Target HTML:'}
+              <div className={`mt-6 p-4 rounded-2xl border space-y-3 ${
+                report.evidence.htmlFetched
+                  ? 'border-cyan-500/20 bg-cyan-950/15'
+                  : 'border-amber-500/20 bg-amber-950/15'
+              }`}>
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className={`flex items-center gap-2 ${report.evidence.htmlFetched ? 'text-cyan-300' : 'text-amber-300'}`}>
+                    <Globe className={`w-4 h-4 ${report.evidence.htmlFetched ? 'text-cyan-400' : 'text-amber-400'}`} />
+                    {report.evidence.htmlFetched
+                      ? (lang === 'ar' ? 'البيانات الحقيقية المستخرجة مباشرة من كود الصفحة:' : 'Live Data Extracted Directly From Target HTML:')
+                      : (lang === 'ar' ? 'لم يتمكن المحرك من جلب كود HTML (حماية CORS/WAF):' : 'HTML Could Not Be Fetched (CORS/WAF Protection):')
+                    }
                   </span>
-                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold">
-                    100% Live Crawl
+                  <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded border font-bold ${
+                    report.evidence.htmlFetched
+                      ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
+                      : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                  }`}>
+                    {report.evidence.htmlFetched ? (lang === 'ar' ? 'تم الاستخراج' : 'Fetched') : (lang === 'ar' ? 'محظور' : 'Blocked')}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                  <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
-                      {lang === 'ar' ? 'عنوان الصفحة الفعلي (<title>):' : 'Live Page Title (<title>):'}
-                    </span>
-                    <p className="font-mono text-[11px] text-white truncate">
-                      {report.evidence.title || 'Not found'}
-                    </p>
-                  </div>
+                {report.evidence.htmlFetched ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                        {lang === 'ar' ? 'عنوان الصفحة الفعلي (<title>):' : 'Live Page Title (<title>):'}
+                      </span>
+                      <p className={`font-mono text-[11px] truncate ${report.evidence.title ? 'text-white' : 'text-rose-400 italic'}`}>
+                        {report.evidence.title || (lang === 'ar' ? 'لم يُعثر عليه في HTML' : 'Not found in HTML')}
+                      </p>
+                    </div>
 
-                  <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
-                      {lang === 'ar' ? 'العنوان الرئيسي الفعلي (<h1>):' : 'Live Primary Heading (<h1>):'}
-                    </span>
-                    <p className="font-mono text-[11px] text-white truncate">
-                      {report.evidence.h1Tags[0] || 'No <h1> detected'}
-                    </p>
-                  </div>
+                    <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                        {lang === 'ar' ? 'العنوان الرئيسي الفعلي (<h1>):' : 'Live Primary Heading (<h1>):'}
+                      </span>
+                      <p className={`font-mono text-[11px] truncate ${report.evidence.h1Tags.length > 0 ? 'text-white' : 'text-rose-400 italic'}`}>
+                        {report.evidence.h1Tags[0] || (lang === 'ar' ? 'لم يُعثر على وسم H1' : 'No <h1> tag detected')}
+                      </p>
+                    </div>
 
-                  <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1 md:col-span-2">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
-                      {lang === 'ar' ? 'الوصف التعريفي الفعلي (<meta description>):' : 'Live Meta Description:'}
-                    </span>
-                    <p className="font-mono text-[11px] text-slate-300 line-clamp-2">
-                      {report.evidence.metaDescription || 'No meta description found'}
+                    <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1 md:col-span-2">
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                        {lang === 'ar' ? 'الوصف التعريفي الفعلي (<meta description>):' : 'Live Meta Description:'}
+                      </span>
+                      <p className={`font-mono text-[11px] line-clamp-2 ${report.evidence.metaDescription ? 'text-slate-300' : 'text-rose-400 italic'}`}>
+                        {report.evidence.metaDescription || (lang === 'ar' ? 'لم يُعثر على وصف تعريفي' : 'No meta description found in HTML')}
+                      </p>
+                    </div>
+
+                    {report.evidence.schemaTypesDetected.length > 0 && (
+                      <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1 md:col-span-2">
+                        <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                          {lang === 'ar' ? 'أنواع السكيما المكتشفة (JSON-LD):' : 'Detected Schema Types (JSON-LD):'}
+                        </span>
+                        <p className="font-mono text-[11px] text-emerald-400">
+                          {report.evidence.schemaTypesDetected.join(', ')}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-3 rounded-xl bg-black/30 border border-amber-500/10 text-xs text-amber-300/80">
+                    <p>
+                      {lang === 'ar'
+                        ? 'لم يتمكن محرك الفحص من جلب كود HTML بسبب حماية CORS أو جدار حماية الموقع. النتائج أدناه مبنية على ملف robots.txt والإشارات المتاحة فقط. لتحقيق أفضل نتائج، افحص موقعك مباشرة من نفس النطاق.'
+                        : 'The audit engine could not fetch the HTML due to CORS restrictions or WAF protection. Results below are based on robots.txt and available signals only. For best results, run the audit from the same domain.'
+                      }
                     </p>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Raw Evidence Ledger Accordion */}
