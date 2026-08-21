@@ -206,8 +206,12 @@ export default function Home() {
           
           {/* Brand Logo & Engine Version */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 min-w-0">
-            <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-500/25 shrink-0">
-              <Layers className="w-4 h-4 text-white" />
+            <div className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/30 border border-indigo-400/30 shrink-0 flex items-center justify-center bg-[#0d0d18]">
+              <img
+                src="/logo.png"
+                alt="SchemaCraft AI"
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="flex items-center gap-1.5 whitespace-nowrap">
               <span className="text-sm sm:text-base font-black tracking-tight text-white">
@@ -280,6 +284,30 @@ export default function Home() {
           
           {/* Atmospheric Background Ambient Mesh Lights */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[350px] bg-gradient-to-tr from-indigo-600/15 via-cyan-500/10 to-transparent blur-3xl pointer-events-none rounded-full -z-10 ambient-pulse" />
+
+          {/* Stunning 3D Glass Emblem & AI Radar Beam Centerpiece */}
+          <div className="relative mx-auto w-fit flex flex-col items-center justify-center pt-2 pb-1">
+            <div className="relative group cursor-pointer">
+              {/* Expanding Radar Pulse Rings */}
+              <div className="absolute inset-0 rounded-3xl bg-indigo-500/20 blur-xl scale-125 animate-ping opacity-25 pointer-events-none" />
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-indigo-500/30 via-cyan-500/30 to-indigo-500/30 blur-2xl opacity-60 ambient-pulse pointer-events-none" />
+              
+              {/* 3D Glass Floating Emblem */}
+              <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/40 border-2 border-indigo-400/40 bg-[#0c0c16] transform group-hover:scale-105 group-hover:rotate-1 transition-all duration-300">
+                <img
+                  src="/logo.png"
+                  alt="SchemaCraft AI 3D Glass Engine"
+                  className="h-full w-full object-cover scale-105"
+                />
+              </div>
+
+              {/* Floating Live AI Indicator Tag */}
+              <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap px-2.5 py-0.5 rounded-full border border-cyan-400/40 bg-[#080810]/90 backdrop-blur-md text-[9px] sm:text-[10px] font-mono font-bold text-cyan-300 flex items-center gap-1.5 shadow-lg">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping shrink-0" />
+                <span>GEO + AEO v2.6 ACTIVE</span>
+              </div>
+            </div>
+          </div>
 
           {/* Trust Badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-950/40 px-3.5 py-1 text-[10px] sm:text-xs font-semibold text-cyan-300 shadow-sm max-w-full backdrop-blur-md">

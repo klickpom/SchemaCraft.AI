@@ -16,10 +16,8 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
         
         {/* Logo & Brand */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-cyan-500 p-0.5 shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all duration-300">
-            <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-[#09090b]">
-              <Layers className="h-5 w-5 text-cyan-400 group-hover:scale-110 transition-transform" />
-            </div>
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden shadow-lg shadow-indigo-500/25 border border-indigo-400/30 group-hover:shadow-indigo-500/50 transition-all duration-300 bg-[#09090b]">
+            <img src="/logo.png" alt="SchemaCraft AI" className="h-full w-full object-cover group-hover:scale-105 transition-transform" />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
