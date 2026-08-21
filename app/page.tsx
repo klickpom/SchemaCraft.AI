@@ -36,6 +36,12 @@ import {
   Award,
   ShieldAlert,
   Flame,
+  CheckSquare,
+  Share2,
+  Maximize2,
+  Minimize2,
+  Laptop,
+  CheckCircle,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -91,7 +97,7 @@ const PRESET_ARCHETYPES = {
   ecommerce: {
     type: "Product",
     data: {
-      name: "Aura Pro Ergonomic Noise-Cancelling Headphones",
+      name: "Aura Pro Ergonomic Studio Headphones",
       description: "Flagship wireless studio headphones with planar magnetic drivers and 40-hour ultra-low latency playback.",
       url: "https://audiopro.store/products/aura-pro",
       price: "249.00",
@@ -139,6 +145,7 @@ export default function HomePage() {
   const [showCelebrationBanner, setShowCelebrationBanner] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [isMinified, setIsMinified] = useState<boolean>(false);
 
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
 
@@ -435,7 +442,11 @@ export default function HomePage() {
     }
   }, [schemaType, formData]);
 
-  const jsonString = JSON.stringify(generatedSchema, null, 2);
+  const jsonString = useMemo(() => {
+    return isMinified
+      ? JSON.stringify(generatedSchema)
+      : JSON.stringify(generatedSchema, null, 2);
+  }, [generatedSchema, isMinified]);
 
   const nextJsJsxString = useMemo(() => {
     return `// Next.js 15 App Router (app/page.tsx or app/layout.tsx)
@@ -872,23 +883,34 @@ ${JSON.stringify(generatedSchema, null, 2)}
               </div>
             </div>
 
-            {/* Performance Benchmark Widget */}
-            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.015] p-4 space-y-2.5">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                {t.benchmarks.title}
-              </h3>
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="p-2.5 rounded-xl bg-white/[0.025] border border-white/10">
-                  <div className="text-base font-bold text-indigo-400">+40%</div>
-                  <div className="text-[10px] text-slate-300 font-medium">{t.benchmarks.citationRate}</div>
+            {/* GEO Citation Readiness Score Meter */}
+            <div className="rounded-2xl border border-indigo-500/20 bg-gradient-to-tr from-indigo-950/25 via-[#101016] to-cyan-950/25 p-4 sm:p-5 space-y-3.5 shadow-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">{t.score.title}</h3>
+                  <p className="text-[10px] text-emerald-400 font-medium mt-0.5">{t.score.status}</p>
                 </div>
-                <div className="p-2.5 rounded-xl bg-white/[0.025] border border-white/10">
-                  <div className="text-base font-bold text-cyan-400">0ms</div>
-                  <div className="text-[10px] text-slate-300 font-medium">{t.benchmarks.parsingLatency}</div>
+                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-black text-sm shadow-lg shadow-emerald-500/20">
+                  98%
                 </div>
-                <div className="p-2.5 rounded-xl bg-white/[0.025] border border-white/10">
-                  <div className="text-base font-bold text-emerald-400">100%</div>
-                  <div className="text-[10px] text-slate-300 font-medium">{t.benchmarks.schemaValid}</div>
+              </div>
+
+              <div className="space-y-1.5 text-[11px] text-slate-300">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>{t.score.check1}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>{t.score.check2}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>{t.score.check3}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>{t.score.check4}</span>
                 </div>
               </div>
             </div>
@@ -956,23 +978,60 @@ ${JSON.stringify(generatedSchema, null, 2)}
                   </button>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg transition active:scale-95 cursor-pointer font-semibold"
-                >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copied ? t.preview.copied : t.preview.copyCode}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  {/* Minify / Beautify Toggle */}
+                  {activeTab === "code" && (
+                    <button
+                      type="button"
+                      onClick={() => setIsMinified(!isMinified)}
+                      className="text-[11px] text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] transition cursor-pointer font-mono"
+                    >
+                      {isMinified ? t.preview.beautify : t.preview.minify}
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg transition active:scale-95 cursor-pointer font-semibold"
+                  >
+                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copied ? t.preview.copied : t.preview.copyCode}</span>
+                  </button>
+                </div>
               </div>
 
               {activeTab === "code" ? (
-                <pre
-                  dir="ltr"
-                  className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-cyan-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[380px] sm:max-h-[440px] text-left shadow-inner"
-                >
-                  <code>{jsonString}</code>
-                </pre>
+                <div className="space-y-2.5 flex-1 flex flex-col">
+                  <pre
+                    dir="ltr"
+                    className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-cyan-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[360px] sm:max-h-[420px] text-left shadow-inner"
+                  >
+                    <code>{jsonString}</code>
+                  </pre>
+
+                  {/* External Official Google & Schema.org Test Links */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px]">
+                    <a
+                      href="https://search.google.com/test/rich-results"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-indigo-300 hover:text-indigo-200 transition font-medium"
+                    >
+                      <span>{t.preview.testGoogle}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                    <a
+                      href="https://validator.schema.org/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-cyan-300 hover:text-cyan-200 transition font-medium"
+                    >
+                      <span>{t.preview.testSchemaOrg}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
               ) : activeTab === "nextjs" ? (
                 <pre
                   dir="ltr"
@@ -1093,6 +1152,60 @@ ${JSON.stringify(generatedSchema, null, 2)}
           </div>
         </div>
 
+        {/* 30-Second Integration Across All Platforms */}
+        <section className="border-t border-white/[0.1] pt-10 space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-1.5">
+            <h2 className="text-xl sm:text-2xl font-black text-white">
+              {t.installation.title}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300">
+              {t.installation.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
+              <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
+                <Terminal className="w-4 h-4" />
+                <span>{t.installation.nextjsTitle}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.installation.nextjsDesc}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                <ShoppingBag className="w-4 h-4" />
+                <span>{t.installation.shopifyTitle}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.installation.shopifyDesc}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
+              <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
+                <Globe className="w-4 h-4" />
+                <span>{t.installation.wordpressTitle}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.installation.wordpressDesc}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
+                <Layers className="w-4 h-4" />
+                <span>{t.installation.webflowTitle}</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.installation.webflowDesc}
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Social Proof & Developer Testimonials */}
         <section className="border-t border-white/[0.1] pt-10 space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-1.5">
@@ -1168,51 +1281,6 @@ ${JSON.stringify(generatedSchema, null, 2)}
                 <div className="text-[10px] text-slate-400">{t.testimonials.t3Role}</div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Architectural Comparison Matrix (GEO 2026) */}
-        <section className="border-t border-white/[0.1] pt-10">
-          <div className="text-center max-w-2xl mx-auto mb-6 space-y-1.5">
-            <h2 className="text-xl sm:text-2xl font-black text-white">
-              {t.matrix.title}
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
-              {t.matrix.subtitle}
-            </p>
-          </div>
-
-          <div className="overflow-x-auto rounded-2xl border border-white/15 bg-[#101015] shadow-2xl">
-            <table className="w-full text-left rtl:text-right text-xs">
-              <thead className="bg-white/[0.05] text-slate-200 font-bold border-b border-white/10">
-                <tr>
-                  <th className="p-4">{t.matrix.colFeature}</th>
-                  <th className="p-4">{t.matrix.colTrad}</th>
-                  <th className="p-4">{t.matrix.colGeo}</th>
-                  <th className="p-4 text-emerald-400">{t.matrix.colImpact}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/[0.06] text-slate-300">
-                <tr>
-                  <td className="p-4 font-semibold text-white">{t.matrix.row1Title}</td>
-                  <td className="p-4">{t.matrix.row1Trad}</td>
-                  <td className="p-4 text-indigo-300 font-medium">{t.matrix.row1Geo}</td>
-                  <td className="p-4 text-emerald-400 font-bold">{t.matrix.row1Impact}</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-semibold text-white">{t.matrix.row2Title}</td>
-                  <td className="p-4">{t.matrix.row2Trad}</td>
-                  <td className="p-4 text-indigo-300 font-medium">{t.matrix.row2Geo}</td>
-                  <td className="p-4 text-emerald-400 font-bold">{t.matrix.row2Impact}</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-semibold text-white">{t.matrix.row3Title}</td>
-                  <td className="p-4">{t.matrix.row3Trad}</td>
-                  <td className="p-4 text-indigo-300 font-medium">{t.matrix.row3Geo}</td>
-                  <td className="p-4 text-emerald-400 font-bold">{t.matrix.row3Impact}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </section>
 

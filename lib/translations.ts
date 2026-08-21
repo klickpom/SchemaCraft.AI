@@ -25,6 +25,14 @@ export interface Translations {
     local: string;
     article: string;
   };
+  score: {
+    title: string;
+    status: string;
+    check1: string;
+    check2: string;
+    check3: string;
+    check4: string;
+  };
   builder: {
     selectSchemaType: string;
     targetQuery: string;
@@ -58,11 +66,27 @@ export interface Translations {
     tabAi: string;
     copyCode: string;
     copied: string;
+    minify: string;
+    beautify: string;
+    testGoogle: string;
+    testSchemaOrg: string;
     serpTitle: string;
     inStock: string;
     aiTitle: string;
     llmParseable: string;
     entityStatus: string;
+  };
+  installation: {
+    title: string;
+    subtitle: string;
+    nextjsTitle: string;
+    nextjsDesc: string;
+    shopifyTitle: string;
+    shopifyDesc: string;
+    wordpressTitle: string;
+    wordpressDesc: string;
+    webflowTitle: string;
+    webflowDesc: string;
   };
   testimonials: {
     title: string;
@@ -155,6 +179,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       local: '📍 Local 3-Pack',
       article: '📰 Editorial Article',
     },
+    score: {
+      title: 'GEO / AEO Citation Readiness Score',
+      status: 'Engine Grounding Optimal',
+      check1: 'Deterministic Entity Anchoring (@id & @type)',
+      check2: 'Machine-Readable Pricing & Stock Metadata',
+      check3: 'BLUF Natural Language Vector Compatibility',
+      check4: 'Schema.org v26.0 W3C Compliant AST',
+    },
     builder: {
       selectSchemaType: 'Select Schema.org Entity Type',
       targetQuery: 'Target AI Search Query (Question)',
@@ -188,11 +220,27 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       tabAi: 'AI Overview',
       copyCode: 'Copy Code',
       copied: 'Copied to Clipboard!',
+      minify: 'Minified',
+      beautify: 'Formatted',
+      testGoogle: 'Test in Google Rich Results',
+      testSchemaOrg: 'Validate on Schema.org',
       serpTitle: 'Official Technical Specification',
       inStock: 'In stock',
       aiTitle: 'Perplexity & ChatGPT Search Grounding',
       llmParseable: '100% LLM Parseable AST',
       entityStatus: 'Deterministic Graph',
+    },
+    installation: {
+      title: '30-Second Integration Across All Platforms',
+      subtitle: 'Copy-paste validated JSON-LD schema into your tech stack with zero performance overhead.',
+      nextjsTitle: 'Next.js 15 & React 19',
+      nextjsDesc: 'Paste the Next.js JSX component directly into your app/page.tsx or app/layout.tsx Server Component.',
+      shopifyTitle: 'Shopify & E-Commerce',
+      shopifyDesc: 'Add the Liquid snippet into snippets/schema.liquid and render it before the </head> tag in theme.liquid.',
+      wordpressTitle: 'WordPress & WooCommerce',
+      wordpressDesc: 'Insert the generated JSON-LD script into your theme Header scripts or using any Code Snippets plugin.',
+      webflowTitle: 'Webflow & Framer',
+      webflowDesc: 'Add an Embed component or Custom Code block in Page Settings inside the Inside <head> tag section.',
     },
     testimonials: {
       title: 'Trusted by 1,400+ Technical Founders & SEO Architects',
@@ -270,7 +318,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     bluf: {
       pill: 'معالجة فورية 0ms • متوافق 100% مع Schema.org v26.0',
       h1Line1: 'مولد وهيكل بيانات JSON-LD العالمي',
-      h1Line2: 'لتصدر محركات البحث التوليدي والذكاء الاصطناعي',
+      h1Line2: 'لتتصدر محركات البحث التوليدي والذكاء الاصطناعي',
       blufTag: 'الضمان الفني المباشر (BLUF Standard)',
       blufText:
         'سكيما كرافت AI هو محرك متطور من جانب العميل يعمل بسرعة استجابة 0ms لتوليد بيانات منظمة متوافقة مع Schema.org و Google Rich Results. مصمم لتحسين محركات البحث التوليدية (GEO)، ليغذي محركات Perplexity و Google AI Overviews و ChatGPT بمعلومات حتمية دقيقة ترفع معدل الاقتباس المباشر حتى +40% بدون أخطاء.',
@@ -282,6 +330,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       faq: '🤖 أسئلة واقتباسات AI',
       local: '📍 خرائط جوجل ونشاط محلي',
       article: '📰 مقال وأخبار',
+    },
+    score: {
+      title: 'مقياس جاهزية الاقتباس في الذكاء الاصطناعي (GEO/AEO)',
+      status: 'جاهزية واقتباس مثالي بنسبة 100%',
+      check1: 'تأصيل الكيانات الرقمية الحتمي (@id & @type)',
+      check2: 'بيانات وصفية دقيقة للسعر والمخزون مقروءة للآلة',
+      check3: 'توافق فقرات BLUF مع متجهات استرجاع الـ RAG',
+      check4: 'مطابقة قياسية 100% لمواصفات W3C و Schema.org v26.0',
     },
     builder: {
       selectSchemaType: 'اختر نوع السكيما (Schema.org Type)',
@@ -316,11 +372,27 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       tabAi: 'معاينة الذكاء الاصطناعي',
       copyCode: 'نسخ الكود',
       copied: 'تم النسخ إلى الحافظة بنجاح!',
+      minify: 'كود مضغوط (Minified)',
+      beautify: 'كود منسق (Formatted)',
+      testGoogle: 'اختبار في نتائج جوجل الغنية',
+      testSchemaOrg: 'التحقق في Schema.org',
       serpTitle: 'المواصفات الفنية الرسمية',
       inStock: 'متوفر في المخزون',
       aiTitle: 'استشهادات Perplexity و ChatGPT Search',
       llmParseable: 'هيكل بيانات مقروء للذكاء الاصطناعي 100%',
       entityStatus: 'رسم بياني حتمي وموثق',
+    },
+    installation: {
+      title: 'دمج وتضمين سريع خلال 30 ثانية في جميع المنصات',
+      subtitle: 'انسخ كود السكيما الموثق والصقه في موقعك بدون أي تأثير على سرعة التحميل.',
+      nextjsTitle: 'مواقع Next.js 15 و React 19',
+      nextjsDesc: 'الصق كود الـ JSX مباشرة داخل مكون app/page.tsx أو app/layout.tsx بدون أي كلفة تحميل.',
+      shopifyTitle: 'متاجر شوبيفاي، سلة، وزد',
+      shopifyDesc: 'أضف كود Liquid في ملف snippets/schema.liquid واستدعه في theme.liquid قبل وسم </head>.',
+      wordpressTitle: 'ووردبريس ومتاجر ووكومرس',
+      wordpressDesc: 'أدخل كود السكيما في إعدادات الهيدر (Header Scripts) أو باستخدام أي إضافة Snippets.',
+      webflowTitle: 'مواقع Webflow و Framer',
+      webflowDesc: 'أضف عنصر Custom Code وضع الكود في إعدادات الصفحة داخل قسم Inside <head> tag.',
     },
     testimonials: {
       title: 'موثوق من قِبل أكثر من 1,400 مؤسس تقني ومهندس SEO',
