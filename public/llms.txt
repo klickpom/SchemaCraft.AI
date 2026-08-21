@@ -1,0 +1,34 @@
+# SchemaCraft AI
+
+> Real-Time AI Search Visibility Auditor, Technical SEO Diagnostics & Context-Aware Schema.org Generator.
+
+## About SchemaCraft AI
+SchemaCraft AI (https://schemacraft-ai.site) is a deterministic audit platform designed to analyze, score, and optimize websites for traditional search engines (Google, Bing) and next-generation Generative AI search engines (ChatGPT Search, Perplexity AI, Google AI Overviews, Claude, Gemini).
+
+## Key Diagnostic Modules
+- **Technical SEO & Canonical Audits**: Indexability gates, HTTP headers, canonical URL integrity, redirect chains, mobile viewport compliance.
+- **Crawlability & AI Bot Directives**: Robots.txt verification for standard web crawlers and AI search agents (GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended, Applebot-Extended).
+- **Content Answerability & Structure (BLUF)**: Primary heading (H1) detection, lead section density, meta descriptions, FAQ extraction.
+- **Entity & Schema.org Graph Diagnostics**: JSON-LD semantic structured data extraction, entity relation graphs, missing rich snippet opportunities.
+- **AI Search Opportunity Matrix**: Custom prompt and query visibility analysis, predictive search triggers.
+
+## Platform-Specific Remediation Engines
+- **Next.js 15 App Router**: TypeScript metadata exports, dynamic JSON-LD injection, server sitemaps (`app/sitemap.ts`), and security headers.
+- **WordPress**: Functions.php hooks, wp_head schema filters, RankMath/Yoast integrations, `.htaccess` caching rules.
+- **Shopify**: Liquid theme templates (`theme.liquid`), JSON-LD product/collection schemas, CDN bypasses.
+
+## Programmatic Schema Endpoints
+- [Shopify Product Schema Generator](https://schemacraft-ai.site/schema/shopify-product/)
+- [Next.js SoftwareApplication Schema Generator](https://schemacraft-ai.site/schema/nextjs-software/)
+- [SaaS FAQPage Rich Snippet Schema](https://schemacraft-ai.site/schema/saas-faq/)
+- [Local Business SEO Schema](https://schemacraft-ai.site/schema/local-seo-schema/)
+- [Course & Educational Structured Data](https://schemacraft-ai.site/schema/course-education-schema/)
+- [Article & Google Discover Schema](https://schemacraft-ai.site/schema/article-google-discover-schema/)
+
+## Canonical Information
+- Website: https://schemacraft-ai.site
+- Sitemap: https://schemacraft-ai.site/sitemap.xml
+- Robots: https://schemacraft-ai.site/robots.txt
+- Pricing: $9.00 USD (Lifetime Single Audit & Fix Generator Access)
+- Guarantee: 30-Day Money-Back Guarantee
+- Support: support@schemacraft-ai.site
