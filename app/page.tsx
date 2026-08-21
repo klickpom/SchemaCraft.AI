@@ -906,6 +906,68 @@ export default function Home() {
               </div>
             )}
 
+            {/* Transparent ROI & Value Comparison Section */}
+            <section className="rounded-3xl border border-white/10 bg-gradient-to-b from-[#11111a] to-[#0a0a0f] p-6 sm:p-8 space-y-6 shadow-2xl">
+              <div className="space-y-1.5 text-center max-w-2xl mx-auto">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-bold text-cyan-300">
+                  <Zap className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>{t.roiComparison.badge}</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  {t.roiComparison.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-400">
+                  {t.roiComparison.subtitle}
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left rtl:text-right border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/10 text-slate-400 uppercase font-mono text-[10px] tracking-wider">
+                      <th className="py-3 px-4 font-bold">{t.roiComparison.colFeature}</th>
+                      <th className="py-3 px-4 text-slate-400">{t.roiComparison.colAgency}</th>
+                      <th className="py-3 px-4 text-cyan-300 bg-indigo-950/40 rounded-t-xl border-t border-x border-indigo-500/30 font-bold">{t.roiComparison.colSchemaCraft}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowCost}</td>
+                      <td className="py-3 px-4 text-rose-300/80">{t.roiComparison.rowCostAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-indigo-500/30">{t.roiComparison.rowCostSchemaCraft}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowTime}</td>
+                      <td className="py-3 px-4 text-slate-400">{t.roiComparison.rowTimeAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-indigo-500/30">{t.roiComparison.rowTimeSchemaCraft}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowCoverage}</td>
+                      <td className="py-3 px-4 text-slate-400">{t.roiComparison.rowCoverageAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-indigo-500/30">{t.roiComparison.rowCoverageSchemaCraft}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowGuarantee}</td>
+                      <td className="py-3 px-4 text-rose-300/80">{t.roiComparison.rowGuaranteeAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-b border-indigo-500/30 rounded-b-xl">{t.roiComparison.rowGuaranteeSchemaCraft}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {!isProUnlocked && (
+                <div className="text-center pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowPaywall(true)}
+                    className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 text-white font-black text-xs sm:text-sm shadow-xl shadow-indigo-500/30 active:scale-95 transition cursor-pointer cta-glow-pulse"
+                  >
+                    {t.lockedSection.ctaUnlockAll}
+                  </button>
+                </div>
+              )}
+            </section>
+
             {/* Agency Sales Weapon Banner */}
             <section className="rounded-2xl border border-white/10 bg-[#0b0b10] p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
@@ -1177,6 +1239,34 @@ export default function Home() {
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Sticky Bottom Floating Quick-Unlock Bar */}
+      {report && !isScanning && !isProUnlocked && (
+        <div className="fixed bottom-3 inset-x-3 sm:bottom-5 sm:inset-x-auto sm:right-6 sm:max-w-md z-40 animate-in slide-in-from-bottom duration-300">
+          <div className="p-3 sm:p-4 rounded-2xl border border-indigo-500/50 bg-[#0d0d16]/95 backdrop-blur-xl shadow-2xl shadow-black/80 flex items-center justify-between gap-3">
+            <div className="space-y-0.5 min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
+                <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300 truncate">
+                  {t.stickyBar.badge}
+                </span>
+              </div>
+              <p className="text-xs text-white font-medium truncate">
+                {lang === 'ar'
+                  ? `${report.allIssues.length} مشكلة مكتشفة • جاهزة للإصلاح`
+                  : `${report.allIssues.length} issues detected • ready to fix`}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowPaywall(true)}
+              className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 text-white font-bold text-xs shadow-lg shadow-indigo-500/30 active:scale-95 transition cursor-pointer shrink-0 cta-glow-pulse"
+            >
+              {t.stickyBar.cta}
+            </button>
           </div>
         </div>
       )}

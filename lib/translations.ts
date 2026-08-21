@@ -100,6 +100,32 @@ export interface Translations {
     subtitle: string;
     generateFix: string;
   };
+  stickyBar: {
+    badge: string;
+    text: string;
+    cta: string;
+    guarantee: string;
+  };
+  roiComparison: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    colFeature: string;
+    colAgency: string;
+    colSchemaCraft: string;
+    rowCost: string;
+    rowCostAgency: string;
+    rowCostSchemaCraft: string;
+    rowTime: string;
+    rowTimeAgency: string;
+    rowTimeSchemaCraft: string;
+    rowCoverage: string;
+    rowCoverageAgency: string;
+    rowCoverageSchemaCraft: string;
+    rowGuarantee: string;
+    rowGuaranteeAgency: string;
+    rowGuaranteeSchemaCraft: string;
+  };
   knowledge: {
     badge: string;
     h2: string;
@@ -228,6 +254,32 @@ export const translations: Record<Language, Translations> = {
       subtitle: 'Click on any issue to view exact code fixes for WordPress, Next.js, and Shopify',
       generateFix: 'Generate Platform Fix',
     },
+    stickyBar: {
+      badge: 'Critical Optimization Pass',
+      text: 'Instant 1-click code fixes for all detected issues on your website.',
+      cta: 'Fix My Website — $9',
+      guarantee: '30-Day Money-Back Guarantee',
+    },
+    roiComparison: {
+      badge: 'Transparent ROI & Value Comparison',
+      title: 'Why Pay $300+ to an Agency When You Can Fix It in 60s?',
+      subtitle: 'Compare the real cost, speed, and accuracy of diagnosing and fixing your website for Google & AI search engines:',
+      colFeature: 'Capability / Metric',
+      colAgency: 'Traditional Agency / $129/mo SEO Tool',
+      colSchemaCraft: 'SchemaCraft AI (Lifetime Pass)',
+      rowCost: 'Investment Model',
+      rowCostAgency: '$150/hr or $129/mo recurring subscription',
+      rowCostSchemaCraft: '$9.00 One-Time Lifetime Pass (Zero Subscriptions)',
+      rowTime: 'Time to Resolution',
+      rowTimeAgency: '2 to 4 weeks of consultations & manual tickets',
+      rowTimeSchemaCraft: 'Instant 60 seconds with production-ready copy-paste code',
+      rowCoverage: 'Generative AI & GEO Coverage',
+      rowCoverageAgency: 'Rarely addressed (Legacy 2018 SEO methods only)',
+      rowCoverageSchemaCraft: '100% Optimized for ChatGPT Search, Perplexity & Google AI',
+      rowGuarantee: 'Risk & Satisfaction',
+      rowGuaranteeAgency: 'Locked retainer contracts with zero refunds',
+      rowGuaranteeSchemaCraft: '100% Unconditional 30-Day Money-Back Guarantee',
+    },
     knowledge: {
       badge: 'Authoritative 2026 Knowledge Standard',
       h2: 'How Search Engines and AI Understand Websites in 2026',
@@ -353,6 +405,32 @@ export const translations: Record<Language, Translations> = {
       title: 'جميع المشاكل وفرص التحسين المكتشفة',
       subtitle: 'انقر على أي مشكلة للحصول على كود الإصلاح المباشر لمنصتك',
       generateFix: 'توليد كود الإصلاح',
+    },
+    stickyBar: {
+      badge: 'تحسين تقني فوري متاح',
+      text: 'احصل فوراً على أكواد الإصلاح الجاهزة لجميع المشاكل المكتشفة في موقعك.',
+      cta: 'أصلح موقعي الآن — $9',
+      guarantee: 'ضمان استرجاع كامل 30 يوماً',
+    },
+    roiComparison: {
+      badge: 'مقارنة القيمة والعائد المباشر على الاستثمار',
+      title: 'لماذا تدفع 300$+ لوكالة أو مطور بينما يمكنك إصلاح كل شيء في 60 ثانية؟',
+      subtitle: 'قارن بين تكلفة وسرعة ودقة تشخيص وإصلاح موقعك للظهور في جوجل والذكاء الاصطناعي:',
+      colFeature: 'الميزة / المعيار',
+      colAgency: 'الوكالات التقليدية / أدوات السيو (129$/شهر)',
+      colSchemaCraft: 'SchemaCraft AI (تصريح مدى الحياة)',
+      rowCost: 'طريقة الدفع والتكلفة',
+      rowCostAgency: '150$/ساعة أو 129$/شهرياً باشتراك متكرر',
+      rowCostSchemaCraft: '9.00$ فقط لمرة واحدة مدى الحياة (بدون أي اشتراك)',
+      rowTime: 'سرعة الحصول على الحل',
+      rowTimeAgency: 'من أسبوعين إلى 4 أسابيع من الانتظار والتواصل',
+      rowTimeSchemaCraft: 'فوري في 60 ثانية بأكواد جاهزة للنسخ واللصق',
+      rowCoverage: 'التوافق مع بحث الذكاء الاصطناعي (GEO)',
+      rowCoverageAgency: 'نادر جداً (طرق سيو تقليدية قديمة لا تشمل محركات الذكاء الاصطناعي)',
+      rowCoverageSchemaCraft: '100% مخصص لـ ChatGPT Search و Perplexity وبحث جوجل الحديث',
+      rowGuarantee: 'الضمان وحماية المخاطر',
+      rowGuaranteeAgency: 'عقود ملزمة وغير قابلة للاسترداد',
+      rowGuaranteeSchemaCraft: 'ضمان استرجاع الأموال بنسبة 100% لمدة 30 يوماً بدون أي أسئلة',
     },
     knowledge: {
       badge: 'المرجع التقني المعتمد لعام 2026',
