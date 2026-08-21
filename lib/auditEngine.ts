@@ -777,7 +777,7 @@ function generateAIOpportunities(siteType: string, url: string): AIOpportunity[]
 /**
  * Helper to fetch with strict timeout
  */
-async function fetchWithTimeout(url: string, timeoutMs = 2200): Promise<Response> {
+async function fetchWithTimeout(url: string, timeoutMs = 3000): Promise<Response> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -794,8 +794,8 @@ async function fetchWithTimeout(url: string, timeoutMs = 2200): Promise<Response
 }
 
 /**
- * Real Live Web Crawler & DOM Parser with Strict Timeout Protection
- * Fetches target website HTML and robots.txt in parallel and extracts authentic raw evidence.
+ * Multi-Strategy Real Live Web Crawler & DOM Parser
+ * Fetches target website HTML and robots.txt using direct fetch, same-origin optimization, and proxy racing.
  */
 export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence> {
   let html = '';
@@ -812,32 +812,70 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     origin = targetUrl;
   }
 
-  // 1. Fetch HTML and robots.txt in parallel with fast 2.2s timeout
-  const proxyHtmlUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
-  const proxyRobotsUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`${origin}/robots.txt`)}`;
+  const isSameOrigin = typeof window !== 'undefined' && (
+    window.location.origin === origin ||
+    targetUrl.includes(window.location.hostname) ||
+    window.location.hostname === 'localhost'
+  );
 
-  try {
-    const [htmlRes, robotsRes] = await Promise.allSettled([
-      fetchWithTimeout(proxyHtmlUrl, 2200),
-      fetchWithTimeout(proxyRobotsUrl, 2000),
-    ]);
+  // Strategy 1: If same origin or current site, direct fetch with zero proxy
+  if (isSameOrigin) {
+    try {
+      const res = await fetch(targetUrl);
+      if (res.ok) {
+        html = await res.text();
+        httpStatus = res.status;
+      }
+    } catch (e) {}
 
-    if (htmlRes.status === 'fulfilled' && htmlRes.value.ok) {
-      html = await htmlRes.value.text();
-      httpStatus = htmlRes.value.status;
+    try {
+      const resRobots = await fetch('/robots.txt');
+      if (resRobots.ok) {
+        robotsTxtContent = await resRobots.text();
+        if (robotsTxtContent && robotsTxtContent.toLowerCase().includes('user-agent')) {
+          robotsTxtFound = true;
+        }
+      }
+    } catch (e) {}
+  }
+
+  // Strategy 2: For external URLs, race multiple fast proxies in parallel
+  if (!html || html.length < 50) {
+    const proxyList = [
+      `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
+    ];
+
+    try {
+      const racePromises = proxyList.map((pUrl) =>
+        fetchWithTimeout(pUrl, 2800)
+          .then((r) => (r.ok ? r.text() : Promise.reject('Not OK')))
+      );
+      html = await Promise.any(racePromises);
+    } catch (e) {
+      potentialBotBarrier = true;
     }
 
-    if (robotsRes.status === 'fulfilled' && robotsRes.value.ok) {
-      robotsTxtContent = await robotsRes.value.text();
+    // Fetch robots.txt via proxy race
+    const robotsProxyList = [
+      `https://corsproxy.io/?url=${encodeURIComponent(`${origin}/robots.txt`)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(`${origin}/robots.txt`)}`,
+    ];
+
+    try {
+      const robotsRace = robotsProxyList.map((pUrl) =>
+        fetchWithTimeout(pUrl, 2500)
+          .then((r) => (r.ok ? r.text() : Promise.reject('Not OK')))
+      );
+      robotsTxtContent = await Promise.any(robotsRace);
       if (robotsTxtContent && robotsTxtContent.toLowerCase().includes('user-agent')) {
         robotsTxtFound = true;
       }
-    }
-  } catch (e) {
-    potentialBotBarrier = true;
+    } catch (e) {}
   }
 
-  // 2. Real DOM Parser
+  // 3. Real DOM Parser
   let title: string | null = null;
   let metaDescription: string | null = null;
   let canonicalUrl: string | null = null;

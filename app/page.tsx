@@ -477,6 +477,48 @@ export default function Home() {
 
               </div>
 
+              {/* Live Extracted Real Data Transparency Card */}
+              <div className="mt-6 p-4 rounded-2xl border border-cyan-500/20 bg-cyan-950/15 space-y-3">
+                <div className="flex items-center justify-between text-xs font-bold text-cyan-300">
+                  <span className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-cyan-400" />
+                    {lang === 'ar' ? 'البيانات الحقيقية المستخرجة مباشرة من كود الصفحة:' : 'Live Data Extracted Directly From Target HTML:'}
+                  </span>
+                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold">
+                    100% Live Crawl
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                      {lang === 'ar' ? 'عنوان الصفحة الفعلي (<title>):' : 'Live Page Title (<title>):'}
+                    </span>
+                    <p className="font-mono text-[11px] text-white truncate">
+                      {report.evidence.title || 'Not found'}
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                      {lang === 'ar' ? 'العنوان الرئيسي الفعلي (<h1>):' : 'Live Primary Heading (<h1>):'}
+                    </span>
+                    <p className="font-mono text-[11px] text-white truncate">
+                      {report.evidence.h1Tags[0] || 'No <h1> detected'}
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1 md:col-span-2">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                      {lang === 'ar' ? 'الوصف التعريفي الفعلي (<meta description>):' : 'Live Meta Description:'}
+                    </span>
+                    <p className="font-mono text-[11px] text-slate-300 line-clamp-2">
+                      {report.evidence.metaDescription || 'No meta description found'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Raw Evidence Ledger Accordion */}
               <div className="mt-8 pt-6 border-t border-white/10">
                 <button
