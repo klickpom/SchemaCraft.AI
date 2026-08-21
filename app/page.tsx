@@ -823,7 +823,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
               
               <div className="space-y-4">
                 {/* Luxury Custom Schema Type Select */}
-                <div className="relative z-40">
+                <div className="relative z-30">
                   <CustomSelect
                     label={t.builder.selectSchemaType}
                     options={schemaTypeOptions}
@@ -854,7 +854,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
                         />
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10">
                         <div className="space-y-1.5">
                           <label className="block text-slate-300 font-semibold">{t.builder.courseProvider}</label>
                           <input
@@ -895,7 +895,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                         />
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10">
                         <div className="space-y-1.5">
                           <label className="block text-slate-300 font-semibold">{t.builder.eventDate}</label>
                           <input
@@ -1021,7 +1021,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                       </div>
 
                       {schemaType === "SoftwareApplication" && (
-                        <div className="relative z-30">
+                        <div className="relative z-20">
                           <CustomSelect
                             label={t.builder.appCategory}
                             options={categoryOptions}
@@ -1042,7 +1042,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                       </div>
 
                       {/* Price & Currency */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10">
                         <div className="space-y-1.5">
                           <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
                           <input
@@ -1052,12 +1052,13 @@ ${JSON.stringify(generatedSchema, null, 2)}
                             className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                           />
                         </div>
-                        <div className="relative z-30">
+                        <div className="relative z-10">
                           <CustomSelect
                             label={t.builder.currency}
                             options={currencyOptions}
                             value={formData.currency}
                             onChange={(val) => handleInputChange("currency", val)}
+                            dropUp={true}
                           />
                         </div>
                       </div>

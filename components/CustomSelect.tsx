@@ -62,7 +62,7 @@ export function CustomSelect({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full ${isOpen ? "z-50" : "z-20"} ${className}`}
+      className={`relative w-full ${isOpen ? "z-50" : "z-10"} ${className}`}
     >
       {label && (
         <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
@@ -76,13 +76,13 @@ export function CustomSelect({
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full flex items-center justify-between gap-2.5 rounded-xl border px-3.5 py-2.5 text-xs text-left rtl:text-right transition-all duration-200 cursor-pointer ${
           isOpen
-            ? "border-indigo-500 bg-[#161622] ring-2 ring-indigo-500/20 shadow-xl shadow-indigo-500/10 text-white"
+            ? "border-indigo-500 bg-[#1a1a28] ring-2 ring-indigo-500/30 shadow-2xl text-white"
             : "border-white/[0.12] bg-[#121218] hover:bg-[#16161f] hover:border-white/20 text-slate-200"
         }`}
       >
         <div className="flex items-center gap-2.5 truncate min-w-0">
           {selectedOption?.icon && (
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-cyan-300">
+            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-indigo-500/20 border border-indigo-500/40 text-cyan-300">
               {React.createElement(selectedOption.icon, { className: "w-3.5 h-3.5" })}
             </div>
           )}
@@ -100,7 +100,7 @@ export function CustomSelect({
 
         <div className="flex items-center gap-1.5 shrink-0 ml-1 rtl:mr-1 rtl:ml-0">
           {selectedOption?.badge && (
-            <span className="hidden sm:inline-flex rounded-md bg-indigo-500/10 border border-indigo-500/20 px-1.5 py-0.5 text-[9px] font-medium text-indigo-300">
+            <span className="hidden sm:inline-flex rounded-md bg-indigo-500/15 border border-indigo-500/30 px-1.5 py-0.5 text-[9px] font-medium text-indigo-300">
               {selectedOption.badge}
             </span>
           )}
@@ -112,10 +112,10 @@ export function CustomSelect({
         </div>
       </button>
 
-      {/* Floating Dropdown Popover */}
+      {/* Solid Opaque Floating Dropdown Popover with backdrop shadow */}
       {isOpen && (
         <div
-          className={`absolute left-0 right-0 z-50 rounded-xl border border-white/20 bg-[#14141e] shadow-2xl p-1.5 space-y-0.5 animate-in fade-in zoom-in-95 duration-150 max-h-60 overflow-y-auto ${
+          className={`absolute left-0 right-0 z-[100] rounded-xl border border-white/20 bg-[#161622] shadow-[0_20px_50px_rgba(0,0,0,0.9)] p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 max-h-64 overflow-y-auto ${
             dropUp ? "bottom-full mb-1.5" : "top-full mt-1.5"
           }`}
         >
@@ -132,7 +132,7 @@ export function CustomSelect({
                 }}
                 className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all duration-150 group ${
                   isSelected
-                    ? "bg-indigo-600/30 border border-indigo-500/50 text-white"
+                    ? "bg-indigo-600/40 border border-indigo-500/60 text-white shadow-sm"
                     : "hover:bg-white/[0.08] text-slate-300 hover:text-white"
                 }`}
               >
@@ -142,7 +142,7 @@ export function CustomSelect({
                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border transition-colors ${
                         isSelected
                           ? "bg-indigo-500/30 border-indigo-400/50 text-cyan-300"
-                          : "bg-white/[0.04] border-white/5 text-slate-400 group-hover:text-cyan-300 group-hover:border-white/10"
+                          : "bg-white/[0.04] border-white/10 text-slate-400 group-hover:text-cyan-300 group-hover:border-white/20"
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" />
@@ -154,13 +154,13 @@ export function CustomSelect({
                         {option.label}
                       </span>
                       {option.badge && (
-                        <span className="rounded bg-white/[0.06] border border-white/10 px-1.5 py-0.2 text-[9px] text-slate-400">
+                        <span className="rounded bg-white/[0.08] border border-white/15 px-1.5 py-0.5 text-[9px] text-slate-300">
                           {option.badge}
                         </span>
                       )}
                     </div>
                     {option.description && (
-                      <p className="text-[10px] text-slate-400 group-hover:text-slate-300 truncate mt-0.5">
+                      <p className="text-[10px] text-slate-400 group-hover:text-slate-200 truncate mt-0.5">
                         {option.description}
                       </p>
                     )}
