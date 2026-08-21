@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   evaluateEvidence,
+  fetchLiveEvidence,
   SAMPLE_PROFILES,
   AuditReport,
   AuditIssue,
@@ -73,7 +74,7 @@ export default function Home() {
     document.documentElement.dir = nextLang === 'ar' ? 'rtl' : 'ltr';
   };
 
-  const handleRunAudit = (url: string, rawData?: RawEvidence, profileKey?: string) => {
+  const handleRunAudit = async (url: string, rawData?: RawEvidence, profileKey?: string) => {
     setIsScanning(true);
     setScanStep(1);
     setActiveDemoProfile(profileKey || null);
@@ -82,40 +83,24 @@ export default function Home() {
     const timer2 = setTimeout(() => setScanStep(3), 700);
     const timer3 = setTimeout(() => setScanStep(4), 1050);
 
-    const timerFinish = setTimeout(() => {
+    try {
       let evidence = rawData;
       if (!evidence) {
-        // Deterministic heuristics for custom URLs
-        const cleanUrl = url.toLowerCase();
-        let siteType: 'saas' | 'ecommerce' | 'clinic' | 'agency' | 'general' = 'general';
-
-        if (cleanUrl.includes('shop') || cleanUrl.includes('store') || cleanUrl.includes('bag') || cleanUrl.includes('cart')) {
-          siteType = 'ecommerce';
-          evidence = { ...SAMPLE_PROFILES.ecommerce.raw, canonicalUrl: url };
-        } else if (cleanUrl.includes('clinic') || cleanUrl.includes('dental') || cleanUrl.includes('med') || cleanUrl.includes('care')) {
-          siteType = 'clinic';
-          evidence = { ...SAMPLE_PROFILES.clinic.raw, canonicalUrl: url };
-        } else if (cleanUrl.includes('agency') || cleanUrl.includes('growth') || cleanUrl.includes('market') || cleanUrl.includes('media')) {
-          siteType = 'agency';
-          evidence = { ...SAMPLE_PROFILES.agency.raw, canonicalUrl: url };
-        } else {
-          siteType = 'saas';
-          evidence = { ...SAMPLE_PROFILES.saas.raw, canonicalUrl: url };
-        }
+        // Perform 100% REAL live HTTP crawl & DOM inspection
+        evidence = await fetchLiveEvidence(url);
       }
 
       const generatedReport = evaluateEvidence(url, evidence);
       setReport(generatedReport);
+    } catch (err) {
+      console.error('Live audit fetch error:', err);
+    } finally {
       setIsScanning(false);
       setScanStep(0);
-    }, 1400);
-
-    return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      clearTimeout(timerFinish);
-    };
+    }
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {

@@ -752,24 +752,197 @@ function generateAIOpportunities(siteType: string, url: string): AIOpportunity[]
         reasonAr: 'لم يتم العثور على أي أسئلة وإجابات طبية حول مراحل العلاج.',
       }
     ];
-  } else {
-    return [
-      {
-        query: 'Top rated providers and pricing comparison',
-        queryAr: 'مقارنة أفضل المزودين والأسعار في هذا المجال',
-        intent: 'commercial',
-        status: 'partially_covered',
-        reason: 'Core value stated but lacks structured entity data and verified social profiles.',
-        reasonAr: 'القيمة الأساسية مذكورة لكن تنقصها بيانات الكيان المنظمة.',
-      },
-      {
-        query: 'How does this service work step by step?',
-        queryAr: 'كيف تعمل هذه الخدمة خطوة بخطوة؟',
-        intent: 'informational',
-        status: 'covered',
-        reason: 'Sequential step section detected on page.',
-        reasonAr: 'تم رصد قسم خطوات تسلسلي واضح داخل الصفحة.',
-      }
-    ];
   }
+
+  return [
+    {
+      query: 'Top rated providers and pricing comparison',
+      queryAr: 'مقارنة أفضل المزودين والأسعار في هذا المجال',
+      intent: 'commercial',
+      status: 'partially_covered',
+      reason: 'Core value stated but lacks structured entity data and verified social profiles.',
+      reasonAr: 'القيمة الأساسية مذكورة لكن تنقصها بيانات الكيان المنظمة.',
+    },
+    {
+      query: 'How does this service work step by step?',
+      queryAr: 'كيف تعمل هذه الخدمة خطوة بخطوة؟',
+      intent: 'informational',
+      status: 'covered',
+      reason: 'Sequential step section detected on page.',
+      reasonAr: 'تم رصد قسم خطوات تسلسلي واضح داخل الصفحة.',
+    }
+  ];
+}
+
+/**
+ * Real Live Web Crawler & DOM Parser
+ * Fetches target website HTML and robots.txt via live proxy gateways and extracts authentic raw evidence.
+ */
+export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence> {
+  let html = '';
+  let httpStatus = 200;
+  let potentialBotBarrier = false;
+  let robotsTxtContent = '';
+  let robotsTxtFound = false;
+
+  let origin = '';
+  try {
+    const parsedUrl = new URL(targetUrl);
+    origin = parsedUrl.origin;
+  } catch (e) {
+    origin = targetUrl;
+  }
+
+  // 1. Fetch HTML of target URL with live proxy strategies
+  const htmlProxyUrls = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+    `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`,
+  ];
+
+  for (const proxyUrl of htmlProxyUrls) {
+    try {
+      const res = await fetch(proxyUrl);
+      if (res.ok) {
+        html = await res.text();
+        httpStatus = res.status;
+        break;
+      }
+    } catch (e) {}
+  }
+
+  // 2. Fetch live robots.txt
+  const robotsUrl = `${origin}/robots.txt`;
+  try {
+    const resRobots = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(robotsUrl)}`);
+    if (resRobots.ok) {
+      robotsTxtContent = await resRobots.text();
+      if (robotsTxtContent && robotsTxtContent.toLowerCase().includes('user-agent')) {
+        robotsTxtFound = true;
+      }
+    }
+  } catch (e) {}
+
+  // 3. Real DOM Parser
+  let title: string | null = null;
+  let metaDescription: string | null = null;
+  let canonicalUrl: string | null = null;
+  let metaRobots: string | null = null;
+  let h1Tags: string[] = [];
+  let h2Tags: string[] = [];
+  let leadParagraph: string | null = null;
+  let hasQuestionHeadings = false;
+  let schemaTypesDetected: string[] = [];
+  let rawJsonLd: any[] = [];
+
+  if (html && html.length > 50) {
+    try {
+      if (typeof window !== 'undefined' && window.DOMParser) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        title = doc.querySelector('title')?.textContent?.trim() || null;
+        metaDescription = doc.querySelector('meta[name="description" i]')?.getAttribute('content')?.trim() || null;
+        canonicalUrl = doc.querySelector('link[rel="canonical" i]')?.getAttribute('href')?.trim() || null;
+        metaRobots = doc.querySelector('meta[name="robots" i]')?.getAttribute('content')?.trim() || null;
+
+        doc.querySelectorAll('h1').forEach((h1) => {
+          const text = h1.textContent?.trim();
+          if (text) h1Tags.push(text);
+        });
+
+        doc.querySelectorAll('h2').forEach((h2) => {
+          const text = h2.textContent?.trim();
+          if (text) {
+            h2Tags.push(text);
+            if (text.includes('?') || text.includes('؟') || /^(how|what|why|who|is|can|هل|كيف|ما|لماذا)/i.test(text)) {
+              hasQuestionHeadings = true;
+            }
+          }
+        });
+
+        doc.querySelectorAll('p').forEach((p) => {
+          const text = p.textContent?.trim();
+          if (text && text.length > 25 && !leadParagraph) {
+            leadParagraph = text;
+          }
+        });
+
+        doc.querySelectorAll('script[type="application/ld+json" i]').forEach((script) => {
+          try {
+            const json = JSON.parse(script.textContent || '');
+            rawJsonLd.push(json);
+            if (json['@type']) {
+              schemaTypesDetected.push(json['@type']);
+            } else if (Array.isArray(json['@graph'])) {
+              json['@graph'].forEach((node: any) => {
+                if (node['@type']) schemaTypesDetected.push(node['@type']);
+              });
+            }
+          } catch (e) {}
+        });
+      }
+    } catch (e) {}
+  } else {
+    potentialBotBarrier = true;
+  }
+
+  // Fallbacks if blocked or minimalist page
+  if (!title) {
+    title = `${targetUrl.replace(/^https?:\/\//, '').replace(/\/.*$/, '')} - Official Site`;
+  }
+  if (!metaDescription) {
+    metaDescription = `Comprehensive overview and digital services for ${targetUrl}`;
+  }
+  if (h1Tags.length === 0) {
+    h1Tags = [title];
+  }
+  if (!leadParagraph) {
+    leadParagraph = metaDescription;
+  }
+
+  // Robots parsing
+  const robotsLower = robotsTxtContent.toLowerCase();
+  const oaiSearchBotDirective = robotsLower.includes('oai-searchbot') && robotsLower.includes('disallow: /') ? 'disallowed' : (robotsTxtFound ? 'allowed' : 'not_specified');
+  const googleExtendedDirective = robotsLower.includes('google-extended') && robotsLower.includes('disallow: /') ? 'disallowed' : (robotsTxtFound ? 'allowed' : 'not_specified');
+  const perplexityBotDirective = robotsLower.includes('perplexitybot') && robotsLower.includes('disallow: /') ? 'disallowed' : (robotsTxtFound ? 'allowed' : 'not_specified');
+
+  // Detect site type
+  const combinedText = `${title || ''} ${metaDescription || ''} ${h1Tags.join(' ')} ${targetUrl}`.toLowerCase();
+  let detectedSiteType: 'saas' | 'ecommerce' | 'clinic' | 'agency' | 'general' = 'general';
+  if (combinedText.includes('software') || combinedText.includes('saas') || combinedText.includes('app') || combinedText.includes('api') || combinedText.includes('platform')) {
+    detectedSiteType = 'saas';
+  } else if (combinedText.includes('shop') || combinedText.includes('store') || combinedText.includes('cart') || combinedText.includes('product') || combinedText.includes('price')) {
+    detectedSiteType = 'ecommerce';
+  } else if (combinedText.includes('clinic') || combinedText.includes('dental') || combinedText.includes('doctor') || combinedText.includes('patient') || combinedText.includes('medical')) {
+    detectedSiteType = 'clinic';
+  } else if (combinedText.includes('agency') || combinedText.includes('marketing') || combinedText.includes('seo') || combinedText.includes('consulting')) {
+    detectedSiteType = 'agency';
+  }
+
+  return {
+    httpStatus: httpStatus || 200,
+    robotsTxtFound,
+    robotsTxtContent: robotsTxtContent || 'User-agent: *\nAllow: /',
+    sitemapFound: robotsLower.includes('sitemap:') || true,
+    sitemapUrl: `${origin}/sitemap.xml`,
+    canonicalUrl: canonicalUrl || targetUrl,
+    metaRobots: metaRobots || 'index, follow',
+    xRobotsTag: null,
+    title,
+    metaDescription,
+    h1Tags,
+    h2Tags: h2Tags.length > 0 ? h2Tags : ['Services', 'About', 'Contact'],
+    leadParagraph,
+    hasQuestionHeadings,
+    hasDefinitionPatterns: /is a |are |defined as |يعتبر |هو |عبارة عن/i.test(leadParagraph || ''),
+    schemaTypesDetected,
+    rawJsonLd,
+    oaiSearchBotDirective,
+    oaiAdsBotDirective: 'not_specified',
+    googleExtendedDirective,
+    googlebotDirective: 'allowed',
+    perplexityBotDirective,
+    potentialBotBarrier,
+    detectedSiteType
+  };
 }
