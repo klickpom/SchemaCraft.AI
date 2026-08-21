@@ -36,12 +36,8 @@ import {
   Award,
   ShieldAlert,
   Flame,
-  CheckSquare,
-  Share2,
-  Maximize2,
-  Minimize2,
-  Laptop,
-  CheckCircle,
+  GraduationCap,
+  Calendar,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -57,7 +53,7 @@ const STORAGE_KEYS = {
 };
 
 const DEFAULT_FORM_DATA = {
-  name: "ApexFlow SaaS",
+  name: "ApexFlow SaaS Engine",
   description: "Automated real-time data sync and workflow orchestration platform for enterprise engineering teams.",
   url: "https://apexflow.io",
   price: "49.00",
@@ -76,6 +72,12 @@ const DEFAULT_FORM_DATA = {
   telephone: "+1 (415) 555-0199",
   headline: "The 2026 Architectural Guide to Generative Engine Optimization",
   articleSummary: "Comprehensive benchmark analysis on how deterministic Schema.org graph entities improve retrieval-augmented generation accuracy.",
+  courseTitle: "Mastering GEO & Knowledge Graph Engineering",
+  courseDescription: "Advanced engineering masterclass on feeding deterministic JSON-LD entity structures directly to Perplexity, ChatGPT Search, and Gemini LLMs.",
+  courseProvider: "SchemaCraft Academy Global",
+  eventName: "Global Generative Engine Optimization Summit 2026",
+  eventDate: "2026-11-15",
+  eventLocation: "https://schemacraft-ai.site/summit-live",
 };
 
 const PRESET_ARCHETYPES = {
@@ -130,6 +132,26 @@ const PRESET_ARCHETYPES = {
       headline: "The 2026 Architectural Guide to Generative Engine Optimization",
       articleSummary: "Comprehensive benchmark analysis on how deterministic Schema.org graph entities improve retrieval-augmented generation accuracy.",
       authorName: "Dr. Alexander Wright",
+    },
+  },
+  course: {
+    type: "Course",
+    data: {
+      courseTitle: "Mastering GEO & Knowledge Graph Engineering",
+      courseDescription: "Advanced engineering masterclass on feeding deterministic JSON-LD entity structures directly to Perplexity, ChatGPT Search, and Gemini LLMs.",
+      courseProvider: "SchemaCraft Academy Global",
+      price: "199.00",
+      currency: "USD",
+    },
+  },
+  event: {
+    type: "Event",
+    data: {
+      eventName: "Global Generative Engine Optimization Summit 2026",
+      eventDate: "2026-11-15",
+      eventLocation: "https://schemacraft-ai.site/summit-live",
+      price: "99.00",
+      currency: "USD",
     },
   },
 };
@@ -295,6 +317,20 @@ export default function HomePage() {
         badge: lang === "ar" ? "السعر والمخزون" : "Price & Stock",
       },
       {
+        value: "Course",
+        label: lang === "ar" ? "Course (دورات تدريبية وكورسات)" : "Course & Education",
+        description: lang === "ar" ? "الكورسات والبرامج التعليمية والشهادات المهنية" : "Online academies, curriculum, and educational degrees",
+        icon: GraduationCap,
+        badge: lang === "ar" ? "Google Courses" : "Google Courses",
+      },
+      {
+        value: "Event",
+        label: lang === "ar" ? "Event (فعاليات ومؤتمرات وويبينار)" : "Event & Tech Webinar",
+        description: lang === "ar" ? "المؤتمرات ولقاءات البث المباشر مع التذاكر والتواريخ" : "Webinars, live summits, dates, and ticket prices",
+        icon: Calendar,
+        badge: lang === "ar" ? "Google Events" : "Google Events",
+      },
+      {
         value: "FAQPage",
         label: lang === "ar" ? "FAQPage (أسئلة شائعة منسدلة)" : "FAQPage Accordion",
         description: lang === "ar" ? "إجابات منسدلة في جوجل واقتباسات الذكاء الاصطناعي" : "Expandable Google search answers and AI citations",
@@ -386,6 +422,40 @@ export default function HomePage() {
           "@type": "AggregateRating",
           ratingValue: formData.ratingValue,
           reviewCount: formData.ratingCount,
+        },
+      };
+    } else if (schemaType === "Course") {
+      return {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        name: formData.courseTitle,
+        description: formData.courseDescription,
+        provider: {
+          "@type": "Organization",
+          name: formData.courseProvider,
+        },
+        offers: {
+          "@type": "Offer",
+          price: formData.price,
+          priceCurrency: formData.currency,
+          availability: "https://schema.org/InStock",
+        },
+      };
+    } else if (schemaType === "Event") {
+      return {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        name: formData.eventName,
+        startDate: formData.eventDate,
+        location: {
+          "@type": "VirtualLocation",
+          url: formData.eventLocation,
+        },
+        offers: {
+          "@type": "Offer",
+          price: formData.price,
+          priceCurrency: formData.currency,
+          availability: "https://schema.org/InStock",
         },
       };
     } else if (schemaType === "FAQPage") {
@@ -493,7 +563,10 @@ ${JSON.stringify(generatedSchema, null, 2)}
     const href = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = href;
-    link.download = `${(formData.name || formData.headline).toLowerCase().replace(/\s+/g, "-")}-schema.json`;
+    const baseName = (formData.name || formData.headline || formData.courseTitle || formData.eventName || "schema")
+      .toLowerCase()
+      .replace(/\s+/g, "-");
+    link.download = `${baseName}-schema.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -666,6 +739,20 @@ ${JSON.stringify(generatedSchema, null, 2)}
             </button>
             <button
               type="button"
+              onClick={() => handleLoadPreset("course")}
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+            >
+              {t.presets.course}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleLoadPreset("event")}
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+            >
+              {t.presets.event}
+            </button>
+            <button
+              type="button"
               onClick={() => handleLoadPreset("faq")}
               className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
             >
@@ -716,7 +803,89 @@ ${JSON.stringify(generatedSchema, null, 2)}
 
               {/* Dynamic Form Fields based on Type */}
               <div className="space-y-3.5 text-xs pt-1">
-                {schemaType === "FAQPage" ? (
+                {schemaType === "Course" ? (
+                  <>
+                    <div className="space-y-1.5">
+                      <label className="block text-slate-300 font-semibold">{t.builder.courseTitle}</label>
+                      <input
+                        type="text"
+                        value={formData.courseTitle}
+                        onChange={(e) => handleInputChange("courseTitle", e.target.value)}
+                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="block text-slate-300 font-semibold">{t.builder.courseDescription}</label>
+                      <textarea
+                        rows={3}
+                        value={formData.courseDescription}
+                        onChange={(e) => handleInputChange("courseDescription", e.target.value)}
+                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.courseProvider}</label>
+                        <input
+                          type="text"
+                          value={formData.courseProvider}
+                          onChange={(e) => handleInputChange("courseProvider", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                        <input
+                          type="text"
+                          value={formData.price}
+                          onChange={(e) => handleInputChange("price", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : schemaType === "Event" ? (
+                  <>
+                    <div className="space-y-1.5">
+                      <label className="block text-slate-300 font-semibold">{t.builder.eventName}</label>
+                      <input
+                        type="text"
+                        value={formData.eventName}
+                        onChange={(e) => handleInputChange("eventName", e.target.value)}
+                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="block text-slate-300 font-semibold">{t.builder.eventLocation}</label>
+                      <input
+                        type="text"
+                        value={formData.eventLocation}
+                        onChange={(e) => handleInputChange("eventLocation", e.target.value)}
+                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.eventDate}</label>
+                        <input
+                          type="date"
+                          value={formData.eventDate}
+                          onChange={(e) => handleInputChange("eventDate", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                        <input
+                          type="text"
+                          value={formData.price}
+                          onChange={(e) => handleInputChange("price", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : schemaType === "FAQPage" ? (
                   <>
                     <div className="space-y-1.5">
                       <label className="block text-slate-300 font-semibold">{t.builder.targetQuery}</label>
@@ -1079,13 +1248,13 @@ ${JSON.stringify(generatedSchema, null, 2)}
                         SC
                       </div>
                       <div className="flex flex-col leading-tight">
-                        <span className="text-[11px] text-[#e8eaed] font-medium">{formData.authorName || formData.name}</span>
-                        <span className="text-[10px] text-[#9aa0a6] truncate">{formData.url} › {schemaType.toLowerCase()}</span>
+                        <span className="text-[11px] text-[#e8eaed] font-medium">{formData.authorName || formData.name || formData.courseProvider}</span>
+                        <span className="text-[10px] text-[#9aa0a6] truncate">{formData.url || "https://example.com"} › {schemaType.toLowerCase()}</span>
                       </div>
                     </div>
 
                     <h3 className="text-[#8ab4f8] text-[15px] font-medium leading-snug hover:underline cursor-pointer">
-                      {formData.name || formData.headline} - {t.preview.serpTitle}
+                      {formData.name || formData.headline || formData.courseTitle || formData.eventName} - {t.preview.serpTitle}
                     </h3>
 
                     {/* Rich review stars & price badge */}
@@ -1110,7 +1279,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                     </div>
 
                     <p className="text-xs text-[#bdc1c6] leading-relaxed line-clamp-3">
-                      {formData.description || formData.articleSummary || formData.answer}
+                      {formData.description || formData.articleSummary || formData.courseDescription || formData.answer}
                     </p>
 
                     {schemaType === "FAQPage" && (
@@ -1133,12 +1302,12 @@ ${JSON.stringify(generatedSchema, null, 2)}
 
                   <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 text-xs space-y-3 shadow-lg">
                     <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                      <span className="text-indigo-300 font-bold">{formData.name || formData.headline}</span>
+                      <span className="text-indigo-300 font-bold">{formData.name || formData.headline || formData.courseTitle || formData.eventName}</span>
                       <span className="text-[10px] text-cyan-300 font-mono font-semibold">{t.preview.llmParseable}</span>
                     </div>
 
                     <p className="text-slate-200 text-xs leading-relaxed">
-                      {formData.description || formData.articleSummary || formData.answer}
+                      {formData.description || formData.articleSummary || formData.courseDescription || formData.answer}
                     </p>
 
                     <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-400 font-mono pt-2 border-t border-white/10">

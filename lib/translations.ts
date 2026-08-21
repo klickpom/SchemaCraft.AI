@@ -24,6 +24,8 @@ export interface Translations {
     faq: string;
     local: string;
     article: string;
+    course: string;
+    event: string;
   };
   score: {
     title: string;
@@ -49,6 +51,12 @@ export interface Translations {
     price: string;
     currency: string;
     appCategory: string;
+    courseTitle: string;
+    courseDescription: string;
+    courseProvider: string;
+    eventName: string;
+    eventDate: string;
+    eventLocation: string;
     astValid: string;
     downloadBundle: string;
   };
@@ -178,6 +186,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       faq: '🤖 AEO / AI FAQ',
       local: '📍 Local 3-Pack',
       article: '📰 Editorial Article',
+      course: '🎓 Online Course',
+      event: '🎟️ Tech Webinar',
     },
     score: {
       title: 'GEO / AEO Citation Readiness Score',
@@ -203,6 +213,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       price: 'Price',
       currency: 'Currency',
       appCategory: 'Application Category',
+      courseTitle: 'Course Title',
+      courseDescription: 'Course Curriculum Overview',
+      courseProvider: 'Issuing Academy / Provider',
+      eventName: 'Event / Webinar Title',
+      eventDate: 'Event Start Date (YYYY-MM-DD)',
+      eventLocation: 'Venue or Online URL',
       astValid: 'AST Validation: 100% Valid',
       downloadBundle: 'Download Bundle ($4.99)',
     },
@@ -330,6 +346,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       faq: '🤖 أسئلة واقتباسات AI',
       local: '📍 خرائط جوجل ونشاط محلي',
       article: '📰 مقال وأخبار',
+      course: '🎓 دورة تعليمية وكورس',
+      event: '🎟️ ويبينار وحدث تقني',
     },
     score: {
       title: 'مقياس جاهزية الاقتباس في الذكاء الاصطناعي (GEO/AEO)',
@@ -355,6 +373,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       price: 'السعر',
       currency: 'العملة',
       appCategory: 'تصنيف التطبيق البرمجي',
+      courseTitle: 'عنوان الدورة أو الكورس',
+      courseDescription: 'ملخص المنهج ومحتوى الدورة',
+      courseProvider: 'اسم الأكاديمية أو المنصة المزودة',
+      eventName: 'اسم الفعالية أو الويبينار',
+      eventDate: 'تاريخ بدء الفعالية (YYYY-MM-DD)',
+      eventLocation: 'مقر الفعالية أو رابط البث المباشر',
       astValid: 'فحص الـ AST: صالح بنسبة 100%',
       downloadBundle: 'تحميل حزمة السكيما ($4.99)',
     },
