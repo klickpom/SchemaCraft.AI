@@ -73,7 +73,6 @@ export const metadata: Metadata = {
     ],
     shortcut: ["/favicon.ico"],
   },
-  manifest: "/site.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -84,6 +83,10 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  manifest: "/site.webmanifest",
+  verification: {
+    google: "DsJHeUQVQt94en0tyfm_POyTVC3-dBavIg43_IjlBsc",
   },
 };
 
@@ -157,6 +160,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <meta name="google-site-verification" content="DsJHeUQVQt94en0tyfm_POyTVC3-dBavIg43_IjlBsc" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
