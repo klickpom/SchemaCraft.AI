@@ -5,6 +5,7 @@ export interface Translations {
     brandTitle: string;
     engineTag: string;
     ctaUnlock: string;
+    ctaUnlockMobile: string;
     ctaUnlocked: string;
     shareReport: string;
     reportShared: string;
@@ -83,6 +84,31 @@ export interface Translations {
     support: string;
     instantAccess: string;
   };
+  knowledge: {
+    badge: string;
+    h2: string;
+    subtitle: string;
+    p1Title: string;
+    p1Desc: string;
+    p2Title: string;
+    p2Desc: string;
+    p3Title: string;
+    p3Desc: string;
+    p4Title: string;
+    p4Desc: string;
+  };
+  footer: {
+    brandDesc: string;
+    crawlersTitle: string;
+    platformsTitle: string;
+    guaranteeTitle: string;
+    guaranteeDesc: string;
+    supportTitle: string;
+    rights: string;
+    privacy: string;
+    terms: string;
+    whitepaper: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -91,7 +117,8 @@ export const translations: Record<Language, Translations> = {
       brandTitle: 'SchemaCraft',
       engineTag: 'Audit Engine v1.0',
       ctaUnlock: 'Fix My Website — $9',
-      ctaUnlocked: 'Full Audit Unlocked',
+      ctaUnlockMobile: '$9 Fix',
+      ctaUnlocked: 'Unlocked',
       shareReport: 'Share Snapshot',
       reportShared: 'Link Copied!',
       langEn: 'English',
@@ -101,7 +128,7 @@ export const translations: Record<Language, Translations> = {
       badge: 'Fast Deterministic SEO + GEO + AEO Diagnostic',
       h1: 'See How Search Engines and AI Understand Your Website',
       subtitle: 'Run a free SEO + AI Search audit and uncover the technical, content, entity, and crawlability issues limiting your visibility.',
-      inputPlaceholder: 'Enter your website URL (e.g. https://yourcompany.com)...',
+      inputPlaceholder: 'Enter website URL (e.g. company.com)...',
       ctaAnalyze: 'Analyze My Website →',
       scanningText: 'Running Deep Diagnostic Scan...',
       orTryDemo: 'Or Explore a Live Demo Audit:',
@@ -169,13 +196,39 @@ export const translations: Record<Language, Translations> = {
       support: 'Official Inquiries: support@schemacraft-ai.site',
       instantAccess: 'Instant Unlock via PayPal Checkout',
     },
+    knowledge: {
+      badge: 'Authoritative 2026 Knowledge Standard',
+      h2: 'How Search Engines and AI Understand Websites in 2026',
+      subtitle: 'Based on official Google Search Console documentation, OpenAI SearchBot guidelines, and Schema.org v26.0 standards.',
+      p1Title: '1. Indexability Gate Hierarchy',
+      p1Desc: 'Before any AI parsing can take place, the page must clear the sequential gate: HTTP 200 -> robots.txt allow -> absence of noindex header/meta -> self-referential canonical URL.',
+      p2Title: '2. Multi-Level Bot Accessibility',
+      p2Desc: 'OpenAI explicitly documents that OAI-SearchBot must be allowed in robots.txt and safelisted in WAF/CDNs (Cloudflare) for content to be indexed and cited in ChatGPT Search summaries.',
+      p3Title: '3. BLUF Semantic Answerability',
+      p3Desc: 'Modern LLMs extract facts from top semantic text chunks. Positioning a definitive 40-60 word direct summary directly beneath the primary H1 maximizes extraction fidelity.',
+      p4Title: '4. Context-Aware Entity Graphs',
+      p4Desc: 'Replacing generic schema checklists with context-aware JSON-LD graphs (SoftwareApplication for SaaS, Product for E-Com, MedicalBusiness for Clinics) grounds your brand in the Knowledge Graph.',
+    },
+    footer: {
+      brandDesc: 'SchemaCraft.AI is the global evidence-based AI Search Visibility Auditor & Optimizer engineered for digital agencies, SaaS founders, and enterprise brands.',
+      crawlersTitle: 'Monitored Search & AI Bots',
+      platformsTitle: 'Supported Code Platforms',
+      guaranteeTitle: '30-Day Money-Back Guarantee',
+      guaranteeDesc: '100% risk-free. If you are not satisfied with the diagnostic evidence and fixes, contact support@schemacraft-ai.site for an immediate refund.',
+      supportTitle: 'Official Support & Inquiries',
+      rights: '© 2026 SchemaCraft.AI • Deterministic Audit Engine v1.0 • All Rights Reserved.',
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Service',
+      whitepaper: 'GEO 2026 Architecture Whitepaper',
+    },
   },
   ar: {
     nav: {
       brandTitle: 'SchemaCraft',
       engineTag: 'محرك الفحص v1.0',
       ctaUnlock: 'أصلح موقعي الآن — $9',
-      ctaUnlocked: 'تم فتح الفحص بالكامل',
+      ctaUnlockMobile: 'أصلح $9',
+      ctaUnlocked: 'مفعل',
       shareReport: 'مشاركة التقرير',
       reportShared: 'تم نسخ الرابط!',
       langEn: 'English',
@@ -185,7 +238,7 @@ export const translations: Record<Language, Translations> = {
       badge: 'فحص تشخيصي حتمي شامل لـ SEO والذكاء الاصطناعي',
       h1: 'اكتشف كيف تفهم محركات البحث والذكاء الاصطناعي موقعك',
       subtitle: 'قم بتشغيل فحص مجاني شامل واكتشف المشاكل التقنية ومشاكل المحتوى والزحف التي تحد من ظهور وفهم موقعك.',
-      inputPlaceholder: 'أدخل رابط موقعك (مثال: https://yourcompany.com)...',
+      inputPlaceholder: 'أدخل رابط موقعك (مثل: company.com)...',
       ctaAnalyze: 'افحص موقعي الآن →',
       scanningText: 'جاري تشغيل الفحص التشخيصي العميق...',
       orTryDemo: 'أو استكشف نماذج فحص حية جاهزة:',
@@ -252,6 +305,31 @@ export const translations: Record<Language, Translations> = {
       guarantee: 'ضمان رضا كامل بنسبة 100% أو استرجاع المبلغ خلال 30 يوماً',
       support: 'الدعم الرسمي: support@schemacraft-ai.site',
       instantAccess: 'دفع وتفعيل فوري عبر PayPal الآمن',
+    },
+    knowledge: {
+      badge: 'المرجع التقني المعتمد لعام 2026',
+      h2: 'كيف تفهم محركات البحث والذكاء الاصطناعي المواقع الإلكترونية في 2026',
+      subtitle: 'مبني وفق التوثيق الرسمي لـ Google Search Console وإرشادات OpenAI SearchBot ومعايير Schema.org v26.0.',
+      p1Title: '1. تسلسل بوابة الفهرسة (Indexability Gate)',
+      p1Desc: 'قبل أي معالجة بالذكاء الاصطناعي، يجب أن تجتاز الصفحة البوابة التسلسلية: استجابة HTTP 200 -> سماح robots.txt -> غياب وسم noindex -> وسم الرابط الأساسي Canonical.',
+      p2Title: '2. إتاحة الزحف للبوتات متعددة المستويات',
+      p2Desc: 'توضح OpenAI رسمياً أن السماح لـ OAI-SearchBot في robots.txt واستثنائه من حظر جدران الحماية (Cloudflare WAF) شرط أساسي لاقتباس المحتوى في ملخصات بحث ChatGPT.',
+      p3Title: '3. هيكلة الإجابات المباشرة (BLUF Architecture)',
+      p3Desc: 'تعتمد نماذج الذكاء الاصطناعي على أول 200 كلمة لاستخراج الإجابات. وضع ملخص حاسم من 40-60 كلمة أسفل العنوان الرئيسي H1 مباشرة يرفع دقة الاقتباس.',
+      p4Title: '4. شبكات السكيما الذكية المخصصة (Context-Aware Schema)',
+      p4Desc: 'استبدال قوائم السكيما العشوائية بكود JSON-LD مخصص لنوع النشاط (SoftwareApplication للساس، Product للمتاجر، MedicalBusiness للعيادات) يربط هويتك بدقة في الرسم البياني المعرفي.',
+    },
+    footer: {
+      brandDesc: 'SchemaCraft.AI هو المحرك العالمي المعتمد لفحص وتشخيص وتحسين قابلية ظهور المواقع في محركات البحث وأنظمة الذكاء الاصطناعي للوكالات والشركات حول العالم.',
+      crawlersTitle: 'البوتات ومحركات البحث المدعومة',
+      platformsTitle: 'أطر العمل البرمجية المدعومة',
+      guaranteeTitle: 'ضمان استرجاع الأموال لمدة 30 يوماً',
+      guaranteeDesc: 'فحص واستثمار آمن 100%. إذا لم تكن راضياً عن دقة الأدلة وأكواد الإصلاح، تواصل معنا عبر support@schemacraft-ai.site للاسترجاع الفوري.',
+      supportTitle: 'الدعم الرسمي والاستفسارات المعتمدة',
+      rights: '© 2026 SchemaCraft.AI • محرك الفحص الحتمي v1.0 • جميع الحقوق محفوظة.',
+      privacy: 'سياسة الخصوصية',
+      terms: 'شروط الخدمة والاستخدام',
+      whitepaper: 'ورقة عمل بنية GEO 2026',
     },
   },
 };

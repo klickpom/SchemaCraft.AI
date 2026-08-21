@@ -37,6 +37,7 @@ import {
   Sparkles,
   FileCode2,
   RotateCcw,
+  Bot,
 } from 'lucide-react';
 
 export default function Home() {
@@ -188,7 +189,7 @@ export default function Home() {
           </div>
 
           {/* Right Action Controls */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {report && (
               <button
                 type="button"
@@ -205,17 +206,17 @@ export default function Home() {
             <button
               type="button"
               onClick={handleLanguageToggle}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-slate-200 transition active:scale-95 cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-slate-200 transition active:scale-95 cursor-pointer whitespace-nowrap shrink-0"
             >
-              <Globe className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-[11px] sm:text-xs">{lang === 'en' ? 'العربية' : 'EN'}</span>
+              <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="text-[11px] sm:text-xs font-bold">{lang === 'en' ? 'العربية' : 'EN'}</span>
             </button>
 
             {/* Primary $9 Conversion Action */}
             <button
               type="button"
               onClick={() => setShowPaywall(true)}
-              className={`text-xs transition px-3 sm:px-4 py-1.5 rounded-lg border font-bold flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer whitespace-nowrap ${
+              className={`text-xs transition px-2.5 sm:px-4 py-1.5 rounded-lg border font-bold flex items-center gap-1 sm:gap-1.5 shadow-sm active:scale-95 cursor-pointer shrink-0 whitespace-nowrap ${
                 isProUnlocked
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                   : 'text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/25 cta-glow-pulse'
@@ -223,13 +224,14 @@ export default function Home() {
             >
               {isProUnlocked ? (
                 <>
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   <span>{t.nav.ctaUnlocked}</span>
                 </>
               ) : (
                 <>
-                  <Zap className="w-3.5 h-3.5 text-cyan-300 fill-cyan-300/30" />
-                  <span>{t.nav.ctaUnlock}</span>
+                  <Zap className="w-3.5 h-3.5 text-cyan-300 fill-cyan-300/30 shrink-0" />
+                  <span className="sm:hidden text-[11px]">{t.nav.ctaUnlockMobile}</span>
+                  <span className="hidden sm:inline">{t.nav.ctaUnlock}</span>
                 </>
               )}
             </button>
@@ -239,29 +241,29 @@ export default function Home() {
       </header>
 
       {/* Main Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 space-y-12 sm:space-y-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-12 space-y-12 sm:space-y-16">
         
         {/* Hero Section */}
-        <section className="text-center max-w-4xl mx-auto space-y-5 px-2">
+        <section className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-5 px-2">
           
           {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-950/40 px-3.5 py-1 text-xs font-semibold text-cyan-300 shadow-sm">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping" />
-            <span>{t.hero.badge}</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-950/40 px-3 py-1 text-[10px] sm:text-xs font-semibold text-cyan-300 shadow-sm max-w-full">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping shrink-0" />
+            <span className="truncate">{t.hero.badge}</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
             {t.hero.h1}
           </h1>
 
           {/* Subheadline */}
-          <p className="text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             {t.hero.subtitle}
           </p>
 
           {/* URL Input Form */}
-          <form onSubmit={handleFormSubmit} className="max-w-2xl mx-auto pt-3">
+          <form onSubmit={handleFormSubmit} className="max-w-2xl mx-auto pt-2 sm:pt-3">
             <div className="relative flex flex-col sm:flex-row items-center gap-2 p-1.5 rounded-2xl bg-[#111118] border border-white/15 shadow-2xl focus-within:border-indigo-500 transition-all">
               <div className="relative flex items-center w-full pl-3 rtl:pl-0 rtl:pr-3">
                 <Search className="w-4 h-4 text-slate-400 shrink-0" />
@@ -282,7 +284,7 @@ export default function Home() {
               >
                 {isScanning ? (
                   <>
-                    <RotateCcw className="w-4 h-4 animate-spin" />
+                    <RotateCcw className="w-4 h-4 animate-spin shrink-0" />
                     <span>{t.hero.scanningText}</span>
                   </>
                 ) : (
@@ -297,7 +299,7 @@ export default function Home() {
           {/* One-Click Demo Profiles */}
           <div className="pt-2 flex flex-col items-center gap-2 text-xs">
             <span className="text-slate-400 font-semibold">{t.hero.orTryDemo}</span>
-            <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
               {Object.entries(SAMPLE_PROFILES).map(([key, prof]) => (
                 <button
                   key={key}
@@ -306,7 +308,7 @@ export default function Home() {
                     setUrlInput(prof.url);
                     handleRunAudit(prof.url, prof.raw, key);
                   }}
-                  className={`px-3 py-1.5 rounded-xl border text-xs font-semibold transition active:scale-95 cursor-pointer ${
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-semibold transition active:scale-95 cursor-pointer ${
                     activeDemoProfile === key
                       ? 'bg-indigo-600/30 border-indigo-400 text-cyan-300 shadow-md'
                       : 'bg-white/[0.03] border-white/10 text-slate-300 hover:bg-white/[0.07] hover:text-white'
@@ -818,7 +820,153 @@ export default function Home() {
           </div>
         )}
 
+        {/* Authoritative 2026 Knowledge Standard Section */}
+        <section className="pt-8 sm:pt-12 border-t border-white/10 space-y-8">
+          <div className="text-center max-w-3xl mx-auto space-y-2.5">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-950/30 text-[10px] sm:text-xs font-bold text-cyan-300">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>{t.knowledge.badge}</span>
+            </div>
+            <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight">
+              {t.knowledge.h2}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              {t.knowledge.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            <div className="p-5 rounded-2xl border border-white/10 bg-[#0c0c12] space-y-2 hover:border-indigo-500/30 transition">
+              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{t.knowledge.p1Title}</span>
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.knowledge.p1Desc}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-white/10 bg-[#0c0c12] space-y-2 hover:border-cyan-500/30 transition">
+              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <Bot className="w-4 h-4 text-cyan-400 shrink-0" />
+                <span>{t.knowledge.p2Title}</span>
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.knowledge.p2Desc}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-white/10 bg-[#0c0c12] space-y-2 hover:border-indigo-500/30 transition">
+              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <FileCode2 className="w-4 h-4 text-indigo-400 shrink-0" />
+                <span>{t.knowledge.p3Title}</span>
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.knowledge.p3Desc}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl border border-white/10 bg-[#0c0c12] space-y-2 hover:border-amber-500/30 transition">
+              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <Layers className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>{t.knowledge.p4Title}</span>
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.knowledge.p4Desc}
+              </p>
+            </div>
+          </div>
+        </section>
+
       </main>
+
+      {/* Global Authority Footer */}
+      <footer className="mt-20 border-t border-white/10 bg-[#050508] pt-12 pb-16 text-slate-400 text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            
+            {/* Column 1: Brand & Description */}
+            <div className="space-y-3 md:col-span-1">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-lg bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md">
+                  <Layers className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-base font-black text-white tracking-tight">
+                  {t.nav.brandTitle}<span className="text-indigo-400">.AI</span>
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                {t.footer.brandDesc}
+              </p>
+              <span className="inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full border border-white/10 bg-white/5 text-slate-300">
+                {AUDIT_ENGINE_VERSION}
+              </span>
+            </div>
+
+            {/* Column 2: Crawlers & Standards */}
+            <div className="space-y-2.5">
+              <h4 className="font-bold text-slate-200 text-xs uppercase tracking-wider">
+                {t.footer.crawlersTitle}
+              </h4>
+              <ul className="space-y-1.5 text-[11px]">
+                <li className="flex items-center gap-1.5"><span className="text-emerald-400 font-mono">✓</span> OAI-SearchBot (ChatGPT)</li>
+                <li className="flex items-center gap-1.5"><span className="text-emerald-400 font-mono">✓</span> Googlebot & Google-Extended</li>
+                <li className="flex items-center gap-1.5"><span className="text-emerald-400 font-mono">✓</span> PerplexityBot Discovery</li>
+                <li className="flex items-center gap-1.5"><span className="text-emerald-400 font-mono">✓</span> Bingbot & ClaudeBot</li>
+              </ul>
+            </div>
+
+            {/* Column 3: Frameworks Supported */}
+            <div className="space-y-2.5">
+              <h4 className="font-bold text-slate-200 text-xs uppercase tracking-wider">
+                {t.footer.platformsTitle}
+              </h4>
+              <ul className="space-y-1.5 text-[11px]">
+                <li>• WordPress & WooCommerce</li>
+                <li>• Next.js 15 (App Router)</li>
+                <li>• Shopify Liquid Themes</li>
+                <li>• Schema.org v26.0 Graph</li>
+              </ul>
+            </div>
+
+            {/* Column 4: Trust & Guarantee */}
+            <div className="space-y-2.5">
+              <h4 className="font-bold text-slate-200 text-xs uppercase tracking-wider flex items-center gap-1.5 text-emerald-400">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>{t.footer.guaranteeTitle}</span>
+              </h4>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                {t.footer.guaranteeDesc}
+              </p>
+              <div className="pt-1">
+                <a
+                  href="mailto:support@schemacraft-ai.site"
+                  className="text-[11px] font-mono text-cyan-300 hover:underline flex items-center gap-1"
+                >
+                  ✉ support@schemacraft-ai.site
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Copyright & Legal Links */}
+          <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-[11px]">
+            <p className="text-slate-500">
+              {t.footer.rights}
+            </p>
+            <div className="flex flex-wrap items-center gap-4 text-slate-400">
+              <span className="hover:text-white transition cursor-pointer">{t.footer.privacy}</span>
+              <span>•</span>
+              <span className="hover:text-white transition cursor-pointer">{t.footer.terms}</span>
+              <span>•</span>
+              <span className="hover:text-white transition cursor-pointer">{t.footer.whitepaper}</span>
+            </div>
+          </div>
+
+        </div>
+      </footer>
 
       {/* Interactive Platform Fix Generator Modal */}
       <FixGeneratorModal
