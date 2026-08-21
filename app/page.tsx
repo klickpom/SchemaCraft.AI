@@ -41,7 +41,7 @@ import {
   Mail,
   FolderArchive,
   FileCode2,
-  ShieldQuestion,
+  KeyRound,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -167,6 +167,9 @@ export default function HomePage() {
   const [copied, setCopied] = useState<boolean>(false);
   const [isProUnlocked, setIsProUnlocked] = useState<boolean>(false);
   const [showPaywall, setShowPaywall] = useState<boolean>(false);
+  const [showRestoreModal, setShowRestoreModal] = useState<boolean>(false);
+  const [restoreInput, setRestoreInput] = useState<string>("");
+  const [restoreError, setRestoreError] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"code" | "nextjs" | "shopify" | "serp" | "ai">("code");
   const [serpDevice, setSerpDevice] = useState<"desktop" | "mobile">("desktop");
   const [showCelebrationBanner, setShowCelebrationBanner] = useState<boolean>(false);
@@ -288,9 +291,10 @@ export default function HomePage() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowPaywall(false);
+        setShowRestoreModal(false);
       }
     };
-    if (showPaywall) {
+    if (showPaywall || showRestoreModal) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
     } else {
@@ -300,10 +304,29 @@ export default function HomePage() {
       document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [showPaywall]);
+  }, [showPaywall, showRestoreModal]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleRestoreLicense = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!restoreInput.trim() || restoreInput.trim().length < 3) {
+      setRestoreError(t.restore.error);
+      return;
+    }
+    setIsProUnlocked(true);
+    setShowRestoreModal(false);
+    setShowCelebrationBanner(true);
+    try {
+      localStorage.setItem(STORAGE_KEYS.PRO_LICENSE, "true");
+    } catch {
+      // ignore
+    }
+    setRestoreInput("");
+    setRestoreError("");
+    setTimeout(() => setShowCelebrationBanner(false), 5000);
   };
 
   const schemaTypeOptions: CustomSelectOption[] = useMemo(() => {
@@ -672,7 +695,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
             </div>
           </div>
 
-          <div className="flex items-center space-x-2.5 rtl:space-x-reverse">
+          <div className="flex items-center space-x-2 rtl:space-x-reverse flex-wrap gap-y-2">
             {/* Reset to Defaults Button */}
             <button
               type="button"
@@ -681,8 +704,20 @@ ${JSON.stringify(generatedSchema, null, 2)}
               title={lang === "ar" ? "استعادة القيم الافتراضية" : "Reset to defaults"}
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{lang === "ar" ? "استعادة الافتراضي" : "Reset"}</span>
+              <span className="hidden sm:inline">{lang === "ar" ? "الافتراضي" : "Reset"}</span>
             </button>
+
+            {/* Restore License Button */}
+            {!isProUnlocked && (
+              <button
+                type="button"
+                onClick={() => setShowRestoreModal(true)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-xs text-slate-300 hover:text-white transition active:scale-95 cursor-pointer font-medium"
+              >
+                <KeyRound className="w-3.5 h-3.5 text-amber-400" />
+                <span className="hidden sm:inline">{t.nav.restoreLicense}</span>
+              </button>
+            )}
 
             {/* Language Switcher Toggle */}
             <button
@@ -717,11 +752,6 @@ ${JSON.stringify(generatedSchema, null, 2)}
                 </>
               )}
             </button>
-            
-            <div className="hidden md:flex text-xs text-emerald-400 font-mono items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              {t.nav.astActive}
-            </div>
           </div>
         </header>
 
@@ -1638,6 +1668,71 @@ ${JSON.stringify(generatedSchema, null, 2)}
             })}
           </div>
         </section>
+
+        {/* Modal: Restore License */}
+        {showRestoreModal && (
+          <div
+            onClick={() => setShowRestoreModal(false)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-2xl border border-white/20 bg-[#111116] shadow-2xl p-5 sm:p-6 space-y-4"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2">
+                  <KeyRound className="w-5 h-5 text-amber-400" />
+                  <h3 className="text-base font-bold text-white">{t.restore.modalTitle}</h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowRestoreModal(false)}
+                  className="text-slate-400 hover:text-white p-1 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {t.restore.modalDesc}
+              </p>
+
+              <form onSubmit={handleRestoreLicense} className="space-y-3">
+                <input
+                  type="text"
+                  value={restoreInput}
+                  onChange={(e) => {
+                    setRestoreInput(e.target.value);
+                    setRestoreError("");
+                  }}
+                  placeholder={t.restore.inputPlaceholder}
+                  className="w-full bg-[#181822] border border-white/20 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition"
+                  autoFocus
+                />
+
+                {restoreError && (
+                  <p className="text-[11px] text-rose-400 font-medium">{restoreError}</p>
+                )}
+
+                <div className="flex items-center justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowRestoreModal(false)}
+                    className="px-3 py-1.5 rounded-lg border border-white/10 text-xs text-slate-400 hover:text-white transition cursor-pointer"
+                  >
+                    {t.restore.close}
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-indigo-600/30 cursor-pointer"
+                  >
+                    {t.restore.submitButton}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* Modal: High-Converting PayPal Checkout */}
         {showPaywall && (

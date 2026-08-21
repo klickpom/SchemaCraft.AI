@@ -6,6 +6,7 @@ export interface Translations {
     engineVersion: string;
     unlockPro: string;
     proActive: string;
+    restoreLicense: string;
     astActive: string;
     langEn: string;
     langAr: string;
@@ -166,6 +167,16 @@ export interface Translations {
     supportNote: string;
     close: string;
   };
+  restore: {
+    button: string;
+    modalTitle: string;
+    modalDesc: string;
+    inputPlaceholder: string;
+    submitButton: string;
+    success: string;
+    error: string;
+    close: string;
+  };
   toast: {
     title: string;
     desc: string;
@@ -185,6 +196,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       engineVersion: 'v2.4 Engine',
       unlockPro: 'Get Lifetime Access ($4.99)',
       proActive: 'Pro Active',
+      restoreLicense: 'Restore License',
       astActive: 'AST Validator: Active',
       langEn: 'English',
       langAr: 'العربية',
@@ -346,6 +358,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       supportNote: 'Need help or refund? Email support@schemacraft-ai.site for 24h resolution.',
       close: 'Close (Esc)',
     },
+    restore: {
+      button: 'Restore License',
+      modalTitle: 'Restore Pro Lifetime Access',
+      modalDesc: 'Enter your PayPal Transaction ID or purchase email to restore Pro access on this device.',
+      inputPlaceholder: 'e.g. 8XY123456789 or your-email@domain.com',
+      submitButton: 'Verify & Restore Pro',
+      success: 'License verified! Pro lifetime features unlocked.',
+      error: 'Please enter a valid PayPal Transaction ID or email.',
+      close: 'Close',
+    },
     toast: {
       title: 'Pro License Verified & Activated!',
       desc: 'Your 6-File Enterprise Production ZIP Bundle has been downloaded automatically.',
@@ -363,6 +385,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       engineVersion: 'محرك v2.4 الذكي',
       unlockPro: 'احصل على رخصة مدى الحياة ($4.99)',
       proActive: 'رخصة برو مفعلة',
+      restoreLicense: 'استعادة الرخصة',
       astActive: 'مدقق السكيما: نشط 100%',
       langEn: 'English',
       langAr: 'العربية',
@@ -523,6 +546,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       sslNote: 'معاملة مشفرة وآمنة 256-bit SSL محمية بالكامل عبر PayPal',
       supportNote: 'هل تحتاج مساعدة أو استرداد؟ راسلنا على support@schemacraft-ai.site وستتم المعالجة خلال 24 ساعة.',
       close: 'إغلاق (Esc)',
+    },
+    restore: {
+      button: 'استعادة الرخصة',
+      modalTitle: 'استعادة رخصة برو مدى الحياة',
+      modalDesc: 'أدخل رقم عملية PayPal أو إيميل الشراء لاستعادة رخصتك على هذا المتصفح فوراً.',
+      inputPlaceholder: 'مثال: 8XY123456789 أو بريدك الإلكتروني',
+      submitButton: 'تحقق واستعادة الرخصة',
+      success: 'تم التحقق من الرخصة بنجاح! تم تفعيل ميزات برو مدى الحياة.',
+      error: 'يرجى إدخال رقم معاملة صحيح أو بريد إلكتروني صالح.',
+      close: 'إغلاق',
     },
     toast: {
       title: 'تم التحقق وتفعيل رخصة برو بنجاح!',
