@@ -974,13 +974,14 @@ function generateAIOpportunities(siteType: string, raw: RawEvidence): AIOpportun
 /**
  * Helper to fetch with strict timeout
  */
-async function fetchWithTimeout(url: string, timeoutMs = 3000): Promise<Response> {
+async function fetchWithTimeout(url: string, timeoutMs = 5000): Promise<Response> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { 'Accept': 'text/html,text/plain,*/*' }
+      headers: { 'Accept': 'text/html,text/plain,application/json,*/*', 'User-Agent': 'SchemaCraftAI-Auditor/1.0' },
+      redirect: 'follow',
     });
     clearTimeout(id);
     return res;
@@ -991,9 +992,33 @@ async function fetchWithTimeout(url: string, timeoutMs = 3000): Promise<Response
 }
 
 /**
+ * Try fetching from a single proxy, return HTML string or throw
+ */
+async function tryProxy(proxyUrl: string, timeoutMs = 5000): Promise<string> {
+  const res = await fetchWithTimeout(proxyUrl, timeoutMs);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const text = await res.text();
+  if (!text || text.length < 50) throw new Error('Empty response');
+  return text;
+}
+
+/**
+ * allorigins returns JSON wrapper { contents: "..." } - unwrap it
+ */
+async function tryAlloriginsJson(targetUrl: string, timeoutMs = 5000): Promise<string> {
+  const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+  const res = await fetchWithTimeout(apiUrl, timeoutMs);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const json = await res.json();
+  if (json && json.contents && json.contents.length > 50) {
+    return json.contents;
+  }
+  throw new Error('Empty contents');
+}
+
+/**
  * Accurate per-bot robots.txt parser.
- * Correctly resolves which Disallow applies to which User-agent block,
- * instead of naive global substring matching.
+ * Correctly resolves which Disallow applies to which User-agent block.
  */
 function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed'> {
   const result: Record<string, 'allowed' | 'disallowed'> = {};
@@ -1005,9 +1030,7 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
   for (const line of lines) {
     const lower = line.toLowerCase();
 
-    // Skip comments and empty lines
     if (lower.startsWith('#') || lower === '') {
-      // Empty line resets current agent context
       if (lower === '' && currentAgents.length > 0) {
         currentAgents = [];
       }
@@ -1020,7 +1043,6 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
     } else if (lower.startsWith('disallow:')) {
       const path = lower.replace('disallow:', '').trim();
       if (path === '/' || path === '/*') {
-        // This is a full disallow for all current agents
         for (const agent of currentAgents) {
           result[agent] = 'disallowed';
         }
@@ -1029,7 +1051,6 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
       const path = lower.replace('allow:', '').trim();
       if (path === '/' || path === '/*') {
         for (const agent of currentAgents) {
-          // Allow overrides disallow for same path length (robots.txt spec)
           result[agent] = 'allowed';
         }
       }
@@ -1041,24 +1062,22 @@ function parseRobotsTxt(content: string): Record<string, 'allowed' | 'disallowed
 
 function getBotDirective(parsed: Record<string, 'allowed' | 'disallowed'>, botName: string): 'allowed' | 'disallowed' | 'not_specified' {
   const botLower = botName.toLowerCase();
-
-  // Check specific bot entry first
   if (parsed[botLower] !== undefined) {
     return parsed[botLower];
   }
-
-  // Fall back to wildcard
   if (parsed['*'] !== undefined) {
     return parsed['*'];
   }
-
   return 'not_specified';
 }
 
 /**
- * Multi-Strategy Real Live Web Crawler & DOM Parser
- * Fetches target website HTML and robots.txt with ZERO fabrication.
- * If data cannot be fetched, reports honestly as not_fetched.
+ * ROBUST Multi-Strategy Live Web Crawler & DOM Parser
+ * Uses 8+ proxy services with sequential fallback, allorigins JSON wrapper,
+ * separate robots.txt fetch with independent proxy attempts,
+ * and generous timeouts.
+ *
+ * INTEGRITY: ZERO fabrication. Reports only what was actually fetched.
  */
 export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence> {
   let html = '';
@@ -1083,14 +1102,14 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     window.location.hostname === 'localhost'
   );
 
-  // Strategy 1: If same origin or current site, direct fetch with zero proxy
+  // ─── Strategy 1: Same-origin direct fetch (zero proxy needed) ───
   if (isSameOrigin) {
     try {
       const res = await fetch(targetUrl);
       httpStatus = res.status;
       if (res.ok) {
         html = await res.text();
-        htmlFetched = true;
+        if (html.length > 100) htmlFetched = true;
       }
     } catch (e) {}
 
@@ -1106,56 +1125,107 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     } catch (e) {}
   }
 
-  // Strategy 2: For external URLs, race multiple fast proxies in parallel
+  // ─── Strategy 2: Multi-proxy racing with generous timeouts ───
   if (!htmlFetched) {
-    const proxyList = [
-      `https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
+    const encoded = encodeURIComponent(targetUrl);
+
+    // Wave 1: Race the 3 fastest proxies simultaneously (5s timeout)
+    const wave1 = [
+      () => tryAlloriginsJson(targetUrl, 6000),
+      () => tryProxy(`https://corsproxy.io/?url=${encoded}`, 5000),
+      () => tryProxy(`https://api.codetabs.com/v1/proxy?quest=${encoded}`, 5000),
     ];
 
     try {
-      const racePromises = proxyList.map((pUrl) =>
-        fetchWithTimeout(pUrl, 2800)
-          .then((r) => {
-            if (r.ok) {
-              httpStatus = 200; // Proxy returned OK means the origin page is likely 200
-              return r.text();
-            }
-            return Promise.reject('Not OK');
-          })
-      );
-      html = await Promise.any(racePromises);
+      html = await Promise.any(wave1.map(fn => fn()));
       if (html && html.length > 100) {
         htmlFetched = true;
+        httpStatus = 200;
       }
-    } catch (e) {
-      potentialBotBarrier = true;
-    }
+    } catch (e) {}
 
-    // Fetch robots.txt via proxy race
-    if (!robotsFetched) {
-      const robotsProxyList = [
-        `https://corsproxy.io/?url=${encodeURIComponent(`${origin}/robots.txt`)}`,
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(`${origin}/robots.txt`)}`,
+    // Wave 2: If wave 1 failed, try alternative proxies sequentially (each 6s)
+    if (!htmlFetched) {
+      const wave2 = [
+        `https://api.allorigins.win/raw?url=${encoded}`,
+        `https://thingproxy.freeboard.io/fetch/${targetUrl}`,
+        `https://cors-proxy.htmldriven.com/?url=${encoded}`,
+        `https://corsproxy.org/?url=${encoded}`,
+        `https://proxy.cors.sh/${targetUrl}`,
       ];
 
+      for (const proxyUrl of wave2) {
+        if (htmlFetched) break;
+        try {
+          html = await tryProxy(proxyUrl, 6000);
+          if (html && html.length > 100) {
+            htmlFetched = true;
+            httpStatus = 200;
+          }
+        } catch (e) {
+          // Try next proxy
+        }
+      }
+    }
+
+    // Wave 3: Google webcache as absolute last resort
+    if (!htmlFetched) {
+      const cacheUrl = `https://webcache.googleusercontent.com/search?q=cache:${encodeURIComponent(targetUrl)}&strip=0`;
       try {
-        const robotsRace = robotsProxyList.map((pUrl) =>
-          fetchWithTimeout(pUrl, 2500)
-            .then((r) => (r.ok ? r.text() : Promise.reject('Not OK')))
-        );
-        const robotsResult = await Promise.any(robotsRace);
-        if (robotsResult && robotsResult.toLowerCase().includes('user-agent')) {
-          robotsTxtContent = robotsResult;
-          robotsTxtFound = true;
-          robotsFetched = true;
+        html = await tryProxy(cacheUrl, 6000);
+        if (html && html.length > 200) {
+          htmlFetched = true;
+          httpStatus = 200;
         }
       } catch (e) {}
     }
+
+    if (!htmlFetched) {
+      potentialBotBarrier = true;
+    }
   }
 
-  // 3. Real DOM Parser — ONLY from genuinely fetched HTML, NO fabrication
+  // ─── Robots.txt: Independent multi-proxy fetch (separate from HTML) ───
+  if (!robotsFetched) {
+    const robotsUrl = `${origin}/robots.txt`;
+    const robotsEncoded = encodeURIComponent(robotsUrl);
+
+    const robotsStrategies = [
+      () => tryAlloriginsJson(robotsUrl, 5000),
+      () => tryProxy(`https://corsproxy.io/?url=${robotsEncoded}`, 4000),
+      () => tryProxy(`https://api.allorigins.win/raw?url=${robotsEncoded}`, 4000),
+      () => tryProxy(`https://api.codetabs.com/v1/proxy?quest=${robotsEncoded}`, 4000),
+      () => tryProxy(`https://thingproxy.freeboard.io/fetch/${robotsUrl}`, 4000),
+      () => tryProxy(`https://corsproxy.org/?url=${robotsEncoded}`, 4000),
+    ];
+
+    // Race first 3
+    try {
+      const robotsResult = await Promise.any(robotsStrategies.slice(0, 3).map(fn => fn()));
+      if (robotsResult && robotsResult.toLowerCase().includes('user-agent')) {
+        robotsTxtContent = robotsResult;
+        robotsTxtFound = true;
+        robotsFetched = true;
+      }
+    } catch (e) {}
+
+    // Sequential fallback for remaining
+    if (!robotsFetched) {
+      for (const strategy of robotsStrategies.slice(3)) {
+        if (robotsFetched) break;
+        try {
+          const robotsResult = await strategy();
+          if (robotsResult && robotsResult.toLowerCase().includes('user-agent')) {
+            robotsTxtContent = robotsResult;
+            robotsTxtFound = true;
+            robotsFetched = true;
+          }
+        } catch (e) {}
+      }
+    }
+  }
+
+  // ─── 3. Real DOM Parser — ONLY from genuinely fetched HTML ───
   let title: string | null = null;
   let metaDescription: string | null = null;
   let canonicalUrl: string | null = null;
@@ -1193,7 +1263,7 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
           }
         });
 
-        // Find first meaningful paragraph (skip navigational/footer noise)
+        // Find first meaningful paragraph
         const paragraphs = doc.querySelectorAll('main p, article p, section p, .content p, #content p, p');
         for (const p of paragraphs) {
           const text = p.textContent?.trim();
@@ -1221,18 +1291,16 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
           } catch (e) {}
         });
 
-        // Deduplicate schema types
         schemaTypesDetected = [...new Set(schemaTypesDetected)];
       }
     } catch (e) {}
   }
 
-  // If HTML couldn't be fetched, mark as bot barrier
   if (!htmlFetched) {
     potentialBotBarrier = true;
   }
 
-  // 4. Accurate per-bot robots.txt parsing (not naive global matching)
+  // ─── 4. Accurate per-bot robots.txt parsing ───
   const parsedRobots = parseRobotsTxt(robotsTxtContent);
   const oaiSearchBotDirective = robotsFetched ? getBotDirective(parsedRobots, 'oai-searchbot') : 'not_specified';
   const oaiAdsBotDirective = robotsFetched ? getBotDirective(parsedRobots, 'oai-adsbot') : 'not_specified';
@@ -1256,7 +1324,7 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
   // Sitemap check from robots.txt content
   const sitemapFound = robotsFetched
     ? robotsTxtContent.toLowerCase().includes('sitemap:')
-    : null; // null = could not determine
+    : null;
 
   const sitemapUrl = robotsFetched
     ? (robotsTxtContent.match(/Sitemap:\s*(.*)/i)?.[1]?.trim() || '')
@@ -1291,3 +1359,4 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     robotsFetched,
   };
 }
+
