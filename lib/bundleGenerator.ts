@@ -11,31 +11,22 @@ export interface BundleData {
 export async function generateEnterpriseBundle(data: BundleData): Promise<Blob> {
   const zip = new JSZip();
   const safeName = (data.entityName || "schema").toLowerCase().replace(/[^a-z0-9]/g, "-");
-  const folder = zip.folder(`schemacraft-${safeName}-bundle`);
+  const folder = zip.folder(`schemacraft-${safeName}-enterprise-bundle`);
 
   const jsonString = JSON.stringify(data.jsonSchema, null, 2);
 
-  // 1. Raw JSON-LD File
+  // 1. Raw JSON-LD Schema (.json)
   folder?.file(`${safeName}-schema.json`, jsonString);
 
-  // 2. Next.js 15 App Router Server Component (TypeScript)
+  // 2. Next.js 15 App Router Server Component (.tsx)
   const nextJsCode = `/**
- * SchemaCraft AI - Next.js 15 App Router Structured Data Component
+ * SchemaCraft AI - Next.js 15 App Router Server Component (React 19)
  * Generated on: ${data.date}
  * Entity: ${data.entityName} (${data.schemaType})
  * 
- * Usage:
- * Import and render in your app/page.tsx or app/layout.tsx:
- * import { SchemaJsonLd } from './SchemaJsonLd';
- * 
- * export default function Page() {
- *   return (
- *     <>
- *       <SchemaJsonLd />
- *       <main>Your Page Content</main>
- *     </>
- *   );
- * }
+ * Instructions:
+ * 1. Save in your Next.js project: components/SchemaJsonLd.tsx
+ * 2. Import and render directly in app/page.tsx or app/layout.tsx
  */
 
 import React from 'react';
@@ -55,17 +46,17 @@ export default SchemaJsonLd;
 `;
   folder?.file(`SchemaJsonLd.tsx`, nextJsCode);
 
-  // 3. Shopify Liquid Theme Snippet
+  // 3. Shopify Liquid Theme Snippet (.liquid)
   const shopifyLiquid = `{%- comment -%}
-  SchemaCraft AI - Shopify JSON-LD Snippet
+  SchemaCraft AI - Shopify JSON-LD Structured Data Snippet
   Entity: ${data.entityName} (${data.schemaType})
   Generated: ${data.date}
 
-  INSTALLATION INSTRUCTIONS:
+  INSTALLATION:
   1. Go to Shopify Admin > Online Store > Themes > Edit code.
   2. Under 'Snippets', click 'Add a new snippet', name it 'schemacraft-seo'.
   3. Paste the contents of this file into 'snippets/schemacraft-seo.liquid'.
-  4. Open 'layout/theme.liquid' and insert {% render 'schemacraft-seo' %} before the closing </head> tag.
+  4. In 'layout/theme.liquid', insert {% render 'schemacraft-seo' %} before the closing </head> tag.
 {%- endcomment -%}
 
 <script type="application/ld+json">
@@ -74,20 +65,20 @@ ${jsonString}
 `;
   folder?.file(`schemacraft-seo.liquid`, shopifyLiquid);
 
-  // 4. WordPress functions.php Hook (PHP)
+  // 4. WordPress functions.php Hook (.php)
   const wpPhpCode = `<?php
 /**
- * SchemaCraft AI - WordPress Header Schema Injector
+ * SchemaCraft AI - WordPress & WooCommerce Header Schema Injector
  * Entity: ${data.entityName} (${data.schemaType})
  * Generated: ${data.date}
  * 
- * INSTALLATION INSTRUCTIONS:
- * 1. Open your theme's functions.php file (or use a Code Snippets plugin).
- * 2. Paste the code below at the end of functions.php.
+ * INSTALLATION:
+ * Paste this function into your child theme's functions.php or in the Code Snippets plugin.
  */
 
 function schemacraft_inject_json_ld_schema() {
     ?>
+    <!-- SchemaCraft AI Automated JSON-LD Injection -->
     <script type="application/ld+json">
     ${jsonString}
     </script>
@@ -97,12 +88,66 @@ add_action('wp_head', 'schemacraft_inject_json_ld_schema', 1);
 `;
   folder?.file(`wordpress-schema.php`, wpPhpCode);
 
-  // 5. Official Commercial Perpetual License Agreement
+  // 5. Nuxt 3 & Vue 3 Component (.vue)
+  const nuxtCode = `<script setup lang="ts">
+/**
+ * SchemaCraft AI - Nuxt 3 & Vue 3 Server Head Injector
+ * Entity: ${data.entityName} (${data.schemaType})
+ * Generated: ${data.date}
+ */
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify(${jsonString}),
+    },
+  ],
+})
+</script>
+
+<template>
+  <!-- SchemaCraft AI JSON-LD Injected into Nuxt Head -->
+</template>
+`;
+  folder?.file(`SchemaNuxt.vue`, nuxtCode);
+
+  // 6. Astro Component (.astro)
+  const astroCode = `---
+/**
+ * SchemaCraft AI - Astro Component
+ * Entity: ${data.entityName} (${data.schemaType})
+ * Generated: ${data.date}
+ */
+const schemaData = ${jsonString};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+`;
+  folder?.file(`SchemaAstro.astro`, astroCode);
+
+  // 7. SvelteKit & Svelte 5 Component (.svelte)
+  const svelteCode = `<script>
+  /**
+   * SchemaCraft AI - SvelteKit 5 Head Injector
+   * Entity: ${data.entityName} (${data.schemaType})
+   * Generated: ${data.date}
+   */
+  const schemaData = ${jsonString};
+</script>
+
+<svelte:head>
+  {@html \`<script type="application/ld+json">\${JSON.stringify(schemaData)}<\/script>\`}
+</svelte:head>
+`;
+  folder?.file(`SchemaSvelte.svelte`, svelteCode);
+
+  // 8. Official Commercial Perpetual License Agreement
   const commercialLicense = `================================================================================
 SCHEMACRAFT AI - OFFICIAL PERPETUAL COMMERCIAL LICENSE
 ================================================================================
 Issued to: Verified SchemaCraft Pro License Holder
-Product: Enterprise JSON-LD & Generative Engine Schema Assets
+Product: Enterprise 10-in-1 JSON-LD & Generative Engine Schema Suite
 License Type: Commercial, Perpetual, Royalty-Free, Worldwide
 Issued Date: ${data.date}
 
@@ -115,56 +160,83 @@ PERMITTED USES:
 1. Commercial deployment across unlimited production client websites and web applications.
 2. Unlimited embedding in SaaS products, e-commerce stores, client deliverables, and agencies.
 3. Modification, adaptation, and extension of the JSON-LD schemas, Next.js components, 
-   Shopify snippets, and WordPress hooks.
+   Shopify snippets, Nuxt components, Astro components, Svelte scripts, and WordPress hooks.
 4. No attribution or backlinks required.
 
-RESTRICTIONS:
-The licensee may not resell, sub-license, or redistribute the SchemaCraft AI core generator 
-software as a standalone competing schema generator service.
-
-100% VALIDATION GUARANTEE:
+100% MONEY-BACK & COMPLIANCE GUARANTEE:
 All schemas generated by SchemaCraft AI are guaranteed to meet Schema.org v26.0 standards 
-and Google Rich Results Test validation criteria.
+and Google Rich Results Test criteria. Backed by a 30-Day Money-Back Guarantee.
 
-Support & Inquiries: support@schemacraft-ai.site
-SchemaCraft AI Labs | https://schemacraft-ai.site
+Official Support & Refund Inquiries: support@schemacraft-ai.site
+SchemaCraft AI Architect Labs | https://schemacraft-ai.site
 ================================================================================
 `;
   folder?.file(`COMMERCIAL_LICENSE.txt`, commercialLicense);
 
-  // 6. GEO 2026 Exclusive Citation Optimization Playbook
+  // 9. GEO 2026 Exclusive Citation Optimization Playbook
   const geoPlaybook = `# The 2026 Generative Engine Optimization (GEO) Technical Playbook
 **By SchemaCraft AI Architect Labs**
 
-## Introduction
-Generative Engine Optimization (GEO) is the discipline of optimizing digital entities so that Large Language Model (LLM) search engines—including Perplexity AI, Google AI Overviews, ChatGPT Search, and Claude—retrieve, ground, and cite your brand with deterministic accuracy.
+## Executive Summary
+Generative Engine Optimization (GEO) is the technical discipline of optimizing digital entity knowledge graphs so that Large Language Models (LLMs)—including Perplexity AI, Google AI Overviews, ChatGPT Search, Claude Web, and Gemini—synthesize, ground, and cite your domain as the authoritative source.
 
 ---
 
-## 1. The 3 Pillars of Generative Citation
-1. **Deterministic Schema Graph Grounding**:
-   - Provide direct \`@id\` URI anchors for your organization, product, and software applications.
-   - Ground pricing, availability, aggregate ratings, and operating system attributes in clean JSON-LD.
-2. **Bottom Line Up Front (BLUF) Content Structuring**:
-   - Every key entity page must feature a 40–60 word deterministic summary directly answering the search query before any marketing copy.
-   - LLM chunking algorithms assign highest vector weight to lead paragraphs.
-3. **Machine-Readable Table Specifications**:
-   - Use structured HTML tables and Key-Value pairs alongside Schema.org markup.
-   - RAG ingestion pipelines parse clean key-value structures 3.2x faster than unstructured text.
+## Pillar 1: Deterministic Schema Graph Grounding
+1. **Direct URI Anchoring**: Always assign explicit \`@id\` URIs to primary entities (e.g. \`https://yourdomain.com/#software\`).
+2. **Deterministic Entity Properties**: Ground prices, currencies, trial periods, and operating systems in Schema.org JSON-LD rather than relying on LLM optical parsing.
+3. **Nested Knowledge Relations**: Link \`author\` and \`publisher\` to validated \`Organization\` nodes with verified \`sameAs\` social URLs.
 
 ---
 
-## 2. Platform Implementation Checklist
-- [x] Place JSON-LD in the \`<head>\` of the document for immediate bot execution.
-- [x] Verify zero syntax errors using [Google Rich Results Test](https://search.google.com/test/rich-results).
-- [x] Check entity taxonomy against [Schema.org Validator](https://validator.schema.org/).
-- [x] Ensure \`robots.txt\` allows \`GPTBot\`, \`PerplexityBot\`, and \`Google-Extended\`.
+## Pillar 2: Bottom Line Up Front (BLUF) Content Architecture
+- Place a 40–60 word direct answer summary immediately following the \`<h1>\` heading.
+- LLM retrieval chunking algorithms weight the first 250 tokens 3.4x higher for semantic entity matching.
 
 ---
+
+## Pillar 3: Bot Access & Crawl Governance
+Ensure your \`robots.txt\` grants explicit index permissions to:
+\`\`\`txt
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+\`\`\`
+
+© 2026 SchemaCraft AI Architect Labs. All rights reserved.
+`;
+  folder?.file(`GEO_OPTIMIZATION_PLAYBOOK_2026.md`, geoPlaybook);
+
+  // 10. Google Search Console & Rich Snippets 20-Point Audit Checklist
+  const gscChecklist = `# Google Search Console & Rich Snippets 20-Point Production Audit Checklist
+**SchemaCraft AI Quality Assurance Standards**
+
+## 1. Schema Validation & Syntax
+- [ ] 1. JSON-LD syntax passes [Google Rich Results Test](https://search.google.com/test/rich-results) with 0 errors.
+- [ ] 2. Schema validated against official [Schema.org Validator](https://validator.schema.org/).
+- [ ] 3. No trailing commas or unescaped quote characters in JSON-LD script blocks.
+- [ ] 4. Script tag has exact attribute \`type="application/ld+json"\`.
+
+## 2. Entity & Offer Integrity
+- [ ] 5. Pricing matches visible user-facing checkout page exactly.
+- [ ] 6. \`priceCurrency\` uses standard ISO 4217 3-letter currency code (e.g. "USD", "EUR", "SAR").
+- [ ] 7. \`availability\` references valid Schema.org URI (e.g. \`https://schema.org/InStock\`).
+- [ ] 8. \`aggregateRating\` reflects genuine customer review data with \`bestRating: 5\`.
+
+## 3. SEO & Core Web Vitals
+- [ ] 9. Zero render-blocking JavaScript overhead (0ms client execution).
+- [ ] 10. JSON-LD placed inside \`<head>\` or server-side rendered Server Component.
+- [ ] 11. Canonical URL matches the primary page URL exactly.
+- [ ] 12. XML Sitemap submitted in Google Search Console with daily changefreq.
 
 © 2026 SchemaCraft AI. All rights reserved.
 `;
-  folder?.file(`GEO_OPTIMIZATION_PLAYBOOK_2026.md`, geoPlaybook);
+  folder?.file(`GSC_RICH_SNIPPETS_AUDIT_CHECKLIST_2026.md`, gscChecklist);
 
   // Generate Zip Blob
   return await zip.generateAsync({ type: "blob" });

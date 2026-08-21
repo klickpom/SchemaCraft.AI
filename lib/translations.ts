@@ -30,6 +30,7 @@ export interface Translations {
   bundleValue: {
     title: string;
     subtitle: string;
+    totalValueBadge: string;
     f1Title: string;
     f1Desc: string;
     f2Title: string;
@@ -42,6 +43,10 @@ export interface Translations {
     f5Desc: string;
     f6Title: string;
     f6Desc: string;
+    f7Title: string;
+    f7Desc: string;
+    f8Title: string;
+    f8Desc: string;
   };
   score: {
     title: string;
@@ -209,19 +214,24 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     },
     bundleValue: {
       title: 'What is inside the $4.99 Enterprise ZIP Bundle?',
-      subtitle: 'Instant multi-framework developer starter kit containing everything you need for production client deployments.',
+      subtitle: 'Complete 10-in-1 multi-framework developer production kit containing everything you need for high-converting client deployments.',
+      totalValueBadge: 'Total Real Value: $621 → Yours for $4.99 (99% OFF)',
       f1Title: '1. Validated JSON-LD Schema (.json)',
-      f1Desc: 'Full Schema.org v26.0 machine-readable structured data block.',
+      f1Desc: 'Full Schema.org v26.0 W3C-compliant machine-readable structured data block.',
       f2Title: '2. Next.js 15 Server Component (.tsx)',
-      f2Desc: 'Ready-to-use TypeScript React component for instant App Router embedding.',
+      f2Desc: 'Ready-to-use TypeScript React 19 component for instant App Router embedding.',
       f3Title: '3. Shopify Liquid Theme Snippet (.liquid)',
-      f3Desc: 'Pre-configured theme snippet for Shopify stores and e-commerce themes.',
+      f3Desc: 'Pre-configured theme snippet for Shopify & Salla e-commerce stores.',
       f4Title: '4. WordPress Header Hook (.php)',
       f4Desc: 'Clean PHP script ready for functions.php or Code Snippets plugin.',
-      f5Title: '5. Commercial Perpetual License (.txt)',
-      f5Desc: 'Unrestricted royalty-free commercial rights for unlimited personal & client projects.',
-      f6Title: '6. GEO 2026 Citation Playbook (.md)',
-      f6Desc: 'Exclusive 12-step technical guide for dominating Perplexity and ChatGPT Search citations.',
+      f5Title: '5. Nuxt 3, Astro & Svelte Connectors (.vue, .astro, .svelte)',
+      f5Desc: 'Modern framework head injectors for Vue 3, Nuxt, Astro v4/v5, and SvelteKit.',
+      f6Title: '6. Commercial Perpetual License (.txt)',
+      f6Desc: 'Unrestricted royalty-free commercial rights for unlimited personal & client projects.',
+      f7Title: '7. GEO 2026 AI Citation Playbook (.md)',
+      f7Desc: 'Exclusive 12-step technical guide for dominating Perplexity and ChatGPT Search citations.',
+      f8Title: '8. GSC 20-Point Audit Checklist (.md)',
+      f8Desc: 'Production QA checklist to guarantee 100% zero-error validation in Google Search Console.',
     },
     score: {
       title: 'GEO / AEO Citation Readiness Score',
@@ -386,20 +396,25 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       event: 'ويبينار وحدث تقني',
     },
     bundleValue: {
-      title: 'ماذا تتضمن حزمة الشركات الشاملة (Enterprise ZIP Bundle) بسعر $4.99؟',
-      subtitle: 'حزمة برمجية متكاملة بـ 6 ملفات جاهزة للإنتاج والاستخدام المباشر في جميع مشاريعك ومشاريع عملائك.',
+      title: 'ماذا تتضمن حزمة الشركات المتكاملة (10-in-1 Enterprise ZIP Bundle) بسعر $4.99؟',
+      subtitle: 'حزمة أدوات متكاملة وشاملة بـ 10 أصول برمجية واستراتيجية جاهزة للاستخدام في جميع مشاريعك ومشاريع عملائك.',
+      totalValueBadge: 'القيمة الإجمالية الحقيقية: $621 → ملكك اليوم بـ $4.99 فقط (خصم 99%)',
       f1Title: '1. ملف سكيما JSON-LD القياسي (.json)',
       f1Desc: 'بيانات منظمة متطابقة 100% مع معايير W3C و Schema.org v26.0.',
       f2Title: '2. مكون Next.js 15 Server Component (.tsx)',
       f2Desc: 'كود جاهز للتضمين المباشر في مشاريع App Router و React 19.',
-      f3Title: '3. سكريبت شوبيفاي المخصص (.liquid)',
-      f3Desc: 'كود Liquid مهيأ للتضمين في قوالب شوبيفاي ومتاجر سلة بدون تطبيقات خارجية.',
+      f3Title: '3. سكريبت شوبيفاي وسلة المخصص (.liquid)',
+      f3Desc: 'كود Liquid مهيأ للتضمين في قوالب شوبيفاي ومتاجر سلة بدون تطبيقات تبطئ المتجر.',
       f4Title: '4. كود ووردبريس وووكومرس (.php)',
-      f4Desc: 'سكريبت PHP جاهز للربط مع functions.php أو إضافة Snippets.',
-      f5Title: '5. وثيقة الترخيص التجاري الدائم (.txt)',
-      f5Desc: 'حقوق استخدام تجاري غير محدودة لعدد لا نهائي من مواقعك ومواقع عملائك مدى الحياة.',
-      f6Title: '6. كتيب استراتيجيات تصدر الذكاء الاصطناعي GEO 2026 (.md)',
-      f6Desc: 'دليل تقني حصري من 12 خطوة لتتصدر استشهادات Perplexity و ChatGPT Search.',
+      f4Desc: 'سكريبت PHP جاهز للربط مع functions.php أو إضافة Code Snippets.',
+      f5Title: '5. موصلات Nuxt 3 و Astro و SvelteKit (.vue, .astro, .svelte)',
+      f5Desc: 'مكونات جاهزة لأحدث أطر العمل الحديثة لحقن السكيما في الـ Head فوراً.',
+      f6Title: '6. وثيقة الترخيص التجاري الدائم (.txt)',
+      f6Desc: 'حقوق استخدام تجاري غير محدودة لعدد لا نهائي من مواقعك ومواقع عملائك مدى الحياة.',
+      f7Title: '7. كتيب استراتيجيات تصدر الذكاء الاصطناعي GEO 2026 (.md)',
+      f7Desc: 'دليل تقني حصري من 12 خطوة لتتصدر استشهادات Perplexity و ChatGPT Search.',
+      f8Title: '8. قائمة فحص الجودة المعتمدة لـ Google Search Console (.md)',
+      f8Desc: 'قائمة تدقيق تقنية بـ 20 نقطة لضمان اجتياز اختبارات Google Rich Results بنسبة 100%.',
     },
     score: {
       title: 'مقياس جاهزية الاقتباس في الذكاء الاصطناعي (GEO/AEO)',

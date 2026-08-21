@@ -42,7 +42,6 @@ import {
   FolderArchive,
   FileCode2,
   ArrowUpRight,
-  Sparkle,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -1393,12 +1392,12 @@ ${JSON.stringify(generatedSchema, null, 2)}
           </div>
         </div>
 
-        {/* What's Inside the $4.99 Enterprise Bundle (High Value Stacking) */}
+        {/* What's Inside the $4.99 Enterprise Bundle (10-in-1 High Value Stacking) */}
         <section className="border-t border-white/[0.1] pt-12 space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold uppercase tracking-wider">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold uppercase tracking-wider">
               <FolderArchive className="w-4 h-4 text-indigo-400" />
-              <span>Full Production Bundle Architecture</span>
+              <span>Full 10-in-1 Production Bundle Architecture</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {t.bundleValue.title}
@@ -1406,102 +1405,146 @@ ${JSON.stringify(generatedSchema, null, 2)}
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {t.bundleValue.subtitle}
             </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
+              <Zap className="w-3.5 h-3.5 text-emerald-400" />
+              <span>{t.bundleValue.totalValueBadge}</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
-            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-indigo-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
-              <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 items-stretch">
+            {/* Card 1 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-indigo-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 group-hover:scale-110 transition-transform duration-300">
-                    <FileCode2 className="w-5 h-5 text-indigo-400" />
+                    <FileCode2 className="w-4 h-4 text-indigo-400" />
                   </div>
-                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f1Title}</h3>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f1Title}</h3>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f1Desc}</p>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f1Desc}</p>
               </div>
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-indigo-300">
-                <span>Schema.org v26.0 W3C</span>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-indigo-300">
+                <span>$99 Retail Value</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-colors" />
               </div>
             </div>
 
-            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-cyan-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Card 2 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-cyan-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 group-hover:scale-110 transition-transform duration-300">
-                    <Terminal className="w-5 h-5 text-cyan-400" />
+                    <Terminal className="w-4 h-4 text-cyan-400" />
                   </div>
-                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f2Title}</h3>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f2Title}</h3>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f2Desc}</p>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f2Desc}</p>
               </div>
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-cyan-300">
-                <span>Next.js 15 App Router</span>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-cyan-300">
+                <span>$49 Retail Value</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
               </div>
             </div>
 
-            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-emerald-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Card 3 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-emerald-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 group-hover:scale-110 transition-transform duration-300">
-                    <ShoppingBag className="w-5 h-5 text-emerald-400" />
+                    <ShoppingBag className="w-4 h-4 text-emerald-400" />
                   </div>
-                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f3Title}</h3>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f3Title}</h3>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f3Desc}</p>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f3Desc}</p>
               </div>
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-emerald-300">
-                <span>Shopify & Salla Liquid</span>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-emerald-300">
+                <span>$49 Retail Value</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
               </div>
             </div>
 
-            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-amber-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Card 4 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-amber-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 group-hover:scale-110 transition-transform duration-300">
-                    <Globe className="w-5 h-5 text-amber-400" />
+                    <Globe className="w-4 h-4 text-amber-400" />
                   </div>
-                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f4Title}</h3>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f4Title}</h3>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f4Desc}</p>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f4Desc}</p>
               </div>
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-amber-300">
-                <span>WordPress PHP Hook</span>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-amber-300">
+                <span>$39 Retail Value</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-amber-400 transition-colors" />
               </div>
             </div>
 
-            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-emerald-400/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Card 5 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-teal-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-teal-500/10 border border-teal-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <Layers className="w-4 h-4 text-teal-400" />
+                  </div>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f5Title}</h3>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f5Desc}</p>
+              </div>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-teal-300">
+                <span>$69 Retail Value</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-teal-400 transition-colors" />
+              </div>
+            </div>
+
+            {/* Card 6 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-emerald-400/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 group-hover:scale-110 transition-transform duration-300">
-                    <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
                   </div>
-                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f5Title}</h3>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f6Title}</h3>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f5Desc}</p>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f6Desc}</p>
               </div>
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-emerald-300">
-                <span>Unlimited Commercial Rights</span>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-emerald-300">
+                <span>$99 Retail Value</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
               </div>
             </div>
 
-            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-indigo-400/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
-              <div className="space-y-3">
+            {/* Card 7 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-indigo-400/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 group-hover:scale-110 transition-transform duration-300">
-                    <BookOpen className="w-5 h-5 text-indigo-400" />
+                    <BookOpen className="w-4 h-4 text-indigo-400" />
                   </div>
-                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f6Title}</h3>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f7Title}</h3>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f6Desc}</p>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f7Desc}</p>
               </div>
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-indigo-300">
-                <span>GEO 2026 AI Playbook</span>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-indigo-300">
+                <span>$149 Retail Value</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+              </div>
+            </div>
+
+            {/* Card 8 */}
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-5 space-y-3 shadow-xl hover:border-rose-400/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <Award className="w-4 h-4 text-rose-400" />
+                  </div>
+                  <h3 className="font-bold text-xs sm:text-sm text-white">{t.bundleValue.f8Title}</h3>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">{t.bundleValue.f8Desc}</p>
+              </div>
+              <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-rose-300">
+                <span>$49 Retail Value</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-rose-400 transition-colors" />
               </div>
             </div>
           </div>
