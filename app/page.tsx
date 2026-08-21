@@ -649,10 +649,10 @@ export default function Home() {
                 {showEvidenceLedger && (
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2 text-xs">
                     {report.evidenceLedger.map((item, idx) => (
-                      <div key={idx} className="p-3 rounded-xl border border-white/10 bg-[#08080c] space-y-1">
-                        <div className="flex items-center justify-between font-semibold">
-                          <span className="text-slate-300">{lang === 'ar' ? item.nameAr : item.name}</span>
-                          <span className={`text-[10px] uppercase font-mono px-1.5 py-0.5 rounded font-bold ${
+                      <div key={idx} className="p-3 rounded-xl border border-white/10 bg-[#08080c] space-y-1 overflow-hidden">
+                        <div className="flex items-center justify-between font-semibold gap-2">
+                          <span className="text-slate-300 truncate">{lang === 'ar' ? item.nameAr : item.name}</span>
+                          <span className={`text-[10px] uppercase font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ${
                             item.status === 'pass'
                               ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                               : item.status === 'fail'
@@ -664,7 +664,7 @@ export default function Home() {
                             {item.status}
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-400 font-mono">
+                        <p className="text-[11px] text-slate-400 font-mono break-all leading-relaxed">
                           {lang === 'ar' ? item.detailAr : item.detail}
                         </p>
                       </div>

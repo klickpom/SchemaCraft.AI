@@ -342,8 +342,8 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
         name: 'Indexability Gate (noindex)',
         nameAr: 'بوابة الفهرسة (noindex)',
         status: 'pass',
-        detail: `meta robots="${raw.metaRobots || 'not set'}" — No noindex found`,
-        detailAr: `meta robots="${raw.metaRobots || 'غير محدد'}" — لا يوجد noindex`,
+        detail: raw.metaRobots ? `Content: "${raw.metaRobots}" — No noindex found` : 'No meta robots restrictions — Page is indexable',
+        detailAr: raw.metaRobots ? `المحتوى: "${raw.metaRobots}" — لا يوجد noindex` : 'لا قيود على الفهرسة — الصفحة قابلة للفهرسة',
       });
     }
   } else if (raw.htmlFetched) {
@@ -800,8 +800,8 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
         name: 'Canonical Tag',
         nameAr: 'وسم الرابط الأساسي (Canonical)',
         status: 'pass',
-        detail: `canonical="${raw.canonicalUrl}"`,
-        detailAr: `canonical="${raw.canonicalUrl}"`,
+        detail: raw.canonicalUrl,
+        detailAr: raw.canonicalUrl,
       });
     }
   }
