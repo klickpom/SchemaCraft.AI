@@ -21,6 +21,8 @@
     color: #f8fafc;
     overflow-x: hidden;
     letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -56,56 +58,30 @@ div[class*="devOverlay"] {
   pointer-events: none !important;
 }
 
-/* Luxury Glass Card with Ambient Dynamic Lighting */
+/* Luxury Glass Card */
 .luxury-card {
   position: relative;
-  background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.08), transparent 40%),
-              linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%),
-              #0c0c11;
+  background: #0c0c11;
   border: 1px solid rgba(255, 255, 255, 0.09);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s ease-in-out;
 }
 
 .luxury-card:hover {
   border-color: rgba(99, 102, 241, 0.45);
-  box-shadow: 0 24px 48px -12px rgba(99, 102, 241, 0.22), 0 0 0 1px rgba(99, 102, 241, 0.2);
-  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
 }
 
-/* Laser Shimmer Animation for CTA & Badges */
-@keyframes laser-sweep {
-  0% { transform: translateX(-150%) skewX(-25deg); }
-  100% { transform: translateX(250%) skewX(-25deg); }
+/* Mobile-Safe GPU Shimmer (Pure Opacity Pulse, Zero Glitch) */
+@keyframes cta-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.55);
+  }
 }
 
-.laser-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.laser-shimmer::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
-  animation: laser-sweep 3.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-}
-
-/* Ambient Radial Glow */
-.ambient-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.2), transparent 70%);
-}
-
-/* Pulsing Glow Animation */
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s infinite ease-in-out;
+.cta-glow-pulse {
+  animation: cta-glow 3s infinite ease-in-out;
 }

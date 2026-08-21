@@ -662,56 +662,76 @@ ${JSON.stringify(generatedSchema, null, 2)}
         </div>
       )}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 w-full space-y-12 sm:space-y-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-10 w-full space-y-10 sm:space-y-16">
         
         {/* Navigation Bar */}
-        <header className="flex flex-wrap items-center justify-between border-b border-white/[0.08] pb-5 gap-3">
-          <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25">
-              <Layers className="w-5 h-5 text-white" />
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/[0.08] pb-5 gap-3.5 sm:gap-4">
+          <div className="flex items-center justify-between w-full sm:w-auto">
+            <div className="flex items-center space-x-3 rtl:space-x-reverse">
+              <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25 shrink-0">
+                <Layers className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-extrabold tracking-tight text-white">
+                  {t.nav.title}
+                  <span className="text-indigo-400">.AI</span>
+                </span>
+                <span className="text-[10px] uppercase px-2 py-0.5 rounded-full border border-indigo-500/30 text-indigo-300 bg-indigo-500/10 font-mono tracking-wider font-semibold">
+                  {t.nav.engineVersion}
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="text-lg font-extrabold tracking-tight text-white">
-                {t.nav.title}
-                <span className="text-indigo-400">.AI</span>
-              </span>
-              <span className="ml-2 rtl:mr-2 text-[10px] uppercase px-2 py-0.5 rounded-full border border-indigo-500/30 text-indigo-300 bg-indigo-500/10 font-mono tracking-wider font-semibold">
-                {t.nav.engineVersion}
-              </span>
+
+            {/* Mobile-only compact actions */}
+            <div className="flex sm:hidden items-center gap-1.5">
+              <button
+                type="button"
+                onClick={handleResetDefaults}
+                className="p-2 rounded-lg border border-white/10 bg-white/[0.03] text-slate-300 hover:text-white"
+                title="Reset"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={handleLanguageToggle}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs font-semibold text-slate-200"
+              >
+                <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{lang === "en" ? "العربية" : "English"}</span>
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 rtl:space-x-reverse flex-wrap gap-y-2">
-            {/* Reset to Defaults Button */}
-            <button
-              type="button"
-              onClick={handleResetDefaults}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-xs text-slate-300 hover:text-white transition active:scale-95 cursor-pointer font-medium"
-              title={lang === "ar" ? "استعادة القيم الافتراضية" : "Reset to defaults"}
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{lang === "ar" ? "الافتراضي" : "Reset"}</span>
-            </button>
+          <div className="flex items-center space-x-2 rtl:space-x-reverse w-full sm:w-auto">
+            {/* Desktop-only Reset & Lang */}
+            <div className="hidden sm:flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleResetDefaults}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-xs text-slate-300 hover:text-white transition active:scale-95 cursor-pointer font-medium"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>{lang === "ar" ? "الافتراضي" : "Reset"}</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleLanguageToggle}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-slate-200 hover:text-white transition active:scale-95 cursor-pointer"
+              >
+                <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{lang === "en" ? "العربية" : "English"}</span>
+              </button>
+            </div>
 
-            {/* Language Switcher Toggle */}
-            <button
-              type="button"
-              onClick={handleLanguageToggle}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-slate-200 hover:text-white transition active:scale-95 cursor-pointer"
-              title="Switch language (EN / العربية)"
-            >
-              <Globe className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{lang === "en" ? "العربية" : "English"}</span>
-            </button>
-
-            {/* Pro Unlock Action Button with Laser Shimmer */}
+            {/* Pro Unlock Action Button */}
             <button
               type="button"
               onClick={() => setShowPaywall(true)}
-              className={`text-xs transition px-3.5 sm:px-4 py-1.5 rounded-lg border font-bold flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer ${
+              className={`w-full sm:w-auto text-xs transition px-4 py-2 sm:py-1.5 rounded-lg border font-bold flex items-center justify-center gap-1.5 shadow-sm active:scale-95 cursor-pointer ${
                 isProUnlocked
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                  : "text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/25 laser-shimmer"
+                  : "text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/25 cta-glow-pulse"
               }`}
             >
               {isProUnlocked ? (
@@ -730,82 +750,84 @@ ${JSON.stringify(generatedSchema, null, 2)}
         </header>
 
         {/* Hero & BLUF Technical Optimization Statement */}
-        <section className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-5">
+        <section className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-5 px-2">
           <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-950/40 px-3.5 py-1 text-xs font-semibold text-cyan-300 shadow-sm">
             <span className="flex h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping" />
             <span>{t.bluf.pill}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-            {t.bluf.h1Line1} <br />
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+            {t.bluf.h1Line1} <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-cyan-400 to-teal-300">
               {t.bluf.h1Line2}
             </span>
           </h1>
 
           {/* Quick Preset Chips with Vector SVG Micro-Animations */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
+          <div className="flex flex-col items-center gap-2 pt-1 text-xs">
             <span className="text-slate-400 font-semibold">{t.presets.label}</span>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("saas")}
-              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-indigo-500/10 hover:-translate-y-0.5"
-            >
-              <Terminal className="w-3.5 h-3.5 text-indigo-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" />
-              <span>{t.presets.saas}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("ecommerce")}
-              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-emerald-600/20 border border-white/10 hover:border-emerald-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-emerald-500/10 hover:-translate-y-0.5"
-            >
-              <ShoppingBag className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" />
-              <span>{t.presets.ecommerce}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("course")}
-              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-cyan-600/20 border border-white/10 hover:border-cyan-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-cyan-500/10 hover:-translate-y-0.5"
-            >
-              <GraduationCap className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
-              <span>{t.presets.course}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("event")}
-              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-rose-600/20 border border-white/10 hover:border-rose-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-rose-500/10 hover:-translate-y-0.5"
-            >
-              <Calendar className="w-3.5 h-3.5 text-rose-400 group-hover:scale-110 transition-transform duration-300" />
-              <span>{t.presets.event}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("faq")}
-              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-amber-600/20 border border-white/10 hover:border-amber-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-amber-500/10 hover:-translate-y-0.5"
-            >
-              <HelpCircle className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform duration-300" />
-              <span>{t.presets.faq}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("local")}
-              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-emerald-600/20 border border-white/10 hover:border-emerald-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-emerald-500/10 hover:-translate-y-0.5"
-            >
-              <MapPin className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" />
-              <span>{t.presets.local}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("article")}
-              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-blue-600/20 border border-white/10 hover:border-blue-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-blue-500/10 hover:-translate-y-0.5"
-            >
-              <FileText className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform duration-300" />
-              <span>{t.presets.article}</span>
-            </button>
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-full">
+              <button
+                type="button"
+                onClick={() => handleLoadPreset("saas")}
+                className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm"
+              >
+                <Terminal className="w-3.5 h-3.5 text-indigo-400 group-hover:scale-110 transition-transform duration-300" />
+                <span>{t.presets.saas}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoadPreset("ecommerce")}
+                className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-emerald-600/20 border border-white/10 hover:border-emerald-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm"
+              >
+                <ShoppingBag className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" />
+                <span>{t.presets.ecommerce}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoadPreset("course")}
+                className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-cyan-600/20 border border-white/10 hover:border-cyan-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm"
+              >
+                <GraduationCap className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
+                <span>{t.presets.course}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoadPreset("event")}
+                className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-rose-600/20 border border-white/10 hover:border-rose-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm"
+              >
+                <Calendar className="w-3.5 h-3.5 text-rose-400 group-hover:scale-110 transition-transform duration-300" />
+                <span>{t.presets.event}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoadPreset("faq")}
+                className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-amber-600/20 border border-white/10 hover:border-amber-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm"
+              >
+                <HelpCircle className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform duration-300" />
+                <span>{t.presets.faq}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoadPreset("local")}
+                className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-emerald-600/20 border border-white/10 hover:border-emerald-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm"
+              >
+                <MapPin className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" />
+                <span>{t.presets.local}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLoadPreset("article")}
+                className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-blue-600/20 border border-white/10 hover:border-blue-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm"
+              >
+                <FileText className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform duration-300" />
+                <span>{t.presets.article}</span>
+              </button>
+            </div>
           </div>
 
           {/* BLUF Definition Paragraph */}
-          <div className="rounded-2xl border border-white/[0.12] bg-[#101015]/90 p-4 sm:p-5 text-left rtl:text-right text-xs sm:text-sm text-slate-200 leading-relaxed shadow-xl">
+          <div className="rounded-2xl border border-white/[0.12] bg-[#101015] p-4 sm:p-5 text-left rtl:text-right text-xs sm:text-sm text-slate-200 leading-relaxed shadow-xl">
             <div className="flex items-center gap-1.5 text-indigo-400 font-bold text-xs uppercase tracking-wider mb-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>{t.bluf.blufTag}</span>
