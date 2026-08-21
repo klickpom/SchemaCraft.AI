@@ -741,51 +741,58 @@ ${JSON.stringify(generatedSchema, null, 2)}
             <button
               type="button"
               onClick={() => handleLoadPreset("saas")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-indigo-500/10 hover:-translate-y-0.5"
             >
-              {t.presets.saas}
+              <Terminal className="w-3.5 h-3.5 text-indigo-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" />
+              <span>{t.presets.saas}</span>
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("ecommerce")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-emerald-600/20 border border-white/10 hover:border-emerald-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-emerald-500/10 hover:-translate-y-0.5"
             >
-              {t.presets.ecommerce}
+              <ShoppingBag className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" />
+              <span>{t.presets.ecommerce}</span>
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("course")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-cyan-600/20 border border-white/10 hover:border-cyan-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-cyan-500/10 hover:-translate-y-0.5"
             >
-              {t.presets.course}
+              <GraduationCap className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
+              <span>{t.presets.course}</span>
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("event")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-rose-600/20 border border-white/10 hover:border-rose-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-rose-500/10 hover:-translate-y-0.5"
             >
-              {t.presets.event}
+              <Calendar className="w-3.5 h-3.5 text-rose-400 group-hover:scale-110 transition-transform duration-300" />
+              <span>{t.presets.event}</span>
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("faq")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-amber-600/20 border border-white/10 hover:border-amber-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-amber-500/10 hover:-translate-y-0.5"
             >
-              {t.presets.faq}
+              <HelpCircle className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform duration-300" />
+              <span>{t.presets.faq}</span>
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("local")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-emerald-600/20 border border-white/10 hover:border-emerald-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-emerald-500/10 hover:-translate-y-0.5"
             >
-              {t.presets.local}
+              <MapPin className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" />
+              <span>{t.presets.local}</span>
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("article")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 rounded-xl bg-white/[0.04] hover:bg-blue-600/20 border border-white/10 hover:border-blue-500/50 px-3 py-1.5 text-slate-200 hover:text-white transition-all duration-300 font-medium cursor-pointer active:scale-95 shadow-sm hover:shadow-blue-500/10 hover:-translate-y-0.5"
             >
-              {t.presets.article}
+              <FileText className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform duration-300" />
+              <span>{t.presets.article}</span>
             </button>
           </div>
 
