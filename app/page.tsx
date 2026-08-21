@@ -258,7 +258,7 @@ export default function Home() {
               ) : (
                 <>
                   <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-300 fill-cyan-300/30 shrink-0" />
-                  <span className="sm:hidden">{lang === 'ar' ? 'أصلح $9' : 'Pro $9'}</span>
+                  <span className="sm:hidden">{t.nav.ctaUnlockMobile}</span>
                   <span className="hidden sm:inline">{t.nav.ctaUnlock}</span>
                 </>
               )}
@@ -699,7 +699,7 @@ export default function Home() {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded-full border border-rose-500/40 bg-rose-500/15 text-rose-300">
-                          {issue.severity.toUpperCase()} ({issue.weight}x Impact)
+                          {issue.severity.toUpperCase()} ({issue.weight}x {t.blockers.impactLabel})
                         </span>
                         <span className="text-[10px] text-slate-400 font-mono">
                           {issue.category}
@@ -1103,7 +1103,7 @@ export default function Home() {
               type="button"
               onClick={() => setShowPaywall(false)}
               className="absolute top-4 right-4 rtl:right-auto rtl:left-4 p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white transition cursor-pointer"
-              title={lang === 'ar' ? 'إغلاق' : 'Close'}
+              title={t.modal.close}
             >
               <XCircle className="w-5 h-5" />
             </button>
@@ -1141,7 +1141,7 @@ export default function Home() {
                 onClick={() => setShowPaywall(false)}
                 className="text-xs text-slate-400 hover:text-white transition cursor-pointer"
               >
-                {lang === 'ar' ? 'إلغاء والعودة' : 'Cancel and return'}
+                {t.modal.cancel}
               </button>
             </div>
 

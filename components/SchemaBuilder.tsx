@@ -186,7 +186,7 @@ export function SchemaBuilder({
           <span className="text-[11px] text-zinc-400">0ms Real-Time Synthesis</span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2">
           {(Object.keys(SCHEMA_DEFINITIONS) as SchemaCategory[]).map((catKey) => {
             const isSelected = activeCategory === catKey;
             const def = SCHEMA_DEFINITIONS[catKey];

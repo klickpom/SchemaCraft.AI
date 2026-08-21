@@ -85,3 +85,17 @@ div[class*="devOverlay"] {
 .cta-glow-pulse {
   animation: cta-glow 3s infinite ease-in-out;
 }
+
+/* Glass Card (Schema Builder) */
+.glass-card {
+  background: rgba(12, 12, 18, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Decorative Grid Pattern (Schema Pages) */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

@@ -161,7 +161,7 @@ export default async function ProgrammaticSchemaPage({ params }: PageProps) {
               <span>Interactive {categoryDef.name} Workspace:</span>
             </span>
             <Link href="/" className="text-xs text-indigo-400 hover:underline">
-              ← View All 8 Schema Types
+              ← Run AI Search Audit
             </Link>
           </div>
 
