@@ -33,6 +33,9 @@ import {
   BookOpen,
   Search,
   CheckCheck,
+  Award,
+  ShieldAlert,
+  Flame,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -69,13 +72,69 @@ const DEFAULT_FORM_DATA = {
   articleSummary: "Comprehensive benchmark analysis on how deterministic Schema.org graph entities improve retrieval-augmented generation accuracy.",
 };
 
+const PRESET_ARCHETYPES = {
+  saas: {
+    type: "SoftwareApplication",
+    data: {
+      name: "ApexFlow SaaS Engine",
+      description: "Automated real-time data sync and workflow orchestration platform for high-velocity engineering teams.",
+      url: "https://apexflow.io",
+      price: "49.00",
+      currency: "USD",
+      category: "BusinessApplication",
+      authorName: "Apex Labs Global",
+      operatingSystem: "Web Browser, macOS, Linux, Windows",
+      ratingValue: "4.9",
+      ratingCount: "348",
+    },
+  },
+  ecommerce: {
+    type: "Product",
+    data: {
+      name: "Aura Pro Ergonomic Noise-Cancelling Headphones",
+      description: "Flagship wireless studio headphones with planar magnetic drivers and 40-hour ultra-low latency playback.",
+      url: "https://audiopro.store/products/aura-pro",
+      price: "249.00",
+      currency: "USD",
+      ratingValue: "4.9",
+      ratingCount: "812",
+    },
+  },
+  faq: {
+    type: "FAQPage",
+    data: {
+      question: "How does structured JSON-LD schema increase AI Search citations?",
+      answer: "Structured JSON-LD schema feeds deterministic entity graphs directly to LLM retrieval pipelines (RAG), lifting citation frequency in Perplexity and Google AI Overviews by up to +40%.",
+    },
+  },
+  local: {
+    type: "LocalBusiness",
+    data: {
+      name: "Apex Dental & Wellness Clinic",
+      streetAddress: "500 Howard Street, Suite 400",
+      city: "San Francisco",
+      state: "CA",
+      postalCode: "94105",
+      telephone: "+1 (415) 555-0199",
+    },
+  },
+  article: {
+    type: "Article",
+    data: {
+      headline: "The 2026 Architectural Guide to Generative Engine Optimization",
+      articleSummary: "Comprehensive benchmark analysis on how deterministic Schema.org graph entities improve retrieval-augmented generation accuracy.",
+      authorName: "Dr. Alexander Wright",
+    },
+  },
+};
+
 export default function HomePage() {
   const [lang, setLang] = useState<Language>("en");
   const [schemaType, setSchemaType] = useState<string>("SoftwareApplication");
   const [copied, setCopied] = useState<boolean>(false);
   const [isProUnlocked, setIsProUnlocked] = useState<boolean>(false);
   const [showPaywall, setShowPaywall] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<"code" | "serp" | "ai">("code");
+  const [activeTab, setActiveTab] = useState<"code" | "nextjs" | "shopify" | "serp" | "ai">("code");
   const [serpDevice, setSerpDevice] = useState<"desktop" | "mobile">("desktop");
   const [showCelebrationBanner, setShowCelebrationBanner] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
@@ -108,7 +167,7 @@ export default function HomePage() {
         setIsProUnlocked(true);
       }
 
-      const savedTab = localStorage.getItem(STORAGE_KEYS.ACTIVE_TAB) as "code" | "serp" | "ai";
+      const savedTab = localStorage.getItem(STORAGE_KEYS.ACTIVE_TAB) as any;
       if (savedTab) {
         setActiveTab(savedTab);
       }
@@ -144,7 +203,7 @@ export default function HomePage() {
     }
   }, [schemaType, isHydrated]);
 
-  const handleTabChange = (tab: "code" | "serp" | "ai") => {
+  const handleTabChange = (tab: "code" | "nextjs" | "shopify" | "serp" | "ai") => {
     setActiveTab(tab);
     try {
       localStorage.setItem(STORAGE_KEYS.ACTIVE_TAB, tab);
@@ -181,6 +240,12 @@ export default function HomePage() {
     } catch {
       // ignore
     }
+  };
+
+  const handleLoadPreset = (key: keyof typeof PRESET_ARCHETYPES) => {
+    const preset = PRESET_ARCHETYPES[key];
+    setSchemaType(preset.type);
+    setFormData((prev) => ({ ...prev, ...preset.data }));
   };
 
   // Close modal with Escape key & lock background scrolling when open
@@ -372,8 +437,42 @@ export default function HomePage() {
 
   const jsonString = JSON.stringify(generatedSchema, null, 2);
 
+  const nextJsJsxString = useMemo(() => {
+    return `// Next.js 15 App Router (app/page.tsx or app/layout.tsx)
+export default function Page() {
+  const jsonLd = ${JSON.stringify(generatedSchema, null, 2)};
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {/* Your page content */}
+    </>
+  );
+}`;
+  }, [generatedSchema]);
+
+  const shopifyLiquidString = useMemo(() => {
+    return `{% comment %}
+  SchemaCraft AI - Shopify JSON-LD Snippet
+  Place in snippets/schema-craft.liquid and include in theme.liquid before </head>
+{% endcomment %}
+<script type="application/ld+json">
+${JSON.stringify(generatedSchema, null, 2)}
+</script>`;
+  }, [generatedSchema]);
+
   const handleCopy = () => {
-    navigator.clipboard.writeText(jsonString);
+    const textToCopy =
+      activeTab === "nextjs"
+        ? nextJsJsxString
+        : activeTab === "shopify"
+        ? shopifyLiquidString
+        : jsonString;
+
+    navigator.clipboard.writeText(textToCopy);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -420,8 +519,8 @@ export default function HomePage() {
       a: lang === "ar" ? "السيو التقليدي يركز على الكلمات المفتاحية والروابط الخلفية للحصول على نقرة كلاسيكية في محرك البحث. بينما GEO يركز على تأصيل الكيانات الرقمية (Entity Grounding) وفقرات إجابة BLUF المباشرة ليتم تلخيص واقتباس علامتك التجارية في نتائج الذكاء الاصطناعي الفورية." : "Traditional SEO optimizes for keyword density and backlink signals to earn standard blue link clicks. GEO optimizes for machine-readable entity grounding and BLUF answer blocks so your brand is directly synthesized and cited inside AI answer engines.",
     },
     {
-      q: lang === "ar" ? "كيف أقوم بإضافة كود السكيما المولد إلى موقعي في Next.js أو Shopify؟" : "How do I embed the generated schema into Next.js 15 or Shopify?",
-      a: lang === "ar" ? "في Next.js 15: انسخ الكود وضعه داخل وسم <script type=\"application/ld+json\" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /> داخل app/layout.tsx أو app/page.tsx. في Shopify: ضعه في ملف theme.liquid قبل إغلاق وسم </head>." : "In Next.js 15: place the JSON-LD inside a <script type=\"application/ld+json\" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /> component in app/layout.tsx. In Shopify: paste it inside theme.liquid or a dedicated snippet before the </head> tag.",
+      q: lang === "ar" ? "هل هناك ضمان استرجاع أموال إذا لم أكن راضياً عن الخدمة؟" : "Is there a money-back guarantee if I am not satisfied?",
+      a: lang === "ar" ? "نعم بالتأكيد! نقدم ضمان استرجاع أموال كامل بنسبة 100% لمدة 30 يوماً بدون أي أسئلة. إذا لم تكن راضياً تماماً عن الأداة يمكنك استرداد أموالك فوراً." : "Yes, absolutely! We offer an unconditional 30-day 100% money-back guarantee. If SchemaCraft AI doesn't save you hours of work and boost your rich snippet coverage, we will issue a full refund immediately.",
     },
   ];
 
@@ -497,10 +596,10 @@ export default function HomePage() {
             <button
               type="button"
               onClick={() => setShowPaywall(true)}
-              className={`text-xs transition px-3.5 sm:px-4 py-1.5 rounded-lg border font-semibold flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer ${
+              className={`text-xs transition px-3.5 sm:px-4 py-1.5 rounded-lg border font-bold flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer ${
                 isProUnlocked
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                  : "text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600/80 to-cyan-600/80 hover:from-indigo-600 hover:to-cyan-600 shadow-lg shadow-indigo-500/20"
+                  : "text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/25 animate-pulse"
               }`}
             >
               {isProUnlocked ? (
@@ -536,6 +635,46 @@ export default function HomePage() {
               {t.bluf.h1Line2}
             </span>
           </h1>
+
+          {/* Quick Preset Chips for 0-Second Instant Gratification */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
+            <span className="text-slate-400 font-semibold">{t.presets.label}</span>
+            <button
+              type="button"
+              onClick={() => handleLoadPreset("saas")}
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+            >
+              {t.presets.saas}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleLoadPreset("ecommerce")}
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+            >
+              {t.presets.ecommerce}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleLoadPreset("faq")}
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+            >
+              {t.presets.faq}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleLoadPreset("local")}
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+            >
+              {t.presets.local}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleLoadPreset("article")}
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+            >
+              {t.presets.article}
+            </button>
+          </div>
 
           {/* BLUF Definition Paragraph */}
           <div className="rounded-2xl border border-white/[0.12] bg-[#101015]/90 p-4 sm:p-5 text-left rtl:text-right text-xs sm:text-sm text-slate-200 leading-relaxed shadow-xl">
@@ -755,16 +894,16 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right Column: Code & Simulation Viewer */}
+          {/* Right Column: Multi-Format Code & Simulation Viewer */}
           <div className="lg:col-span-7 space-y-4 sm:space-y-5">
             <div className="rounded-2xl border border-white/[0.1] bg-[#0d0d10] p-4 sm:p-5 shadow-2xl flex flex-col h-full">
               
               <div className="flex flex-wrap items-center justify-between border-b border-white/[0.08] pb-3 mb-4 gap-2">
-                <div className="flex items-center space-x-1.5 sm:space-x-2 rtl:space-x-reverse">
+                <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 rtl:space-x-reverse">
                   <button
                     type="button"
                     onClick={() => handleTabChange("code")}
-                    className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
                       activeTab === "code" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
@@ -774,8 +913,30 @@ export default function HomePage() {
 
                   <button
                     type="button"
+                    onClick={() => handleTabChange("nextjs")}
+                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                      activeTab === "nextjs" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    <Terminal className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>{t.preview.tabNextjs}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleTabChange("shopify")}
+                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                      activeTab === "shopify" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    <ShoppingBag className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>{t.preview.tabShopify}</span>
+                  </button>
+
+                  <button
+                    type="button"
                     onClick={() => handleTabChange("serp")}
-                    className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
                       activeTab === "serp" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
@@ -786,7 +947,7 @@ export default function HomePage() {
                   <button
                     type="button"
                     onClick={() => handleTabChange("ai")}
-                    className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
                       activeTab === "ai" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
@@ -811,6 +972,20 @@ export default function HomePage() {
                   className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-cyan-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[380px] sm:max-h-[440px] text-left shadow-inner"
                 >
                   <code>{jsonString}</code>
+                </pre>
+              ) : activeTab === "nextjs" ? (
+                <pre
+                  dir="ltr"
+                  className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-indigo-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[380px] sm:max-h-[440px] text-left shadow-inner"
+                >
+                  <code>{nextJsJsxString}</code>
+                </pre>
+              ) : activeTab === "shopify" ? (
+                <pre
+                  dir="ltr"
+                  className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-emerald-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[380px] sm:max-h-[440px] text-left shadow-inner"
+                >
+                  <code>{shopifyLiquidString}</code>
                 </pre>
               ) : activeTab === "serp" ? (
                 /* Google SERP Preview with Mobile / Desktop Switcher */
@@ -918,6 +1093,84 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Social Proof & Developer Testimonials */}
+        <section className="border-t border-white/[0.1] pt-10 space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-1.5">
+            <div className="inline-flex items-center gap-1 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">
+              <Award className="w-4 h-4" />
+              <span>{t.testimonials.title}</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              {lang === "ar" ? "ماذا يقول المهندسون وخبراء النمو عن سكيما كرافت" : "Engineered for Conversion & Citation Impact"}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300">
+              {t.testimonials.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl">
+              <div className="flex items-center justify-between">
+                <div className="flex text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                  ))}
+                </div>
+                <span className="rounded-md bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold text-emerald-300">
+                  {t.testimonials.t1Metric}
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed italic">
+                "{t.testimonials.t1Text}"
+              </p>
+              <div className="pt-2 border-t border-white/5">
+                <div className="text-xs font-bold text-white">{t.testimonials.t1Name}</div>
+                <div className="text-[10px] text-slate-400">{t.testimonials.t1Role}</div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl">
+              <div className="flex items-center justify-between">
+                <div className="flex text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                  ))}
+                </div>
+                <span className="rounded-md bg-indigo-500/10 border border-indigo-500/30 px-2 py-0.5 text-[10px] font-bold text-indigo-300">
+                  {t.testimonials.t2Metric}
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed italic">
+                "{t.testimonials.t2Text}"
+              </p>
+              <div className="pt-2 border-t border-white/5">
+                <div className="text-xs font-bold text-white">{t.testimonials.t2Name}</div>
+                <div className="text-[10px] text-slate-400">{t.testimonials.t2Role}</div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl">
+              <div className="flex items-center justify-between">
+                <div className="flex text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                  ))}
+                </div>
+                <span className="rounded-md bg-cyan-500/10 border border-cyan-500/30 px-2 py-0.5 text-[10px] font-bold text-cyan-300">
+                  {t.testimonials.t3Metric}
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed italic">
+                "{t.testimonials.t3Text}"
+              </p>
+              <div className="pt-2 border-t border-white/5">
+                <div className="text-xs font-bold text-white">{t.testimonials.t3Name}</div>
+                <div className="text-[10px] text-slate-400">{t.testimonials.t3Role}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Architectural Comparison Matrix (GEO 2026) */}
         <section className="border-t border-white/[0.1] pt-10">
           <div className="text-center max-w-2xl mx-auto mb-6 space-y-1.5">
@@ -1005,7 +1258,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Modal: Direct PayPal Checkout (Completely isolated modal container with perfect overlay dismissal) */}
+        {/* Modal: High-Converting PayPal Checkout */}
         {showPaywall && (
           <div
             onClick={() => setShowPaywall(false)}
@@ -1018,7 +1271,11 @@ export default function HomePage() {
               {/* Modal Fixed Top Header */}
               <div className="bg-[#16161f] px-5 sm:px-6 py-4 border-b border-white/10 flex items-center justify-between shrink-0">
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-white">{t.modal.title}</h3>
+                  <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-bold mb-1">
+                    <Flame className="w-3 h-3 text-amber-400" />
+                    <span>{t.modal.launchDeal}</span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-black text-white">{t.modal.title}</h3>
                   <p className="text-[11px] text-slate-300">{t.modal.subtitle}</p>
                 </div>
                 <button
@@ -1046,17 +1303,30 @@ export default function HomePage() {
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>{t.modal.feat3}</span>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>{t.modal.feat4}</span>
+                  </div>
                 </div>
 
-                <div className="rounded-xl bg-gradient-to-r from-indigo-950/40 to-cyan-950/40 border border-indigo-500/20 p-3.5 text-center">
-                  <div className="text-2xl font-black text-white mb-0.5">
-                    $4.99 <span className="text-xs font-normal text-slate-300">USD</span>
+                {/* Price Anchor Card */}
+                <div className="rounded-xl bg-gradient-to-r from-indigo-950/50 via-slate-900 to-cyan-950/50 border border-indigo-500/30 p-3.5 text-center shadow-inner">
+                  <div className="flex items-center justify-center gap-2.5">
+                    <span className="text-sm line-through text-slate-500 font-semibold">{t.modal.originalPrice}</span>
+                    <span className="text-3xl font-black text-white">{t.modal.currentPrice}</span>
+                    <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">{t.modal.oneTimeFee}</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">{t.modal.priceNote}</p>
+                  <p className="text-[11px] text-slate-300 mt-1">{t.modal.priceNote}</p>
+                </div>
+
+                {/* 100% Money-Back Guarantee Seal */}
+                <div className="flex items-center justify-center gap-2 rounded-lg bg-white/[0.02] border border-white/5 p-2 text-[11px] text-slate-300 font-medium">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>{t.modal.guarantee}</span>
                 </div>
 
                 {/* PayPal Smart Buttons Container */}
-                <div className="pt-2">
+                <div className="pt-1">
                   <PayPalCheckout
                     price="4.99"
                     onSuccess={handlePayPalSuccess}
@@ -1069,7 +1339,11 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/[0.08] py-8 text-center text-xs text-slate-400 space-y-2 bg-[#060608]">
+      <footer className="border-t border-white/[0.08] py-8 text-center text-xs text-slate-400 space-y-2.5 bg-[#060608]">
+        <div className="inline-flex items-center gap-1.5 text-slate-400 text-xs">
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <span>{t.footer.guaranteeBadge}</span>
+        </div>
         <p className="text-slate-300 font-medium">{t.footer.text1}</p>
         <p className="text-[11px] text-slate-500">{t.footer.text2}</p>
       </footer>
