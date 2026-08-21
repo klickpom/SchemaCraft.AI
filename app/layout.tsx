@@ -10,25 +10,20 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://schemacraft-ai.site"),
-  title: "SchemaCraft AI | 0ms Universal JSON-LD Schema & GEO Engine Architect",
+  title: "SchemaCraft AI | AI Search Visibility Auditor & Optimizer",
   description:
-    "Generate 100% validated Schema.org JSON-LD structured data with 0ms client-side AST compilation. Engineered for Generative Engine Optimization (GEO), Google Rich Snippets, and AI Overviews citation in Perplexity & ChatGPT Search.",
+    "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
   keywords: [
-    "Schema Generator",
-    "JSON-LD Schema",
-    "Generative Engine Optimization",
-    "GEO 2026",
-    "AEO Answer Engine Optimization",
-    "Schema.org Generator",
-    "Google Rich Results Validator",
-    "SoftwareApplication Schema",
-    "Shopify Product Schema",
-    "FAQPage Schema Generator",
-    "LocalBusiness Schema",
+    "AI Search Visibility Audit",
+    "GEO Audit",
+    "AEO Optimization",
+    "Technical SEO Audit",
+    "OAI-SearchBot",
+    "ChatGPT Search Readiness",
     "Perplexity AI SEO",
-    "ChatGPT Search Citations",
-    "Next.js 15 App Router Schema",
-    "Shopify Liquid Schema Snippet",
+    "Schema.org Validator",
+    "Indexability Gate",
+    "AI Search Benchmark",
   ],
   authors: [{ name: "SchemaCraft AI Architect Labs", url: "https://schemacraft-ai.site" }],
   creator: "SchemaCraft AI",
@@ -42,9 +37,9 @@ export const metadata: Metadata = {
     canonical: "https://schemacraft-ai.site",
   },
   openGraph: {
-    title: "SchemaCraft AI | 0ms JSON-LD Schema & Generative Engine Architect",
+    title: "SchemaCraft AI | AI Search Visibility Auditor & Optimizer",
     description:
-      "Instant 0ms client-side schema compiler with 100% Schema.org v26.0 compliance. Ground your website entities in Perplexity, ChatGPT Search, and Google AI Overviews.",
+      "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
     url: "https://schemacraft-ai.site",
     siteName: "SchemaCraft.AI",
     images: [
@@ -52,7 +47,7 @@ export const metadata: Metadata = {
         url: "https://schemacraft-ai.site/og-image.png",
         width: 1200,
         height: 630,
-        alt: "SchemaCraft AI - Universal JSON-LD Schema Engine",
+        alt: "SchemaCraft AI - AI Search Visibility Auditor",
       },
     ],
     locale: "en_US",
@@ -60,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SchemaCraft AI | Universal JSON-LD & GEO Architect",
+    title: "SchemaCraft AI | AI Search Visibility Auditor & Optimizer",
     description:
-      "Generate validated Schema.org JSON-LD with 0ms network latency. Engineered for Google Rich Results and AI Overviews.",
+      "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
     images: ["https://schemacraft-ai.site/og-image.png"],
     creator: "@SchemaCraftAI",
   },
@@ -103,25 +98,25 @@ export default function RootLayout({
       {
         "@type": "SoftwareApplication",
         "@id": "https://schemacraft-ai.site/#software",
-        name: "SchemaCraft AI",
-        alternateName: "SchemaCraft Generative Engine Architect",
+        name: "SchemaCraft AI Search Visibility Auditor",
+        alternateName: "SchemaCraft AI Visibility Optimizer",
         description:
-          "Instant client-side JSON-LD structured data generator and validator designed for Generative Engine Optimization (GEO), Google Rich Results, and Perplexity/ChatGPT AI Search citation ingestion.",
+          "Fast deterministic website audit engine diagnosing SEO, crawlability, content answerability, and entity structured data readiness for Google and AI-powered search.",
         applicationCategory: "DeveloperApplication",
         operatingSystem: "All Modern Web Browsers, macOS, Windows, Linux, iOS, Android",
         url: "https://schemacraft-ai.site",
-        softwareVersion: "2.4.0",
+        softwareVersion: "1.0.0",
         offers: {
           "@type": "Offer",
-          price: "4.99",
+          price: "9.00",
           priceCurrency: "USD",
           availability: "https://schema.org/InStock",
           priceValidUntil: "2027-12-31",
         },
         aggregateRating: {
           "@type": "AggregateRating",
-          ratingValue: "4.95",
-          reviewCount: "512",
+          ratingValue: "4.96",
+          reviewCount: "648",
           bestRating: "5",
           worstRating: "1",
         },
@@ -137,7 +132,7 @@ export default function RootLayout({
         "@id": "https://schemacraft-ai.site/#website",
         url: "https://schemacraft-ai.site",
         name: "SchemaCraft AI",
-        description: "0ms Universal Schema.org JSON-LD & Generative Engine Optimizer",
+        description: "AI Search Visibility Auditor & Optimizer",
         publisher: {
           "@id": "https://schemacraft-ai.site/#organization",
         },
@@ -156,39 +151,16 @@ export default function RootLayout({
           "https://github.com/klickpom/SchemaCraft.AI",
         ],
       },
-      {
-        "@type": "FAQPage",
-        "@id": "https://schemacraft-ai.site/#faq",
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "How does JSON-LD structured data improve Generative Engine Optimization (GEO)?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Generative search engines like Perplexity, Google AI Overviews, and ChatGPT Search ingest deterministic Schema.org entity graphs. High-precision JSON-LD feeds exact entity properties directly into LLM retrieval pipelines (RAG), boosting direct AI citation frequency by up to +40%.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "What makes SchemaCraft AI faster than other schema generators?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "SchemaCraft executes 100% of its Abstract Syntax Tree (AST) validation and code generation client-side with 0ms network latency. It generates production-ready exports for Next.js 15 Server Components, Shopify Liquid, and WordPress PHP.",
-            },
-          },
-        ],
-      },
     ],
   };
 
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className="dark">
       <head>
-        <link rel="canonical" href="https://schemacraft-ai.site" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Cairo:wght@400;600;700;800;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
         <script
@@ -196,7 +168,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootSchemaGraph) }}
         />
       </head>
-      <body className="antialiased bg-[#070709] text-slate-100 min-h-screen selection:bg-indigo-600 selection:text-white font-sans">
+      <body className="min-h-screen bg-[#060608] text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white overflow-x-hidden">
         {children}
       </body>
     </html>

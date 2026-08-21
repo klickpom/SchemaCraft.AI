@@ -2,552 +2,256 @@ export type Language = 'en' | 'ar';
 
 export interface Translations {
   nav: {
-    title: string;
-    engineVersion: string;
-    unlockPro: string;
-    proActive: string;
-    astActive: string;
+    brandTitle: string;
+    engineTag: string;
+    ctaUnlock: string;
+    ctaUnlocked: string;
+    shareReport: string;
+    reportShared: string;
     langEn: string;
     langAr: string;
   };
-  bluf: {
-    pill: string;
-    h1Line1: string;
-    h1Line2: string;
-    blufTag: string;
-    blufText: string;
+  hero: {
+    badge: string;
+    h1: string;
+    subtitle: string;
+    inputPlaceholder: string;
+    ctaAnalyze: string;
+    scanningText: string;
+    orTryDemo: string;
+    demoSaas: string;
+    demoEcom: string;
+    demoClinic: string;
+    demoAgency: string;
   };
-  presets: {
-    label: string;
-    saas: string;
-    ecommerce: string;
-    faq: string;
-    local: string;
-    article: string;
-    course: string;
-    event: string;
+  scanning: {
+    step1: string;
+    step2: string;
+    step3: string;
+    step4: string;
   };
-  bundleValue: {
+  scoreSection: {
+    overallTitle: string;
+    scoreExplanation: string;
+    technicalSEO: string;
+    crawlability: string;
+    contentAnswerability: string;
+    entitySchema: string;
+    aiSearchReadiness: string;
+    evidenceLedgerTitle: string;
+    evidenceLedgerSubtitle: string;
+  };
+  blockers: {
+    badge: string;
     title: string;
     subtitle: string;
-    totalValueBadge: string;
-    f1Title: string;
-    f1Desc: string;
-    f2Title: string;
-    f2Desc: string;
-    f3Title: string;
-    f3Desc: string;
-    f4Title: string;
-    f4Desc: string;
-    f5Title: string;
-    f5Desc: string;
-    f6Title: string;
-    f6Desc: string;
-    f7Title: string;
-    f7Desc: string;
-    f8Title: string;
-    f8Desc: string;
+    viewFixBtn: string;
+    signalLabel: string;
+    evidenceLabel: string;
+    whyMattersLabel: string;
+    actionLabel: string;
   };
-  score: {
-    title: string;
-    status: string;
-    check1: string;
-    check2: string;
-    check3: string;
-    check4: string;
-  };
-  builder: {
-    selectSchemaType: string;
-    targetQuery: string;
-    directAnswer: string;
-    businessName: string;
-    streetAddress: string;
-    city: string;
-    telephone: string;
-    articleHeadline: string;
-    articleSummary: string;
-    authorName: string;
-    entityName: string;
-    entityProposition: string;
-    price: string;
-    currency: string;
-    appCategory: string;
-    courseTitle: string;
-    courseDescription: string;
-    courseProvider: string;
-    eventName: string;
-    eventDate: string;
-    eventLocation: string;
-    astValid: string;
-    downloadBundle: string;
-  };
-  benchmarks: {
-    title: string;
-    citationRate: string;
-    parsingLatency: string;
-    schemaValid: string;
-  };
-  preview: {
-    tabCode: string;
-    tabNextjs: string;
-    tabShopify: string;
-    tabSerp: string;
-    tabAi: string;
-    copyCode: string;
-    copied: string;
-    minify: string;
-    beautify: string;
-    testGoogle: string;
-    testSchemaOrg: string;
-    serpTitle: string;
-    inStock: string;
-    aiTitle: string;
-    llmParseable: string;
-    entityStatus: string;
-  };
-  installation: {
+  lockedSection: {
+    badge: string;
     title: string;
     subtitle: string;
-    nextjsTitle: string;
-    nextjsDesc: string;
-    shopifyTitle: string;
-    shopifyDesc: string;
-    wordpressTitle: string;
-    wordpressDesc: string;
-    webflowTitle: string;
-    webflowDesc: string;
+    ctaUnlockAll: string;
+    ctaSubtext: string;
+    feature1: string;
+    feature2: string;
+    feature3: string;
+    feature4: string;
   };
-  testimonials: {
+  opportunitySection: {
+    badge: string;
     title: string;
     subtitle: string;
-    t1Name: string;
-    t1Role: string;
-    t1Text: string;
-    t1Metric: string;
-    t2Name: string;
-    t2Role: string;
-    t2Text: string;
-    t2Metric: string;
-    t3Name: string;
-    t3Role: string;
-    t3Text: string;
-    t3Metric: string;
+    coveredTag: string;
+    partiallyCoveredTag: string;
+    missingTag: string;
   };
-  matrix: {
+  agencyBanner: {
     title: string;
-    subtitle: string;
-    colFeature: string;
-    colTrad: string;
-    colGeo: string;
-    colImpact: string;
-    row1Title: string;
-    row1Trad: string;
-    row1Geo: string;
-    row1Impact: string;
-    row2Title: string;
-    row2Trad: string;
-    row2Geo: string;
-    row2Impact: string;
-    row3Title: string;
-    row3Trad: string;
-    row3Geo: string;
-    row3Impact: string;
+    desc: string;
+    ctaCopyLink: string;
   };
   modal: {
     title: string;
     subtitle: string;
-    launchDeal: string;
-    originalPrice: string;
-    currentPrice: string;
-    oneTimeFee: string;
-    feat1: string;
-    feat2: string;
-    feat3: string;
-    feat4: string;
+    price: string;
     guarantee: string;
-    priceNote: string;
-    instantUnlock: string;
-    sslNote: string;
-    supportNote: string;
-    close: string;
-  };
-  toast: {
-    title: string;
-    desc: string;
-  };
-  footer: {
-    text1: string;
-    text2: string;
-    guaranteeBadge: string;
-    supportEmail: string;
+    support: string;
+    instantAccess: string;
   };
 }
 
-export const TRANSLATIONS: Record<Language, Translations> = {
+export const translations: Record<Language, Translations> = {
   en: {
     nav: {
-      title: 'SchemaCraft',
-      engineVersion: 'v2.4',
-      unlockPro: 'Unlock Pro ($4.99)',
-      proActive: 'Pro Active',
-      astActive: 'AST Validator: Active',
+      brandTitle: 'SchemaCraft',
+      engineTag: 'Audit Engine v1.0',
+      ctaUnlock: 'Fix My Website — $9',
+      ctaUnlocked: 'Full Audit Unlocked',
+      shareReport: 'Share Snapshot',
+      reportShared: 'Link Copied!',
       langEn: 'English',
       langAr: 'العربية',
     },
-    bluf: {
-      pill: '0ms Client-Side AST Engine • Schema.org v26.0',
-      h1Line1: 'Universal JSON-LD Schema &',
-      h1Line2: 'Generative Engine Architect',
-      blufTag: 'Bottom Line Up Front (BLUF) Technical Guarantee',
-      blufText:
-        'SchemaCraft AI is an instantaneous client-side schema compiler that generates validated Schema.org JSON-LD structured data with 0ms network latency. Engineered for Generative Engine Optimization (GEO), it provides deterministic entity grounding for Perplexity, Google AI Overviews, and ChatGPT Search, increasing citation probability by up to +40% with 100% zero-error validation.',
+    hero: {
+      badge: 'Fast Deterministic SEO + GEO + AEO Diagnostic',
+      h1: 'See How Search Engines and AI Understand Your Website',
+      subtitle: 'Run a free SEO + AI Search audit and uncover the technical, content, entity, and crawlability issues limiting your visibility.',
+      inputPlaceholder: 'Enter your website URL (e.g. https://yourcompany.com)...',
+      ctaAnalyze: 'Analyze My Website →',
+      scanningText: 'Running Deep Diagnostic Scan...',
+      orTryDemo: 'Or Explore a Live Demo Audit:',
+      demoSaas: 'SaaS Platform',
+      demoEcom: 'Shopify Store',
+      demoClinic: 'Dental Clinic',
+      demoAgency: 'B2B Agency',
     },
-    presets: {
-      label: 'Quick Archetype Blueprints:',
-      saas: 'Next.js 15 SaaS',
-      ecommerce: 'Shopify Store',
-      faq: 'AEO & AI FAQ',
-      local: 'Local 3-Pack',
-      article: 'Editorial Article',
-      course: 'Online Course',
-      event: 'Tech Webinar',
+    scanning: {
+      step1: 'Evaluating Server HTTP Status & Indexability Gate...',
+      step2: 'Inspecting robots.txt, OAI-SearchBot & Bot Firewalls...',
+      step3: 'Parsing Content, Headings & Direct BLUF Answerability...',
+      step4: 'Auditing Schema.org Entity Graph & Weighted Score Matrix...',
     },
-    bundleValue: {
-      title: 'What is inside the $4.99 Enterprise ZIP Bundle?',
-      subtitle: 'Complete 10-in-1 multi-framework developer production kit containing everything you need for high-converting client deployments.',
-      totalValueBadge: 'Total Real Value: $621 → Yours for $4.99 (99% OFF)',
-      f1Title: '1. Validated JSON-LD Schema (.json)',
-      f1Desc: 'Full Schema.org v26.0 W3C-compliant machine-readable structured data block.',
-      f2Title: '2. Next.js 15 Server Component (.tsx)',
-      f2Desc: 'Ready-to-use TypeScript React 19 component for instant App Router embedding.',
-      f3Title: '3. Shopify Liquid Theme Snippet (.liquid)',
-      f3Desc: 'Pre-configured theme snippet for Shopify & Salla e-commerce stores.',
-      f4Title: '4. WordPress Header Hook (.php)',
-      f4Desc: 'Clean PHP script ready for functions.php or Code Snippets plugin.',
-      f5Title: '5. Nuxt 3, Astro & Svelte Connectors (.vue, .astro, .svelte)',
-      f5Desc: 'Modern framework head injectors for Vue 3, Nuxt, Astro v4/v5, and SvelteKit.',
-      f6Title: '6. Commercial Perpetual License (.txt)',
-      f6Desc: 'Unrestricted royalty-free commercial rights for unlimited personal & client projects.',
-      f7Title: '7. GEO 2026 AI Citation Playbook (.md)',
-      f7Desc: 'Exclusive 12-step technical guide for dominating Perplexity and ChatGPT Search citations.',
-      f8Title: '8. GSC 20-Point Audit Checklist (.md)',
-      f8Desc: 'Production QA checklist to guarantee 100% zero-error validation in Google Search Console.',
+    scoreSection: {
+      overallTitle: 'AI Search Visibility Score',
+      scoreExplanation: 'Weighted composite metric evaluated across 5 core technical & semantic search dimensions.',
+      technicalSEO: 'Technical SEO',
+      crawlability: 'Crawlability & Bots',
+      contentAnswerability: 'Content & Answers',
+      entitySchema: 'Entity & Schema.org',
+      aiSearchReadiness: 'AI Search Readiness',
+      evidenceLedgerTitle: 'Raw Evidence Ledger (Why this score exists)',
+      evidenceLedgerSubtitle: 'Deterministic signals inspected directly on the target website.',
     },
-    score: {
-      title: 'GEO / AEO Citation Readiness Score',
-      status: 'Engine Grounding Optimal',
-      check1: 'Deterministic Entity Anchoring (@id & @type)',
-      check2: 'Machine-Readable Pricing & Stock Metadata',
-      check3: 'BLUF Natural Language Vector Compatibility',
-      check4: 'Schema.org v26.0 W3C Compliant AST',
+    blockers: {
+      badge: 'Immediate Action Required',
+      title: 'Top 3 Detected Visibility Blockers',
+      subtitle: 'These critical issues directly hinder how Google, ChatGPT Search, and AI engines discover and parse your pages.',
+      viewFixBtn: 'View Ready Fix Code →',
+      signalLabel: 'Signal Detected:',
+      evidenceLabel: 'Raw Evidence:',
+      whyMattersLabel: 'Why It Matters:',
+      actionLabel: 'Recommended Action:',
     },
-    builder: {
-      selectSchemaType: 'Select Schema.org Entity Type',
-      targetQuery: 'Target AI Search Query (Question)',
-      directAnswer: 'Direct Answer Summary (BLUF 40-60 words)',
-      businessName: 'Business Name',
-      streetAddress: 'Street Address',
-      city: 'City',
-      telephone: 'Telephone',
-      articleHeadline: 'Article Headline',
-      articleSummary: 'Article Summary',
-      authorName: 'Author / Brand Name',
-      entityName: 'Entity / Product Name',
-      entityProposition: 'Entity Value Proposition',
-      price: 'Price',
-      currency: 'Currency',
-      appCategory: 'Application Category',
-      courseTitle: 'Course Title',
-      courseDescription: 'Course Curriculum Overview',
-      courseProvider: 'Issuing Academy / Provider',
-      eventName: 'Event / Webinar Title',
-      eventDate: 'Event Start Date (YYYY-MM-DD)',
-      eventLocation: 'Venue or Online URL',
-      astValid: 'AST Validation: 100% Valid',
-      downloadBundle: 'Download Pro Bundle ($4.99)',
+    lockedSection: {
+      badge: 'Full Action Plan',
+      title: '11+ Additional High-Impact Opportunities Found',
+      subtitle: 'Unlock complete evidence breakdowns, priority severity matrix, and interactive code fixes for all detected issues.',
+      ctaUnlockAll: 'Fix My Website — $9 (One-Time)',
+      ctaSubtext: 'Instant access to all 17+ fixes across WordPress, Next.js, and Shopify. 30-Day Money-Back Guarantee.',
+      feature1: '17+ Prioritized Technical & Content Issues with Evidence',
+      feature2: 'Interactive Fix Generator for WordPress, Next.js 15 & Shopify',
+      feature3: 'AI Search Opportunity Finder & Niche Query Matrix',
+      feature4: 'Shareable Snapshot Link for Client & Prospect Presentations',
     },
-    benchmarks: {
-      title: 'Citation Engine Benchmarks',
-      citationRate: 'AI Citation Rate',
-      parsingLatency: 'Parsing Latency',
-      schemaValid: 'Schema.org Valid',
+    opportunitySection: {
+      badge: 'AI Search Opportunity Finder',
+      title: 'High-Intent Niche Search Queries',
+      subtitle: 'Evaluation of how well your current landing page content answers top commercial and informational queries.',
+      coveredTag: 'Covered in Content',
+      partiallyCoveredTag: 'Partially Covered',
+      missingTag: 'Coverage Gap (Missing)',
     },
-    preview: {
-      tabCode: 'JSON-LD',
-      tabNextjs: 'Next.js 15 JSX',
-      tabShopify: 'Shopify Liquid',
-      tabSerp: 'Google SERP',
-      tabAi: 'AI Overview',
-      copyCode: 'Copy Code',
-      copied: 'Copied to Clipboard!',
-      minify: 'Minified',
-      beautify: 'Formatted',
-      testGoogle: 'Test in Google Rich Results',
-      testSchemaOrg: 'Validate on Schema.org',
-      serpTitle: 'Official Technical Specification',
-      inStock: 'In stock',
-      aiTitle: 'Perplexity & ChatGPT Search Grounding',
-      llmParseable: '100% LLM Parseable AST',
-      entityStatus: 'Deterministic Graph',
-    },
-    installation: {
-      title: '30-Second Integration Across All Platforms',
-      subtitle: 'Copy-paste validated JSON-LD schema into your tech stack with zero performance overhead.',
-      nextjsTitle: 'Next.js 15 & React 19',
-      nextjsDesc: 'Paste the Next.js JSX component directly into your app/page.tsx or app/layout.tsx Server Component.',
-      shopifyTitle: 'Shopify & E-Commerce',
-      shopifyDesc: 'Add the Liquid snippet into snippets/schema.liquid and render it before the </head> tag in theme.liquid.',
-      wordpressTitle: 'WordPress & WooCommerce',
-      wordpressDesc: 'Insert the generated JSON-LD script into your theme Header scripts or using any Code Snippets plugin.',
-      webflowTitle: 'Webflow & Framer',
-      webflowDesc: 'Add an Embed component or Custom Code block in Page Settings inside the Inside <head> tag section.',
-    },
-    testimonials: {
-      title: 'Trusted by 1,400+ Technical Founders & SEO Architects',
-      subtitle: 'Real ranking and citation improvements measured across production deployments.',
-      t1Name: 'Marcus Vance',
-      t1Role: 'Lead Technical SEO at ScaleVibe Agency',
-      t1Text: 'We migrated 40+ client websites to SchemaCraft-generated schemas. Within 14 days, Perplexity citations grew by +47% and Google rich stars appeared on 92% of product URLs.',
-      t1Metric: '+47% AI Citations',
-      t2Name: 'Elena Rostova',
-      t2Role: 'Principal Full-Stack Engineer',
-      t2Text: 'The Next.js 15 App Router JSX export saved our engineering team dozens of hours. Zero hydration cost, completely clean AST format, and flawless Google Rich Results tests.',
-      t2Metric: '0ms Hydration Overhead',
-      t3Name: 'Tariq Al-Mansoor',
-      t3Role: 'E-Commerce Growth Director',
-      t3Text: 'Generating valid Shopify Liquid schema with price, stock, and aggregate ratings without bulky third-party Shopify apps improved our mobile PageSpeed score to 99/100.',
-      t3Metric: '+38% Organic Revenue',
-    },
-    matrix: {
-      title: 'Structured Data vs AI Overviews (GEO 2026 Matrix)',
-      subtitle: 'Technical performance metrics across retrieval systems and language model citations.',
-      colFeature: 'Optimization Feature',
-      colTrad: 'Traditional SEO',
-      colGeo: 'Generative Engine Optimization (GEO)',
-      colImpact: 'Impact Factor',
-      row1Title: 'JSON-LD Schema Graph',
-      row1Trad: 'Rich Snippets only',
-      row1Geo: 'Direct Entity Recognition in LLM Contexts',
-      row1Impact: '+40% Citation Lift',
-      row2Title: 'BLUF Answer Paragraphs',
-      row2Trad: 'Dwell time improvement',
-      row2Geo: 'RAG Chunk Vector Match',
-      row2Impact: '+30.2% Ingestion Speed',
-      row3Title: 'Client-Side Zero Latency',
-      row3Trad: 'Core Web Vitals Pass',
-      row3Geo: 'Immediate Bot Indexing & Crawl Protection',
-      row3Impact: '100% Crawl Efficiency',
+    agencyBanner: {
+      title: 'Agency Sales Weapon: Audit Any Prospect Before Your Call',
+      desc: 'Use this diagnostic report as an evidence-backed sales asset to close high-ticket SEO & AI optimization retainer clients.',
+      ctaCopyLink: 'Copy Shareable Audit Snapshot',
     },
     modal: {
-      title: 'Unlock SchemaCraft Pro Lifetime',
-      subtitle: 'One-time payment • Lifetime updates • No recurring subscriptions',
-      launchDeal: 'Early-Bird Launch Deal — 90% OFF',
-      originalPrice: '$49.00',
-      currentPrice: '$4.99',
-      oneTimeFee: 'USD One-Time',
-      feat1: 'Instant 6-File Enterprise ZIP Bundle (Next.js 15, Shopify Liquid, WordPress PHP, JSON-LD)',
-      feat2: 'Full Perpetual Commercial License for Unlimited Client & Personal Websites',
-      feat3: 'Exclusive GEO 2026 AI Search & Citation Technical Playbook included',
-      feat4: '100% Schema.org v26.0 & Google Rich Results Zero-Error Guarantee',
-      guarantee: '30-Day 100% Money-Back Guarantee • Zero Risk',
-      priceNote: 'Instant unlock via PayPal or Credit/Debit Card',
-      instantUnlock: 'Unlock Pro Lifetime ($4.99 USD)',
-      sslNote: 'Verified 256-bit SSL Encrypted & PayPal Protected Checkout',
-      supportNote: 'Need help or refund? Email support@schemacraft-ai.site for 24h resolution.',
-      close: 'Close (Esc)',
-    },
-    toast: {
-      title: 'Pro License Verified & Activated!',
-      desc: 'Your 6-File Enterprise Production ZIP Bundle has been downloaded automatically.',
-    },
-    footer: {
-      text1: 'SchemaCraft AI Engine - Pure Single-Utility SaaS Architecture.',
-      text2: 'Direct PayPal Integration | 0ms Client Latency | 2026 Standards',
-      guaranteeBadge: '100% Satisfaction or Full Refund within 30 Days',
-      supportEmail: 'Official Support & Inquiries: support@schemacraft-ai.site',
+      title: 'Unlock Full Audit & Interactive Fix Generator',
+      subtitle: 'Get instant, production-ready code fixes for WordPress, Next.js, and Shopify across all 17+ detected issues.',
+      price: '$9.00 USD (One-Time Lifetime Access)',
+      guarantee: '100% Satisfaction Guarantee or Full Refund within 30 Days',
+      support: 'Official Inquiries: support@schemacraft-ai.site',
+      instantAccess: 'Instant Unlock via PayPal Checkout',
     },
   },
   ar: {
     nav: {
-      title: 'SchemaCraft',
-      engineVersion: 'v2.4',
-      unlockPro: 'فتح رخصة برو ($4.99)',
-      proActive: 'برو مفعل',
-      astActive: 'مدقق السكيما: نشط 100%',
+      brandTitle: 'SchemaCraft',
+      engineTag: 'محرك الفحص v1.0',
+      ctaUnlock: 'أصلح موقعي الآن — $9',
+      ctaUnlocked: 'تم فتح الفحص بالكامل',
+      shareReport: 'مشاركة التقرير',
+      reportShared: 'تم نسخ الرابط!',
       langEn: 'English',
       langAr: 'العربية',
     },
-    bluf: {
-      pill: 'معالجة فورية 0ms • متوافق 100% مع Schema.org v26.0',
-      h1Line1: 'مولد وهيكل بيانات JSON-LD العالمي',
-      h1Line2: 'لتتصدر محركات البحث التوليدي والذكاء الاصطناعي',
-      blufTag: 'الضمان الفني المباشر (BLUF Standard)',
-      blufText:
-        'سكيما كرافت AI هو محرك متطور من جانب العميل يعمل بسرعة استجابة 0ms لتوليد بيانات منظمة متوافقة مع Schema.org و Google Rich Results. مصمم لتحسين محركات البحث التوليدية (GEO)، ليغذي محركات Perplexity و Google AI Overviews و ChatGPT بمعلومات حتمية دقيقة ترفع معدل الاقتباس المباشر حتى +40% بدون أخطاء.',
+    hero: {
+      badge: 'فحص تشخيصي حتمي شامل لـ SEO والذكاء الاصطناعي',
+      h1: 'اكتشف كيف تفهم محركات البحث والذكاء الاصطناعي موقعك',
+      subtitle: 'قم بتشغيل فحص مجاني شامل واكتشف المشاكل التقنية ومشاكل المحتوى والزحف التي تحد من ظهور وفهم موقعك.',
+      inputPlaceholder: 'أدخل رابط موقعك (مثال: https://yourcompany.com)...',
+      ctaAnalyze: 'افحص موقعي الآن →',
+      scanningText: 'جاري تشغيل الفحص التشخيصي العميق...',
+      orTryDemo: 'أو استكشف نماذج فحص حية جاهزة:',
+      demoSaas: 'تطبيق ساس',
+      demoEcom: 'متجر شوبيفاي',
+      demoClinic: 'عيادة طبية',
+      demoAgency: 'وكالة B2B',
     },
-    presets: {
-      label: 'نماذج جاهزة بنقرة واحدة:',
-      saas: 'ساس وتطبيقات Next.js',
-      ecommerce: 'متجر شوبيفاي وسلة',
-      faq: 'أسئلة واقتباسات AI',
-      local: 'خرائط جوجل ونشاط محلي',
-      article: 'مقال وأخبار',
-      course: 'دورة تعليمية وكورس',
-      event: 'ويبينار وحدث تقني',
+    scanning: {
+      step1: 'فحص استجابة الخادم وبوابة الفهرسة (Indexability Gate)...',
+      step2: 'فحص ملف robots.txt وبوت شات جي بي تي (OAI-SearchBot)...',
+      step3: 'تحليل المحتوى والعناوين وقابلية الإجابة المباشرة (BLUF)...',
+      step4: 'تدقيق شبكة بيانات السكيما المنظمة وحساب مصفوفة النقاط...',
     },
-    bundleValue: {
-      title: 'ماذا تتضمن حزمة الشركات المتكاملة (10-in-1 Enterprise ZIP Bundle) بسعر $4.99؟',
-      subtitle: 'حزمة أدوات متكاملة وشاملة بـ 10 أصول برمجية واستراتيجية جاهزة للاستخدام في جميع مشاريعك ومشاريع عملائك.',
-      totalValueBadge: 'القيمة الإجمالية الحقيقية: $621 → ملكك اليوم بـ $4.99 فقط (خصم 99%)',
-      f1Title: '1. ملف سكيما JSON-LD القياسي (.json)',
-      f1Desc: 'بيانات منظمة متطابقة 100% مع معايير W3C و Schema.org v26.0.',
-      f2Title: '2. مكون Next.js 15 Server Component (.tsx)',
-      f2Desc: 'كود جاهز للتضمين المباشر في مشاريع App Router و React 19.',
-      f3Title: '3. سكريبت شوبيفاي وسلة المخصص (.liquid)',
-      f3Desc: 'كود Liquid مهيأ للتضمين في قوالب شوبيفاي ومتاجر سلة بدون تطبيقات تبطئ المتجر.',
-      f4Title: '4. كود ووردبريس وووكومرس (.php)',
-      f4Desc: 'سكريبت PHP جاهز للربط مع functions.php أو إضافة Code Snippets.',
-      f5Title: '5. موصلات Nuxt 3 و Astro و SvelteKit (.vue, .astro, .svelte)',
-      f5Desc: 'مكونات جاهزة لأحدث أطر العمل الحديثة لحقن السكيما في الـ Head فوراً.',
-      f6Title: '6. وثيقة الترخيص التجاري الدائم (.txt)',
-      f6Desc: 'حقوق استخدام تجاري غير محدودة لعدد لا نهائي من مواقعك ومواقع عملائك مدى الحياة.',
-      f7Title: '7. كتيب استراتيجيات تصدر الذكاء الاصطناعي GEO 2026 (.md)',
-      f7Desc: 'دليل تقني حصري من 12 خطوة لتتصدر استشهادات Perplexity و ChatGPT Search.',
-      f8Title: '8. قائمة فحص الجودة المعتمدة لـ Google Search Console (.md)',
-      f8Desc: 'قائمة تدقيق تقنية بـ 20 نقطة لضمان اجتياز اختبارات Google Rich Results بنسبة 100%.',
+    scoreSection: {
+      overallTitle: 'مقياس جاهزية الظهور في محركات البحث والذكاء الاصطناعي',
+      scoreExplanation: 'مقياس مركب وموزون مبني على 5 أبعاد تقنية ودلالية حاسمة.',
+      technicalSEO: 'السيو التقني (Technical SEO)',
+      crawlability: 'قابلية الزحف والبوتات',
+      contentAnswerability: 'المحتوى والإجابات المباشرة',
+      entitySchema: 'الكيان وبيانات Schema.org',
+      aiSearchReadiness: 'الجاهزية للذكاء الاصطناعي',
+      evidenceLedgerTitle: 'سجل الأدلة المرصودة (لماذا حصلت على هذه النتيجة؟)',
+      evidenceLedgerSubtitle: 'إشارات حتمية تم فحصها والتأكد منها مباشرة في كود موقعك.',
     },
-    score: {
-      title: 'مقياس جاهزية الاقتباس في الذكاء الاصطناعي (GEO/AEO)',
-      status: 'جاهزية واقتباس مثالي بنسبة 100%',
-      check1: 'تأصيل الكيانات الرقمية الحتمي (@id & @type)',
-      check2: 'بيانات وصفية دقيقة للسعر والمخزون مقروءة للآلة',
-      check3: 'توافق فقرات BLUF مع متجهات استرجاع الـ RAG',
-      check4: 'مطابقة قياسية 100% لمواصفات W3C و Schema.org v26.0',
+    blockers: {
+      badge: 'مطلوب اتخاذ إجراء فوري',
+      title: 'أهم 3 عوائق حرجة تمنع ظهور وفهم موقعك',
+      subtitle: 'هذه المشاكل الحرجة تؤثر مباشرة على قدرة جوجل وبحث ChatGPT ومحركات الذكاء الاصطناعي على قراءة موقعك.',
+      viewFixBtn: 'عرض كود الإصلاح الجاهز →',
+      signalLabel: 'الإشارة المرصودة:',
+      evidenceLabel: 'الدليل المباشر:',
+      whyMattersLabel: 'لماذا يهم محركات البحث؟',
+      actionLabel: 'الإجراء الموصى به:',
     },
-    builder: {
-      selectSchemaType: 'اختر نوع السكيما (Schema.org Type)',
-      targetQuery: 'سؤال البحث المستهدف للذكاء الاصطناعي (Question)',
-      directAnswer: 'الإجابة المباشرة المختصرة (BLUF 40-60 كلمة)',
-      businessName: 'اسم النشاط التجاري / الشركة',
-      streetAddress: 'عنوان الشارع / المقر',
-      city: 'المدينة',
-      telephone: 'رقم الهاتف',
-      articleHeadline: 'عنوان المقال الرئيسي',
-      articleSummary: 'ملخص المقال',
-      authorName: 'اسم الكاتب / العلامة التجارية',
-      entityName: 'اسم المنتج أو المنظومة',
-      entityProposition: 'القيمة المقترحة ووصف المنتج',
-      price: 'السعر',
-      currency: 'العملة',
-      appCategory: 'تصنيف التطبيق البرمجي',
-      courseTitle: 'عنوان الدورة أو الكورس',
-      courseDescription: 'ملخص المنهج ومحتوى الدورة',
-      courseProvider: 'اسم الأكاديمية أو المنصة المزودة',
-      eventName: 'اسم الفعالية أو الويبينار',
-      eventDate: 'تاريخ بدء الفعالية (YYYY-MM-DD)',
-      eventLocation: 'مقر الفعالية أو رابط البث المباشر',
-      astValid: 'فحص الـ AST: صالح بنسبة 100%',
-      downloadBundle: 'تحميل حزمة برو الشاملة ($4.99)',
+    lockedSection: {
+      badge: 'خطة العمل الشاملة',
+      title: 'تم اكتشاف 11+ فرصة تحسين إضافية عالية التأثير',
+      subtitle: 'افتح تفاصيل الأدلة الكاملة، ومصفوفة الأولوية، وأكواد الإصلاح التفاعلية لجميع المشاكل المكتشفة.',
+      ctaUnlockAll: 'أصلح موقعي الآن — $9 (دفعة واحدة)',
+      ctaSubtext: 'وصول فوري لجميع الأكواد الجاهزة لووردبريس وNext.js وشوبيفاي مع ضمان استرجاع 30 يوماً.',
+      feature1: '17+ مشكلة تقنية ومحتوى مرتبة حسب الأولوية مع الأدلة الكاملة',
+      feature2: 'مولد إصلاحات تفاعلي جاهز لـ WordPress و Next.js 15 و Shopify',
+      feature3: 'مستكشف فرص أسئلة واستفسارات الذكاء الاصطناعي لمجال عملك',
+      feature4: 'رابط تقرير فحص مباشر لمشاركته مع العملاء المحتملين في الوكالات',
     },
-    benchmarks: {
-      title: 'مقاييس محركات الاقتباس الذكية',
-      citationRate: 'معدل الاقتباس في AI',
-      parsingLatency: 'زمن المعالجة الفعلي',
-      schemaValid: 'مطابقة Schema.org',
+    opportunitySection: {
+      badge: 'مستكشف فرص استفسارات الذكاء الاصطناعي',
+      title: 'أسئلة البحث عالية القيمة لمجال عملك',
+      subtitle: 'تقييم مدى إجابة محتوى صفحتك الحالية على الأسئلة التجارية والمعلوماتية الأكثر بحثاً.',
+      coveredTag: 'مغطاة في المحتوى',
+      partiallyCoveredTag: 'مغطاة جزئياً',
+      missingTag: 'فجوة في المحتوى (مفقودة)',
     },
-    preview: {
-      tabCode: 'JSON-LD',
-      tabNextjs: 'Next.js 15 JSX',
-      tabShopify: 'Shopify Liquid',
-      tabSerp: 'معاينة بحث جوجل',
-      tabAi: 'معاينة الذكاء الاصطناعي',
-      copyCode: 'نسخ الكود',
-      copied: 'تم النسخ إلى الحافظة بنجاح!',
-      minify: 'كود مضغوط (Minified)',
-      beautify: 'كود منسق (Formatted)',
-      testGoogle: 'اختبار في نتائج جوجل الغنية',
-      testSchemaOrg: 'التحقق في Schema.org',
-      serpTitle: 'المواصفات الفنية الرسمية',
-      inStock: 'متوفر في المخزون',
-      aiTitle: 'استشهادات Perplexity و ChatGPT Search',
-      llmParseable: 'هيكل بيانات مقروء للذكاء الاصطناعي 100%',
-      entityStatus: 'رسم بياني حتمي وموثق',
-    },
-    installation: {
-      title: 'دمج وتضمين سريع خلال 30 ثانية في جميع المنصات',
-      subtitle: 'انسخ كود السكيما الموثق والصقه في موقعك بدون أي تأثير على سرعة التحميل.',
-      nextjsTitle: 'مواقع Next.js 15 و React 19',
-      nextjsDesc: 'الصق كود الـ JSX مباشرة داخل مكون app/page.tsx أو app/layout.tsx بدون أي كلفة تحميل.',
-      shopifyTitle: 'متاجر شوبيفاي، سلة، وزد',
-      shopifyDesc: 'أضف كود Liquid في ملف snippets/schema.liquid واستدعه في theme.liquid قبل وسم </head>.',
-      wordpressTitle: 'ووردبريس ومتاجر ووكومرس',
-      wordpressDesc: 'أدخل كود السكيما في إعدادات الهيدر (Header Scripts) أو باستخدام أي إضافة Snippets.',
-      webflowTitle: 'مواقع Webflow و Framer',
-      webflowDesc: 'أضف عنصر Custom Code وضع الكود في إعدادات الصفحة داخل قسم Inside <head> tag.',
-    },
-    testimonials: {
-      title: 'موثوق من قِبل أكثر من 1,400 مؤسس تقني ومهندس SEO',
-      subtitle: 'نتائج حقيقية موثقة في تحسين ترتيب محركات البحث واقتباسات الذكاء الاصطناعي.',
-      t1Name: 'ماركوس فانس',
-      t1Role: 'رئيس قسم الـ SEO التقني في وكالة ScaleVibe',
-      t1Text: 'قمنا بنقل أكثر من 40 موقع عميل لسكيما كرافت. خلال 14 يوماً فقط، ارتفعت استشهادات Perplexity بنسبة +47% وظهرت نجوم التقييم الصفراء على 92% من صفحات المنتجات في جوجل.',
-      t1Metric: '+47% اقتباسات AI',
-      t2Name: 'إيلينا روستوفا',
-      t2Role: 'مهندسة برمجيات أولى (Full-Stack Architect)',
-      t2Text: 'تصدير أكواد Next.js 15 App Router المباشر وفّر على فريقنا عشرات الساعات. كود فائق النظافة وبدون أي حمل على الأداء واجتاز اختبارات Google Rich Results بنسبة 100%.',
-      t2Metric: '0ms وقت تحميل إضافي',
-      t3Name: 'طارق المنصور',
-      t3Role: 'مدير نمو المتاجر الإلكترونية',
-      t3Text: 'توليد سكيما Liquid لشوبيفاي وسلة مع السعر والمخزون والتقييمات دون تثبيت تطبيقات تبطئ المتجر رفع سرعة متجرنا على الموبايل إلى 99/100 مع زيادة في المبيعات.',
-      t3Metric: '+38% أرباح عضوية',
-    },
-    matrix: {
-      title: 'مقارنة البيانات المنظمة مع بحث الذكاء الاصطناعي (GEO 2026)',
-      subtitle: 'مقاييس الأداء الفني عبر أنظمة الاسترجاع وتضمينات نماذج اللغة الكبيرة.',
-      colFeature: 'الميزة الفنية',
-      colTrad: 'السيو التقليدي (Traditional SEO)',
-      colGeo: 'تحسين محركات البحث التوليدي (GEO)',
-      colImpact: 'عامل التأثير',
-      row1Title: 'هيكل JSON-LD Graph',
-      row1Trad: 'مقتطفات غنية فقط (Rich Snippets)',
-      row1Geo: 'تعرف مباشر على الكيانات في سياق الـ LLM',
-      row1Impact: '+40% زيادة الاستشهاد',
-      row2Title: 'فقرات إجابة BLUF المباشرة',
-      row2Trad: 'تحسين مدة البقاء في الصفحة',
-      row2Geo: 'تطابق متجهات RAG الفوري',
-      row2Impact: '+30.2% سرعة الفهرسة',
-      row3Title: 'سرعة استجابة 0ms بدون خادم',
-      row3Trad: 'اجتياز Core Web Vitals',
-      row3Geo: 'أرشفة فورية وحماية ميزانية الزحف',
-      row3Impact: '100% كفاءة الزحف',
+    agencyBanner: {
+      title: 'أداة الوكالات المغناطيسية: افحص موقع أي عميل قبل جلسة المبيعات',
+      desc: 'استخدم هذا التقرير التشخيصي المدعوم بالأدلة لإقناع وإغلاق صفقات تحسين السيو والذكاء الاصطناعي مع عملائك.',
+      ctaCopyLink: 'نسخ رابط تقرير الفحص المباشر',
     },
     modal: {
-      title: 'فتح رخصة سكيما كرافت برو مدى الحياة',
-      subtitle: 'دفع لمرة واحدة • تحديثات مجانية دائمة • بدون اشتراكات شهرية متكررة',
-      launchDeal: 'عرض الإطلاق المحدود — خصم 90%',
-      originalPrice: '$49.00',
-      currentPrice: '$4.99',
-      oneTimeFee: 'دولار لمرة واحدة فقط',
-      feat1: 'حزمة الشركات الفورية ZIP بـ 6 ملفات (Next.js 15, Shopify Liquid, WordPress PHP, JSON-LD)',
-      feat2: 'ترخيص تجاري دائم وغير محدود لجميع مواقعك ومواقع عملائك',
-      feat3: 'كتيب استراتيجيات تصدر الذكاء الاصطناعي GEO 2026 الحصري متضمن داخل الحزمة',
-      feat4: 'ضمان مطابقة 100% لمواصفات Schema.org v26.0 و Google Rich Results بدون أخطاء',
-      guarantee: 'ضمان استرجاع الأموال بالكامل لمدة 30 يوماً • تجربة خالية من أي مخاطرة',
-      priceNote: 'فتح فوري وآمن عبر باي بال أو بطاقة الدفع (Credit/Debit Card)',
-      instantUnlock: 'فتح رخصة برو مدى الحياة ($4.99 USD)',
-      sslNote: 'معاملة مشفرة وآمنة 256-bit SSL محمية بالكامل عبر PayPal',
-      supportNote: 'هل تحتاج مساعدة أو استرداد؟ راسلنا على support@schemacraft-ai.site وستتم المعالجة خلال 24 ساعة.',
-      close: 'إغلاق (Esc)',
-    },
-    toast: {
-      title: 'تم التحقق وتفعيل رخصة برو بنجاح!',
-      desc: 'تم بدء تحميل حزمة الشركات الشاملة (6 ملفات ZIP) تلقائياً.',
-    },
-    footer: {
-      text1: 'منظومة SchemaCraft AI - معمارية SaaS أحادية الأداة فائقة الأداء.',
-      text2: 'تكامل مباشر مع PayPal | سرعة 0ms | معايير 2026 العالمية',
-      guaranteeBadge: 'ضمان رضا كامل أو استرداد أموالك خلال 30 يوماً',
-      supportEmail: 'الدعم الفني والاستفسارات: support@schemacraft-ai.site',
+      title: 'فتح الفحص الكامل ومولد الإصلاحات البرمجية',
+      subtitle: 'احصل فوراً على أكواد جاهزة للإنتاج لـ WordPress و Next.js و Shopify لجميع المشاكل الـ 17 المكتشفة.',
+      price: '9.00 دولار أمريكي فقط (دفعة واحدة مدى الحياة)',
+      guarantee: 'ضمان رضا كامل بنسبة 100% أو استرجاع المبلغ خلال 30 يوماً',
+      support: 'الدعم الرسمي: support@schemacraft-ai.site',
+      instantAccess: 'دفع وتفعيل فوري عبر PayPal الآمن',
     },
   },
 };
