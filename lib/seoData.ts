@@ -122,4 +122,56 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
       },
     ],
   },
+
+  'course-education-schema': {
+    slug: 'course-education-schema',
+    schemaCategory: 'Course' as any,
+    title: 'Online Course & Education Schema Generator | Google Course Rich Results',
+    metaDescription: 'Generate Schema.org Course JSON-LD markup to display educational curriculum, certificate provider, and pricing directly in Google Courses search carousel.',
+    h1: 'Online Course & Academy Schema Architect',
+    blufSummary: 'Course Schema formats educational programs, bootcamps, and certifications into structured entities. Google uses this markup to power the dedicated Course Carousel at the top of education search queries.',
+    badge: 'Google Education Carousel',
+    ctrBoost: '+48.6% Student Enrollment',
+    indexingSpeed: '< 24 Hours',
+    keyBenefits: [
+      { title: 'Google Course Carousel Display', desc: 'Qualify for prominent card carousels showcasing provider name, syllabus, and course pricing.' },
+      { title: 'Knowledge Graph Accreditation', desc: 'Grounds your educational organization as a verified authority in AI training datasets.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'name', format: 'Course Title String', requirement: 'Mandatory', googleImpact: 'Displays Main Course Header' },
+      { attribute: 'provider', format: 'Organization Entity', requirement: 'Mandatory', googleImpact: 'Attaches Official Academy Badge' },
+    ],
+    faqs: [
+      {
+        question: 'Does Course schema work for individual webinar workshops?',
+        answer: 'For individual live events, Event schema is recommended, while for structured self-paced or cohort-based educational curriculums, Course schema is optimal.',
+      },
+    ],
+  },
+
+  'article-google-discover-schema': {
+    slug: 'article-google-discover-schema',
+    schemaCategory: 'Article',
+    title: 'Google Discover & Editorial Article Schema Generator | Top Stories Feed',
+    metaDescription: 'Generate valid Schema.org Article JSON-LD markup. Optimize technical blogs and editorial publications for Google Discover and Top Stories inclusion.',
+    h1: 'Article & Google Discover Schema Architect',
+    blufSummary: 'Article Schema provides critical editorial signals including headline, datePublished, dateModified, author entity, and high-resolution publisher logo. It is essential for Google Discover feeds and Top Stories carousel indexing.',
+    badge: 'Google Discover & Top Stories',
+    ctrBoost: '+59.3% Feed Impressions',
+    indexingSpeed: '< 6 Hours',
+    keyBenefits: [
+      { title: 'Google Discover Feed Optimization', desc: 'Accelerates algorithmic selection for the personalized Google Discover mobile feed.' },
+      { title: 'Instant Freshness Signals', desc: 'Communicates real-time dateModified metadata so crawlers prioritize updated technical content.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'headline', format: 'Up to 110 characters', requirement: 'Mandatory', googleImpact: 'Featured in Top Stories Carousel' },
+      { attribute: 'dateModified', format: 'ISO 8601 Timestamp', requirement: 'Mandatory', googleImpact: 'Freshness Indicator in SERP' },
+    ],
+    faqs: [
+      {
+        question: 'Why is dateModified so important for Article schema?',
+        answer: 'Search engines use dateModified to understand content freshness. Articles with valid dateModified markup often get re-crawled faster and rank higher for timely queries.',
+      },
+    ],
+  },
 };

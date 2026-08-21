@@ -26,6 +26,8 @@ import {
   Code2,
   FileArchive,
   CheckCircle2,
+  GraduationCap,
+  Calendar,
 } from 'lucide-react';
 
 interface SchemaBuilderProps {
@@ -42,6 +44,8 @@ const CATEGORY_ICONS: Record<SchemaCategory, React.ReactNode> = {
   HowTo: <Layers className="h-4 w-4" />,
   Organization: <Building2 className="h-4 w-4" />,
   Review: <Star className="h-4 w-4" />,
+  Course: <GraduationCap className="h-4 w-4" />,
+  Event: <Calendar className="h-4 w-4" />,
 };
 
 export function SchemaBuilder({

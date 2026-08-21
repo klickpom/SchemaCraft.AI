@@ -42,6 +42,7 @@ import {
   FolderArchive,
   FileCode2,
   ArrowUpRight,
+  Sparkle,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -525,6 +526,10 @@ export default function HomePage() {
       : JSON.stringify(generatedSchema, null, 2);
   }, [generatedSchema, isMinified]);
 
+  const byteSize = useMemo(() => {
+    return new Blob([jsonString]).size;
+  }, [jsonString]);
+
   const nextJsJsxString = useMemo(() => {
     return `// Next.js 15 App Router (app/page.tsx or app/layout.tsx)
 export default function Page() {
@@ -631,8 +636,11 @@ ${JSON.stringify(generatedSchema, null, 2)}
   return (
     <div
       dir={lang === "ar" ? "rtl" : "ltr"}
-      className="min-h-screen bg-[#060608] text-slate-100 flex flex-col justify-between selection:bg-indigo-600 selection:text-white"
+      className="min-h-screen bg-[#060608] text-slate-100 flex flex-col justify-between selection:bg-indigo-600 selection:text-white relative overflow-hidden"
     >
+      {/* Dynamic Ambient Background Light Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-b from-indigo-600/10 via-cyan-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
+
       {/* Instant Pro Success Celebration Toast */}
       {showCelebrationBanner && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-300 w-[92%] sm:w-auto max-w-md">
@@ -696,14 +704,14 @@ ${JSON.stringify(generatedSchema, null, 2)}
               <span>{lang === "en" ? "العربية" : "English"}</span>
             </button>
 
-            {/* Pro Unlock Action Button */}
+            {/* Pro Unlock Action Button with Laser Shimmer */}
             <button
               type="button"
               onClick={() => setShowPaywall(true)}
               className={`text-xs transition px-3.5 sm:px-4 py-1.5 rounded-lg border font-bold flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer ${
                 isProUnlocked
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                  : "text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/25 animate-pulse"
+                  : "text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/25 laser-shimmer"
               }`}
             >
               {isProUnlocked ? (
@@ -735,7 +743,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
             </span>
           </h1>
 
-          {/* Quick Preset Chips for 0-Second Instant Gratification */}
+          {/* Quick Preset Chips with Vector SVG Micro-Animations */}
           <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
             <span className="text-slate-400 font-semibold">{t.presets.label}</span>
             <button
@@ -1069,7 +1077,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                   type="button"
                   onClick={handleDownloadBundle}
                   disabled={isDownloading}
-                  className="w-full sm:w-auto flex items-center justify-center gap-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/25 active:scale-95 cursor-pointer disabled:opacity-50"
+                  className="w-full sm:w-auto flex items-center justify-center gap-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/25 active:scale-95 cursor-pointer disabled:opacity-50 laser-shimmer"
                 >
                   {isProUnlocked ? (
                     <FolderArchive className="w-3.5 h-3.5" />
@@ -1184,6 +1192,12 @@ ${JSON.stringify(generatedSchema, null, 2)}
                   </div>
 
                   <div className="flex items-center gap-2">
+                    {/* Live Payload Size Indicator */}
+                    <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/[0.03] border border-white/5 text-[10px] font-mono text-slate-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                      <span>{byteSize} B</span>
+                    </div>
+
                     {/* Minify / Beautify Toggle */}
                     {activeTab === "code" && (
                       <button
@@ -1731,8 +1745,8 @@ ${JSON.stringify(generatedSchema, null, 2)}
               {/* Modal Fixed Top Header */}
               <div className="bg-[#16161f] px-5 sm:px-6 py-4 border-b border-white/10 flex items-center justify-between shrink-0">
                 <div>
-                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-bold mb-1">
-                    <Flame className="w-3 h-3 text-amber-400" />
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-bold mb-1">
+                    <Flame className="w-3.5 h-3.5 text-amber-400" />
                     <span>{t.modal.launchDeal}</span>
                   </div>
                   <h3 className="text-base sm:text-lg font-black text-white">{t.modal.title}</h3>

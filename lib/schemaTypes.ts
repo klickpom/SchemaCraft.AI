@@ -6,7 +6,9 @@ export type SchemaCategory =
   | 'Article'
   | 'HowTo'
   | 'Organization'
-  | 'Review';
+  | 'Review'
+  | 'Course'
+  | 'Event';
 
 export interface SchemaFieldConfig {
   id: string;
@@ -395,6 +397,84 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
         name: val.authorName || 'Verified Reviewer',
       },
       reviewBody: val.reviewBody || '',
+    }),
+  },
+
+  Course: {
+    id: 'Course',
+    name: 'Online Course & Curriculum',
+    icon: 'GraduationCap',
+    badge: 'Google Courses Carousel',
+    description: 'Format educational courses, bootcamps, and degree modules for Google Course carousels and AEO synthesis.',
+    googleRichResultType: 'Course Rich Result',
+    fields: [
+      { id: 'courseTitle', label: 'Course Title', type: 'text', placeholder: 'Generative Engine Optimization Mastery', required: true, defaultValue: 'Mastering Generative Engine Optimization (GEO 2026)' },
+      { id: 'courseDescription', label: 'Course Overview', type: 'textarea', placeholder: 'Comprehensive guide to deterministic knowledge graph structures.', defaultValue: 'Advanced architectural masterclass on feeding validated JSON-LD schema graphs directly to Perplexity and ChatGPT Search.' },
+      { id: 'courseProvider', label: 'Academy / Issuer', type: 'text', placeholder: 'SchemaCraft Academy', required: true, defaultValue: 'SchemaCraft Academy Global' },
+      { id: 'price', label: 'Price', type: 'text', placeholder: '199.00', defaultValue: '199.00' },
+      { id: 'priceCurrency', label: 'Currency', type: 'select', options: ['USD', 'EUR', 'GBP', 'SAR', 'AED'], defaultValue: 'USD' },
+    ],
+    defaultValues: {
+      courseTitle: 'Mastering Generative Engine Optimization (GEO 2026)',
+      courseDescription: 'Advanced architectural masterclass on feeding validated JSON-LD schema graphs directly to Perplexity and ChatGPT Search.',
+      courseProvider: 'SchemaCraft Academy Global',
+      price: '199.00',
+      priceCurrency: 'USD',
+    },
+    generateJsonLd: (val) => ({
+      '@context': 'https://schema.org',
+      '@type': 'Course',
+      name: val.courseTitle || 'Online Course',
+      description: val.courseDescription || '',
+      provider: {
+        '@type': 'Organization',
+        name: val.courseProvider || 'Academy',
+      },
+      offers: {
+        '@type': 'Offer',
+        price: val.price || '0',
+        priceCurrency: val.priceCurrency || 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+    }),
+  },
+
+  Event: {
+    id: 'Event',
+    name: 'Live Event & Webinar',
+    icon: 'Calendar',
+    badge: 'Google Events Listing',
+    description: 'Structure virtual conferences, webinars, and developer summits with dates, venue links, and ticket offers.',
+    googleRichResultType: 'Event Rich Result',
+    fields: [
+      { id: 'eventName', label: 'Event Title', type: 'text', placeholder: 'Global GEO Summit 2026', required: true, defaultValue: 'Global Generative Engine Optimization Summit 2026' },
+      { id: 'eventDate', label: 'Start Date (YYYY-MM-DD)', type: 'text', placeholder: '2026-11-15', required: true, defaultValue: '2026-11-15' },
+      { id: 'eventLocation', label: 'Virtual URL or Venue', type: 'text', placeholder: 'https://schemacraft-ai.site/summit', required: true, defaultValue: 'https://schemacraft-ai.site/summit-live' },
+      { id: 'price', label: 'Ticket Price', type: 'text', placeholder: '99.00', defaultValue: '99.00' },
+      { id: 'priceCurrency', label: 'Currency', type: 'select', options: ['USD', 'EUR', 'GBP', 'SAR', 'AED'], defaultValue: 'USD' },
+    ],
+    defaultValues: {
+      eventName: 'Global Generative Engine Optimization Summit 2026',
+      eventDate: '2026-11-15',
+      eventLocation: 'https://schemacraft-ai.site/summit-live',
+      price: '99.00',
+      priceCurrency: 'USD',
+    },
+    generateJsonLd: (val) => ({
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: val.eventName || 'Virtual Tech Event',
+      startDate: val.eventDate || '2026-11-15',
+      location: {
+        '@type': 'VirtualLocation',
+        url: val.eventLocation || 'https://example.com/event',
+      },
+      offers: {
+        '@type': 'Offer',
+        price: val.price || '0',
+        priceCurrency: val.priceCurrency || 'USD',
+        availability: 'https://schema.org/InStock',
+      },
     }),
   },
 };

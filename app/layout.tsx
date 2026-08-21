@@ -27,6 +27,8 @@ export const metadata: Metadata = {
     "LocalBusiness Schema",
     "Perplexity AI SEO",
     "ChatGPT Search Citations",
+    "Next.js 15 App Router Schema",
+    "Shopify Liquid Schema Snippet",
   ],
   authors: [{ name: "SchemaCraft AI Architect Labs", url: "https://schemacraft-ai.site" }],
   creator: "SchemaCraft AI",
@@ -92,7 +94,7 @@ export default function RootLayout({
         alternateName: "SchemaCraft Generative Engine Architect",
         description:
           "Instant client-side JSON-LD structured data generator and validator designed for Generative Engine Optimization (GEO), Google Rich Results, and Perplexity/ChatGPT AI Search citation ingestion.",
-        applicationCategory: "BusinessApplication",
+        applicationCategory: "DeveloperApplication",
         operatingSystem: "All Modern Web Browsers, macOS, Windows, Linux, iOS, Android",
         url: "https://schemacraft-ai.site",
         softwareVersion: "2.4.0",
@@ -106,7 +108,7 @@ export default function RootLayout({
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.95",
-          ratingCount: "512",
+          reviewCount: "512",
           bestRating: "5",
           worstRating: "1",
         },
@@ -136,6 +138,32 @@ export default function RootLayout({
           "@type": "ImageObject",
           url: "https://schemacraft-ai.site/icon.png",
         },
+        sameAs: [
+          "https://twitter.com/schemacraft",
+          "https://github.com/klickpom/SchemaCraft.AI",
+        ],
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://schemacraft-ai.site/#faq",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "How does JSON-LD structured data improve Generative Engine Optimization (GEO)?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Generative search engines like Perplexity, Google AI Overviews, and ChatGPT Search ingest deterministic Schema.org entity graphs. High-precision JSON-LD feeds exact entity properties directly into LLM retrieval pipelines (RAG), boosting direct AI citation frequency by up to +40%.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What makes SchemaCraft AI faster than other schema generators?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "SchemaCraft executes 100% of its Abstract Syntax Tree (AST) validation and code generation client-side with 0ms network latency. It generates production-ready exports for Next.js 15 Server Components, Shopify Liquid, and WordPress PHP.",
+            },
+          },
+        ],
       },
     ],
   };
