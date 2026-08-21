@@ -1715,16 +1715,16 @@ ${JSON.stringify(generatedSchema, null, 2)}
         {showPaywall && (
           <div
             onClick={() => setShowPaywall(false)}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto"
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg rounded-2xl border border-white/20 bg-[#111116] shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]"
+              className="relative w-full max-w-xl rounded-2xl border border-white/20 bg-[#111116] shadow-2xl overflow-hidden my-auto flex flex-col max-h-[94vh]"
             >
               {/* Modal Fixed Top Header */}
               <div className="bg-[#16161f] px-5 sm:px-6 py-4 border-b border-white/10 flex items-center justify-between shrink-0">
                 <div>
-                  <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-bold mb-1">
+                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-bold mb-1">
                     <Flame className="w-3 h-3 text-amber-400" />
                     <span>{t.modal.launchDeal}</span>
                   </div>
@@ -1734,7 +1734,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                 <button
                   type="button"
                   onClick={() => setShowPaywall(false)}
-                  className="text-slate-300 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition cursor-pointer"
+                  className="text-slate-300 hover:text-white p-2 rounded-xl hover:bg-white/10 transition cursor-pointer"
                   title={t.modal.close}
                 >
                   <X className="w-5 h-5" />
@@ -1742,7 +1742,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
               </div>
 
               {/* Modal Scrollable Body */}
-              <div className="p-5 sm:p-6 space-y-4 overflow-y-auto">
+              <div className="p-5 sm:p-6 space-y-4 overflow-y-auto max-h-[calc(94vh-80px)]">
                 <div className="space-y-2.5 text-xs text-slate-200">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -1785,7 +1785,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                 </div>
 
                 {/* PayPal Smart Buttons Container */}
-                <div className="pt-1">
+                <div className="pt-2 pb-4">
                   <PayPalCheckout
                     price="4.99"
                     onSuccess={handlePayPalSuccess}
