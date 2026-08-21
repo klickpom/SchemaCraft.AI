@@ -126,6 +126,32 @@ export interface Translations {
     rowGuaranteeAgency: string;
     rowGuaranteeSchemaCraft: string;
   };
+  aiPreview: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    tabBefore: string;
+    tabAfter: string;
+    chatgptTitle: string;
+    googleTitle: string;
+    statusBefore: string;
+    statusAfter: string;
+    beforeNote: string;
+    afterNote: string;
+  };
+  trafficLoss: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    lostRate: string;
+    estLostVisitors: string;
+    recoveryTime: string;
+    actionNote: string;
+  };
+  pdfExport: {
+    btnExport: string;
+    reportHeader: string;
+  };
   knowledge: {
     badge: string;
     h2: string;
@@ -280,6 +306,32 @@ export const translations: Record<Language, Translations> = {
       rowGuaranteeAgency: 'Locked retainer contracts with zero refunds',
       rowGuaranteeSchemaCraft: '100% Unconditional 30-Day Money-Back Guarantee',
     },
+    aiPreview: {
+      badge: 'Live Search Engine & AI Simulation',
+      title: 'How ChatGPT & Google View Your Website (Before vs After)',
+      subtitle: 'See how adding SchemaCraft JSON-LD and bot configurations transforms your search appearance from invisible to authoritative:',
+      tabBefore: 'Current Status (Unoptimized)',
+      tabAfter: 'After SchemaCraft ($9 Fix)',
+      chatgptTitle: 'ChatGPT Search / Perplexity Citation Mockup',
+      googleTitle: 'Google Rich Snippet Search Result',
+      statusBefore: 'Unverified Entity • Low Citation Priority',
+      statusAfter: 'Authoritative Verified Entity • Rich Snippet Active',
+      beforeNote: 'AI models struggle to extract structured facts and may cite competitors instead.',
+      afterNote: 'Structured Schema.org JSON-LD enables direct AI answer extraction and rich snippet cards.',
+    },
+    trafficLoss: {
+      badge: 'AI Visibility & Revenue Risk',
+      title: 'Estimated AI Search Traffic Loss',
+      subtitle: 'Based on your current diagnostic score and crawlability barriers:',
+      lostRate: 'Visibility Deficit',
+      estLostVisitors: 'Monthly High-Intent Visitors at Risk',
+      recoveryTime: 'Time to Recover Visibility',
+      actionNote: 'Fix all detected issues with ready-to-use code in under 60 seconds.',
+    },
+    pdfExport: {
+      btnExport: 'Export PDF Audit Report',
+      reportHeader: 'Official SchemaCraft AI Technical SEO & Visibility Report',
+    },
     knowledge: {
       badge: 'Authoritative 2026 Knowledge Standard',
       h2: 'How Search Engines and AI Understand Websites in 2026',
@@ -431,6 +483,32 @@ export const translations: Record<Language, Translations> = {
       rowGuarantee: 'الضمان وحماية المخاطر',
       rowGuaranteeAgency: 'عقود ملزمة وغير قابلة للاسترداد',
       rowGuaranteeSchemaCraft: 'ضمان استرجاع الأموال بنسبة 100% لمدة 30 يوماً بدون أي أسئلة',
+    },
+    aiPreview: {
+      badge: 'محاكاة بصرية حية لنتائج البحث والذكاء الاصطناعي',
+      title: 'كيف يرى ChatGPT وبحث Google موقعك (قبل وبعد الإصلاح)',
+      subtitle: 'شاهد كيف يحوّل كود SchemaCraft موقعك من موقع غير معروف إلى مصدر موثوق ومقتبس في نتائج الذكاء الاصطناعي:',
+      tabBefore: 'الوضع الحالي (غير محسن)',
+      tabAfter: 'بعد كود SchemaCraft (إصلاح $9)',
+      chatgptTitle: 'معاينة اقتباس ChatGPT Search / Perplexity',
+      googleTitle: 'معاينة النتيجة الغنية في Google (Rich Snippet)',
+      statusBefore: 'كيان غير موثق • أولوية اقتباس منخفضة',
+      statusAfter: 'كيان رسمي موثق • بطاقة نتائج غنية مفعلة',
+      beforeNote: 'نماذج الذكاء الاصطناعي تجد صعوبة في استخراج بيانات موقعك وقد ترشح المنافسين بدلاً منك.',
+      afterNote: 'كود Schema.org المخصص يتيح للذكاء الاصطناعي اقتباس إجاباتك وموقعك كمرجع رسمي مباشرة.',
+    },
+    trafficLoss: {
+      badge: 'مؤشر مخاطر فقدان الزيارات والأرباح',
+      title: 'الخسائر التقديرية لزيارات ومبيعات الذكاء الاصطناعي',
+      subtitle: 'بناءً على نتيجة الفحص الحالية وعوائق الزحف المرصودة في موقعك:',
+      lostRate: 'نسبة نقص الظهور والجاهزية',
+      estLostVisitors: 'زيارات شهرية عالية النية معرّضة للضياع',
+      recoveryTime: 'الوقت المقدر لاستعادة الظهور الكامل',
+      actionNote: 'أصلح جميع المشاكل بأكواد جاهزة خلال أقل من 60 ثانية.',
+    },
+    pdfExport: {
+      btnExport: 'تصدير تقرير الفحص التنفيذي (PDF)',
+      reportHeader: 'التقرير الفني الرسمي لظهور وسيو الذكاء الاصطناعي - SchemaCraft AI',
     },
     knowledge: {
       badge: 'المرجع التقني المعتمد لعام 2026',

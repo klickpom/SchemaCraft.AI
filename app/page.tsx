@@ -39,6 +39,9 @@ import {
   FileCode2,
   RotateCcw,
   Bot,
+  Printer,
+  TrendingDown,
+  Eye,
 } from 'lucide-react';
 
 export default function Home() {
@@ -55,6 +58,7 @@ export default function Home() {
   const [showEvidenceLedger, setShowEvidenceLedger] = useState(true);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [activeDemoProfile, setActiveDemoProfile] = useState<string | null>(null);
+  const [previewTab, setPreviewTab] = useState<'before' | 'after'>('after');
 
   const t = translations[lang];
 
@@ -450,6 +454,15 @@ export default function Home() {
                     {copiedShareLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-cyan-400" />}
                     <span>{copiedShareLink ? t.nav.reportShared : t.agencyBanner.ctaCopyLink}</span>
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-xs font-semibold text-indigo-300 transition cursor-pointer active:scale-95"
+                    title={t.pdfExport.btnExport}
+                  >
+                    <Printer className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>{t.pdfExport.btnExport}</span>
+                  </button>
                 </div>
               </div>
 
@@ -562,6 +575,45 @@ export default function Home() {
 
                 </div>
 
+              </div>
+
+              {/* AI Traffic & Revenue Loss Estimator */}
+              <div className="mt-6 rounded-2xl border border-rose-500/25 bg-gradient-to-r from-rose-950/20 via-[#0c0c14] to-indigo-950/20 p-4 sm:p-5 shadow-xl space-y-3.5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="h-7 w-7 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                      <TrendingDown className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs sm:text-sm font-bold text-white tracking-tight">{t.trafficLoss.title}</h4>
+                      <p className="text-[11px] text-slate-400">{t.trafficLoss.subtitle}</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-0.5 rounded-full border border-rose-500/40 bg-rose-500/15 text-rose-300 w-fit">
+                    {t.trafficLoss.badge}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-center">
+                  <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
+                    <span className="text-[10px] text-slate-400 block">{t.trafficLoss.lostRate}</span>
+                    <span className="text-lg sm:text-xl font-extrabold text-rose-400 font-mono">
+                      {report.overallScore < 50 ? '-68%' : report.overallScore < 80 ? '-35%' : '-10%'}
+                    </span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
+                    <span className="text-[10px] text-slate-400 block">{t.trafficLoss.estLostVisitors}</span>
+                    <span className="text-lg sm:text-xl font-extrabold text-amber-400 font-mono">
+                      {report.overallScore < 50 ? '1,500 - 4,200 /mo' : report.overallScore < 80 ? '600 - 1,800 /mo' : 'Minimal (<100)'}
+                    </span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
+                    <span className="text-[10px] text-slate-400 block">{t.trafficLoss.recoveryTime}</span>
+                    <span className="text-lg sm:text-xl font-extrabold text-emerald-400 font-mono">
+                      &lt; 60s
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Live Extracted Real Data Transparency Card */}
@@ -739,6 +791,138 @@ export default function Home() {
                     </button>
                   </div>
                 ))}
+              </div>
+            </section>
+
+            {/* Live Search Engine & AI Citation Simulation Preview */}
+            <section className="rounded-3xl border border-white/10 bg-[#0b0b12] p-6 sm:p-8 space-y-6 shadow-2xl">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cyan-300">
+                    <Eye className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>{t.aiPreview.badge}</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
+                    {t.aiPreview.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 max-w-xl">
+                    {t.aiPreview.subtitle}
+                  </p>
+                </div>
+
+                {/* Toggle Switch Tabs */}
+                <div className="flex items-center p-1 rounded-xl bg-[#14141e] border border-white/10 shrink-0 w-fit">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewTab('before')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                      previewTab === 'before'
+                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {t.aiPreview.tabBefore}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewTab('after')}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                      previewTab === 'after'
+                        ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-md'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {t.aiPreview.tabAfter}
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                {/* ChatGPT Search & Perplexity Mockup Card */}
+                <div className="rounded-2xl border border-white/10 bg-[#08080d] p-5 space-y-3.5 shadow-inner">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <Bot className="w-4 h-4 text-cyan-400" />
+                      <span className="text-xs font-bold text-slate-300">{t.aiPreview.chatgptTitle}</span>
+                    </div>
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
+                      previewTab === 'after'
+                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                        : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
+                    }`}>
+                      {previewTab === 'after' ? '✓ Cited Source' : '✗ Uncited / Skipped'}
+                    </span>
+                  </div>
+
+                  <div className={`p-4 rounded-xl border space-y-2 transition-all ${
+                    previewTab === 'after'
+                      ? 'border-indigo-500/30 bg-indigo-950/20'
+                      : 'border-white/5 bg-black/40 opacity-60'
+                  }`}>
+                    <div className="flex items-center gap-2">
+                      <div className="h-6 w-6 rounded-md bg-white/10 flex items-center justify-center text-[10px] font-bold text-white font-mono">
+                        {report.url.replace(/https?:\/\//, '').charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-xs font-bold text-white block truncate">{report.evidence.title || report.url}</span>
+                        <span className="text-[10px] text-slate-400 font-mono block truncate">{report.url}</span>
+                      </div>
+                    </div>
+                    <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
+                      {previewTab === 'after'
+                        ? (report.evidence.metaDescription || `According to verified Schema.org data from ${report.url}, the service provides authoritative solutions.`)
+                        : 'No structured entity data available. LLM fallback used or competitor cited.'}
+                    </p>
+                  </div>
+
+                  <p className="text-[10px] text-slate-400">
+                    {previewTab === 'after' ? t.aiPreview.afterNote : t.aiPreview.beforeNote}
+                  </p>
+                </div>
+
+                {/* Google Rich Snippet Search Result Card */}
+                <div className="rounded-2xl border border-white/10 bg-[#08080d] p-5 space-y-3.5 shadow-inner">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-indigo-400" />
+                      <span className="text-xs font-bold text-slate-300">{t.aiPreview.googleTitle}</span>
+                    </div>
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
+                      previewTab === 'after'
+                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                    }`}>
+                      {previewTab === 'after' ? '★ Rich Snippet Active' : 'Standard Snippet'}
+                    </span>
+                  </div>
+
+                  <div className={`p-4 rounded-xl border space-y-1.5 font-sans transition-all ${
+                    previewTab === 'after'
+                      ? 'border-indigo-500/30 bg-[#0e0e16]'
+                      : 'border-white/5 bg-black/40 opacity-70'
+                  }`}>
+                    <span className="text-[10px] text-slate-400 font-mono block truncate">{report.url}</span>
+                    <h4 className="text-xs sm:text-sm font-bold text-cyan-300 hover:underline cursor-pointer truncate">
+                      {report.evidence.title || `${report.url} — Official Portal`}
+                    </h4>
+                    {previewTab === 'after' && (
+                      <div className="flex items-center gap-2 text-[10px] text-amber-400 font-mono">
+                        <span>★★★★★ 4.9 (640+ Reviews)</span>
+                        <span>•</span>
+                        <span className="text-emerald-400">In Stock / $9.00</span>
+                      </div>
+                    )}
+                    <p className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed">
+                      {report.evidence.metaDescription || `Discover the technical capabilities and structured entity architecture of ${report.url}.`}
+                    </p>
+                  </div>
+
+                  <p className="text-[10px] text-slate-400">
+                    {previewTab === 'after'
+                      ? (lang === 'ar' ? 'وسوم Schema.org تظهر نجوم التقييم والسعر وتزيد نسبة النقر (CTR) بأكثر من 30%.' : 'Schema.org JSON-LD activates review stars & price badges, increasing SERP CTR by +30%.')
+                      : (lang === 'ar' ? 'غياب بيانات السكيما يحرم موقعك من النجوم والمزايا البصرية في جوجل.' : 'Absence of schema prevents rich star ratings, pricing, and FAQ dropdowns on Google.')}
+                  </p>
+                </div>
               </div>
             </section>
 
