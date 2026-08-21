@@ -4,12 +4,12 @@ import React, { useState, useMemo, useEffect } from "react";
 import {
   Copy,
   Check,
-  Sparkles,
   ShieldCheck,
   Download,
   Lock,
   ExternalLink,
   Zap,
+  Cpu,
   Layers,
   CheckCircle2,
   Code2,
@@ -713,7 +713,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
+                  <Zap className="w-3.5 h-3.5 text-cyan-300 fill-cyan-300/30" />
                   <span>{t.nav.unlockPro}</span>
                 </>
               )}
@@ -1332,7 +1332,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                   /* Perplexity & ChatGPT AI Overview Card */
                   <div className="space-y-3">
                     <div className="text-[11px] font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                      <Cpu className="w-3.5 h-3.5 text-cyan-400" />
                       <span>{t.preview.aiTitle}</span>
                     </div>
 
@@ -1476,7 +1476,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 group-hover:scale-110 transition-transform duration-300">
-                    <Sparkles className="w-5 h-5 text-indigo-400" />
+                    <BookOpen className="w-5 h-5 text-indigo-400" />
                   </div>
                   <h3 className="font-bold text-sm text-white">{t.bundleValue.f6Title}</h3>
                 </div>

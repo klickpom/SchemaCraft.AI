@@ -12,7 +12,7 @@ import { PaywallModal } from './PaywallModal';
 import { BatchModal } from './BatchModal';
 import { isProUnlockedClient } from '@/lib/payment';
 import {
-  Sparkles,
+  Zap,
   Layers,
   Terminal,
   ShoppingBag,
@@ -120,7 +120,7 @@ export function SchemaBuilder({
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <Sparkles className="h-3.5 w-3.5" />
+            <Zap className="h-3.5 w-3.5" />
             <span>Visual Form Builder</span>
           </button>
 
@@ -165,7 +165,7 @@ export function SchemaBuilder({
               </>
             ) : (
               <>
-                <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                <Zap className="h-3.5 w-3.5 text-indigo-400" />
                 <span>Unlock Dynamic Scripts</span>
               </>
             )}

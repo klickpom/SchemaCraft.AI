@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { PRO_PLANS, setProUnlockedClient } from '@/lib/payment';
-import { X, CheckCircle2, ShieldCheck, Zap, Sparkles, CreditCard, Lock, ArrowRight, Download, Key } from 'lucide-react';
+import { X, CheckCircle2, ShieldCheck, Zap, CreditCard, Lock, ArrowRight, Download, Key } from 'lucide-react';
 
 interface PaywallModalProps {
   isOpen: boolean;
@@ -68,7 +68,7 @@ export function PaywallModal({ isOpen, onClose, onSuccess }: PaywallModalProps) 
             {/* Header */}
             <div className="space-y-2 text-center">
               <div className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 border border-indigo-500/30 px-3 py-1 text-xs font-semibold text-cyan-300">
-                <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+                <Zap className="h-3.5 w-3.5 text-cyan-400" />
                 <span>Instant Pro Architecture Unlock</span>
               </div>
               <h3 className="text-2xl font-bold tracking-tight text-white">

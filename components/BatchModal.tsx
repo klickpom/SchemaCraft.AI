@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SchemaCategory, SCHEMA_DEFINITIONS } from '@/lib/schemaTypes';
-import { X, Layers, Download, Check, Sparkles, Lock, ArrowRight, FileArchive, CheckCircle2 } from 'lucide-react';
+import { X, Layers, Download, Check, Zap, Lock, ArrowRight, FileArchive, CheckCircle2 } from 'lucide-react';
 
 interface BatchModalProps {
   isOpen: boolean;
@@ -146,7 +146,7 @@ export function BatchModal({ isOpen, onClose, isPro, onOpenPaywall }: BatchModal
                   onClick={onOpenPaywall}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-indigo-500/20"
                 >
-                  <Sparkles className="h-3.5 w-3.5" />
+                  <Zap className="h-3.5 w-3.5" />
                   <span>Unlock Instant Batch ($4.99)</span>
                 </button>
               </div>

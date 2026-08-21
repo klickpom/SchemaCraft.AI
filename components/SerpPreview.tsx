@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SchemaCategory } from '@/lib/schemaTypes';
-import { Monitor, Smartphone, Bot, ExternalLink, ChevronDown, ChevronUp, Star, ShieldCheck, Sparkles } from 'lucide-react';
+import { Monitor, Smartphone, Bot, ExternalLink, ChevronDown, ChevronUp, Star, ShieldCheck, Zap } from 'lucide-react';
 
 interface SerpPreviewProps {
   category: SchemaCategory;
@@ -236,7 +236,7 @@ export function SerpPreview({ category, values, schemaObj }: SerpPreviewProps) {
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-2.5">
               <div className="flex items-center gap-2">
                 <div className="h-7 w-7 rounded-lg bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center">
-                  <Sparkles className="h-4 w-4 text-cyan-300" />
+                  <Zap className="h-4 w-4 text-cyan-300" />
                 </div>
                 <div>
                   <h4 className="font-semibold text-white text-xs">

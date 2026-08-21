@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { SchemaCategory } from '@/lib/schemaTypes';
 import { extractSchemaFromInput, EXTRACTOR_PRESETS } from '@/lib/extractor';
-import { Sparkles, ArrowRight, Wand2, FileCode, CheckCircle2 } from 'lucide-react';
+import { Zap, ArrowRight, Wand2, FileCode, CheckCircle2 } from 'lucide-react';
 
 interface RawExtractorProps {
   onExtracted: (type: SchemaCategory, values: Record<string, any>) => void;
@@ -45,7 +45,7 @@ export function RawExtractor({ onExtracted }: RawExtractorProps) {
       {/* Preset Quick Buttons */}
       <div className="space-y-1.5">
         <span className="text-[11px] font-medium text-zinc-400 flex items-center gap-1">
-          <Sparkles className="h-3 w-3 text-indigo-400" /> Or test with 1-click sample presets:
+          <Zap className="h-3 w-3 text-indigo-400" /> Or test with 1-click sample presets:
         </span>
         <div className="flex flex-wrap gap-2">
           {EXTRACTOR_PRESETS.map((preset) => (
@@ -82,7 +82,7 @@ export function RawExtractor({ onExtracted }: RawExtractorProps) {
             disabled={!inputText.trim()}
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-cyan-500/20 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
           >
-            <Sparkles className="h-3.5 w-3.5" />
+            <Zap className="h-3.5 w-3.5" />
             <span>Parse & Build Schema</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </button>

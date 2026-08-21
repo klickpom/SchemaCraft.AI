@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Layers, ShieldCheck, Bot, Heart, Sparkles, Terminal } from 'lucide-react';
+import { Layers, ShieldCheck, Bot, Heart, Zap, Terminal } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -75,7 +75,7 @@ export function Footer() {
                 <span>Perplexity Entity Grounding</span>
               </li>
               <li className="flex items-center gap-1.5 text-zinc-400">
-                <Sparkles className="h-3 w-3 text-indigo-400" />
+                <Zap className="h-3 w-3 text-indigo-400" />
                 <span>ChatGPT Search Optimization</span>
               </li>
               <li className="flex items-center gap-1.5 text-zinc-400">

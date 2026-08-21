@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, ShieldCheck, Zap, Code2, Layers } from 'lucide-react';
+import { Zap, ShieldCheck, Code2, Layers } from 'lucide-react';
 
 interface HeaderProps {
   onOpenPaywall?: () => void;
@@ -77,7 +77,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
               </>
             ) : (
               <>
-                <Sparkles className="h-3.5 w-3.5 text-cyan-200" />
+                <Zap className="h-3.5 w-3.5 text-cyan-200" />
                 <span>Unlock Pro & Batch</span>
               </>
             )}

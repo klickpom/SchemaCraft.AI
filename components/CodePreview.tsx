@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { CodeExportFormat, formatCodeForOutput } from '@/lib/schemaTypes';
-import { Copy, Check, Download, Minimize2, Maximize2, ExternalLink, Sparkles, FileCode, Lock } from 'lucide-react';
+import { Copy, Check, Download, Minimize2, Maximize2, ExternalLink, Zap, FileCode, Lock } from 'lucide-react';
 
 interface CodePreviewProps {
   schemaObj: object;
@@ -163,7 +163,7 @@ export function CodePreview({ schemaObj, onOpenPaywall, isPro }: CodePreviewProp
             <span className="text-emerald-400">✓ Batch Export & Webhooks Unlocked</span>
           ) : (
             <>
-              <Sparkles className="h-3 w-3 text-cyan-400" />
+              <Zap className="h-3 w-3 text-cyan-400" />
               <span>Need Batch Site Export or Webhooks? Unlock Pro</span>
             </>
           )}

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CheckCircle2, AlertTriangle, AlertCircle, Sparkles, ShieldCheck, Check } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, AlertCircle, Zap, ShieldCheck, Check } from 'lucide-react';
 import { ValidationResult } from '@/lib/validator';
 
 interface ValidationBadgeProps {
@@ -48,7 +48,7 @@ export function ValidationBadge({ validation, onAutoFix }: ValidationBadgeProps)
 
         {/* AEO Metric */}
         <div className="flex items-center gap-2 rounded-lg bg-white/[0.03] border border-white/[0.06] px-3 py-1.5">
-          <Sparkles className="h-4 w-4 text-cyan-400" />
+          <Zap className="h-4 w-4 text-cyan-400" />
           <div className="text-xs">
             <span className="text-zinc-400">AEO / Perplexity Score: </span>
             <span className="font-semibold text-cyan-300">{aeoOptimizationScore}/100</span>

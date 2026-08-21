@@ -8,10 +8,9 @@ import { SchemaBuilder } from '@/components/SchemaBuilder';
 import { FaqAccordion } from '@/components/FaqAccordion';
 import { Footer } from '@/components/Footer';
 import {
-  Sparkles,
+  Zap,
   ShieldCheck,
   TrendingUp,
-  Zap,
   CheckCircle2,
   Layers,
   ArrowRight,
@@ -158,7 +157,7 @@ export default async function ProgrammaticSchemaPage({ params }: PageProps) {
         <section className="scroll-mt-20">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
-              <Sparkles className="h-4 w-4 text-cyan-400" />
+              <Zap className="h-4 w-4 text-cyan-400" />
               <span>Interactive {categoryDef.name} Workspace:</span>
             </span>
             <Link href="/" className="text-xs text-indigo-400 hover:underline">
