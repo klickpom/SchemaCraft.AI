@@ -666,31 +666,31 @@ ${JSON.stringify(generatedSchema, null, 2)}
         
         {/* Navigation Bar */}
         <header className="flex items-center justify-between border-b border-white/[0.08] pb-4 gap-2 sm:gap-4">
-          {/* Brand Logo + Version Badge */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Brand Logo */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25 shrink-0">
               <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div className="flex items-center gap-1.5 whitespace-nowrap">
-              <span className="text-base sm:text-lg font-extrabold tracking-tight text-white">
+              <span className="text-sm sm:text-lg font-extrabold tracking-tight text-white">
                 SchemaCraft<span className="text-indigo-400">.AI</span>
               </span>
-              <span className="text-[10px] uppercase px-1.5 py-0.5 rounded-full border border-indigo-500/30 text-indigo-300 bg-indigo-500/10 font-mono tracking-wider font-semibold whitespace-nowrap">
+              <span className="hidden sm:inline-flex text-[10px] uppercase px-1.5 py-0.5 rounded-full border border-indigo-500/30 text-indigo-300 bg-indigo-500/10 font-mono tracking-wider font-semibold whitespace-nowrap">
                 v2.4
               </span>
             </div>
           </div>
 
-          {/* Actions: Reset + Language + Pro Button (Single Sleek Line) */}
+          {/* Actions: Reset (Desktop) + Language + Pro Button (Mobile Compact) */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               type="button"
               onClick={handleResetDefaults}
-              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-xs text-slate-300 hover:text-white transition active:scale-95 cursor-pointer font-medium"
-              title={lang === "ar" ? "استعادة الافتراضي" : "Reset"}
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-xs text-slate-300 hover:text-white transition active:scale-95 cursor-pointer font-medium"
+              title={lang === "ar" ? "استعادة الافتراضي" : "Reset to defaults"}
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span className="hidden md:inline ml-1 rtl:mr-1">{lang === "ar" ? "الافتراضي" : "Reset"}</span>
+              <span>{lang === "ar" ? "الافتراضي" : "Reset"}</span>
             </button>
 
             <button
@@ -706,7 +706,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
             <button
               type="button"
               onClick={() => setShowPaywall(true)}
-              className={`text-xs transition px-3 sm:px-4 py-1.5 rounded-lg border font-bold flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer whitespace-nowrap ${
+              className={`text-xs transition px-2.5 sm:px-4 py-1.5 rounded-lg border font-bold flex items-center gap-1 sm:gap-1.5 shadow-sm active:scale-95 cursor-pointer whitespace-nowrap ${
                 isProUnlocked
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
                   : "text-white border-indigo-500/40 bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 shadow-lg shadow-indigo-500/25 cta-glow-pulse"
@@ -715,12 +715,14 @@ ${JSON.stringify(generatedSchema, null, 2)}
               {isProUnlocked ? (
                 <>
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{t.nav.proActive}</span>
+                  <span className="hidden sm:inline">{t.nav.proActive}</span>
+                  <span className="sm:hidden">Pro</span>
                 </>
               ) : (
                 <>
                   <Zap className="w-3.5 h-3.5 text-cyan-300 fill-cyan-300/30" />
-                  <span>{t.nav.unlockPro}</span>
+                  <span className="hidden sm:inline">{t.nav.unlockPro}</span>
+                  <span className="sm:hidden font-bold">Pro $4.99</span>
                 </>
               )}
             </button>
