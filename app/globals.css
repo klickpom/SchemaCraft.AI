@@ -17,7 +17,7 @@
   }
 
   body {
-    background-color: #070709;
+    background-color: #060608;
     color: #f8fafc;
     overflow-x: hidden;
   }
@@ -30,16 +30,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090c;
+  background: #08080c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #272733;
+  background: #232330;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4338ca;
+  background: #4f46e5;
 }
 
 /* Hide Next.js Dev Badges & Overlays in all viewports */
@@ -55,25 +55,45 @@ div[class*="devOverlay"] {
   pointer-events: none !important;
 }
 
-/* Glassmorphism & Mesh Backgrounds */
-.glass-panel {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Luxury Glass Card with Interactive Ambient Glow */
+.luxury-card {
+  position: relative;
+  background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.06), transparent 40%),
+              linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%),
+              #0c0c11;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.luxury-card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.18), 0 0 0 1px rgba(99, 102, 241, 0.15);
+  transform: translateY(-4px);
 }
 
-.glass-panel-hover:hover {
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
-  transform: translateY(-2px);
+/* Shimmer Animation for Badges */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.shimmer-badge {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  animation: shimmer 3s infinite;
 }
 
 /* Ambient Radial Glow */
 .ambient-glow {
-  background: radial-gradient(circle at 50% -20%, rgba(79, 70, 229, 0.15), transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.18), transparent 70%);
 }

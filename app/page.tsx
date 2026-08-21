@@ -42,6 +42,7 @@ import {
   FolderArchive,
   FileCode2,
   KeyRound,
+  ArrowUpRight,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -653,7 +654,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
   return (
     <div
       dir={lang === "ar" ? "rtl" : "ltr"}
-      className="min-h-screen bg-[#070709] text-slate-100 flex flex-col justify-between selection:bg-indigo-600 selection:text-white"
+      className="min-h-screen bg-[#060608] text-slate-100 flex flex-col justify-between selection:bg-indigo-600 selection:text-white"
     >
       {/* Instant Pro Success Celebration Toast */}
       {showCelebrationBanner && (
@@ -676,7 +677,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
         </div>
       )}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 w-full space-y-10 sm:space-y-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 w-full space-y-12 sm:space-y-16">
         
         {/* Navigation Bar */}
         <header className="flex flex-wrap items-center justify-between border-b border-white/[0.08] pb-5 gap-3">
@@ -1404,162 +1405,238 @@ ${JSON.stringify(generatedSchema, null, 2)}
         </div>
 
         {/* What's Inside the $4.99 Enterprise Bundle (High Value Stacking) */}
-        <section className="border-t border-white/[0.1] pt-10 space-y-6">
-          <div className="text-center max-w-2xl mx-auto space-y-1.5">
-            <div className="inline-flex items-center gap-1 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-1">
-              <FolderArchive className="w-4 h-4" />
+        <section className="border-t border-white/[0.1] pt-12 space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold uppercase tracking-wider">
+              <FolderArchive className="w-4 h-4 text-indigo-400" />
               <span>Full Production Bundle Architecture</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {t.bundleValue.title}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {t.bundleValue.subtitle}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-stretch">
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-indigo-500/30 transition">
-              <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
-                <FileCode2 className="w-4 h-4" />
-                <span>{t.bundleValue.f1Title}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-indigo-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <FileCode2 className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f1Title}</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f1Desc}</p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f1Desc}</p>
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-indigo-300">
+                <span>Schema.org v26.0 W3C</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-cyan-500/30 transition">
-              <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
-                <Terminal className="w-4 h-4" />
-                <span>{t.bundleValue.f2Title}</span>
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-cyan-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <Terminal className="w-5 h-5 text-cyan-400" />
+                  </div>
+                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f2Title}</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f2Desc}</p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f2Desc}</p>
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-cyan-300">
+                <span>Next.js 15 App Router</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-emerald-500/30 transition">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-                <ShoppingBag className="w-4 h-4" />
-                <span>{t.bundleValue.f3Title}</span>
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-emerald-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <ShoppingBag className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f3Title}</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f3Desc}</p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f3Desc}</p>
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-emerald-300">
+                <span>Shopify & Salla Liquid</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-amber-500/30 transition">
-              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
-                <Globe className="w-4 h-4" />
-                <span>{t.bundleValue.f4Title}</span>
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-amber-500/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <Globe className="w-5 h-5 text-amber-400" />
+                  </div>
+                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f4Title}</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f4Desc}</p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f4Desc}</p>
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-amber-300">
+                <span>WordPress PHP Hook</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-amber-400 transition-colors" />
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-emerald-400/30 transition">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-                <ShieldCheck className="w-4 h-4" />
-                <span>{t.bundleValue.f5Title}</span>
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-emerald-400/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f5Title}</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f5Desc}</p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f5Desc}</p>
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-emerald-300">
+                <span>Unlimited Commercial Rights</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-2 shadow-xl hover:border-indigo-400/30 transition">
-              <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
-                <Sparkles className="w-4 h-4" />
-                <span>{t.bundleValue.f6Title}</span>
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-3 shadow-xl hover:border-indigo-400/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <Sparkles className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <h3 className="font-bold text-sm text-white">{t.bundleValue.f6Title}</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f6Desc}</p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{t.bundleValue.f6Desc}</p>
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-indigo-300">
+                <span>GEO 2026 AI Playbook</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* 30-Second Integration Across All Platforms */}
-        <section className="border-t border-white/[0.1] pt-10 space-y-6">
-          <div className="text-center max-w-2xl mx-auto space-y-1.5">
-            <h2 className="text-xl sm:text-2xl font-black text-white">
+        {/* 30-Second Integration Across All Platforms (Interactive Cards) */}
+        <section className="border-t border-white/[0.1] pt-12 space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {t.installation.title}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {t.installation.subtitle}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-indigo-500/30 transition">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
-                  <Terminal className="w-4 h-4" />
-                  <span>{t.installation.nextjsTitle}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+            {/* Card 1: Next.js */}
+            <div className="group luxury-card rounded-2xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 group-hover:scale-110 transition-transform duration-300">
+                    <Terminal className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-sm font-bold text-white tracking-wide">{t.installation.nextjsTitle}</h3>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   {t.installation.nextjsDesc}
                 </p>
               </div>
-              <div className="text-[10px] text-indigo-400/80 font-mono font-medium pt-2 border-t border-white/5">
-                Next.js 15 Server Components
+              <div className="pt-3.5 border-t border-white/[0.07] flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-[10px] font-mono text-indigo-300 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+                  Next.js 15 Server Comp.
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-colors" />
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-emerald-500/30 transition">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>{t.installation.shopifyTitle}</span>
+            {/* Card 2: Shopify */}
+            <div className="group luxury-card rounded-2xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform duration-300">
+                    <ShoppingBag className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-sm font-bold text-white tracking-wide">{t.installation.shopifyTitle}</h3>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   {t.installation.shopifyDesc}
                 </p>
               </div>
-              <div className="text-[10px] text-emerald-400/80 font-mono font-medium pt-2 border-t border-white/5">
-                Liquid Theme Architecture
+              <div className="pt-3.5 border-t border-white/[0.07] flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[10px] font-mono text-emerald-300 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Liquid Snippet Hook
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-cyan-500/30 transition">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
-                  <Globe className="w-4 h-4" />
-                  <span>{t.installation.wordpressTitle}</span>
+            {/* Card 3: WordPress */}
+            <div className="group luxury-card rounded-2xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 group-hover:scale-110 transition-transform duration-300">
+                    <Globe className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-sm font-bold text-white tracking-wide">{t.installation.wordpressTitle}</h3>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   {t.installation.wordpressDesc}
                 </p>
               </div>
-              <div className="text-[10px] text-cyan-400/80 font-mono font-medium pt-2 border-t border-white/5">
-                WordPress & WooCommerce Ready
+              <div className="pt-3.5 border-t border-white/[0.07] flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-[10px] font-mono text-cyan-300 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                  wp_head PHP Hook
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-amber-500/30 transition">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
-                  <Layers className="w-4 h-4" />
-                  <span>{t.installation.webflowTitle}</span>
+            {/* Card 4: Webflow */}
+            <div className="group luxury-card rounded-2xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform duration-300">
+                    <Layers className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-sm font-bold text-white tracking-wide">{t.installation.webflowTitle}</h3>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   {t.installation.webflowDesc}
                 </p>
               </div>
-              <div className="text-[10px] text-amber-400/80 font-mono font-medium pt-2 border-t border-white/5">
-                Head Custom Script Injection
+              <div className="pt-3.5 border-t border-white/[0.07] flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-[10px] font-mono text-amber-300 font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                  Custom Code Embed
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-amber-400 transition-colors" />
               </div>
             </div>
           </div>
         </section>
 
         {/* Social Proof & Developer Testimonials */}
-        <section className="border-t border-white/[0.1] pt-10 space-y-6">
-          <div className="text-center max-w-2xl mx-auto space-y-1.5">
-            <div className="inline-flex items-center gap-1 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">
+        <section className="border-t border-white/[0.1] pt-12 space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
               <Award className="w-4 h-4" />
               <span>{t.testimonials.title}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {lang === "ar" ? "ماذا يقول المهندسون وخبراء النمو عن سكيما كرافت" : "Engineered for Conversion & Citation Impact"}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {t.testimonials.subtitle}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch">
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl h-full flex flex-col justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-stretch">
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-4 shadow-xl h-full flex flex-col justify-between hover:border-emerald-500/30 hover:-translate-y-1 transition-all duration-300">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex text-amber-400">
@@ -1575,13 +1652,13 @@ ${JSON.stringify(generatedSchema, null, 2)}
                   "{t.testimonials.t1Text}"
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/5">
+              <div className="pt-3.5 border-t border-white/5">
                 <div className="text-xs font-bold text-white">{t.testimonials.t1Name}</div>
                 <div className="text-[10px] text-slate-400">{t.testimonials.t1Role}</div>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl h-full flex flex-col justify-between">
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-4 shadow-xl h-full flex flex-col justify-between hover:border-indigo-500/30 hover:-translate-y-1 transition-all duration-300">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex text-amber-400">
@@ -1597,13 +1674,13 @@ ${JSON.stringify(generatedSchema, null, 2)}
                   "{t.testimonials.t2Text}"
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/5">
+              <div className="pt-3.5 border-t border-white/5">
                 <div className="text-xs font-bold text-white">{t.testimonials.t2Name}</div>
                 <div className="text-[10px] text-slate-400">{t.testimonials.t2Role}</div>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl h-full flex flex-col justify-between">
+            <div className="group rounded-2xl border border-white/10 bg-[#0e0e14] p-6 space-y-4 shadow-xl h-full flex flex-col justify-between hover:border-cyan-500/30 hover:-translate-y-1 transition-all duration-300">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex text-amber-400">
@@ -1619,7 +1696,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
                   "{t.testimonials.t3Text}"
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/5">
+              <div className="pt-3.5 border-t border-white/5">
                 <div className="text-xs font-bold text-white">{t.testimonials.t3Name}</div>
                 <div className="text-[10px] text-slate-400">{t.testimonials.t3Role}</div>
               </div>
@@ -1628,23 +1705,23 @@ ${JSON.stringify(generatedSchema, null, 2)}
         </section>
 
         {/* Master AEO & Generative AI FAQ Accordion */}
-        <section className="border-t border-white/[0.1] pt-10 space-y-6">
-          <div className="text-center max-w-2xl mx-auto space-y-1">
-            <h2 className="text-xl sm:text-2xl font-black text-white">
+        <section className="border-t border-white/[0.1] pt-12 space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {lang === "ar" ? "الأسئلة الشائعة وتصدر محركات الذكاء الاصطناعي (AEO/GEO)" : "Frequently Asked Questions (AEO & GEO Knowledge Base)"}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {lang === "ar" ? "كل ما تحتاج معرفته عن معايير السكيما الحديثة وتصدر Perplexity و Google AI Overviews." : "Everything you need to know about modern Schema.org standards and LLM search ingestion."}
             </p>
           </div>
 
-          <div className="max-w-3xl mx-auto space-y-3">
+          <div className="max-w-3xl mx-auto space-y-3.5">
             {faqs.map((faq, idx) => {
               const isOpen = openFaqIndex === idx;
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl border border-white/10 bg-[#121218] overflow-hidden transition"
+                  className="rounded-2xl border border-white/10 bg-[#0e0e14] overflow-hidden transition"
                 >
                   <button
                     type="button"
@@ -1821,7 +1898,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
       </main>
 
       {/* Footer with Clear Support & Refund Link */}
-      <footer className="border-t border-white/[0.08] py-8 text-center text-xs text-slate-400 space-y-2.5 bg-[#060608]">
+      <footer className="border-t border-white/[0.08] py-8 text-center text-xs text-slate-400 space-y-2.5 bg-[#050507]">
         <div className="inline-flex items-center gap-1.5 text-slate-300 text-xs font-medium">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
           <span>{t.footer.guaranteeBadge}</span>
