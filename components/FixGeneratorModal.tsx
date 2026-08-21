@@ -165,8 +165,18 @@ export default function FixGeneratorModal({
                 </button>
               </div>
 
-              <div className="relative rounded-xl border border-white/10 bg-[#08080c] p-3.5 font-mono text-[11px] text-slate-200 overflow-x-auto max-h-56 leading-relaxed">
-                <pre>{currentFix.codeSnippet}</pre>
+              <div className="relative rounded-xl border border-white/10 bg-[#08080c] overflow-hidden shadow-inner">
+                <div className="flex items-center justify-between px-3 py-1.5 bg-white/[0.03] border-b border-white/5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-rose-500/80" />
+                    <span className="h-2 w-2 rounded-full bg-amber-500/80" />
+                    <span className="h-2 w-2 rounded-full bg-emerald-500/80" />
+                  </div>
+                  <span className="font-mono text-[10px] text-slate-500 uppercase">{activePlatform}</span>
+                </div>
+                <div className="p-3.5 font-mono text-[11px] text-slate-200 overflow-x-auto max-h-56 leading-relaxed">
+                  <pre>{currentFix.codeSnippet}</pre>
+                </div>
               </div>
 
               <div className="p-3 rounded-lg bg-indigo-950/30 border border-indigo-500/20 text-[11px] text-indigo-200 leading-relaxed">

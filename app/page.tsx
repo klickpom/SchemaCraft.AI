@@ -272,16 +272,19 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-12 space-y-12 sm:space-y-16">
         
         {/* Hero Section */}
-        <section className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-5 px-2">
+        <section className="relative text-center max-w-4xl mx-auto space-y-4 sm:space-y-6 px-2">
           
+          {/* Atmospheric Background Ambient Mesh Lights */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[350px] bg-gradient-to-tr from-indigo-600/15 via-cyan-500/10 to-transparent blur-3xl pointer-events-none rounded-full -z-10 ambient-pulse" />
+
           {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-950/40 px-3 py-1 text-[10px] sm:text-xs font-semibold text-cyan-300 shadow-sm max-w-full">
+          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-950/40 px-3.5 py-1 text-[10px] sm:text-xs font-semibold text-cyan-300 shadow-sm max-w-full backdrop-blur-md">
             <span className="flex h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping shrink-0" />
             <span className="truncate">{t.hero.badge}</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gradient-metallic">
             {t.hero.h1}
           </h1>
 
@@ -292,7 +295,7 @@ export default function Home() {
 
           {/* URL Input Form */}
           <form onSubmit={handleFormSubmit} className="max-w-2xl mx-auto pt-2 sm:pt-3">
-            <div className="relative flex flex-col sm:flex-row items-center gap-2 p-1.5 rounded-2xl bg-[#111118] border border-white/15 shadow-2xl focus-within:border-indigo-500 transition-all">
+            <div className="relative flex flex-col sm:flex-row items-center gap-2 p-1.5 rounded-2xl bg-[#0c0c14]/90 border border-white/15 shadow-2xl glow-focus-box backdrop-blur-xl">
               <div className="relative flex items-center w-full pl-3 rtl:pl-0 rtl:pr-3">
                 <Search className="w-4 h-4 text-slate-400 shrink-0" />
                 <input
@@ -368,7 +371,7 @@ export default function Home() {
 
             <div className="w-full bg-white/10 h-3 rounded-full overflow-hidden p-0.5">
               <div
-                className="bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 h-full rounded-full transition-all duration-150 shadow-lg shadow-cyan-500/50"
+                className="animate-shimmer h-full rounded-full transition-all duration-150 shadow-lg shadow-cyan-500/50"
                 style={{ width: `${scanPercent}%` }}
               />
             </div>
@@ -473,8 +476,12 @@ export default function Home() {
                   </span>
                   
                   <div className="relative h-32 w-32 flex items-center justify-center">
-                    <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
-                      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
+                    {/* Ambient Glow Halo */}
+                    <div className={`absolute inset-2 rounded-full blur-xl opacity-25 ambient-pulse ${
+                      report.overallScore >= 80 ? 'bg-emerald-500' : report.overallScore >= 50 ? 'bg-amber-500' : 'bg-rose-500'
+                    }`} />
+                    <svg className="absolute inset-0 w-full h-full -rotate-90 drop-shadow-md" viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
                       <circle
                         cx="60" cy="60" r="52" fill="none"
                         strokeWidth="8" strokeLinecap="round"
@@ -483,7 +490,7 @@ export default function Home() {
                         strokeDashoffset={`${2 * Math.PI * 52 * (1 - report.overallScore / 100)}`}
                       />
                     </svg>
-                    <span className={`relative text-4xl font-black ${report.overallScore >= 80 ? 'text-emerald-400' : report.overallScore >= 50 ? 'text-amber-400' : 'text-rose-400'}`}>
+                    <span className={`relative text-4xl font-black font-mono tracking-tighter ${report.overallScore >= 80 ? 'text-emerald-400' : report.overallScore >= 50 ? 'text-amber-400' : 'text-rose-400'}`}>
                       {report.overallScore}
                     </span>
                   </div>

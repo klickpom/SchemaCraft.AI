@@ -61,24 +61,66 @@ div[class*="devOverlay"] {
 /* Luxury Glass Card */
 .luxury-card {
   position: relative;
-  background: #0c0c11;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  transition: all 0.25s ease-in-out;
+  background: rgba(12, 12, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .luxury-card:hover {
-  border-color: rgba(99, 102, 241, 0.45);
-  box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 16px 36px -12px rgba(99, 102, 241, 0.25), 0 0 0 1px rgba(99, 102, 241, 0.2);
   transform: translateY(-2px);
+}
+
+/* Shimmer Progress Animation */
+@keyframes shimmer-move {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(99, 102, 241, 0.9) 0%,
+    rgba(6, 182, 212, 1) 25%,
+    rgba(16, 185, 129, 0.9) 50%,
+    rgba(6, 182, 212, 1) 75%,
+    rgba(99, 102, 241, 0.9) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-move 2.5s infinite linear;
+}
+
+/* Ambient Radial Glow Pulse */
+@keyframes ambient-glow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.04);
+  }
+}
+
+.ambient-pulse {
+  animation: ambient-glow 6s infinite ease-in-out;
+  will-change: opacity, transform;
 }
 
 /* Mobile-Safe GPU Shimmer (Pure Opacity Pulse, Zero Glitch) */
 @keyframes cta-glow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.35), 0 0 40px rgba(99, 102, 241, 0.15);
   }
   50% {
-    box-shadow: 0 0 25px rgba(6, 182, 212, 0.55);
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.55), 0 0 60px rgba(6, 182, 212, 0.25);
   }
 }
 
@@ -98,4 +140,21 @@ div[class*="devOverlay"] {
 .bg-grid-pattern {
   background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* Metallic Gradient Heading */
+.text-gradient-metallic {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 60%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glow Border Focus */
+.glow-focus-box {
+  transition: all 0.2s ease-in-out;
+}
+
+.glow-focus-box:focus-within {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.25), inset 0 0 15px rgba(99, 102, 241, 0.1);
 }
