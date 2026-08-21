@@ -82,7 +82,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Comprehensive Schema.org Entity Graph for Master Knowledge Graph Grounding
   const rootSchemaGraph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -142,15 +141,21 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark scroll-smooth">
       <head>
         <link rel="canonical" href="https://schemacraft-ai.site" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Cairo:wght@400;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootSchemaGraph) }}
         />
       </head>
-      <body className="antialiased bg-[#09090b] text-slate-100 min-h-screen selection:bg-indigo-600 selection:text-white">
+      <body className="antialiased bg-[#070709] text-slate-100 min-h-screen selection:bg-indigo-600 selection:text-white font-sans">
         {children}
       </body>
     </html>

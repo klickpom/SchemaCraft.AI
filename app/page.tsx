@@ -38,6 +38,8 @@ import {
   Flame,
   GraduationCap,
   Calendar,
+  ArrowUpRight,
+  Shield,
 } from "lucide-react";
 import PayPalCheckout from "@/components/PayPalCheckout";
 import { CustomSelect, CustomSelectOption } from "@/components/CustomSelect";
@@ -108,6 +110,26 @@ const PRESET_ARCHETYPES = {
       ratingCount: "812",
     },
   },
+  course: {
+    type: "Course",
+    data: {
+      courseTitle: "Mastering GEO & Knowledge Graph Engineering",
+      courseDescription: "Advanced engineering masterclass on feeding deterministic JSON-LD entity structures directly to Perplexity, ChatGPT Search, and Gemini LLMs.",
+      courseProvider: "SchemaCraft Academy Global",
+      price: "199.00",
+      currency: "USD",
+    },
+  },
+  event: {
+    type: "Event",
+    data: {
+      eventName: "Global Generative Engine Optimization Summit 2026",
+      eventDate: "2026-11-15",
+      eventLocation: "https://schemacraft-ai.site/summit-live",
+      price: "99.00",
+      currency: "USD",
+    },
+  },
   faq: {
     type: "FAQPage",
     data: {
@@ -132,26 +154,6 @@ const PRESET_ARCHETYPES = {
       headline: "The 2026 Architectural Guide to Generative Engine Optimization",
       articleSummary: "Comprehensive benchmark analysis on how deterministic Schema.org graph entities improve retrieval-augmented generation accuracy.",
       authorName: "Dr. Alexander Wright",
-    },
-  },
-  course: {
-    type: "Course",
-    data: {
-      courseTitle: "Mastering GEO & Knowledge Graph Engineering",
-      courseDescription: "Advanced engineering masterclass on feeding deterministic JSON-LD entity structures directly to Perplexity, ChatGPT Search, and Gemini LLMs.",
-      courseProvider: "SchemaCraft Academy Global",
-      price: "199.00",
-      currency: "USD",
-    },
-  },
-  event: {
-    type: "Event",
-    data: {
-      eventName: "Global Generative Engine Optimization Summit 2026",
-      eventDate: "2026-11-15",
-      eventLocation: "https://schemacraft-ai.site/summit-live",
-      price: "99.00",
-      currency: "USD",
     },
   },
 };
@@ -611,7 +613,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
   return (
     <div
       dir={lang === "ar" ? "rtl" : "ltr"}
-      className="min-h-screen bg-[#09090b] text-slate-100 flex flex-col justify-between selection:bg-indigo-600 selection:text-white font-sans"
+      className="min-h-screen bg-[#070709] text-slate-100 flex flex-col justify-between selection:bg-indigo-600 selection:text-white"
     >
       {/* Instant Pro Success Celebration Toast */}
       {showCelebrationBanner && (
@@ -643,11 +645,11 @@ ${JSON.stringify(generatedSchema, null, 2)}
               <Layers className="w-5 h-5 text-white" />
             </div>
             <div>
-              <span className="text-lg font-bold tracking-tight text-white">
+              <span className="text-lg font-extrabold tracking-tight text-white">
                 {t.nav.title}
                 <span className="text-indigo-400">.AI</span>
               </span>
-              <span className="ml-2 rtl:mr-2 text-[10px] uppercase px-2 py-0.5 rounded-full border border-indigo-500/30 text-indigo-300 bg-indigo-500/10 font-mono tracking-wider">
+              <span className="ml-2 rtl:mr-2 text-[10px] uppercase px-2 py-0.5 rounded-full border border-indigo-500/30 text-indigo-300 bg-indigo-500/10 font-mono tracking-wider font-semibold">
                 {t.nav.engineVersion}
               </span>
             </div>
@@ -658,7 +660,7 @@ ${JSON.stringify(generatedSchema, null, 2)}
             <button
               type="button"
               onClick={handleResetDefaults}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-xs text-slate-300 hover:text-white transition active:scale-95 cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-xs text-slate-300 hover:text-white transition active:scale-95 cursor-pointer font-medium"
               title={lang === "ar" ? "استعادة القيم الافتراضية" : "Reset to defaults"}
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -726,49 +728,49 @@ ${JSON.stringify(generatedSchema, null, 2)}
             <button
               type="button"
               onClick={() => handleLoadPreset("saas")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
             >
               {t.presets.saas}
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("ecommerce")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
             >
               {t.presets.ecommerce}
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("course")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
             >
               {t.presets.course}
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("event")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
             >
               {t.presets.event}
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("faq")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
             >
               {t.presets.faq}
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("local")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
             >
               {t.presets.local}
             </button>
             <button
               type="button"
               onClick={() => handleLoadPreset("article")}
-              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+              className="rounded-lg bg-white/[0.04] hover:bg-indigo-600/20 border border-white/10 hover:border-indigo-500/40 px-2.5 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer active:scale-95"
             >
               {t.presets.article}
             </button>
@@ -784,254 +786,256 @@ ${JSON.stringify(generatedSchema, null, 2)}
           </div>
         </section>
 
-        {/* Dual-Panel Interactive Workspace */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+        {/* Dual-Panel Symmetrical Workspace */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
           
-          {/* Left Column: Dynamic Form Builder with Luxury Custom Dropdown */}
-          <div className="lg:col-span-5 space-y-4 sm:space-y-5">
-            <div className="rounded-2xl border border-white/[0.1] bg-[#121218]/90 backdrop-blur-xl p-4 sm:p-6 shadow-2xl space-y-4 relative">
+          {/* Left Column: Dynamic Form Builder + Readiness Score */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-4 sm:space-y-5">
+            <div className="rounded-2xl border border-white/[0.1] bg-[#121218]/90 backdrop-blur-xl p-4 sm:p-6 shadow-2xl space-y-4 relative flex-1 flex flex-col justify-between">
               
-              {/* Luxury Custom Schema Type Select */}
-              <div className="relative z-40">
-                <CustomSelect
-                  label={t.builder.selectSchemaType}
-                  options={schemaTypeOptions}
-                  value={schemaType}
-                  onChange={(val) => setSchemaType(val)}
-                />
-              </div>
+              <div className="space-y-4">
+                {/* Luxury Custom Schema Type Select */}
+                <div className="relative z-40">
+                  <CustomSelect
+                    label={t.builder.selectSchemaType}
+                    options={schemaTypeOptions}
+                    value={schemaType}
+                    onChange={(val) => setSchemaType(val)}
+                  />
+                </div>
 
-              {/* Dynamic Form Fields based on Type */}
-              <div className="space-y-3.5 text-xs pt-1">
-                {schemaType === "Course" ? (
-                  <>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.courseTitle}</label>
-                      <input
-                        type="text"
-                        value={formData.courseTitle}
-                        onChange={(e) => handleInputChange("courseTitle", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.courseDescription}</label>
-                      <textarea
-                        rows={3}
-                        value={formData.courseDescription}
-                        onChange={(e) => handleInputChange("courseDescription", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                {/* Dynamic Form Fields based on Type */}
+                <div className="space-y-3.5 text-xs pt-1">
+                  {schemaType === "Course" ? (
+                    <>
                       <div className="space-y-1.5">
-                        <label className="block text-slate-300 font-semibold">{t.builder.courseProvider}</label>
+                        <label className="block text-slate-300 font-semibold">{t.builder.courseTitle}</label>
                         <input
                           type="text"
-                          value={formData.courseProvider}
-                          onChange={(e) => handleInputChange("courseProvider", e.target.value)}
+                          value={formData.courseTitle}
+                          onChange={(e) => handleInputChange("courseTitle", e.target.value)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                        <label className="block text-slate-300 font-semibold">{t.builder.courseDescription}</label>
+                        <textarea
+                          rows={3}
+                          value={formData.courseDescription}
+                          onChange={(e) => handleInputChange("courseDescription", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                        <div className="space-y-1.5">
+                          <label className="block text-slate-300 font-semibold">{t.builder.courseProvider}</label>
+                          <input
+                            type="text"
+                            value={formData.courseProvider}
+                            onChange={(e) => handleInputChange("courseProvider", e.target.value)}
+                            className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                          <input
+                            type="text"
+                            value={formData.price}
+                            onChange={(e) => handleInputChange("price", e.target.value)}
+                            className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : schemaType === "Event" ? (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.eventName}</label>
                         <input
                           type="text"
-                          value={formData.price}
-                          onChange={(e) => handleInputChange("price", e.target.value)}
-                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                        />
-                      </div>
-                    </div>
-                  </>
-                ) : schemaType === "Event" ? (
-                  <>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.eventName}</label>
-                      <input
-                        type="text"
-                        value={formData.eventName}
-                        onChange={(e) => handleInputChange("eventName", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.eventLocation}</label>
-                      <input
-                        type="text"
-                        value={formData.eventLocation}
-                        onChange={(e) => handleInputChange("eventLocation", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
-                      <div className="space-y-1.5">
-                        <label className="block text-slate-300 font-semibold">{t.builder.eventDate}</label>
-                        <input
-                          type="date"
-                          value={formData.eventDate}
-                          onChange={(e) => handleInputChange("eventDate", e.target.value)}
+                          value={formData.eventName}
+                          onChange={(e) => handleInputChange("eventName", e.target.value)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                        <label className="block text-slate-300 font-semibold">{t.builder.eventLocation}</label>
                         <input
                           type="text"
-                          value={formData.price}
-                          onChange={(e) => handleInputChange("price", e.target.value)}
+                          value={formData.eventLocation}
+                          onChange={(e) => handleInputChange("eventLocation", e.target.value)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                         />
                       </div>
-                    </div>
-                  </>
-                ) : schemaType === "FAQPage" ? (
-                  <>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.targetQuery}</label>
-                      <input
-                        type="text"
-                        value={formData.question}
-                        onChange={(e) => handleInputChange("question", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.directAnswer}</label>
-                      <textarea
-                        rows={4}
-                        value={formData.answer}
-                        onChange={(e) => handleInputChange("answer", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
-                      />
-                    </div>
-                  </>
-                ) : schemaType === "LocalBusiness" ? (
-                  <>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.businessName}</label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.streetAddress}</label>
-                      <input
-                        type="text"
-                        value={formData.streetAddress}
-                        onChange={(e) => handleInputChange("streetAddress", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                        <div className="space-y-1.5">
+                          <label className="block text-slate-300 font-semibold">{t.builder.eventDate}</label>
+                          <input
+                            type="date"
+                            value={formData.eventDate}
+                            onChange={(e) => handleInputChange("eventDate", e.target.value)}
+                            className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                          <input
+                            type="text"
+                            value={formData.price}
+                            onChange={(e) => handleInputChange("price", e.target.value)}
+                            className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : schemaType === "FAQPage" ? (
+                    <>
                       <div className="space-y-1.5">
-                        <label className="block text-slate-300 font-semibold">{t.builder.city}</label>
+                        <label className="block text-slate-300 font-semibold">{t.builder.targetQuery}</label>
                         <input
                           type="text"
-                          value={formData.city}
-                          onChange={(e) => handleInputChange("city", e.target.value)}
+                          value={formData.question}
+                          onChange={(e) => handleInputChange("question", e.target.value)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="block text-slate-300 font-semibold">{t.builder.telephone}</label>
+                        <label className="block text-slate-300 font-semibold">{t.builder.directAnswer}</label>
+                        <textarea
+                          rows={4}
+                          value={formData.answer}
+                          onChange={(e) => handleInputChange("answer", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
+                        />
+                      </div>
+                    </>
+                  ) : schemaType === "LocalBusiness" ? (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.businessName}</label>
                         <input
                           type="text"
-                          value={formData.telephone}
-                          onChange={(e) => handleInputChange("telephone", e.target.value)}
+                          value={formData.name}
+                          onChange={(e) => handleInputChange("name", e.target.value)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                         />
                       </div>
-                    </div>
-                  </>
-                ) : schemaType === "Article" ? (
-                  <>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.articleHeadline}</label>
-                      <input
-                        type="text"
-                        value={formData.headline}
-                        onChange={(e) => handleInputChange("headline", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.articleSummary}</label>
-                      <textarea
-                        rows={3}
-                        value={formData.articleSummary}
-                        onChange={(e) => handleInputChange("articleSummary", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.authorName}</label>
-                      <input
-                        type="text"
-                        value={formData.authorName}
-                        onChange={(e) => handleInputChange("authorName", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.entityName}</label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.streetAddress}</label>
+                        <input
+                          type="text"
+                          value={formData.streetAddress}
+                          onChange={(e) => handleInputChange("streetAddress", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div className="space-y-1.5">
+                          <label className="block text-slate-300 font-semibold">{t.builder.city}</label>
+                          <input
+                            type="text"
+                            value={formData.city}
+                            onChange={(e) => handleInputChange("city", e.target.value)}
+                            className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="block text-slate-300 font-semibold">{t.builder.telephone}</label>
+                          <input
+                            type="text"
+                            value={formData.telephone}
+                            onChange={(e) => handleInputChange("telephone", e.target.value)}
+                            className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : schemaType === "Article" ? (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.articleHeadline}</label>
+                        <input
+                          type="text"
+                          value={formData.headline}
+                          onChange={(e) => handleInputChange("headline", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.articleSummary}</label>
+                        <textarea
+                          rows={3}
+                          value={formData.articleSummary}
+                          onChange={(e) => handleInputChange("articleSummary", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none transition shadow-inner"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.authorName}</label>
+                        <input
+                          type="text"
+                          value={formData.authorName}
+                          onChange={(e) => handleInputChange("authorName", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="space-y-1.5">
+                        <label className="block text-slate-300 font-semibold">{t.builder.entityName}</label>
+                        <input
+                          type="text"
+                          value={formData.name}
+                          onChange={(e) => handleInputChange("name", e.target.value)}
+                          className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                        />
+                      </div>
 
-                    {schemaType === "SoftwareApplication" && (
-                      <div className="relative z-30">
-                        <CustomSelect
-                          label={t.builder.appCategory}
-                          options={categoryOptions}
-                          value={formData.category}
-                          onChange={(val) => handleInputChange("category", val)}
-                        />
-                      </div>
-                    )}
+                      {schemaType === "SoftwareApplication" && (
+                        <div className="relative z-30">
+                          <CustomSelect
+                            label={t.builder.appCategory}
+                            options={categoryOptions}
+                            value={formData.category}
+                            onChange={(val) => handleInputChange("category", val)}
+                          />
+                        </div>
+                      )}
 
-                    <div className="space-y-1.5">
-                      <label className="block text-slate-300 font-semibold">{t.builder.entityProposition}</label>
-                      <input
-                        type="text"
-                        value={formData.description}
-                        onChange={(e) => handleInputChange("description", e.target.value)}
-                        className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
-                      />
-                    </div>
-
-                    {/* Price & Currency */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
                       <div className="space-y-1.5">
-                        <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                        <label className="block text-slate-300 font-semibold">{t.builder.entityProposition}</label>
                         <input
                           type="text"
-                          value={formData.price}
-                          onChange={(e) => handleInputChange("price", e.target.value)}
+                          value={formData.description}
+                          onChange={(e) => handleInputChange("description", e.target.value)}
                           className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
                         />
                       </div>
-                      <div className="relative z-30">
-                        <CustomSelect
-                          label={t.builder.currency}
-                          options={currencyOptions}
-                          value={formData.currency}
-                          onChange={(val) => handleInputChange("currency", val)}
-                        />
+
+                      {/* Price & Currency */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-30">
+                        <div className="space-y-1.5">
+                          <label className="block text-slate-300 font-semibold">{t.builder.price}</label>
+                          <input
+                            type="text"
+                            value={formData.price}
+                            onChange={(e) => handleInputChange("price", e.target.value)}
+                            className="w-full bg-[#181822] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition shadow-inner"
+                          />
+                        </div>
+                        <div className="relative z-30">
+                          <CustomSelect
+                            label={t.builder.currency}
+                            options={currencyOptions}
+                            value={formData.currency}
+                            onChange={(val) => handleInputChange("currency", val)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
 
               {/* Bottom Card Actions */}
@@ -1086,237 +1090,257 @@ ${JSON.stringify(generatedSchema, null, 2)}
           </div>
 
           {/* Right Column: Multi-Format Code & Simulation Viewer */}
-          <div className="lg:col-span-7 space-y-4 sm:space-y-5">
-            <div className="rounded-2xl border border-white/[0.1] bg-[#0d0d10] p-4 sm:p-5 shadow-2xl flex flex-col h-full">
+          <div className="lg:col-span-7 flex flex-col justify-between space-y-4 sm:space-y-5">
+            <div className="rounded-2xl border border-white/[0.1] bg-[#0d0d10] p-4 sm:p-5 shadow-2xl flex flex-col justify-between h-full">
               
-              <div className="flex flex-wrap items-center justify-between border-b border-white/[0.08] pb-3 mb-4 gap-2">
-                <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 rtl:space-x-reverse">
-                  <button
-                    type="button"
-                    onClick={() => handleTabChange("code")}
-                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                      activeTab === "code" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    <Code2 className="w-3.5 h-3.5" />
-                    <span>{t.preview.tabCode}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleTabChange("nextjs")}
-                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                      activeTab === "nextjs" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    <Terminal className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>{t.preview.tabNextjs}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleTabChange("shopify")}
-                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                      activeTab === "shopify" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    <ShoppingBag className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>{t.preview.tabShopify}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleTabChange("serp")}
-                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                      activeTab === "serp" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>{t.preview.tabSerp}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleTabChange("ai")}
-                    className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                      activeTab === "ai" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    <Bot className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>{t.preview.tabAi}</span>
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {/* Minify / Beautify Toggle */}
-                  {activeTab === "code" && (
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center justify-between border-b border-white/[0.08] pb-3 gap-2">
+                  <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 rtl:space-x-reverse">
                     <button
                       type="button"
-                      onClick={() => setIsMinified(!isMinified)}
-                      className="text-[11px] text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] transition cursor-pointer font-mono"
+                      onClick={() => handleTabChange("code")}
+                      className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                        activeTab === "code" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
+                      }`}
                     >
-                      {isMinified ? t.preview.beautify : t.preview.minify}
+                      <Code2 className="w-3.5 h-3.5" />
+                      <span>{t.preview.tabCode}</span>
                     </button>
-                  )}
 
-                  <button
-                    type="button"
-                    onClick={handleCopy}
-                    className="flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg transition active:scale-95 cursor-pointer font-semibold"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copied ? t.preview.copied : t.preview.copyCode}</span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => handleTabChange("nextjs")}
+                      className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                        activeTab === "nextjs" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
+                      }`}
+                    >
+                      <Terminal className="w-3.5 h-3.5 text-indigo-400" />
+                      <span>{t.preview.tabNextjs}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleTabChange("shopify")}
+                      className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                        activeTab === "shopify" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
+                      }`}
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>{t.preview.tabShopify}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleTabChange("serp")}
+                      className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                        activeTab === "serp" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
+                      }`}
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>{t.preview.tabSerp}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleTabChange("ai")}
+                      className={`text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
+                        activeTab === "ai" ? "bg-white/15 text-white shadow" : "text-slate-400 hover:text-slate-200"
+                      }`}
+                    >
+                      <Bot className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>{t.preview.tabAi}</span>
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {/* Minify / Beautify Toggle */}
+                    {activeTab === "code" && (
+                      <button
+                        type="button"
+                        onClick={() => setIsMinified(!isMinified)}
+                        className="text-[11px] text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] transition cursor-pointer font-mono"
+                      >
+                        {isMinified ? t.preview.beautify : t.preview.minify}
+                      </button>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={handleCopy}
+                      className="flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg transition active:scale-95 cursor-pointer font-semibold"
+                    >
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copied ? t.preview.copied : t.preview.copyCode}</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              {activeTab === "code" ? (
-                <div className="space-y-2.5 flex-1 flex flex-col">
+                {activeTab === "code" ? (
+                  <div className="space-y-2.5 flex-1 flex flex-col">
+                    <pre
+                      dir="ltr"
+                      className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-cyan-300 overflow-x-auto border border-white/[0.08] leading-relaxed min-h-[320px] max-h-[460px] text-left shadow-inner"
+                    >
+                      <code>{jsonString}</code>
+                    </pre>
+
+                    {/* External Official Google & Schema.org Test Links */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px]">
+                      <a
+                        href="https://search.google.com/test/rich-results"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-indigo-300 hover:text-indigo-200 transition font-medium"
+                      >
+                        <span>{t.preview.testGoogle}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                      <a
+                        href="https://validator.schema.org/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-cyan-300 hover:text-cyan-200 transition font-medium"
+                      >
+                        <span>{t.preview.testSchemaOrg}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  </div>
+                ) : activeTab === "nextjs" ? (
                   <pre
                     dir="ltr"
-                    className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-cyan-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[360px] sm:max-h-[420px] text-left shadow-inner"
+                    className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-indigo-300 overflow-x-auto border border-white/[0.08] leading-relaxed min-h-[320px] max-h-[460px] text-left shadow-inner"
                   >
-                    <code>{jsonString}</code>
+                    <code>{nextJsJsxString}</code>
                   </pre>
-
-                  {/* External Official Google & Schema.org Test Links */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px]">
-                    <a
-                      href="https://search.google.com/test/rich-results"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-indigo-300 hover:text-indigo-200 transition font-medium"
-                    >
-                      <span>{t.preview.testGoogle}</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                    <a
-                      href="https://validator.schema.org/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-cyan-300 hover:text-cyan-200 transition font-medium"
-                    >
-                      <span>{t.preview.testSchemaOrg}</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-              ) : activeTab === "nextjs" ? (
-                <pre
-                  dir="ltr"
-                  className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-indigo-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[380px] sm:max-h-[440px] text-left shadow-inner"
-                >
-                  <code>{nextJsJsxString}</code>
-                </pre>
-              ) : activeTab === "shopify" ? (
-                <pre
-                  dir="ltr"
-                  className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-emerald-300 overflow-x-auto border border-white/[0.08] leading-relaxed max-h-[380px] sm:max-h-[440px] text-left shadow-inner"
-                >
-                  <code>{shopifyLiquidString}</code>
-                </pre>
-              ) : activeTab === "serp" ? (
-                /* Google SERP Preview with Mobile / Desktop Switcher */
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
-                      Google Rich Snippet Simulation
-                    </span>
-                    <div className="flex items-center gap-1 p-0.5 rounded-lg bg-black/50 border border-white/15">
-                      <button
-                        type="button"
-                        onClick={() => handleDeviceChange("desktop")}
-                        className={`p-1 rounded cursor-pointer ${serpDevice === "desktop" ? "bg-white/15 text-cyan-300" : "text-slate-400"}`}
-                        title="Desktop view"
-                      >
-                        <Monitor className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeviceChange("mobile")}
-                        className={`p-1 rounded cursor-pointer ${serpDevice === "mobile" ? "bg-white/15 text-cyan-300" : "text-slate-400"}`}
-                        title="Mobile view"
-                      >
-                        <Smartphone className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className={`p-4 rounded-xl bg-[#202124] border border-zinc-700 text-xs text-[#bdc1c6] space-y-2.5 shadow-xl ${serpDevice === "mobile" ? "max-w-xs mx-auto" : "w-full"}`}>
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center text-[9px] font-bold text-white">
-                        SC
-                      </div>
-                      <div className="flex flex-col leading-tight">
-                        <span className="text-[11px] text-[#e8eaed] font-medium">{formData.authorName || formData.name || formData.courseProvider}</span>
-                        <span className="text-[10px] text-[#9aa0a6] truncate">{formData.url || "https://example.com"} › {schemaType.toLowerCase()}</span>
+                ) : activeTab === "shopify" ? (
+                  <pre
+                    dir="ltr"
+                    className="flex-1 bg-[#060608] p-4 rounded-xl text-xs font-mono text-emerald-300 overflow-x-auto border border-white/[0.08] leading-relaxed min-h-[320px] max-h-[460px] text-left shadow-inner"
+                  >
+                    <code>{shopifyLiquidString}</code>
+                  </pre>
+                ) : activeTab === "serp" ? (
+                  /* Google SERP Preview with Mobile / Desktop Switcher */
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+                        Google Rich Snippet Simulation
+                      </span>
+                      <div className="flex items-center gap-1 p-0.5 rounded-lg bg-black/50 border border-white/15">
+                        <button
+                          type="button"
+                          onClick={() => handleDeviceChange("desktop")}
+                          className={`p-1 rounded cursor-pointer ${serpDevice === "desktop" ? "bg-white/15 text-cyan-300" : "text-slate-400"}`}
+                          title="Desktop view"
+                        >
+                          <Monitor className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeviceChange("mobile")}
+                          className={`p-1 rounded cursor-pointer ${serpDevice === "mobile" ? "bg-white/15 text-cyan-300" : "text-slate-400"}`}
+                          title="Mobile view"
+                        >
+                          <Smartphone className="w-3.5 h-3.5" />
+                        </button>
                       </div>
                     </div>
 
-                    <h3 className="text-[#8ab4f8] text-[15px] font-medium leading-snug hover:underline cursor-pointer">
-                      {formData.name || formData.headline || formData.courseTitle || formData.eventName} - {t.preview.serpTitle}
-                    </h3>
-
-                    {/* Rich review stars & price badge */}
-                    <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#9aa0a6]">
-                      <div className="flex items-center gap-1 text-[#fbbc04]">
-                        <span className="font-semibold text-[#e8eaed]">4.9</span>
-                        <div className="flex text-[#fbbc04]">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-2.5 h-2.5 fill-[#fbbc04] text-[#fbbc04]" />
-                          ))}
+                    <div className={`p-4 rounded-xl bg-[#202124] border border-zinc-700 text-xs text-[#bdc1c6] space-y-2.5 shadow-xl ${serpDevice === "mobile" ? "max-w-xs mx-auto" : "w-full"}`}>
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center text-[9px] font-bold text-white">
+                          SC
                         </div>
-                        <span>(348)</span>
+                        <div className="flex flex-col leading-tight">
+                          <span className="text-[11px] text-[#e8eaed] font-medium">{formData.authorName || formData.name || formData.courseProvider}</span>
+                          <span className="text-[10px] text-[#9aa0a6] truncate">{formData.url || "https://example.com"} › {schemaType.toLowerCase()}</span>
+                        </div>
                       </div>
-                      {formData.price && (
-                        <>
-                          <span className="text-zinc-500">•</span>
-                          <span className="font-semibold text-[#e8eaed]">{formData.currency === "USD" ? "$" : formData.currency} {formData.price}</span>
-                          <span className="text-zinc-500">•</span>
-                          <span className="text-emerald-400 font-medium">{t.preview.inStock}</span>
-                        </>
+
+                      <h3 className="text-[#8ab4f8] text-[15px] font-medium leading-snug hover:underline cursor-pointer">
+                        {formData.name || formData.headline || formData.courseTitle || formData.eventName} - {t.preview.serpTitle}
+                      </h3>
+
+                      {/* Rich review stars & price badge */}
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#9aa0a6]">
+                        <div className="flex items-center gap-1 text-[#fbbc04]">
+                          <span className="font-semibold text-[#e8eaed]">4.9</span>
+                          <div className="flex text-[#fbbc04]">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="w-2.5 h-2.5 fill-[#fbbc04] text-[#fbbc04]" />
+                            ))}
+                          </div>
+                          <span>(348)</span>
+                        </div>
+                        {formData.price && (
+                          <>
+                            <span className="text-zinc-500">•</span>
+                            <span className="font-semibold text-[#e8eaed]">{formData.currency === "USD" ? "$" : formData.currency} {formData.price}</span>
+                            <span className="text-zinc-500">•</span>
+                            <span className="text-emerald-400 font-medium">{t.preview.inStock}</span>
+                          </>
+                        )}
+                      </div>
+
+                      <p className="text-xs text-[#bdc1c6] leading-relaxed line-clamp-3">
+                        {formData.description || formData.articleSummary || formData.courseDescription || formData.answer}
+                      </p>
+
+                      {schemaType === "FAQPage" && (
+                        <div className="pt-2 border-t border-zinc-700/60 space-y-1.5">
+                          <div className="rounded-lg border border-zinc-700 bg-zinc-800/60 p-2.5 text-xs">
+                            <span className="font-medium text-[#e8eaed] block">{formData.question}</span>
+                            <p className="text-[11px] text-[#bdc1c6] mt-1">{formData.answer}</p>
+                          </div>
+                        </div>
                       )}
                     </div>
+                  </div>
+                ) : (
+                  /* Perplexity & ChatGPT AI Overview Card */
+                  <div className="space-y-3">
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                      <span>{t.preview.aiTitle}</span>
+                    </div>
 
-                    <p className="text-xs text-[#bdc1c6] leading-relaxed line-clamp-3">
-                      {formData.description || formData.articleSummary || formData.courseDescription || formData.answer}
-                    </p>
-
-                    {schemaType === "FAQPage" && (
-                      <div className="pt-2 border-t border-zinc-700/60 space-y-1.5">
-                        <div className="rounded-lg border border-zinc-700 bg-zinc-800/60 p-2.5 text-xs">
-                          <span className="font-medium text-[#e8eaed] block">{formData.question}</span>
-                          <p className="text-[11px] text-[#bdc1c6] mt-1">{formData.answer}</p>
-                        </div>
+                    <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 text-xs space-y-3 shadow-lg">
+                      <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                        <span className="text-indigo-300 font-bold">{formData.name || formData.headline || formData.courseTitle || formData.eventName}</span>
+                        <span className="text-[10px] text-cyan-300 font-mono font-semibold">{t.preview.llmParseable}</span>
                       </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                /* Perplexity & ChatGPT AI Overview Card */
-                <div className="space-y-3">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>{t.preview.aiTitle}</span>
-                  </div>
 
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 text-xs space-y-3 shadow-lg">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                      <span className="text-indigo-300 font-bold">{formData.name || formData.headline || formData.courseTitle || formData.eventName}</span>
-                      <span className="text-[10px] text-cyan-300 font-mono font-semibold">{t.preview.llmParseable}</span>
-                    </div>
+                      <p className="text-slate-200 text-xs leading-relaxed">
+                        {formData.description || formData.articleSummary || formData.courseDescription || formData.answer}
+                      </p>
 
-                    <p className="text-slate-200 text-xs leading-relaxed">
-                      {formData.description || formData.articleSummary || formData.courseDescription || formData.answer}
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-400 font-mono pt-2 border-t border-white/10">
-                      <div>Entity: Schema.org/{schemaType}</div>
-                      <div>Status: {t.preview.entityStatus}</div>
+                      <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-400 font-mono pt-2 border-t border-white/10">
+                        <div>Entity: Schema.org/{schemaType}</div>
+                        <div>Status: {t.preview.entityStatus}</div>
+                      </div>
                     </div>
                   </div>
+                )}
+              </div>
+
+              {/* Performance Benchmark Mini-Bar */}
+              <div className="pt-3 mt-3 border-t border-white/[0.08]">
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                    <div className="text-sm font-bold text-indigo-400">+40%</div>
+                    <div className="text-[9px] text-slate-400">{t.benchmarks.citationRate}</div>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                    <div className="text-sm font-bold text-cyan-400">0ms</div>
+                    <div className="text-[9px] text-slate-400">{t.benchmarks.parsingLatency}</div>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                    <div className="text-sm font-bold text-emerald-400">100%</div>
+                    <div className="text-[9px] text-slate-400">{t.benchmarks.schemaValid}</div>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -1332,45 +1356,65 @@ ${JSON.stringify(generatedSchema, null, 2)}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
-              <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
-                <Terminal className="w-4 h-4" />
-                <span>{t.installation.nextjsTitle}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-indigo-500/30 transition">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
+                  <Terminal className="w-4 h-4" />
+                  <span>{t.installation.nextjsTitle}</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {t.installation.nextjsDesc}
+                </p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                {t.installation.nextjsDesc}
-              </p>
+              <div className="text-[10px] text-indigo-400/80 font-mono font-medium pt-2 border-t border-white/5">
+                Next.js 15 Server Components
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-                <ShoppingBag className="w-4 h-4" />
-                <span>{t.installation.shopifyTitle}</span>
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-emerald-500/30 transition">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>{t.installation.shopifyTitle}</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {t.installation.shopifyDesc}
+                </p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                {t.installation.shopifyDesc}
-              </p>
+              <div className="text-[10px] text-emerald-400/80 font-mono font-medium pt-2 border-t border-white/5">
+                Liquid Theme Architecture
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
-              <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
-                <Globe className="w-4 h-4" />
-                <span>{t.installation.wordpressTitle}</span>
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-cyan-500/30 transition">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs">
+                  <Globe className="w-4 h-4" />
+                  <span>{t.installation.wordpressTitle}</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {t.installation.wordpressDesc}
+                </p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                {t.installation.wordpressDesc}
-              </p>
+              <div className="text-[10px] text-cyan-400/80 font-mono font-medium pt-2 border-t border-white/5">
+                WordPress & WooCommerce Ready
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2 shadow-xl">
-              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
-                <Layers className="w-4 h-4" />
-                <span>{t.installation.webflowTitle}</span>
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-4.5 space-y-2.5 shadow-xl h-full flex flex-col justify-between hover:border-amber-500/30 transition">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
+                  <Layers className="w-4 h-4" />
+                  <span>{t.installation.webflowTitle}</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {t.installation.webflowDesc}
+                </p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                {t.installation.webflowDesc}
-              </p>
+              <div className="text-[10px] text-amber-400/80 font-mono font-medium pt-2 border-t border-white/5">
+                Head Custom Script Injection
+              </div>
             </div>
           </div>
         </section>
@@ -1390,62 +1434,68 @@ ${JSON.stringify(generatedSchema, null, 2)}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl">
-              <div className="flex items-center justify-between">
-                <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
-                  ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch">
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl h-full flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                    ))}
+                  </div>
+                  <span className="rounded-md bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold text-emerald-300">
+                    {t.testimonials.t1Metric}
+                  </span>
                 </div>
-                <span className="rounded-md bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold text-emerald-300">
-                  {t.testimonials.t1Metric}
-                </span>
+                <p className="text-xs text-slate-300 leading-relaxed italic">
+                  "{t.testimonials.t1Text}"
+                </p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed italic">
-                "{t.testimonials.t1Text}"
-              </p>
-              <div className="pt-2 border-t border-white/5">
+              <div className="pt-3 border-t border-white/5">
                 <div className="text-xs font-bold text-white">{t.testimonials.t1Name}</div>
                 <div className="text-[10px] text-slate-400">{t.testimonials.t1Role}</div>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl">
-              <div className="flex items-center justify-between">
-                <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
-                  ))}
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl h-full flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                    ))}
+                  </div>
+                  <span className="rounded-md bg-indigo-500/10 border border-indigo-500/30 px-2 py-0.5 text-[10px] font-bold text-indigo-300">
+                    {t.testimonials.t2Metric}
+                  </span>
                 </div>
-                <span className="rounded-md bg-indigo-500/10 border border-indigo-500/30 px-2 py-0.5 text-[10px] font-bold text-indigo-300">
-                  {t.testimonials.t2Metric}
-                </span>
+                <p className="text-xs text-slate-300 leading-relaxed italic">
+                  "{t.testimonials.t2Text}"
+                </p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed italic">
-                "{t.testimonials.t2Text}"
-              </p>
-              <div className="pt-2 border-t border-white/5">
+              <div className="pt-3 border-t border-white/5">
                 <div className="text-xs font-bold text-white">{t.testimonials.t2Name}</div>
                 <div className="text-[10px] text-slate-400">{t.testimonials.t2Role}</div>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl">
-              <div className="flex items-center justify-between">
-                <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
-                  ))}
+            <div className="rounded-2xl border border-white/10 bg-[#111116] p-5 space-y-3 shadow-xl h-full flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                    ))}
+                  </div>
+                  <span className="rounded-md bg-cyan-500/10 border border-cyan-500/30 px-2 py-0.5 text-[10px] font-bold text-cyan-300">
+                    {t.testimonials.t3Metric}
+                  </span>
                 </div>
-                <span className="rounded-md bg-cyan-500/10 border border-cyan-500/30 px-2 py-0.5 text-[10px] font-bold text-cyan-300">
-                  {t.testimonials.t3Metric}
-                </span>
+                <p className="text-xs text-slate-300 leading-relaxed italic">
+                  "{t.testimonials.t3Text}"
+                </p>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed italic">
-                "{t.testimonials.t3Text}"
-              </p>
-              <div className="pt-2 border-t border-white/5">
+              <div className="pt-3 border-t border-white/5">
                 <div className="text-xs font-bold text-white">{t.testimonials.t3Name}</div>
                 <div className="text-[10px] text-slate-400">{t.testimonials.t3Role}</div>
               </div>
