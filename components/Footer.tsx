@@ -14,19 +14,30 @@ export function Footer() {
           {/* Brand Col */}
           <div className="space-y-3 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 p-0.5">
-                <div className="flex h-full w-full items-center justify-center rounded-[6px] bg-[#09090b]">
-                  <Layers className="h-4 w-4 text-cyan-400" />
-                </div>
+              <div className="relative flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden shadow-md shadow-indigo-500/20 border border-indigo-400/30 bg-[#09090b]">
+                <img src="/logo.png" alt="SchemaCraft AI" className="h-full w-full object-cover" />
               </div>
               <span className="font-bold text-white text-base">SchemaCraft AI</span>
             </Link>
             <p className="text-zinc-400 text-xs leading-relaxed">
               Enterprise-grade JSON-LD structured data engine and AEO optimizer. Client-side AST validation with 0ms latency.
             </p>
-            <div className="flex items-center gap-2 text-[11px] text-zinc-500 pt-1">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-              <span>Schema.org v26.0 Compliant</span>
+            <div className="flex items-center gap-2 flex-wrap text-[11px] text-zinc-400 pt-1">
+              <div className="flex items-center gap-1 text-emerald-400">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>Schema.org v26.0</span>
+              </div>
+              <a
+                href="https://x.com/SchemaCraftAI"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-indigo-400/40 text-[10px] font-semibold text-zinc-300 transition"
+              >
+                <svg className="w-2.5 h-2.5 fill-current text-white" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                <span>@SchemaCraftAI</span>
+              </a>
             </div>
           </div>
 

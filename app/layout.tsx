@@ -150,7 +150,7 @@ export default function RootLayout({
           url: "https://schemacraft-ai.site/icon.png",
         },
         sameAs: [
-          "https://twitter.com/schemacraft",
+          "https://x.com/SchemaCraftAI",
           "https://github.com/klickpom/SchemaCraft.AI",
         ],
       },

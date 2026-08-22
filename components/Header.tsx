@@ -58,6 +58,19 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
 
         {/* Pro / Action Controls */}
         <div className="flex items-center gap-3">
+          <a
+            href="https://x.com/SchemaCraftAI"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-zinc-300 transition"
+            title="Follow @SchemaCraftAI on X"
+          >
+            <svg className="w-3 h-3 fill-current text-white" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span className="hidden sm:inline text-[11px] font-mono">@SchemaCraftAI</span>
+          </a>
+
           <div className="hidden sm:flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             Google Rich Results Ready

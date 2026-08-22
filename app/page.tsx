@@ -237,6 +237,20 @@ export default function Home() {
               </button>
             )}
 
+            {/* Official X / Twitter Link */}
+            <a
+              href="https://x.com/SchemaCraftAI"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 text-[11px] sm:text-xs font-semibold text-slate-200 transition active:scale-95 cursor-pointer whitespace-nowrap shrink-0"
+              title="Follow @SchemaCraftAI on X"
+            >
+              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current text-white shrink-0" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              <span className="hidden sm:inline font-mono text-[11px]">@SchemaCraftAI</span>
+            </a>
+
             {/* Language Switcher */}
             <button
               type="button"
@@ -1281,8 +1295,12 @@ export default function Home() {
             {/* Column 1: Brand & Description */}
             <div className="space-y-3 md:col-span-1">
               <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-lg bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md">
-                  <Layers className="w-4 h-4 text-white" />
+                <div className="relative h-8 w-8 rounded-xl overflow-hidden shadow-md shadow-indigo-500/20 border border-indigo-400/30 shrink-0 flex items-center justify-center bg-[#0d0d18]">
+                  <img
+                    src="/logo.png"
+                    alt="SchemaCraft AI"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <span className="text-base font-black text-white tracking-tight">
                   {t.nav.brandTitle}<span className="text-indigo-400">.AI</span>
@@ -1291,9 +1309,22 @@ export default function Home() {
               <p className="text-[11px] text-slate-400 leading-relaxed">
                 {t.footer.brandDesc}
               </p>
-              <span className="inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full border border-white/10 bg-white/5 text-slate-300">
-                {AUDIT_ENGINE_VERSION}
-              </span>
+              <div className="flex items-center gap-2 flex-wrap pt-1">
+                <span className="inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full border border-white/10 bg-white/5 text-slate-300">
+                  {AUDIT_ENGINE_VERSION}
+                </span>
+                <a
+                  href="https://x.com/SchemaCraftAI"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 hover:border-indigo-400/40 text-[10px] font-semibold text-slate-200 transition active:scale-95"
+                >
+                  <svg className="w-2.5 h-2.5 fill-current text-white shrink-0" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  <span>@SchemaCraftAI</span>
+                </a>
+              </div>
             </div>
 
             {/* Column 2: Crawlers & Standards */}
