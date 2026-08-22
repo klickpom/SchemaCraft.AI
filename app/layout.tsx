@@ -188,7 +188,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark overflow-x-hidden max-w-full">
       <head>
         <meta name="google-site-verification" content="DsJHeUQVQt94en0tyfm_POyTVC3-dBavIg43_IjlBsc" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -202,7 +202,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootSchemaGraph) }}
         />
       </head>
-      <body className="min-h-screen bg-[#060608] text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+      <body className="min-h-screen w-full max-w-full bg-[#060608] text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white overflow-x-hidden">
         {children}
       </body>
     </html>

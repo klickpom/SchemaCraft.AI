@@ -198,7 +198,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060608] text-slate-100 font-sans selection:bg-indigo-600 selection:text-white pb-20">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#060608] text-slate-100 font-sans selection:bg-indigo-600 selection:text-white pb-20">
       
       {/* Top Navigation Bar */}
       <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#07070a]/95 backdrop-blur-xl transition-all">
@@ -277,13 +277,13 @@ export default function Home() {
       </header>
 
       {/* Main Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-12 space-y-12 sm:space-y-16">
+      <main className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-12 space-y-10 sm:space-y-16 overflow-x-hidden">
         
         {/* Hero Section */}
-        <section className="relative text-center max-w-4xl mx-auto space-y-4 sm:space-y-6 px-2">
+        <section className="relative text-center max-w-4xl mx-auto space-y-4 sm:space-y-6 px-2 overflow-hidden sm:overflow-visible">
           
           {/* Atmospheric Background Ambient Mesh Lights */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[350px] bg-gradient-to-tr from-indigo-600/15 via-cyan-500/10 to-transparent blur-3xl pointer-events-none rounded-full -z-10 ambient-pulse" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[600px] sm:max-w-[900px] h-[300px] bg-gradient-to-tr from-indigo-600/15 via-cyan-500/10 to-transparent blur-3xl pointer-events-none rounded-full -z-10 ambient-pulse" />
 
           {/* Stunning 3D Glass Emblem & AI Radar Beam Centerpiece */}
           <div className="relative mx-auto w-fit flex flex-col items-center justify-center pt-2 pb-1">

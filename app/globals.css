@@ -16,10 +16,18 @@
     font-family: var(--font-sans);
   }
 
+  html {
+    max-width: 100vw;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
   body {
     background-color: #060608;
     color: #f8fafc;
     overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
     letter-spacing: -0.01em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
