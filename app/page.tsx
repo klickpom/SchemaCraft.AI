@@ -15,6 +15,7 @@ import { isProUnlockedClient, setProUnlockedClient } from '@/lib/payment';
 import FixGeneratorModal from '@/components/FixGeneratorModal';
 import PayPalCheckout from '@/components/PayPalCheckout';
 import ShareSnapshotModal from '@/components/ShareSnapshotModal';
+import SchemaValidatorTool from '@/components/SchemaValidatorTool';
 import {
   Layers,
   Globe,
@@ -571,6 +572,9 @@ export default function Home() {
                 </table>
               </div>
             </section>
+
+            {/* Instant JSON-LD Schema Validator & AST Tester */}
+            <SchemaValidatorTool lang={lang} />
           </div>
         )}
 
