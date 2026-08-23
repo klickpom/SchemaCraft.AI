@@ -14,6 +14,7 @@ import { translations, Language } from '@/lib/translations';
 import { isProUnlockedClient, setProUnlockedClient } from '@/lib/payment';
 import FixGeneratorModal from '@/components/FixGeneratorModal';
 import PayPalCheckout from '@/components/PayPalCheckout';
+import ShareSnapshotModal from '@/components/ShareSnapshotModal';
 import {
   Layers,
   Globe,
@@ -54,6 +55,7 @@ export default function Home() {
   const [report, setReport] = useState<AuditReport | null>(null);
   const [isProUnlocked, setIsProUnlocked] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   const [selectedIssueForFix, setSelectedIssueForFix] = useState<AuditIssue | null>(null);
   const [showEvidenceLedger, setShowEvidenceLedger] = useState(true);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
@@ -62,15 +64,29 @@ export default function Home() {
 
   const t = translations[lang];
 
-  // Initialize with a high-impact demo audit on mount & listen to Escape key
+  // Initialize and check for URL / Demo query parameters on mount & listen to Escape key
   useEffect(() => {
     if (isProUnlockedClient()) setIsProUnlocked(true);
-    handleRunAudit('https://saasmetrics-app.io', SAMPLE_PROFILES.saas.raw, 'saas');
+
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const queryUrl = params.get('url');
+      const demoKey = params.get('demo');
+      if (queryUrl) {
+        setUrlInput(queryUrl);
+        handleRunAudit(queryUrl);
+      } else if (demoKey && SAMPLE_PROFILES[demoKey as keyof typeof SAMPLE_PROFILES]) {
+        const prof = SAMPLE_PROFILES[demoKey as keyof typeof SAMPLE_PROFILES];
+        setUrlInput(prof.url);
+        handleRunAudit(prof.url, prof.raw, demoKey);
+      }
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setShowPaywall(false);
         setSelectedIssueForFix(null);
+        setShowShareModal(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -161,10 +177,7 @@ export default function Home() {
 
   const handleShareSnapshot = () => {
     if (!report) return;
-    const shareUrl = `${window.location.origin}/#audit-${report.id}`;
-    navigator.clipboard.writeText(shareUrl);
-    setCopiedShareLink(true);
-    setTimeout(() => setCopiedShareLink(false), 2500);
+    setShowShareModal(true);
   };
 
   const handlePaymentSuccess = () => {
@@ -447,6 +460,115 @@ export default function Home() {
           <div className="max-w-2xl mx-auto p-4 sm:p-5 rounded-2xl border border-rose-500/40 bg-rose-500/10 text-rose-300 flex items-center gap-3 animate-in fade-in duration-300 shadow-xl">
             <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0" />
             <p className="text-sm font-medium">{scanError}</p>
+          </div>
+        )}
+
+        {/* Initial Landing State (Shown when no report is active) */}
+        {!report && !isScanning && (
+          <div className="space-y-12 sm:space-y-16 animate-in fade-in duration-500">
+            {/* 3 Step Process Workflow */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+              <div className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#0c0c14] space-y-2.5 relative overflow-hidden group hover:border-indigo-500/30 transition">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    {lang === 'ar' ? 'الخطوة 1' : 'Step 1'}
+                  </span>
+                  <Globe className="w-4 h-4 text-indigo-400" />
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-white">
+                  {lang === 'ar' ? '1. فحص حتمي متعدد المستويات' : '1. Multi-Wave Live Crawl'}
+                </h3>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {lang === 'ar'
+                    ? 'فحص استجابة الخادم HTTP 200، ملف robots.txt، تصاريح بوتات الذكاء الاصطناعي OAI-SearchBot، ووسوم السكيما.'
+                    : 'Deterministic audit of HTTP status, robots.txt, OAI-SearchBot & PerplexityBot permissions, and Schema.org graph.'}
+                </p>
+              </div>
+
+              <div className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#0c0c14] space-y-2.5 relative overflow-hidden group hover:border-cyan-500/30 transition">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                    {lang === 'ar' ? 'الخطوة 2' : 'Step 2'}
+                  </span>
+                  <Bot className="w-4 h-4 text-cyan-400" />
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-white">
+                  {lang === 'ar' ? '2. تشخيص العوائق ومخاطر الزيارات' : '2. Detect Blockers & Lost Traffic'}
+                </h3>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {lang === 'ar'
+                    ? 'تحديد أسباب عدم اقتباس ChatGPT و Perplexity لموقعك وتقدير عدد الزيارات والعملاء المفقودين شهرياً.'
+                    : 'Uncover why ChatGPT & Perplexity skip your site and calculate estimated monthly lost visitors and leads.'}
+                </p>
+              </div>
+
+              <div className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#0c0c14] space-y-2.5 relative overflow-hidden group hover:border-emerald-500/30 transition">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    {lang === 'ar' ? 'الخطوة 3' : 'Step 3'}
+                  </span>
+                  <Zap className="w-4 h-4 text-emerald-400" />
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-white">
+                  {lang === 'ar' ? '3. أكواد إصلاح فورية بـ 60 ثانية' : '3. Copy-Paste Code Fixes in 60s'}
+                </h3>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {lang === 'ar'
+                    ? 'توليد كود إصلاح مباشر مخصص لمنصتك (WordPress أو Next.js أو Shopify) بدون أي اشتراكات شهرية.'
+                    : 'Generate platform-specific production code for WordPress, Next.js 15, or Shopify with zero recurring fees.'}
+                </p>
+              </div>
+            </div>
+
+            {/* Transparent ROI Value Comparison Section on Landing */}
+            <section className="rounded-3xl border border-white/15 bg-gradient-to-br from-[#12121e] via-[#0b0b14] to-[#07070a] p-6 sm:p-10 shadow-2xl space-y-6">
+              <div className="text-center max-w-2xl mx-auto space-y-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/30 text-[10px] sm:text-xs font-bold text-emerald-300">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>{t.roiComparison.badge}</span>
+                </div>
+                <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight">
+                  {t.roiComparison.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-400">
+                  {t.roiComparison.subtitle}
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs sm:text-sm text-left rtl:text-right border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/10 text-slate-400">
+                      <th className="py-3 px-4 font-semibold">{t.roiComparison.colFeature}</th>
+                      <th className="py-3 px-4 font-semibold text-rose-400/90">{t.roiComparison.colAgency}</th>
+                      <th className="py-3 px-4 font-bold text-cyan-300 bg-indigo-950/40 border-x border-t border-indigo-500/30 rounded-t-xl">{t.roiComparison.colSchemaCraft}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowCost}</td>
+                      <td className="py-3 px-4 text-rose-300/80">{t.roiComparison.rowCostAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-indigo-500/30">{t.roiComparison.rowCostSchemaCraft}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowTime}</td>
+                      <td className="py-3 px-4 text-rose-300/80">{t.roiComparison.rowTimeAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-indigo-500/30">{t.roiComparison.rowTimeSchemaCraft}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowCoverage}</td>
+                      <td className="py-3 px-4 text-rose-300/80">{t.roiComparison.rowCoverageAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-indigo-500/30">{t.roiComparison.rowCoverageSchemaCraft}</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 font-semibold text-white">{t.roiComparison.rowGuarantee}</td>
+                      <td className="py-3 px-4 text-rose-300/80">{t.roiComparison.rowGuaranteeAgency}</td>
+                      <td className="py-3 px-4 text-emerald-400 font-bold bg-indigo-950/40 border-x border-b border-indigo-500/30 rounded-b-xl">{t.roiComparison.rowGuaranteeSchemaCraft}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
           </div>
         )}
 
@@ -1519,6 +1641,15 @@ export default function Home() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Share Snapshot Modal */}
+      {showShareModal && report && (
+        <ShareSnapshotModal
+          report={report}
+          lang={lang}
+          onClose={() => setShowShareModal(false)}
+        />
       )}
 
     </div>

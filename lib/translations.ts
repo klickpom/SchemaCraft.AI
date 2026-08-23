@@ -152,6 +152,17 @@ export interface Translations {
     btnExport: string;
     reportHeader: string;
   };
+  shareModal: {
+    title: string;
+    subtitle: string;
+    copyBtn: string;
+    copiedBtn: string;
+    shareX: string;
+    shareLinkedIn: string;
+    shareWhatsApp: string;
+    nativeShare: string;
+    close: string;
+  };
   knowledge: {
     badge: string;
     h2: string;
@@ -332,6 +343,17 @@ export const translations: Record<Language, Translations> = {
       btnExport: 'Export PDF Audit Report',
       reportHeader: 'Official SchemaCraft AI Technical SEO & Visibility Report',
     },
+    shareModal: {
+      title: 'Share Audit Snapshot',
+      subtitle: 'Share this live deterministic audit report with your team or client:',
+      copyBtn: 'Copy Shareable Link',
+      copiedBtn: 'Link Copied!',
+      shareX: 'Share on X / Twitter',
+      shareLinkedIn: 'Share on LinkedIn',
+      shareWhatsApp: 'Share on WhatsApp',
+      nativeShare: 'More Share Options',
+      close: 'Close',
+    },
     knowledge: {
       badge: 'Authoritative 2026 Knowledge Standard',
       h2: 'How Search Engines and AI Understand Websites in 2026',
@@ -509,6 +531,17 @@ export const translations: Record<Language, Translations> = {
     pdfExport: {
       btnExport: 'تصدير تقرير الفحص التنفيذي (PDF)',
       reportHeader: 'التقرير الفني الرسمي لظهور وسيو الذكاء الاصطناعي - SchemaCraft AI',
+    },
+    shareModal: {
+      title: 'مشاركة لقطة الفحص الفني',
+      subtitle: 'شارك هذا التقرير الحتمي والمباشر مع فريق عملك أو عميلك بسهولة:',
+      copyBtn: 'نسخ رابط الفحص المباشر',
+      copiedBtn: 'تم نسخ الرابط بنجاح!',
+      shareX: 'مشاركة عبر منصة X / Twitter',
+      shareLinkedIn: 'مشاركة عبر LinkedIn',
+      shareWhatsApp: 'مشاركة عبر WhatsApp',
+      nativeShare: 'خيارات مشاركة إضافية',
+      close: 'إغلاق',
     },
     knowledge: {
       badge: 'المرجع التقني المعتمد لعام 2026',
