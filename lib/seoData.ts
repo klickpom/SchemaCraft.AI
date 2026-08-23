@@ -174,4 +174,108 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
       },
     ],
   },
+
+  'woocommerce-product-schema': {
+    slug: 'woocommerce-product-schema',
+    schemaCategory: 'Product',
+    title: 'WooCommerce Product Schema Generator | WordPress Google Shopping Rich Snippets',
+    metaDescription: 'Generate valid WooCommerce Schema.org Product JSON-LD markup with Prices, Stock Availability, and Aggregate Reviews for WordPress.',
+    h1: 'WooCommerce Product Schema Architect for WordPress',
+    blufSummary: 'WooCommerce Product Schema is structured JSON-LD data designed for WordPress e-commerce stores to trigger rich product badges, in-stock pills, pricing, and 5-star ratings directly in Google organic search and Google Shopping Graph.',
+    badge: 'WooCommerce & WordPress E-Com',
+    ctrBoost: '+44.5% E-Commerce CTR',
+    indexingSpeed: '< 18 Hours',
+    keyBenefits: [
+      { title: 'Google Shopping Graph Ready', desc: 'Syncs prices, availability, and variations directly with Google search crawlers.' },
+      { title: 'Zero Bloat WordPress Hook', desc: 'Replaces heavy, slow WordPress plugins with clean, lightweight JSON-LD script tags.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'offers.price', format: 'Decimal String', requirement: 'Mandatory', googleImpact: 'Displays Live Currency & Price' },
+      { attribute: 'offers.availability', format: 'Schema.org Enum', requirement: 'Mandatory', googleImpact: 'Triggers In-Stock Status' },
+    ],
+    faqs: [
+      {
+        question: 'How do I add this schema to WooCommerce without conflicting plugins?',
+        answer: 'You can hook the generated JSON-LD script directly into wp_head via your child theme functions.php or SchemaCraft snippet generator.',
+      },
+    ],
+  },
+
+  'howto-step-by-step-schema': {
+    slug: 'howto-step-by-step-schema',
+    schemaCategory: 'HowTo',
+    title: 'How-To Step-by-Step Schema Generator | Google Visual Rich Cards',
+    metaDescription: 'Generate Schema.org HowTo JSON-LD markup. Display structured step-by-step guides with duration, tools, and images in Google search carousels.',
+    h1: 'How-To Step-by-Step Schema Architect',
+    blufSummary: 'HowTo Schema organizes instructional and tutorial content into sequential step-by-step entities with time estimates and supply lists, unlocking interactive visual tutorial cards in Google Search.',
+    badge: 'Google How-To Carousel',
+    ctrBoost: '+52.1% Tutorial Clicks',
+    indexingSpeed: '< 12 Hours',
+    keyBenefits: [
+      { title: 'Step-by-Step Search Cards', desc: 'Presents each tutorial step in a distinct visual card directly on Google results page.' },
+      { title: 'Voice Search Step Dictation', desc: 'Allows Google Assistant and smart speakers to read your instructions step-by-step.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'step', format: 'Array of HowToStep objects', requirement: 'Mandatory', googleImpact: 'Renders Numbered Tutorial Steps' },
+      { attribute: 'totalTime', format: 'ISO 8601 Duration', requirement: 'Recommended', googleImpact: 'Shows Total Completion Time' },
+    ],
+    faqs: [
+      {
+        question: 'What types of pages qualify for HowTo schema?',
+        answer: 'Pages that provide a clear sequence of instructions to accomplish a specific task qualify for HowTo schema markup.',
+      },
+    ],
+  },
+
+  'organization-brand-schema': {
+    slug: 'organization-brand-schema',
+    schemaCategory: 'Organization',
+    title: 'Organization & Brand Schema Generator | Google Knowledge Panel & AI Graph',
+    metaDescription: 'Generate authoritative Organization Schema.org JSON-LD data with verified logo, corporate bio, social profiles, and executive entity graph.',
+    h1: 'Organization & Brand Knowledge Graph Architect',
+    blufSummary: 'Organization Schema establishes your corporate identity, official logo, verified social channels, and customer support contact points, claiming your entity within Google Knowledge Graph and AI training datasets.',
+    badge: 'Google Knowledge Panel',
+    ctrBoost: '+36.8% Brand Authority',
+    indexingSpeed: '< 24 Hours',
+    keyBenefits: [
+      { title: 'Google Knowledge Panel Sidebar', desc: 'Enhances eligibility for official branded sidebar panels on desktop and mobile search.' },
+      { title: 'AI Entity Grounding', desc: 'Directly informs ChatGPT Search, Perplexity, and Claude of your official brand identity.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'logo', format: 'High-res image URL', requirement: 'Mandatory', googleImpact: 'Official Knowledge Panel Logo' },
+      { attribute: 'sameAs', format: 'Array of verified URLs', requirement: 'Mandatory', googleImpact: 'Connects Official Social Profiles' },
+    ],
+    faqs: [
+      {
+        question: 'Where should Organization schema be placed on a website?',
+        answer: 'Organization schema is best placed on the homepage or About Us page to declare the authoritative entity of the entire domain.',
+      },
+    ],
+  },
+
+  'event-ticket-schema': {
+    slug: 'event-ticket-schema',
+    schemaCategory: 'Event',
+    title: 'Event & Conference Schema Generator | Google Events Search Cards',
+    metaDescription: 'Generate valid Schema.org Event JSON-LD markup for webinars, workshops, concerts, and conferences with live dates and ticketing links.',
+    h1: 'Event & Conference Schema Architect',
+    blufSummary: 'Event Schema formats conferences, webinars, workshops, and concerts into structured calendar entities. Google displays these directly in the dedicated Google Events search grid with dates, venue location, and booking links.',
+    badge: 'Google Events Search Grid',
+    ctrBoost: '+61.4% Ticket Reservations',
+    indexingSpeed: '< 12 Hours',
+    keyBenefits: [
+      { title: 'Google Events Grid Placement', desc: 'Appears in interactive event listings with calendar filters and ticket action buttons.' },
+      { title: 'Hybrid & Virtual Support', desc: 'Supports both in-person venue locations and online virtual webinar broadcast links.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'startDate', format: 'ISO 8601 Timestamp', requirement: 'Mandatory', googleImpact: 'Displays Event Date & Time Pill' },
+      { attribute: 'location', format: 'Place or VirtualLocation', requirement: 'Mandatory', googleImpact: 'Shows Maps Pin or Stream Link' },
+    ],
+    faqs: [
+      {
+        question: 'Can I use Event schema for recurring weekly webinars?',
+        answer: 'Yes, by defining individual Event instances for each scheduled broadcast date with its respective startDate and endDate.',
+      },
+    ],
+  },
 };

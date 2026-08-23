@@ -12,6 +12,10 @@ const urlList = [
   `https://${host}/schema/local-seo-schema/`,
   `https://${host}/schema/course-education-schema/`,
   `https://${host}/schema/article-google-discover-schema/`,
+  `https://${host}/schema/woocommerce-product-schema/`,
+  `https://${host}/schema/howto-step-by-step-schema/`,
+  `https://${host}/schema/organization-brand-schema/`,
+  `https://${host}/schema/event-ticket-schema/`,
 ];
 
 const postData = JSON.stringify({
