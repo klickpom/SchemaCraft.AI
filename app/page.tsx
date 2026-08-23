@@ -61,6 +61,8 @@ export default function Home() {
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [activeDemoProfile, setActiveDemoProfile] = useState<string | null>(null);
   const [previewTab, setPreviewTab] = useState<'before' | 'after'>('after');
+  const [isAgencyMode, setIsAgencyMode] = useState(false);
+  const [copiedBadgeType, setCopiedBadgeType] = useState<'html' | 'markdown' | null>(null);
 
   const t = translations[lang];
 
@@ -596,6 +598,20 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center gap-3 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => setIsAgencyMode(!isAgencyMode)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer active:scale-95 ${
+                      isAgencyMode
+                        ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-lg shadow-amber-500/10 ring-1 ring-amber-400/40'
+                        : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white'
+                    }`}
+                    title={t.agencyMode.toggleDesc}
+                  >
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                    <span>{isAgencyMode ? t.agencyMode.executiveBadge : t.agencyMode.toggleLabel}</span>
+                  </button>
+
                   <button
                     type="button"
                     onClick={() => {
@@ -1343,6 +1359,74 @@ export default function Home() {
                 {copiedShareLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedShareLink ? t.nav.reportShared : t.agencyBanner.ctaCopyLink}</span>
               </button>
+            </section>
+
+            {/* Embeddable Viral Badge Widget Generator (Backlink & Authority Engine) */}
+            <section className="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-[#121222] via-[#0c0c16] to-[#07070c] p-6 sm:p-8 space-y-6 shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1.5">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-950/40 text-[10px] sm:text-xs font-bold text-cyan-300">
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>{t.embedBadge.badge}</span>
+                  </div>
+                  <h3 className="text-base sm:text-xl font-bold text-white tracking-tight">
+                    {t.embedBadge.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 max-w-xl">
+                    {t.embedBadge.subtitle}
+                  </p>
+                </div>
+
+                {/* Live Badge Preview */}
+                <div className="p-3 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center shrink-0">
+                  <img src="/badge.svg" alt="SchemaCraft AI Verified Badge" className="h-10 w-auto shadow-md" />
+                </div>
+              </div>
+
+              {/* Copy Snippets */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-2 flex flex-col justify-between">
+                  <span className="text-[11px] font-mono text-slate-400 font-semibold">HTML Embed Code:</span>
+                  <div className="flex items-center justify-between gap-2">
+                    <code className="text-[10px] font-mono text-cyan-300 truncate bg-white/5 p-1.5 rounded-lg border border-white/5 flex-1">
+                      {`<a href="https://schemacraft-ai.site" target="_blank"><img src="https://schemacraft-ai.site/badge.svg" alt="SchemaCraft AI Verified" /></a>`}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`<a href="https://schemacraft-ai.site" target="_blank"><img src="https://schemacraft-ai.site/badge.svg" alt="SchemaCraft AI Verified" /></a>`);
+                        setCopiedBadgeType('html');
+                        setTimeout(() => setCopiedBadgeType(null), 2500);
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1 shrink-0 cursor-pointer"
+                    >
+                      {copiedBadgeType === 'html' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copiedBadgeType === 'html' ? t.embedBadge.copied : t.embedBadge.copyHtml}</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-2 flex flex-col justify-between">
+                  <span className="text-[11px] font-mono text-slate-400 font-semibold">Markdown (README.md):</span>
+                  <div className="flex items-center justify-between gap-2">
+                    <code className="text-[10px] font-mono text-emerald-300 truncate bg-white/5 p-1.5 rounded-lg border border-white/5 flex-1">
+                      {`[![SchemaCraft AI Verified](https://schemacraft-ai.site/badge.svg)](https://schemacraft-ai.site)`}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`[![SchemaCraft AI Verified](https://schemacraft-ai.site/badge.svg)](https://schemacraft-ai.site)`);
+                        setCopiedBadgeType('markdown');
+                        setTimeout(() => setCopiedBadgeType(null), 2500);
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition flex items-center gap-1 shrink-0 border border-white/10 cursor-pointer"
+                    >
+                      {copiedBadgeType === 'markdown' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copiedBadgeType === 'markdown' ? t.embedBadge.copied : t.embedBadge.copyMarkdown}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </section>
 
           </div>

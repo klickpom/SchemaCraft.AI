@@ -163,6 +163,19 @@ export interface Translations {
     nativeShare: string;
     close: string;
   };
+  agencyMode: {
+    toggleLabel: string;
+    toggleDesc: string;
+    executiveBadge: string;
+  };
+  embedBadge: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    copyHtml: string;
+    copyMarkdown: string;
+    copied: string;
+  };
   knowledge: {
     badge: string;
     h2: string;
@@ -354,6 +367,19 @@ export const translations: Record<Language, Translations> = {
       nativeShare: 'More Share Options',
       close: 'Close',
     },
+    agencyMode: {
+      toggleLabel: 'Agency White-Label Presentation View',
+      toggleDesc: 'Formats this audit into a clean, executive client-facing pitch deliverable.',
+      executiveBadge: 'Executive Client Diagnostic Deliverable',
+    },
+    embedBadge: {
+      badge: 'Viral Trust Signal',
+      title: 'Embed Verified GEO & AEO Badge',
+      subtitle: 'Display your website’s verified AI search readiness in your footer or README to boost user trust and domain authority.',
+      copyHtml: 'Copy HTML Embed',
+      copyMarkdown: 'Copy Markdown',
+      copied: 'Copied to Clipboard!',
+    },
     knowledge: {
       badge: 'Authoritative 2026 Knowledge Standard',
       h2: 'How Search Engines and AI Understand Websites in 2026',
@@ -542,6 +568,19 @@ export const translations: Record<Language, Translations> = {
       shareWhatsApp: 'مشاركة عبر WhatsApp',
       nativeShare: 'خيارات مشاركة إضافية',
       close: 'إغلاق',
+    },
+    agencyMode: {
+      toggleLabel: 'وضع العرض التقديمي للوكالات (White-Label)',
+      toggleDesc: 'تنسيق هذا التقرير ليصبح ملف تسليم تنفيذي فاخر جاهز للعرض على العميل مباشرة.',
+      executiveBadge: 'تقرير الفحص التنفيذي المعتمد للعملاء',
+    },
+    embedBadge: {
+      badge: 'شارة الثقة وسلطة النطاق',
+      title: 'تضمين شارة التحقق الرسمية في موقعك',
+      subtitle: 'أظهر جاهزية موقعك لمحركات الذكاء الاصطناعي في تذييل موقعك أو GitHub لزيادة ثقة الزوار وسلطة النطاق.',
+      copyHtml: 'نسخ كود HTML المباشر',
+      copyMarkdown: 'نسخ كود Markdown',
+      copied: 'تم النسخ إلى الحافظة بنجاح!',
     },
     knowledge: {
       badge: 'المرجع التقني المعتمد لعام 2026',
