@@ -75,21 +75,62 @@ export default async function ProgrammaticSchemaPage({ params }: PageProps) {
 
   const categoryDef = SCHEMA_DEFINITIONS[pageData.schemaCategory];
 
-  // Specific Page JSON-LD
+  // Specific Page Enhanced Graph: TechArticle + BreadcrumbList + FAQPage
   const pageJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'TechArticle',
-    headline: pageData.h1,
-    description: pageData.blufSummary,
-    author: {
-      '@type': 'Organization',
-      name: 'SchemaCraft AI Global',
-      url: 'https://schemacraft-ai.site',
-    },
-    about: {
-      '@type': 'Thing',
-      name: `Schema.org ${pageData.schemaCategory}`,
-    },
+    '@graph': [
+      {
+        '@type': 'TechArticle',
+        '@id': `https://schemacraft-ai.site/schema/${type}/#article`,
+        headline: pageData.h1,
+        description: pageData.blufSummary,
+        author: {
+          '@type': 'Organization',
+          name: 'SchemaCraft AI Global',
+          url: 'https://schemacraft-ai.site',
+        },
+        about: {
+          '@type': 'Thing',
+          name: `Schema.org ${pageData.schemaCategory}`,
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `https://schemacraft-ai.site/schema/${type}/#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: 'https://schemacraft-ai.site',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Schema Generators',
+            item: `https://schemacraft-ai.site/schema/${type}`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: pageData.badge,
+            item: `https://schemacraft-ai.site/schema/${type}`,
+          },
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `https://schemacraft-ai.site/schema/${type}/#faq`,
+        mainEntity: pageData.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      },
+    ],
   };
 
   return (
