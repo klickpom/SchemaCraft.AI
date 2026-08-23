@@ -16,6 +16,8 @@ import FixGeneratorModal from '@/components/FixGeneratorModal';
 import PayPalCheckout from '@/components/PayPalCheckout';
 import ShareSnapshotModal from '@/components/ShareSnapshotModal';
 import SchemaValidatorTool from '@/components/SchemaValidatorTool';
+import BotSafelistGenerator from '@/components/BotSafelistGenerator';
+import LiveActivityTicker from '@/components/LiveActivityTicker';
 import {
   Layers,
   Globe,
@@ -575,6 +577,9 @@ export default function Home() {
 
             {/* Instant JSON-LD Schema Validator & AST Tester */}
             <SchemaValidatorTool lang={lang} />
+
+            {/* Official AI Search Bot WAF Safelist Generator */}
+            <BotSafelistGenerator lang={lang} />
           </div>
         )}
 
@@ -1739,6 +1744,9 @@ export default function Home() {
           onClose={() => setShowShareModal(false)}
         />
       )}
+
+      {/* Floating Live Social Proof Activity Ticker */}
+      <LiveActivityTicker lang={lang} />
 
     </div>
   );
