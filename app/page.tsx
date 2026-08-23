@@ -18,6 +18,7 @@ import ShareSnapshotModal from '@/components/ShareSnapshotModal';
 import SchemaValidatorTool from '@/components/SchemaValidatorTool';
 import BotSafelistGenerator from '@/components/BotSafelistGenerator';
 import LiveActivityTicker from '@/components/LiveActivityTicker';
+import CompetitorComparison from '@/components/CompetitorComparison';
 import {
   Layers,
   Globe,
@@ -580,6 +581,9 @@ export default function Home() {
 
             {/* Official AI Search Bot WAF Safelist Generator */}
             <BotSafelistGenerator lang={lang} />
+
+            {/* Head-to-Head Competitor Comparison Matrix */}
+            <CompetitorComparison lang={lang} />
           </div>
         )}
 
