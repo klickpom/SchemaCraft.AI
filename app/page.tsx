@@ -23,6 +23,7 @@ import SchemaDirectoryHub from '@/components/SchemaDirectoryHub';
 import CommandPalette from '@/components/CommandPalette';
 import RobotsTxtGenerator from '@/components/RobotsTxtGenerator';
 import AeoCheatSheetModal from '@/components/AeoCheatSheetModal';
+import SchemaGraphVisualizer from '@/components/SchemaGraphVisualizer';
 import {
   Layers,
   Globe,
@@ -625,6 +626,9 @@ export default function Home() {
 
             {/* Complete 2026 Schema Architecture Directory & Internal Link Hub */}
             <SchemaDirectoryHub lang={lang} />
+
+            {/* Interactive Schema.org Multi-Entity Graph Visualizer */}
+            <SchemaGraphVisualizer lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
