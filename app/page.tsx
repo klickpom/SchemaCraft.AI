@@ -22,6 +22,7 @@ import CompetitorComparison from '@/components/CompetitorComparison';
 import SchemaDirectoryHub from '@/components/SchemaDirectoryHub';
 import CommandPalette from '@/components/CommandPalette';
 import RobotsTxtGenerator from '@/components/RobotsTxtGenerator';
+import AeoCheatSheetModal from '@/components/AeoCheatSheetModal';
 import {
   Layers,
   Globe,
@@ -50,6 +51,7 @@ import {
   Printer,
   TrendingDown,
   Eye,
+  FileText,
 } from 'lucide-react';
 
 export default function Home() {
@@ -71,6 +73,7 @@ export default function Home() {
   const [previewTab, setPreviewTab] = useState<'before' | 'after'>('after');
   const [isAgencyMode, setIsAgencyMode] = useState(false);
   const [copiedBadgeType, setCopiedBadgeType] = useState<'html' | 'markdown' | null>(null);
+  const [showCheatSheet, setShowCheatSheet] = useState(false);
 
   const t = translations[lang];
 
@@ -436,6 +439,18 @@ export default function Home() {
                   {lang === 'ar' ? prof.nameAr : prof.name}
                 </button>
               ))}
+            </div>
+
+            {/* 2026 Technical Cheat Sheet CTA Button */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => setShowCheatSheet(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-950/40 hover:bg-indigo-950/80 text-[11px] font-semibold text-indigo-300 hover:text-cyan-300 transition cursor-pointer shadow-md"
+              >
+                <FileText className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{lang === 'ar' ? '📖 الدليل التقني لـ GEO & AEO 2026 (تنزيل مجاني)' : '📖 Free 2026 GEO & AEO Technical Standard Cheat Sheet'}</span>
+              </button>
             </div>
           </div>
 
@@ -1786,6 +1801,13 @@ export default function Home() {
         lang={lang}
         isOpen={showCommandPalette}
         onClose={() => setShowCommandPalette(false)}
+      />
+
+      {/* 2026 Technical GEO & AEO Standard Cheat Sheet Modal */}
+      <AeoCheatSheetModal
+        lang={lang}
+        isOpen={showCheatSheet}
+        onClose={() => setShowCheatSheet(false)}
       />
 
     </div>
