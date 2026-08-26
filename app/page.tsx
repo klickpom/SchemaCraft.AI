@@ -29,6 +29,7 @@ import AeoPredictorCalculator from '@/components/AeoPredictorCalculator';
 import FaqGeneratorTool from '@/components/FaqGeneratorTool';
 import LocalBusinessSchemaTool from '@/components/LocalBusinessSchemaTool';
 import ProductSchemaTool from '@/components/ProductSchemaTool';
+import ArticleSchemaTool from '@/components/ArticleSchemaTool';
 import {
   Layers,
   Globe,
@@ -649,6 +650,9 @@ export default function Home() {
 
             {/* Google Merchant & E-Commerce Product Rich Result Schema Generator */}
             <ProductSchemaTool lang={lang} />
+
+            {/* Google Discover Feeds & News Article Schema Generator */}
+            <ArticleSchemaTool lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
