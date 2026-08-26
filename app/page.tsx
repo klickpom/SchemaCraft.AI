@@ -25,6 +25,7 @@ import RobotsTxtGenerator from '@/components/RobotsTxtGenerator';
 import AeoCheatSheetModal from '@/components/AeoCheatSheetModal';
 import SchemaGraphVisualizer from '@/components/SchemaGraphVisualizer';
 import SocialCardPreviewer from '@/components/SocialCardPreviewer';
+import AeoPredictorCalculator from '@/components/AeoPredictorCalculator';
 import {
   Layers,
   Globe,
@@ -633,6 +634,9 @@ export default function Home() {
 
             {/* Live Google SERP & Social Sharing Card Previewer */}
             <SocialCardPreviewer lang={lang} />
+
+            {/* Interactive 2026 AI Search Citation Probability Calculator */}
+            <AeoPredictorCalculator lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
