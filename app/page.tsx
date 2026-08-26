@@ -31,6 +31,7 @@ import LocalBusinessSchemaTool from '@/components/LocalBusinessSchemaTool';
 import ProductSchemaTool from '@/components/ProductSchemaTool';
 import ArticleSchemaTool from '@/components/ArticleSchemaTool';
 import VideoSchemaTool from '@/components/VideoSchemaTool';
+import BreadcrumbSchemaTool from '@/components/BreadcrumbSchemaTool';
 import {
   Layers,
   Globe,
@@ -657,6 +658,9 @@ export default function Home() {
 
             {/* Google Video Carousel & Key Moments Schema Generator */}
             <VideoSchemaTool lang={lang} />
+
+            {/* Google BreadcrumbList & Hierarchy Navigator Schema Generator */}
+            <BreadcrumbSchemaTool lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
