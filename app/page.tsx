@@ -34,6 +34,7 @@ import VideoSchemaTool from '@/components/VideoSchemaTool';
 import BreadcrumbSchemaTool from '@/components/BreadcrumbSchemaTool';
 import HowToSchemaTool from '@/components/HowToSchemaTool';
 import EventSchemaTool from '@/components/EventSchemaTool';
+import CourseSchemaTool from '@/components/CourseSchemaTool';
 import {
   Layers,
   Globe,
@@ -669,6 +670,9 @@ export default function Home() {
 
             {/* Google Events & Ticket Booking Schema Generator */}
             <EventSchemaTool lang={lang} />
+
+            {/* Google Courses & Certification Schema Generator */}
+            <CourseSchemaTool lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
