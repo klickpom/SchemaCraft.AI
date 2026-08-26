@@ -278,4 +278,134 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
       },
     ],
   },
+
+  'medical-clinic-doctor-schema': {
+    slug: 'medical-clinic-doctor-schema',
+    schemaCategory: 'MedicalBusiness',
+    title: 'Medical Clinic & Doctor Schema Generator (2026) | Google Maps 3-Pack & Health Graph',
+    metaDescription: 'Generate Google Health compliant Schema.org MedicalBusiness JSON-LD markup. Optimize clinics, dentists, and doctors for Google Maps Local 3-Pack.',
+    h1: 'Medical Clinic & Healthcare Schema Architect',
+    blufSummary: 'MedicalBusiness Schema embeds clinical specialty, accepted health insurances, operating hours, exact geolocation, and verified telephone into machine-readable JSON-LD. It is the core ranking signal for medical search and healthcare voice assistant queries.',
+    badge: 'Google Health & Medical 3-Pack',
+    ctrBoost: '+68.2% Patient Inquiries',
+    indexingSpeed: '< 12 Hours',
+    keyBenefits: [
+      { title: 'Google Health Entity Recognition', desc: 'Validates clinical credentials and practice specialty within Google Knowledge Graph.' },
+      { title: 'Voice Search Triage Ready', desc: 'Directly informs Siri, Google Assistant, and Alexa for "doctor near me" emergency and appointment queries.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'medicalSpecialty', format: 'MedicalSpecialty string', requirement: 'Mandatory', googleImpact: 'Categorizes Healthcare Specialty' },
+      { attribute: 'telephone', format: 'E.164 Format', requirement: 'Mandatory', googleImpact: 'Click-to-Call Emergency Dial' },
+    ],
+    faqs: [
+      {
+        question: 'Why is MedicalBusiness schema critical for doctors and dentists?',
+        answer: 'Google applies stricter E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) criteria to healthcare. Structured MedicalBusiness markup confirms legitimate practice licensure and clinic location.',
+      },
+    ],
+  },
+
+  'legal-law-firm-schema': {
+    slug: 'legal-law-firm-schema',
+    schemaCategory: 'LegalService',
+    title: 'Law Firm & Attorney Schema Generator (2026) | Google Legal 3-Pack Snippets',
+    metaDescription: 'Generate valid Schema.org LegalService JSON-LD markup for law firms, trial attorneys, and legal practices. Maximize Local Pack visibility and client conversions.',
+    h1: 'Law Firm & Legal Practice Schema Architect',
+    blufSummary: 'LegalService Schema structures law firm practice areas, office addresses, attorney bar credentials, and consultation intake channels, capturing high-intent commercial searches in competitive legal markets.',
+    badge: 'Google Legal Pack',
+    ctrBoost: '+54.3% Retainer Calls',
+    indexingSpeed: '< 18 Hours',
+    keyBenefits: [
+      { title: 'Local 3-Pack Dominance', desc: 'Pins your firm to Google Maps and Local Pack for competitive attorney searches.' },
+      { title: 'Zero Bloat Script Export', desc: 'Integrate directly into WordPress, Webflow, or custom law firm sites without slow plugins.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'address', format: 'PostalAddress Object', requirement: 'Mandatory', googleImpact: 'Pins Physical Office in Google Maps' },
+      { attribute: 'telephone', format: 'E.164 Format', requirement: 'Mandatory', googleImpact: 'Unlocks Consultation Call Button' },
+    ],
+    faqs: [
+      {
+        question: 'Can multi-location law firms use this schema?',
+        answer: 'Yes, by creating separate LegalService entities for each office location or bundling them into an Organization graph with departmental locations.',
+      },
+    ],
+  },
+
+  'wordpress-yoast-alternative-schema': {
+    slug: 'wordpress-yoast-alternative-schema',
+    schemaCategory: 'SoftwareApplication',
+    title: 'Free Yoast Schema Alternative (2026) | Zero-Bloat WordPress JSON-LD Generator',
+    metaDescription: 'Generate lightweight, plugin-free WordPress JSON-LD schema. Replace slow, bloatware SEO plugins like Yoast and RankMath with pure 0ms code snippets.',
+    h1: 'Zero-Bloat WordPress Schema Architect',
+    blufSummary: 'SchemaCraft provides 100% valid Schema.org JSON-LD code snippets hooked directly into your WordPress wp_head hook, eliminating bloated plugins that degrade Core Web Vitals and PageSpeed scores.',
+    badge: 'WordPress Speed & SEO',
+    ctrBoost: '+46.0% PageSpeed & CTR',
+    indexingSpeed: '< 12 Hours',
+    keyBenefits: [
+      { title: '0KB Plugin Footprint', desc: 'Eliminates SQL queries and PHP overhead caused by legacy SEO plugins.' },
+      { title: '100% Google Rich Results Compliant', desc: 'Strict AST validation guarantees zero errors in Google Search Console.' },
+    ],
+    technicalSpecs: [
+      { attribute: '@context', format: 'https://schema.org', requirement: 'Mandatory', googleImpact: 'Validates Semantic Standard' },
+      { attribute: '@type', format: 'Valid Schema.org Entity', requirement: 'Mandatory', googleImpact: 'Unlocks Rich Snippet Badges' },
+    ],
+    faqs: [
+      {
+        question: 'How do I add this to WordPress without any plugins?',
+        answer: 'Simply copy the generated PHP snippet and paste it at the bottom of your theme functions.php or in a lightweight snippet manager.',
+      },
+    ],
+  },
+
+  'recipe-food-nutrition-schema': {
+    slug: 'recipe-food-nutrition-schema',
+    schemaCategory: 'Recipe',
+    title: 'Recipe Schema Generator (2026) | Google Recipe Rich Cards & Star Ratings',
+    metaDescription: 'Generate valid Schema.org Recipe JSON-LD markup with Cook Time, Calories, Ingredients, and Reviews for food blogs and culinary websites.',
+    h1: 'Recipe & Culinary Food Schema Architect',
+    blufSummary: 'Recipe Schema enables food bloggers and culinary platforms to display cooking prep time, calorie count, recipe yield, and 5-star review snippets directly in Google Recipe Carousels and Google Assistant voice cooking instructions.',
+    badge: 'Google Recipe Carousel',
+    ctrBoost: '+72.4% Food Blog Clicks',
+    indexingSpeed: '< 8 Hours',
+    keyBenefits: [
+      { title: 'Google Recipe Carousel Inclusion', desc: 'Displays visual recipe cards with prep time, calorie pills, and rating badges.' },
+      { title: 'Smart Speaker Cooking Assistant', desc: 'Allows Google Nest and Amazon Echo to read ingredients and cooking steps aloud.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'cookTime', format: 'ISO 8601 Duration (PT45M)', requirement: 'Mandatory', googleImpact: 'Shows Total Cooking Duration' },
+      { attribute: 'nutrition.calories', format: 'Calorie string', requirement: 'Recommended', googleImpact: 'Displays Calorie Count Pill' },
+    ],
+    faqs: [
+      {
+        question: 'What happens if I omit cooking time from Recipe schema?',
+        answer: 'Google requires prepTime, cookTime, or totalTime to display the full interactive Recipe Card in search results.',
+      },
+    ],
+  },
+
+  'video-youtube-embed-schema': {
+    slug: 'video-youtube-embed-schema',
+    schemaCategory: 'VideoObject',
+    title: 'Video & YouTube Schema Generator (2026) | Google Video Search Carousels',
+    metaDescription: 'Generate valid Schema.org VideoObject JSON-LD markup with Thumbnails, Duration, and Upload Date for YouTube videos and web broadcasts.',
+    h1: 'Video & Media Broadcast Schema Architect',
+    blufSummary: 'VideoObject Schema organizes embedded videos, YouTube tutorials, and webinar recordings into structured video entities, qualifying your content for Google Video search carousels and key moments chapter markers.',
+    badge: 'Google Video Carousel',
+    ctrBoost: '+64.7% Video Play Clicks',
+    indexingSpeed: '< 6 Hours',
+    keyBenefits: [
+      { title: 'Google Video Tab Dominance', desc: 'Renders prominent video preview cards with duration timestamps and creator credits.' },
+      { title: 'Discover Feed Video Carousel', desc: 'Enhances eligibility for video embeds appearing in mobile Google Discover feeds.' },
+    ],
+    technicalSpecs: [
+      { attribute: 'thumbnailUrl', format: 'Array of high-res image URLs', requirement: 'Mandatory', googleImpact: 'Visual Video Thumbnail Card' },
+      { attribute: 'uploadDate', format: 'ISO 8601 Timestamp', requirement: 'Mandatory', googleImpact: 'Freshness Indicator in Video SERP' },
+    ],
+    faqs: [
+      {
+        question: 'Can I use this for embedded YouTube videos on my blog?',
+        answer: 'Yes! VideoObject schema is the standard way to declare embedded YouTube, Vimeo, or self-hosted MP4 videos to Google search crawlers.',
+      },
+    ],
+  },
 };

@@ -3,12 +3,16 @@ export type SchemaCategory =
   | 'Product'
   | 'FAQPage'
   | 'LocalBusiness'
+  | 'MedicalBusiness'
+  | 'LegalService'
   | 'Article'
   | 'HowTo'
   | 'Organization'
   | 'Review'
   | 'Course'
-  | 'Event';
+  | 'Event'
+  | 'Recipe'
+  | 'VideoObject';
 
 export interface SchemaFieldConfig {
   id: string;
@@ -475,6 +479,154 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
         priceCurrency: val.priceCurrency || 'USD',
         availability: 'https://schema.org/InStock',
       },
+    }),
+  },
+
+  MedicalBusiness: {
+    id: 'MedicalBusiness',
+    name: 'Medical Clinic / Doctor / Dental',
+    icon: 'ShieldCheck',
+    badge: 'Google Health & Maps Pack',
+    description: 'Optimize medical practices, dental clinics, and healthcare providers for Google Maps Local 3-Pack and voice search.',
+    googleRichResultType: 'Medical Clinic Rich Snippet',
+    fields: [
+      { id: 'name', label: 'Clinic / Practice Name', type: 'text', placeholder: 'Apex Dental & Orthodontic Specialists', required: true, defaultValue: 'Apex Dental & Medical Center' },
+      { id: 'medicalSpecialty', label: 'Medical Specialty', type: 'text', placeholder: 'Dentistry, Dermatology, Cardiology', required: true, defaultValue: 'Dentistry, General Practice' },
+      { id: 'telephone', label: 'Phone Number', type: 'text', placeholder: '+1 (555) 234-5678', required: true, defaultValue: '+1 (555) 234-5678' },
+      { id: 'streetAddress', label: 'Street Address', type: 'text', placeholder: '742 Evergreen Terrace, Suite 100', required: true, defaultValue: '742 Medical Park Drive, Suite 100' },
+      { id: 'addressLocality', label: 'City', type: 'text', placeholder: 'New York', required: true, defaultValue: 'New York' },
+      { id: 'addressRegion', label: 'State / Region', type: 'text', placeholder: 'NY', required: true, defaultValue: 'NY' },
+      { id: 'postalCode', label: 'Postal Code', type: 'text', placeholder: '10001', required: true, defaultValue: '10001' },
+      { id: 'priceRange', label: 'Price Range', type: 'text', placeholder: '$$$', defaultValue: '$$' },
+    ],
+    defaultValues: {
+      name: 'Apex Dental & Medical Center',
+      medicalSpecialty: 'Dentistry, General Practice',
+      telephone: '+1 (555) 234-5678',
+      streetAddress: '742 Medical Park Drive, Suite 100',
+      addressLocality: 'New York',
+      addressRegion: 'NY',
+      postalCode: '10001',
+      priceRange: '$$',
+    },
+    generateJsonLd: (val) => ({
+      '@context': 'https://schema.org',
+      '@type': 'MedicalBusiness',
+      name: val.name,
+      medicalSpecialty: val.medicalSpecialty,
+      telephone: val.telephone,
+      priceRange: val.priceRange || '$$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: val.streetAddress,
+        addressLocality: val.addressLocality,
+        addressRegion: val.addressRegion,
+        postalCode: val.postalCode,
+        addressCountry: 'US',
+      },
+    }),
+  },
+
+  LegalService: {
+    id: 'LegalService',
+    name: 'Law Firm / Attorney / Legal',
+    icon: 'ShieldCheck',
+    badge: 'Google Legal 3-Pack',
+    description: 'High-converting Schema.org markup for law firms, trial attorneys, and corporate legal practices.',
+    googleRichResultType: 'Legal Service Rich Snippet',
+    fields: [
+      { id: 'name', label: 'Law Firm Name', type: 'text', placeholder: 'Sterling & Associates Law Firm', required: true, defaultValue: 'Sterling & Associates Law Firm' },
+      { id: 'telephone', label: 'Phone Number', type: 'text', placeholder: '+1 (800) 555-0199', required: true, defaultValue: '+1 (800) 555-0199' },
+      { id: 'streetAddress', label: 'Street Address', type: 'text', placeholder: '100 Wall Street, 15th Floor', required: true, defaultValue: '100 Wall Street, 15th Floor' },
+      { id: 'addressLocality', label: 'City', type: 'text', placeholder: 'New York', required: true, defaultValue: 'New York' },
+      { id: 'addressRegion', label: 'State', type: 'text', placeholder: 'NY', required: true, defaultValue: 'NY' },
+      { id: 'postalCode', label: 'Postal Code', type: 'text', placeholder: '10005', required: true, defaultValue: '10005' },
+    ],
+    defaultValues: {
+      name: 'Sterling & Associates Law Firm',
+      telephone: '+1 (800) 555-0199',
+      streetAddress: '100 Wall Street, 15th Floor',
+      addressLocality: 'New York',
+      addressRegion: 'NY',
+      postalCode: '10005',
+    },
+    generateJsonLd: (val) => ({
+      '@context': 'https://schema.org',
+      '@type': 'LegalService',
+      name: val.name,
+      telephone: val.telephone,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: val.streetAddress,
+        addressLocality: val.addressLocality,
+        addressRegion: val.addressRegion,
+        postalCode: val.postalCode,
+        addressCountry: 'US',
+      },
+    }),
+  },
+
+  Recipe: {
+    id: 'Recipe',
+    name: 'Recipe / Culinary Food',
+    icon: 'ShoppingBag',
+    badge: 'Google Recipe Carousel',
+    description: 'Format cooking recipes with cook time, ingredients, calories, and star ratings for Google Visual Search.',
+    googleRichResultType: 'Recipe Rich Carousel',
+    fields: [
+      { id: 'name', label: 'Recipe Name', type: 'text', placeholder: 'Authentic Artisan Sourdough Bread', required: true, defaultValue: 'Authentic Artisan Sourdough Bread' },
+      { id: 'cookTime', label: 'Cook Time (ISO 8601, e.g. PT45M)', type: 'text', placeholder: 'PT45M', required: true, defaultValue: 'PT45M' },
+      { id: 'prepTime', label: 'Prep Time (ISO 8601, e.g. PT20M)', type: 'text', placeholder: 'PT20M', required: true, defaultValue: 'PT20M' },
+      { id: 'recipeYield', label: 'Yield / Servings', type: 'text', placeholder: '1 loaf (8 servings)', defaultValue: '1 loaf (8 servings)' },
+      { id: 'calories', label: 'Calories', type: 'text', placeholder: '180 calories', defaultValue: '180 calories' },
+    ],
+    defaultValues: {
+      name: 'Authentic Artisan Sourdough Bread',
+      cookTime: 'PT45M',
+      prepTime: 'PT20M',
+      recipeYield: '1 loaf (8 servings)',
+      calories: '180 calories',
+    },
+    generateJsonLd: (val) => ({
+      '@context': 'https://schema.org',
+      '@type': 'Recipe',
+      name: val.name,
+      cookTime: val.cookTime || 'PT45M',
+      prepTime: val.prepTime || 'PT20M',
+      recipeYield: val.recipeYield || '4 servings',
+      nutrition: {
+        '@type': 'NutritionInformation',
+        calories: val.calories || '250 calories',
+      },
+    }),
+  },
+
+  VideoObject: {
+    id: 'VideoObject',
+    name: 'Video / YouTube Embed',
+    icon: 'Layers',
+    badge: 'Google Video Rich Snippets',
+    description: 'Format video content with thumbnail, duration, and upload date for Google Video Carousels.',
+    googleRichResultType: 'Video Search Carousel',
+    fields: [
+      { id: 'name', label: 'Video Title', type: 'text', placeholder: 'Complete Technical SEO & AEO Masterclass 2026', required: true, defaultValue: 'Complete Technical SEO & AEO Masterclass 2026' },
+      { id: 'description', label: 'Video Description', type: 'textarea', placeholder: 'In-depth tutorial on structured data and AI search optimization.', required: true, defaultValue: 'In-depth tutorial on structured data and AI search optimization.' },
+      { id: 'thumbnailUrl', label: 'Thumbnail URL', type: 'text', placeholder: 'https://example.com/thumb.jpg', required: true, defaultValue: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80' },
+      { id: 'uploadDate', label: 'Upload Date (YYYY-MM-DD)', type: 'text', placeholder: '2026-06-01', required: true, defaultValue: '2026-06-01' },
+    ],
+    defaultValues: {
+      name: 'Complete Technical SEO & AEO Masterclass 2026',
+      description: 'In-depth tutorial on structured data and AI search optimization.',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+      uploadDate: '2026-06-01',
+    },
+    generateJsonLd: (val) => ({
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: val.name,
+      description: val.description,
+      thumbnailUrl: [val.thumbnailUrl || 'https://example.com/thumb.jpg'],
+      uploadDate: `${val.uploadDate || '2026-06-01'}T08:00:00+00:00`,
     }),
   },
 };

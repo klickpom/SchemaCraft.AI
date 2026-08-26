@@ -16,6 +16,11 @@ const urlList = [
   `https://${host}/schema/howto-step-by-step-schema/`,
   `https://${host}/schema/organization-brand-schema/`,
   `https://${host}/schema/event-ticket-schema/`,
+  `https://${host}/schema/medical-clinic-doctor-schema/`,
+  `https://${host}/schema/legal-law-firm-schema/`,
+  `https://${host}/schema/wordpress-yoast-alternative-schema/`,
+  `https://${host}/schema/recipe-food-nutrition-schema/`,
+  `https://${host}/schema/video-youtube-embed-schema/`,
 ];
 
 const postData = JSON.stringify({

@@ -28,6 +28,8 @@ import {
   CheckCircle2,
   GraduationCap,
   Calendar,
+  ShieldCheck,
+  Video,
 } from 'lucide-react';
 
 interface SchemaBuilderProps {
@@ -40,12 +42,16 @@ const CATEGORY_ICONS: Record<SchemaCategory, React.ReactNode> = {
   Product: <ShoppingBag className="h-4 w-4" />,
   FAQPage: <HelpCircle className="h-4 w-4" />,
   LocalBusiness: <MapPin className="h-4 w-4" />,
+  MedicalBusiness: <ShieldCheck className="h-4 w-4 text-emerald-400" />,
+  LegalService: <ShieldCheck className="h-4 w-4 text-blue-400" />,
   Article: <FileText className="h-4 w-4" />,
   HowTo: <Layers className="h-4 w-4" />,
   Organization: <Building2 className="h-4 w-4" />,
   Review: <Star className="h-4 w-4" />,
   Course: <GraduationCap className="h-4 w-4" />,
   Event: <Calendar className="h-4 w-4" />,
+  Recipe: <ShoppingBag className="h-4 w-4 text-amber-400" />,
+  VideoObject: <Video className="h-4 w-4 text-rose-400" />,
 };
 
 export function SchemaBuilder({
