@@ -27,6 +27,7 @@ import SchemaGraphVisualizer from '@/components/SchemaGraphVisualizer';
 import SocialCardPreviewer from '@/components/SocialCardPreviewer';
 import AeoPredictorCalculator from '@/components/AeoPredictorCalculator';
 import FaqGeneratorTool from '@/components/FaqGeneratorTool';
+import LocalBusinessSchemaTool from '@/components/LocalBusinessSchemaTool';
 import {
   Layers,
   Globe,
@@ -641,6 +642,9 @@ export default function Home() {
 
             {/* Instant FAQPage Schema Generator & Google SERP Expander */}
             <FaqGeneratorTool lang={lang} />
+
+            {/* Google Maps 3-Pack & Local SEO Schema Generator */}
+            <LocalBusinessSchemaTool lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
