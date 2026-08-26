@@ -26,6 +26,7 @@ import AeoCheatSheetModal from '@/components/AeoCheatSheetModal';
 import SchemaGraphVisualizer from '@/components/SchemaGraphVisualizer';
 import SocialCardPreviewer from '@/components/SocialCardPreviewer';
 import AeoPredictorCalculator from '@/components/AeoPredictorCalculator';
+import FaqGeneratorTool from '@/components/FaqGeneratorTool';
 import {
   Layers,
   Globe,
@@ -637,6 +638,9 @@ export default function Home() {
 
             {/* Interactive 2026 AI Search Citation Probability Calculator */}
             <AeoPredictorCalculator lang={lang} />
+
+            {/* Instant FAQPage Schema Generator & Google SERP Expander */}
+            <FaqGeneratorTool lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
