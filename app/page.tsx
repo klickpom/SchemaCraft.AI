@@ -19,6 +19,7 @@ import SchemaValidatorTool from '@/components/SchemaValidatorTool';
 import BotSafelistGenerator from '@/components/BotSafelistGenerator';
 import LiveActivityTicker from '@/components/LiveActivityTicker';
 import CompetitorComparison from '@/components/CompetitorComparison';
+import SchemaDirectoryHub from '@/components/SchemaDirectoryHub';
 import {
   Layers,
   Globe,
@@ -581,6 +582,9 @@ export default function Home() {
 
             {/* Official AI Search Bot WAF Safelist Generator */}
             <BotSafelistGenerator lang={lang} />
+
+            {/* Complete 2026 Schema Architecture Directory & Internal Link Hub */}
+            <SchemaDirectoryHub lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
