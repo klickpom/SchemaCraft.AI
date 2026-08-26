@@ -20,6 +20,7 @@ import BotSafelistGenerator from '@/components/BotSafelistGenerator';
 import LiveActivityTicker from '@/components/LiveActivityTicker';
 import CompetitorComparison from '@/components/CompetitorComparison';
 import SchemaDirectoryHub from '@/components/SchemaDirectoryHub';
+import CommandPalette from '@/components/CommandPalette';
 import {
   Layers,
   Globe,
@@ -61,6 +62,7 @@ export default function Home() {
   const [isProUnlocked, setIsProUnlocked] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [selectedIssueForFix, setSelectedIssueForFix] = useState<AuditIssue | null>(null);
   const [showEvidenceLedger, setShowEvidenceLedger] = useState(true);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
@@ -71,7 +73,7 @@ export default function Home() {
 
   const t = translations[lang];
 
-  // Initialize and check for URL / Demo query parameters on mount & listen to Escape key
+  // Initialize and check for URL / Demo query parameters on mount & listen to Escape / Cmd+K keys
   useEffect(() => {
     if (isProUnlockedClient()) setIsProUnlocked(true);
 
@@ -90,10 +92,15 @@ export default function Home() {
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowCommandPalette((prev) => !prev);
+      }
       if (e.key === 'Escape') {
         setShowPaywall(false);
         setSelectedIssueForFix(null);
         setShowShareModal(false);
+        setShowCommandPalette(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -270,6 +277,20 @@ export default function Home() {
               </svg>
               <span className="hidden sm:inline font-mono text-[11px]">@SchemaCraftAI</span>
             </a>
+
+            {/* Quick Schema & Tool Command Palette Trigger */}
+            <button
+              type="button"
+              onClick={() => setShowCommandPalette(true)}
+              className="flex items-center gap-1.5 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 text-[11px] sm:text-xs font-semibold text-slate-300 transition active:scale-95 cursor-pointer shrink-0"
+              title="Search Schemas (Ctrl+K / Cmd+K)"
+            >
+              <Search className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-indigo-400" />
+              <span className="hidden sm:inline">{lang === 'ar' ? 'بحث' : 'Search'}</span>
+              <kbd className="hidden lg:inline-block px-1 py-0.2 rounded bg-white/10 text-[9px] font-mono text-slate-400">
+                ⌘K
+              </kbd>
+            </button>
 
             {/* Language Switcher */}
             <button
@@ -1755,6 +1776,13 @@ export default function Home() {
 
       {/* Floating Live Social Proof Activity Ticker */}
       <LiveActivityTicker lang={lang} />
+
+      {/* Global Quick Schema & Tool Command Palette */}
+      <CommandPalette
+        lang={lang}
+        isOpen={showCommandPalette}
+        onClose={() => setShowCommandPalette(false)}
+      />
 
     </div>
   );
