@@ -35,6 +35,7 @@ import BreadcrumbSchemaTool from '@/components/BreadcrumbSchemaTool';
 import HowToSchemaTool from '@/components/HowToSchemaTool';
 import EventSchemaTool from '@/components/EventSchemaTool';
 import CourseSchemaTool from '@/components/CourseSchemaTool';
+import RecipeSchemaTool from '@/components/RecipeSchemaTool';
 import {
   Layers,
   Globe,
@@ -673,6 +674,9 @@ export default function Home() {
 
             {/* Google Courses & Certification Schema Generator */}
             <CourseSchemaTool lang={lang} />
+
+            {/* Google Recipe & Nutrition Rich Result Schema Generator */}
+            <RecipeSchemaTool lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
