@@ -24,6 +24,7 @@ import CommandPalette from '@/components/CommandPalette';
 import RobotsTxtGenerator from '@/components/RobotsTxtGenerator';
 import AeoCheatSheetModal from '@/components/AeoCheatSheetModal';
 import SchemaGraphVisualizer from '@/components/SchemaGraphVisualizer';
+import SocialCardPreviewer from '@/components/SocialCardPreviewer';
 import {
   Layers,
   Globe,
@@ -629,6 +630,9 @@ export default function Home() {
 
             {/* Interactive Schema.org Multi-Entity Graph Visualizer */}
             <SchemaGraphVisualizer lang={lang} />
+
+            {/* Live Google SERP & Social Sharing Card Previewer */}
+            <SocialCardPreviewer lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
