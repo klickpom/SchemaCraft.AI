@@ -83,6 +83,25 @@ export function SchemaBuilder({
     setIsProUnlocked(isProUnlockedClient());
   }, []);
 
+  // Sync activeCategory and overrides when prop changes
+  useEffect(() => {
+    if (initialCategory) {
+      setActiveCategory(initialCategory);
+    }
+  }, [initialCategory]);
+
+  useEffect(() => {
+    if (initialCategory && initialValuesOverride) {
+      setFormStates((prev) => ({
+        ...prev,
+        [initialCategory]: {
+          ...prev[initialCategory],
+          ...initialValuesOverride,
+        },
+      }));
+    }
+  }, [initialCategory, initialValuesOverride]);
+
   const currentValues = formStates[activeCategory] || SCHEMA_DEFINITIONS[activeCategory].defaultValues;
 
   const handleValuesChange = (newValues: Record<string, any>) => {
@@ -192,7 +211,7 @@ export function SchemaBuilder({
           <span className="text-[11px] text-zinc-400">0ms Real-Time Synthesis</span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
           {(Object.keys(SCHEMA_DEFINITIONS) as SchemaCategory[]).map((catKey) => {
             const isSelected = activeCategory === catKey;
             const def = SCHEMA_DEFINITIONS[catKey];
