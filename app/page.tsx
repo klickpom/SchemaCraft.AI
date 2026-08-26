@@ -21,6 +21,7 @@ import LiveActivityTicker from '@/components/LiveActivityTicker';
 import CompetitorComparison from '@/components/CompetitorComparison';
 import SchemaDirectoryHub from '@/components/SchemaDirectoryHub';
 import CommandPalette from '@/components/CommandPalette';
+import RobotsTxtGenerator from '@/components/RobotsTxtGenerator';
 import {
   Layers,
   Globe,
@@ -603,6 +604,9 @@ export default function Home() {
 
             {/* Official AI Search Bot WAF Safelist Generator */}
             <BotSafelistGenerator lang={lang} />
+
+            {/* Official 2026 AI Bot robots.txt Generator & Validator */}
+            <RobotsTxtGenerator lang={lang} />
 
             {/* Complete 2026 Schema Architecture Directory & Internal Link Hub */}
             <SchemaDirectoryHub lang={lang} />
