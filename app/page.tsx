@@ -28,6 +28,7 @@ import SocialCardPreviewer from '@/components/SocialCardPreviewer';
 import AeoPredictorCalculator from '@/components/AeoPredictorCalculator';
 import FaqGeneratorTool from '@/components/FaqGeneratorTool';
 import LocalBusinessSchemaTool from '@/components/LocalBusinessSchemaTool';
+import ProductSchemaTool from '@/components/ProductSchemaTool';
 import {
   Layers,
   Globe,
@@ -645,6 +646,9 @@ export default function Home() {
 
             {/* Google Maps 3-Pack & Local SEO Schema Generator */}
             <LocalBusinessSchemaTool lang={lang} />
+
+            {/* Google Merchant & E-Commerce Product Rich Result Schema Generator */}
+            <ProductSchemaTool lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
