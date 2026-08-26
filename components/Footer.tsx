@@ -46,15 +46,45 @@ export function Footer() {
             <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
               Schema Generators
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               <li>
                 <Link href="/schema/shopify-product" className="hover:text-cyan-400 transition-colors">
                   Shopify Product JSON-LD
                 </Link>
               </li>
               <li>
+                <Link href="/schema/woocommerce-product-schema" className="hover:text-cyan-400 transition-colors">
+                  WooCommerce Product Schema
+                </Link>
+              </li>
+              <li>
                 <Link href="/schema/nextjs-software" className="hover:text-cyan-400 transition-colors">
                   Next.js 15 Software App
+                </Link>
+              </li>
+              <li>
+                <Link href="/schema/wordpress-yoast-alternative-schema" className="hover:text-cyan-400 transition-colors">
+                  WordPress Yoast Alternative
+                </Link>
+              </li>
+              <li>
+                <Link href="/schema/medical-clinic-doctor-schema" className="hover:text-cyan-400 transition-colors">
+                  Medical &amp; Doctor Schema
+                </Link>
+              </li>
+              <li>
+                <Link href="/schema/legal-law-firm-schema" className="hover:text-cyan-400 transition-colors">
+                  Law Firm &amp; Legal Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/schema/recipe-food-nutrition-schema" className="hover:text-cyan-400 transition-colors">
+                  Recipe &amp; Culinary Food
+                </Link>
+              </li>
+              <li>
+                <Link href="/schema/video-youtube-embed-schema" className="hover:text-cyan-400 transition-colors">
+                  Video &amp; YouTube Embed
                 </Link>
               </li>
               <li>
@@ -64,17 +94,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/schema/local-seo-schema" className="hover:text-cyan-400 transition-colors">
-                  Local Business Maps & NAP
-                </Link>
-              </li>
-              <li>
-                <Link href="/schema/course-education-schema" className="hover:text-cyan-400 transition-colors">
-                  Online Course & Education
-                </Link>
-              </li>
-              <li>
-                <Link href="/schema/article-google-discover-schema" className="hover:text-cyan-400 transition-colors">
-                  Article & Discover News
+                  Local Business Maps &amp; NAP
                 </Link>
               </li>
             </ul>
