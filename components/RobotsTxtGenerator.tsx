@@ -165,7 +165,7 @@ export default function RobotsTxtGenerator({ lang }: RobotsTxtGeneratorProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left: Toggles */}
+        {/* Left: Interactive Toggles */}
         <div className="lg:col-span-6 space-y-3">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
             {lang === 'ar' ? 'تخصيص تصاريح روبوتات الذكاء الاصطناعي' : 'Configure AI Bot Directives'}
@@ -174,13 +174,14 @@ export default function RobotsTxtGenerator({ lang }: RobotsTxtGeneratorProps) {
           {AI_BOTS.map((bot) => {
             const isAllowed = allowedBots[bot.id];
             return (
-              <div
+              <button
                 key={bot.id}
+                type="button"
                 onClick={() => toggleBot(bot.id)}
-                className={`p-3.5 rounded-2xl border transition flex items-center justify-between cursor-pointer select-none ${
+                className={`w-full p-3.5 rounded-2xl border text-left rtl:text-right transition flex items-center justify-between cursor-pointer active:scale-[0.99] select-none ${
                   isAllowed
-                    ? 'border-indigo-500/40 bg-indigo-950/20 hover:bg-indigo-950/30'
-                    : 'border-white/10 bg-black/30 hover:bg-white/[0.03]'
+                    ? 'border-indigo-500/50 bg-indigo-950/30 hover:bg-indigo-950/40'
+                    : 'border-white/10 bg-black/30 hover:bg-white/[0.04]'
                 }`}
               >
                 <div className="space-y-1 pr-3 rtl:pr-0 rtl:pl-3">
@@ -197,15 +198,15 @@ export default function RobotsTxtGenerator({ lang }: RobotsTxtGeneratorProps) {
                   </p>
                 </div>
 
-                {/* Toggle switch button */}
+                {/* Switch Graphic */}
                 <div
-                  className={`w-11 h-6 rounded-full p-1 transition flex items-center shrink-0 ${
+                  className={`w-12 h-6 rounded-full p-0.5 transition-colors duration-200 ease-in-out flex items-center shrink-0 ${
                     isAllowed ? 'bg-indigo-600 justify-end' : 'bg-slate-800 justify-start'
                   }`}
                 >
-                  <div className="w-4 h-4 rounded-full bg-white shadow-md"></div>
+                  <div className="w-5 h-5 rounded-full bg-white shadow-md transform transition-transform"></div>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
@@ -219,7 +220,7 @@ export default function RobotsTxtGenerator({ lang }: RobotsTxtGeneratorProps) {
             <button
               type="button"
               onClick={handleCopy}
-              className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white transition flex items-center gap-1.5 cursor-pointer shadow-md"
+              className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white transition flex items-center gap-1.5 cursor-pointer shadow-md active:scale-95"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? (lang === 'ar' ? 'تم النسخ!' : 'Copied!') : (lang === 'ar' ? 'نسخ الملف' : 'Copy robots.txt')}</span>

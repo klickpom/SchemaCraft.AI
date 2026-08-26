@@ -37,8 +37,8 @@ export default function LiveActivityTicker({ lang }: LiveActivityTickerProps) {
   const act = ACTIVITIES[currentIndex];
 
   return (
-    <div className={`fixed bottom-4 left-4 z-30 transition-all duration-500 transform ${
-      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+    <div className={`fixed bottom-4 left-4 z-30 pointer-events-none transition-all duration-500 transform ${
+      visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
     }`}>
       <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-[#0e0e18]/90 backdrop-blur-md border border-white/15 shadow-2xl shadow-black/80 text-xs">
         <span className="relative flex h-2 w-2">

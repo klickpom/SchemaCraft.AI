@@ -168,13 +168,14 @@ export default function AeoPredictorCalculator({ lang }: AeoPredictorCalculatorP
           {CRITERIA.map((item) => {
             const isChecked = selectedItems[item.id];
             return (
-              <div
+              <button
                 key={item.id}
+                type="button"
                 onClick={() => toggleItem(item.id)}
-                className={`p-3.5 rounded-2xl border transition flex items-center justify-between cursor-pointer select-none group ${
+                className={`w-full p-3.5 rounded-2xl border text-left rtl:text-right transition flex items-center justify-between cursor-pointer select-none group active:scale-[0.99] ${
                   isChecked
-                    ? 'border-indigo-500/40 bg-indigo-950/20 hover:bg-indigo-950/30'
-                    : 'border-white/10 bg-black/30 hover:bg-white/[0.03]'
+                    ? 'border-indigo-500/50 bg-indigo-950/30 hover:bg-indigo-950/40'
+                    : 'border-white/10 bg-black/30 hover:bg-white/[0.04]'
                 }`}
               >
                 <div className="space-y-1 pr-3 rtl:pr-0 rtl:pl-3">
@@ -200,7 +201,7 @@ export default function AeoPredictorCalculator({ lang }: AeoPredictorCalculatorP
                 >
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
