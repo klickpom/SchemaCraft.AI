@@ -26,16 +26,7 @@ import AeoCheatSheetModal from '@/components/AeoCheatSheetModal';
 import SchemaGraphVisualizer from '@/components/SchemaGraphVisualizer';
 import SocialCardPreviewer from '@/components/SocialCardPreviewer';
 import AeoPredictorCalculator from '@/components/AeoPredictorCalculator';
-import FaqGeneratorTool from '@/components/FaqGeneratorTool';
-import LocalBusinessSchemaTool from '@/components/LocalBusinessSchemaTool';
-import ProductSchemaTool from '@/components/ProductSchemaTool';
-import ArticleSchemaTool from '@/components/ArticleSchemaTool';
-import VideoSchemaTool from '@/components/VideoSchemaTool';
-import BreadcrumbSchemaTool from '@/components/BreadcrumbSchemaTool';
-import HowToSchemaTool from '@/components/HowToSchemaTool';
-import EventSchemaTool from '@/components/EventSchemaTool';
-import CourseSchemaTool from '@/components/CourseSchemaTool';
-import RecipeSchemaTool from '@/components/RecipeSchemaTool';
+import SchemaStudioSuite from '@/components/SchemaStudioSuite';
 import {
   Layers,
   Globe,
@@ -648,35 +639,8 @@ export default function Home() {
             {/* Interactive 2026 AI Search Citation Probability Calculator */}
             <AeoPredictorCalculator lang={lang} />
 
-            {/* Instant FAQPage Schema Generator & Google SERP Expander */}
-            <FaqGeneratorTool lang={lang} />
-
-            {/* Google Maps 3-Pack & Local SEO Schema Generator */}
-            <LocalBusinessSchemaTool lang={lang} />
-
-            {/* Google Merchant & E-Commerce Product Rich Result Schema Generator */}
-            <ProductSchemaTool lang={lang} />
-
-            {/* Google Discover Feeds & News Article Schema Generator */}
-            <ArticleSchemaTool lang={lang} />
-
-            {/* Google Video Carousel & Key Moments Schema Generator */}
-            <VideoSchemaTool lang={lang} />
-
-            {/* Google BreadcrumbList & Hierarchy Navigator Schema Generator */}
-            <BreadcrumbSchemaTool lang={lang} />
-
-            {/* Google HowTo Step-by-Step Rich Snippet Schema Generator */}
-            <HowToSchemaTool lang={lang} />
-
-            {/* Google Events & Ticket Booking Schema Generator */}
-            <EventSchemaTool lang={lang} />
-
-            {/* Google Courses & Certification Schema Generator */}
-            <CourseSchemaTool lang={lang} />
-
-            {/* Google Recipe & Nutrition Rich Result Schema Generator */}
-            <RecipeSchemaTool lang={lang} />
+            {/* Enterprise Schema Studio Suite (10 Specialized Engines) */}
+            <SchemaStudioSuite lang={lang} />
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
