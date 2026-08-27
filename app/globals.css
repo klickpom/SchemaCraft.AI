@@ -144,6 +144,29 @@ div[class*="devOverlay"] {
   -webkit-backdrop-filter: blur(16px);
 }
 
+/* Glass Form Inputs (Universal Dark Theme) */
+.glass-input {
+  background-color: rgba(6, 6, 10, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-input:focus {
+  background-color: rgba(10, 10, 18, 0.95) !important;
+  border-color: rgba(99, 102, 241, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25), 0 0 15px rgba(99, 102, 241, 0.15) !important;
+  outline: none !important;
+}
+
+.glass-input::placeholder {
+  color: #64748b !important;
+}
+
+input, select, textarea {
+  color-scheme: dark;
+}
+
 /* Decorative Grid Pattern (Schema Pages) */
 .bg-grid-pattern {
   background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
