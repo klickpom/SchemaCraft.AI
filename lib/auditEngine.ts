@@ -818,22 +818,28 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
   };
 
   issues.forEach(issue => {
-    if (issue.severity !== 'informational') {
-      categoryDeductions[issue.category] += issue.weight * 7.5;
+    if (issue.severity === 'critical') {
+      categoryDeductions[issue.category] += 35;
+    } else if (issue.severity === 'high') {
+      categoryDeductions[issue.category] += 20;
+    } else if (issue.severity === 'medium') {
+      categoryDeductions[issue.category] += 10;
+    } else if (issue.severity === 'low') {
+      categoryDeductions[issue.category] += 5;
     }
   });
 
-  const technicalSEO = Math.max(15, Math.min(98, Math.round(100 - categoryDeductions.technical)));
-  const crawlability = Math.max(10, Math.min(98, Math.round(100 - categoryDeductions.crawlability)));
+  const technicalSEO = Math.max(10, Math.min(100, Math.round(100 - categoryDeductions.technical)));
+  const crawlability = Math.max(10, Math.min(100, Math.round(100 - categoryDeductions.crawlability)));
   const contentAnswerability = raw.htmlFetched
-    ? Math.max(20, Math.min(98, Math.round(100 - categoryDeductions.content)))
+    ? Math.max(10, Math.min(100, Math.round(100 - categoryDeductions.content)))
     : 50; // Neutral if content couldn't be inspected
   const entitySchema = raw.htmlFetched
-    ? Math.max(10, Math.min(98, Math.round(100 - categoryDeductions.entity)))
+    ? Math.max(10, Math.min(100, Math.round(100 - categoryDeductions.entity)))
     : 50; // Neutral if content couldn't be inspected
-  const aiSearchReadiness = Math.max(15, Math.min(98, Math.round((crawlability * 0.35) + (contentAnswerability * 0.35) + (entitySchema * 0.3))));
+  const aiSearchReadiness = Math.max(10, Math.min(100, Math.round((crawlability * 0.35) + (contentAnswerability * 0.35) + (entitySchema * 0.3))));
 
-  const overallScore = Math.max(18, Math.min(96, Math.round(
+  const overallScore = Math.max(10, Math.min(100, Math.round(
     (technicalSEO * 0.2) +
     (crawlability * 0.25) +
     (contentAnswerability * 0.25) +
@@ -841,9 +847,13 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
     (aiSearchReadiness * 0.1)
   )));
 
-  // Separate 3 Free Critical Blockers vs Locked Issues
-  const criticalBlockers = issues.filter(i => i.severity !== 'informational').slice(0, 3);
-  const lockedIssues = issues.filter(i => i.severity !== 'informational').slice(3);
+  // Sort issues by priority weight descending (critical -> high -> med -> low)
+  const nonInfoIssues = issues
+    .filter(i => i.severity !== 'informational')
+    .sort((a, b) => b.weight - a.weight);
+
+  const criticalBlockers = nonInfoIssues.slice(0, 3);
+  const lockedIssues = nonInfoIssues.slice(3);
 
   // Generate AI Search Opportunities based on site type
   const aiOpportunities: AIOpportunity[] = generateAIOpportunities(raw.detectedSiteType, raw);
