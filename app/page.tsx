@@ -720,24 +720,15 @@ export default function Home() {
               </div>
 
               {/* Executive Summary Badges */}
-              <div className="flex flex-wrap items-center gap-2.5 pt-5 pb-2">
-                {report.allIssues.filter(i => i.severity === 'critical').length > 0 ? (
-                  <span className="text-xs font-mono font-bold px-3 py-1 rounded-full border border-rose-500/40 bg-rose-500/15 text-rose-300 flex items-center gap-1.5 shadow-sm">
-                    <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-                    <span>{report.allIssues.filter(i => i.severity === 'critical').length} {lang === 'ar' ? 'عوائق حرجة (Critical)' : 'Critical Blockers'}</span>
-                  </span>
-                ) : null}
-
-                {report.allIssues.filter(i => i.severity === 'high' || i.severity === 'medium').length > 0 ? (
-                  <span className="text-xs font-mono font-bold px-3 py-1 rounded-full border border-amber-500/40 bg-amber-500/15 text-amber-300 flex items-center gap-1.5 shadow-sm">
-                    <Zap className="w-3.5 h-3.5 text-amber-400" />
-                    <span>{report.allIssues.filter(i => i.severity === 'high' || i.severity === 'medium').length} {lang === 'ar' ? 'مشاكل وفرص تحسين' : 'Issues & Improvements'}</span>
-                  </span>
-                ) : null}
-
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 flex items-center gap-1.5 shadow-sm">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{report.evidenceLedger.filter(e => e.status === 'pass').length} {lang === 'ar' ? 'فحوصات مكتملة وسليمة' : 'Checks Passed'}</span>
+              <div className="flex flex-wrap items-center gap-2 pt-5 pb-2">
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400">
+                  {report.criticalBlockers.length} {lang === 'ar' ? 'عوائق حرجة' : 'Critical Blockers'}
+                </span>
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400">
+                  {report.allIssues.length} {lang === 'ar' ? 'مشكلة مكتشفة' : 'Issues Found'}
+                </span>
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+                  {report.evidenceLedger.filter(e => e.status === 'pass').length} {lang === 'ar' ? 'فحص ناجح' : 'Checks Passed'}
                 </span>
               </div>
 
