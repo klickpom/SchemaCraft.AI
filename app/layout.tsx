@@ -15,15 +15,22 @@ export const metadata: Metadata = {
     "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
   keywords: [
     "AI Search Visibility Audit",
-    "GEO Audit",
+    "GEO Audit Tool",
     "AEO Optimization",
     "Technical SEO Audit",
+    "Schema Markup Generator",
+    "JSON-LD Schema Generator",
     "OAI-SearchBot",
     "ChatGPT Search Readiness",
     "Perplexity AI SEO",
+    "Google Rich Snippets Generator",
+    "Shopify Schema Markup",
+    "Next.js SEO Metadata",
+    "WordPress Schema Generator",
     "Schema.org Validator",
-    "Indexability Gate",
-    "AI Search Benchmark",
+    "مولد سكيما",
+    "فحص سيو الذكاء الاصطناعي",
+    "تحسين الظهور في شات جي بي تي",
   ],
   authors: [{ name: "SchemaCraft AI Architect Labs", url: "https://schemacraft-ai.site" }],
   creator: "SchemaCraft AI",
@@ -37,9 +44,9 @@ export const metadata: Metadata = {
     canonical: "https://schemacraft-ai.site",
   },
   openGraph: {
-    title: "SchemaCraft AI | AI Search Visibility Auditor & Optimizer",
+    title: "SchemaCraft AI | AI Search Visibility Auditor & Schema Generator",
     description:
-      "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
+      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate 100% compliant Schema.org JSON-LD microdata and WAF bot safelists in 0ms.",
     url: "https://schemacraft-ai.site",
     siteName: "SchemaCraft.AI",
     images: [
@@ -55,9 +62,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SchemaCraft AI | AI Search Visibility Auditor & Optimizer",
+    title: "SchemaCraft AI | AI Search Visibility Auditor & Schema Generator",
     description:
-      "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
+      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate 100% compliant Schema.org JSON-LD microdata and WAF bot safelists in 0ms.",
     images: ["https://schemacraft-ai.site/og-image.png"],
     creator: "@SchemaCraftAI",
   },
@@ -155,6 +162,32 @@ export default function RootLayout({
         ],
       },
       {
+        "@type": "HowTo",
+        "@id": "https://schemacraft-ai.site/#howto-audit",
+        name: "How to Audit and Optimize Your Website for AI Search Engines",
+        description: "Step-by-step methodology to diagnose crawl barriers, unblock AI bots, and deploy Schema.org structured data.",
+        step: [
+          {
+            "@type": "HowToStep",
+            position: 1,
+            name: "Run Free AI Search Audit",
+            text: "Enter your domain URL into SchemaCraft AI to crawl HTTP headers, robots.txt, and live DOM markup."
+          },
+          {
+            "@type": "HowToStep",
+            position: 2,
+            name: "Review AI Discovery Blockers",
+            text: "Examine OAI-SearchBot directives, BLUF direct answer summaries, and missing Schema.org JSON-LD entities."
+          },
+          {
+            "@type": "HowToStep",
+            position: 3,
+            name: "Deploy 1-Click Code Fixes",
+            text: "Copy production-ready WordPress hooks, Next.js metadata scripts, or Shopify Liquid tags to achieve 100% readiness."
+          }
+        ]
+      },
+      {
         "@type": "FAQPage",
         "@id": "https://schemacraft-ai.site/#faq",
         mainEntity: [
@@ -172,6 +205,14 @@ export default function RootLayout({
             acceptedAnswer: {
               "@type": "Answer",
               text: "SchemaCraft AI generates 100% production-ready, copy-paste code fixes for WordPress (functions.php hooks & filters), Next.js 15 App Router (TypeScript metadata, sitemaps & JSON-LD scripts), and Shopify Liquid themes.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is the difference between SEO, GEO, and AEO?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "SEO (Search Engine Optimization) optimizes for traditional keyword rankings. GEO (Generative Engine Optimization) structures entity relations so LLMs understand brand context. AEO (Answer Engine Optimization) structures concise BLUF answers so ChatGPT Search, Perplexity, and Google AI Overviews directly cite your domain as the authoritative source.",
             },
           },
           {
