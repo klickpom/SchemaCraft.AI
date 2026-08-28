@@ -91,13 +91,15 @@ Generated via SchemaCraft.AI (https://schemacraft-ai.site) — Real-Time AI Sear
               <FileText className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-black text-white flex items-center gap-2">
-                <span>{lang === 'ar' ? 'الدليل التقني المرجعي لـ GEO & AEO 2026' : 'The 2026 GEO & AEO Technical Cheat Sheet'}</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-base sm:text-lg font-black text-white">
+                  {lang === 'ar' ? 'الدليل التقني المرجعي لـ GEO & AEO 2026' : 'The 2026 GEO & AEO Technical Cheat Sheet'}
+                </h2>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 whitespace-nowrap shrink-0">
                   Standard v1.0
                 </span>
-              </h2>
-              <p className="text-xs text-slate-400">
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5">
                 {lang === 'ar'
                   ? 'المرجع الفني الشامل لضبط بوتات الذكاء الاصطناعي وهيكلة أكواد Schema.org'
                   : 'The complete technical reference for AI bot routing, BLUF content, and Schema.org graphs.'}
