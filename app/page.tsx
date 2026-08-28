@@ -27,6 +27,7 @@ import SchemaGraphVisualizer from '@/components/SchemaGraphVisualizer';
 import SocialCardPreviewer from '@/components/SocialCardPreviewer';
 import AeoPredictorCalculator from '@/components/AeoPredictorCalculator';
 import SchemaStudioSuite from '@/components/SchemaStudioSuite';
+import FaqSection from '@/components/FaqSection';
 import {
   Layers,
   Globe,
@@ -644,6 +645,9 @@ export default function Home() {
 
             {/* Head-to-Head Competitor Comparison Matrix */}
             <CompetitorComparison lang={lang} />
+
+            {/* Semantic FAQ Authority & Knowledge Architecture */}
+            <FaqSection lang={lang} />
           </div>
         )}
 
