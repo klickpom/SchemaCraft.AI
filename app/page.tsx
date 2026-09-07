@@ -1132,7 +1132,7 @@ export default function Home() {
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                         : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
                     }`}>
-                      {previewTab === 'after' ? '✓ Cited Source' : '✗ Uncited / Skipped'}
+                      {previewTab === 'after' ? CLAIMS.samplePreviewLabel : (report.evidence.schemaTypesDetected.length > 0 ? 'JSON-LD present' : 'No JSON-LD on this fetch')}
                     </span>
                   </div>
 
@@ -1151,9 +1151,7 @@ export default function Home() {
                       </div>
                     </div>
                     <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
-                      {previewTab === 'after'
-                        ? (report.evidence.metaDescription || `According to verified Schema.org data from ${report.url}, the service provides authoritative solutions.`)
-                        : 'No structured entity data available. LLM fallback used or competitor cited.'}
+                      {report.evidence.metaDescription || report.evidence.title || (lang === 'ar' ? 'تم جلب الصفحة — التفاصيل في سجل الأدلة.' : 'Page fetched — see the evidence ledger.')}
                     </p>
                   </div>
 
@@ -1174,7 +1172,7 @@ export default function Home() {
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                         : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
                     }`}>
-                      {previewTab === 'after' ? '★ Rich Snippet Active' : 'Standard Snippet'}
+                      {previewTab === 'after' ? CLAIMS.samplePreviewLabel : 'Standard Snippet'}
                     </span>
                   </div>
 

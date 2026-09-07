@@ -305,7 +305,7 @@ export const translations: Record<Language, Translations> = {
       generateFix: 'Generate Platform Fix',
     },
     stickyBar: {
-      badge: 'Critical Optimization Pass',
+      badge: 'Optimization pass',
       text: 'Instant 1-click code fixes for all detected issues on your website.',
       cta: 'Fix My Website — $9',
       guarantee: '30-Day Money-Back Guarantee',
@@ -340,8 +340,8 @@ export const translations: Record<Language, Translations> = {
       googleTitle: 'Google Rich Snippet Search Result',
       statusBefore: 'Unverified Entity • Low Citation Priority',
       statusAfter: 'Authoritative Verified Entity • Rich Snippet Active',
-      beforeNote: 'AI models struggle to extract structured facts and may cite competitors instead.',
-      afterNote: 'Structured Schema.org JSON-LD enables direct AI answer extraction and rich snippet cards.',
+      beforeNote: 'Simulation — not a live ChatGPT or Google result. Facts below come from this fetch.',
+      afterNote: 'Sample richer presentation. Valid markup does not guarantee a Google rich result.',
     },
     trafficLoss: {
       badge: 'AI Visibility & Revenue Risk',
@@ -542,8 +542,8 @@ export const translations: Record<Language, Translations> = {
       googleTitle: 'معاينة النتيجة الغنية في Google (Rich Snippet)',
       statusBefore: 'كيان غير موثق • أولوية اقتباس منخفضة',
       statusAfter: 'كيان رسمي موثق • بطاقة نتائج غنية مفعلة',
-      beforeNote: 'نماذج الذكاء الاصطناعي تجد صعوبة في استخراج بيانات موقعك وقد ترشح المنافسين بدلاً منك.',
-      afterNote: 'كود Schema.org المخصص يتيح للذكاء الاصطناعي اقتباس إجاباتك وموقعك كمرجع رسمي مباشرة.',
+      beforeNote: 'محاكاة — ليست نتيجة حية من ChatGPT أو جوجل. الحقائق أدناه من هذا الجلب.',
+      afterNote: 'معاينة أغنى. الوسم الصحيح لا يضمن نتيجة غنية من جوجل.',
     },
     trafficLoss: {
       badge: 'مؤشر مخاطر فقدان الزيارات والأرباح',
