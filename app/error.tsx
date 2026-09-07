@@ -12,15 +12,8 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
+    // Log error to console
     console.error('App Runtime Error:', error);
-    const isStaleChunk = /ChunkLoadError|Loading chunk|Failed to fetch dynamically imported module/i.test(
-      `${error.name} ${error.message}`
-    );
-    if (!isStaleChunk || typeof window === 'undefined') return;
-    const key = 'schemacraft-chunk-reload';
-    if (sessionStorage.getItem(key)) return;
-    sessionStorage.setItem(key, '1');
-    window.location.reload();
   }, [error]);
 
   return (

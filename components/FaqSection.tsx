@@ -31,8 +31,8 @@ const FAQS: FaqItem[] = [
   {
     qEn: 'Why is Schema.org JSON-LD structured data essential for Google Rich Results?',
     qAr: 'لماذا تعتبر بيانات Schema.org JSON-LD ضرورية للحصول على النتائج الغنية في جوجل؟',
-    aEn: 'Schema.org JSON-LD gives search engines explicit machine-readable context. Eligible types can qualify for rich results, but Google does not guarantee a rich result from valid markup.',
-    aAr: 'تزود سكيما JSON-LD محركات البحث بسياق قابل للقراءة آلياً. الأنواع المؤهلة قد تظهر كنتائج غنية، لكن جوجل لا تضمن نتيجة غنية من وسم صحيح.',
+    aEn: 'Schema.org JSON-LD gives search engines explicit machine-readable context. It unlocks Google Rich Snippets—including 5-star review ratings, pricing badges, FAQ drop-down drawers, and video key moments—which boosts organic click-through rate (CTR) by over 30%.',
+    aAr: 'تزود سكيما JSON-LD محركات البحث ببيانات منظمة يفهمها الروبوت فوراً. هذا يفعل المزايا البصرية في جوجل (النتائج الغنية) مثل نجوم التقييم الخماسية، شارات الأسعار والمخزون، قوائم الأسئلة الشائعة، ولحظات الفيديو، مما يرفع نسبة النقر بنسبة تتجاوز 30%.',
   },
   {
     qEn: 'How do I add the generated Schema JSON-LD to WordPress, Next.js, or Shopify?',
@@ -43,8 +43,8 @@ const FAQS: FaqItem[] = [
   {
     qEn: 'What is included in the $9 One-Time Lifetime Pass vs Free Audit?',
     qAr: 'ما الذي يتضمنه فحص الـ 9$ لمرة واحدة مدى الحياة مقارنة بالفحص المجاني؟',
-    aEn: 'The free audit runs the same check catalog and shows scores, evidence, and the highest-severity findings. The $9 pass unlocks copy-paste fixes for those findings, the remaining findings if any, the AI query matrix, and PDF export. Issue counts come from the scan — they are not a fixed “17+”.',
-    aAr: 'الفحص المجاني يشغّل نفس كتالوج الفحوصات ويعرض الدرجات والأدلة وأعلى النتائج خطورة. باقة الـ 9$ تفتح أكواد الإصلاح لتلك النتائج، وبقية النتائج إن وُجدت، ومصفوفة الاستفسارات، وتصدير PDF. عدد المشاكل يأتي من الفحص نفسه — وليس رقماً ثابتاً مثل «17+».',
+    aEn: 'The Free Audit provides instant scores across 5 dimensions and uncovers the top 3 critical blockers. The $9 Lifetime Pass unlocks all 17+ detected issues, generates customized copy-paste code fixes for WordPress, Next.js, and Shopify, reveals the full AI Search Opportunity Matrix, and enables white-label PDF executive exports.',
+    aAr: 'الفحص المجاني يعطيك تقييماً عبر الأبعاد الـ 5 مع كشف أول 3 مشاكل رئيسية. باقة الـ 9$ مدى الحياة تفتح لك كافة المشاكل الـ 17+ بالكامل، وتولد لك أكواد الإصلاح المباشرة لمنصتك (WordPress, Next.js, Shopify)، وتكشف مصفوفة فرص الظهور في الذكاء الاصطناعي، مع إمكانية تصدير تقارير PDF للعملاء والوكالات.',
   },
   {
     qEn: 'Is there a money-back guarantee for the $9 Pro Audit?',

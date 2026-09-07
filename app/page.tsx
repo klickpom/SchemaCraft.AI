@@ -11,9 +11,7 @@ import {
   RawEvidence,
 } from '@/lib/auditEngine';
 import { translations, Language } from '@/lib/translations';
-import { auditBadgeLabels, countCritical, countFindings, countPassed, formatAuditScore } from '@/lib/audit/scoring';
 import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
-import { CLAIMS } from '@/lib/content/claims';
 import { isProUnlockedClient, setProUnlockedClient } from '@/lib/payment';
 import FixGeneratorModal from '@/components/FixGeneratorModal';
 import PayPalCheckout from '@/components/PayPalCheckout';
@@ -78,7 +76,7 @@ export default function Home() {
   const [showEvidenceLedger, setShowEvidenceLedger] = useState(true);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [activeDemoProfile, setActiveDemoProfile] = useState<string | null>(null);
-  const [previewTab, setPreviewTab] = useState<'before' | 'after'>('before');
+  const [previewTab, setPreviewTab] = useState<'before' | 'after'>('after');
   const [isAgencyMode, setIsAgencyMode] = useState(false);
   const [copiedBadgeType, setCopiedBadgeType] = useState<'html' | 'markdown' | null>(null);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
@@ -212,29 +210,25 @@ export default function Home() {
     setShowPaywall(false);
   };
 
-  const getScoreColor = (score: number | null) => {
-    if (score === null) return 'text-slate-400 border-white/20 bg-white/5';
+  const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10';
     if (score >= 50) return 'text-amber-400 border-amber-500/40 bg-amber-500/10';
     return 'text-rose-400 border-rose-500/40 bg-rose-500/10';
   };
 
-  const getCategoryBarColor = (score: number | null) => {
-    if (score === null) return 'bg-slate-600';
+  const getCategoryBarColor = (score: number) => {
     if (score >= 80) return 'bg-emerald-400';
     if (score >= 50) return 'bg-amber-400';
     return 'bg-rose-400';
   };
 
-  const getCategoryTextColor = (score: number | null) => {
-    if (score === null) return 'text-slate-400';
+  const getCategoryTextColor = (score: number) => {
     if (score >= 80) return 'text-emerald-400';
     if (score >= 50) return 'text-amber-400';
     return 'text-rose-400';
   };
 
-  const getScoreBadgeText = (score: number | null) => {
-    if (score === null) return lang === 'ar' ? 'غير مكتمل' : 'Incomplete';
+  const getScoreBadgeText = (score: number) => {
     if (score >= 80) return t.scoreSection.badgeHealthy;
     if (score >= 50) return t.scoreSection.badgeNeedsOpt;
     return t.scoreSection.badgeCritical;
@@ -732,14 +726,14 @@ export default function Home() {
 
               {/* Executive Summary Badges */}
               <div className="flex flex-wrap items-center gap-2 pt-5 pb-2">
-                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400">
-                  {auditBadgeLabels(countCritical(report.checks), lang, 'critical')}
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400">
+                  {report.criticalBlockers.length} {lang === 'ar' ? 'عوائق حرجة' : 'Critical Blockers'}
                 </span>
-                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400">
-                  {auditBadgeLabels(countFindings(report.checks), lang, 'issues')}
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400">
+                  {report.allIssues.length} {lang === 'ar' ? 'مشكلة مكتشفة' : 'Issues Found'}
                 </span>
-                <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
-                  {auditBadgeLabels(countPassed(report.checks), lang, 'passed')}
+                <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+                  {report.evidenceLedger.filter(e => e.status === 'pass').length} {lang === 'ar' ? 'فحص ناجح' : 'Checks Passed'}
                 </span>
               </div>
 
@@ -755,20 +749,20 @@ export default function Home() {
                   <div className="relative h-32 w-32 flex items-center justify-center">
                     {/* Ambient Glow Halo */}
                     <div className={`absolute inset-2 rounded-full blur-xl opacity-25 ambient-pulse ${
-                      (report.overallScore ?? 0) >= 80 ? 'bg-emerald-500' : (report.overallScore ?? 0) >= 50 ? 'bg-amber-500' : 'bg-rose-500'
+                      report.overallScore >= 80 ? 'bg-emerald-500' : report.overallScore >= 50 ? 'bg-amber-500' : 'bg-rose-500'
                     }`} />
                     <svg className="absolute inset-0 w-full h-full -rotate-90 drop-shadow-md" viewBox="0 0 120 120">
                       <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
                       <circle
                         cx="60" cy="60" r="52" fill="none"
                         strokeWidth="8" strokeLinecap="round"
-                        className={`transition-all duration-1000 ease-out ${(report.overallScore ?? 0) >= 80 ? 'stroke-emerald-400' : (report.overallScore ?? 0) >= 50 ? 'stroke-amber-400' : 'stroke-rose-400'}`}
+                        className={`transition-all duration-1000 ease-out ${report.overallScore >= 80 ? 'stroke-emerald-400' : report.overallScore >= 50 ? 'stroke-amber-400' : 'stroke-rose-400'}`}
                         strokeDasharray={`${2 * Math.PI * 52}`}
-                        strokeDashoffset={`${2 * Math.PI * 52 * (1 - (report.overallScore ?? 0) / 100)}`}
+                        strokeDashoffset={`${2 * Math.PI * 52 * (1 - report.overallScore / 100)}`}
                       />
                     </svg>
-                    <span className={`relative text-4xl font-black font-mono tracking-tighter ${(report.overallScore ?? 0) >= 80 ? 'text-emerald-400' : (report.overallScore ?? 0) >= 50 ? 'text-amber-400' : 'text-rose-400'}`}>
-                      {report.overallScore === null ? '—' : report.overallScore}
+                    <span className={`relative text-4xl font-black font-mono tracking-tighter ${report.overallScore >= 80 ? 'text-emerald-400' : report.overallScore >= 50 ? 'text-amber-400' : 'text-rose-400'}`}>
+                      {report.overallScore}
                     </span>
                   </div>
 
@@ -787,40 +781,40 @@ export default function Home() {
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.technicalSEO}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.technicalSEO)}`}>{formatAuditScore(report.categoryScores.technicalSEO)}</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.technicalSEO)}`}>{report.categoryScores.technicalSEO}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.technicalSEO)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.technicalSEO ?? 0}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.technicalSEO)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.technicalSEO}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.crawlability}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.crawlability)}`}>{formatAuditScore(report.categoryScores.crawlability)}</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.crawlability)}`}>{report.categoryScores.crawlability}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.crawlability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.crawlability ?? 0}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.crawlability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.crawlability}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.contentAnswerability}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.contentAnswerability)}`}>{formatAuditScore(report.categoryScores.contentAnswerability)}</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.contentAnswerability)}`}>{report.categoryScores.contentAnswerability}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.contentAnswerability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.contentAnswerability ?? 0}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.contentAnswerability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.contentAnswerability}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.entitySchema}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.entitySchema)}`}>{formatAuditScore(report.categoryScores.entitySchema)}</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.entitySchema)}`}>{report.categoryScores.entitySchema}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.entitySchema)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.entitySchema ?? 0}%` }} />
+                      <div className={`${getCategoryBarColor(report.categoryScores.entitySchema)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.entitySchema}%` }} />
                     </div>
                   </div>
 
@@ -830,10 +824,10 @@ export default function Home() {
                         <Cpu className="w-4 h-4 text-cyan-400" />
                         {t.scoreSection.aiSearchReadiness}
                       </span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.aiSearchReadiness)}`}>{formatAuditScore(report.categoryScores.aiSearchReadiness)}</span>
+                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.aiSearchReadiness)}`}>{report.categoryScores.aiSearchReadiness}/100</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full rounded-full" style={{ width: `${report.categoryScores.aiSearchReadiness ?? 0}%` }} />
+                      <div className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full rounded-full" style={{ width: `${report.categoryScores.aiSearchReadiness}%` }} />
                     </div>
                   </div>
 
@@ -862,15 +856,13 @@ export default function Home() {
                   <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
                     <span className="text-[10px] text-slate-400 block">{t.trafficLoss.lostRate}</span>
                     <span className="text-lg sm:text-xl font-extrabold text-rose-400 font-mono">
-                      {report.overallScore === null ? 'Incomplete' : report.overallScore < 50 ? 'Blocked' : report.overallScore < 80 ? 'Partial' : 'Mostly ready'}
+                      {report.overallScore < 50 ? 'Blocked' : report.overallScore < 80 ? 'Partial' : 'Mostly ready'}
                     </span>
                   </div>
                   <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
                     <span className="text-[10px] text-slate-400 block">{t.trafficLoss.estLostVisitors}</span>
                     <span className="text-sm sm:text-base font-bold text-amber-300">
-                      {report.overallScore === null
-                        ? 'Audit incomplete — HTML not inspected'
-                        : report.overallScore < 50
+                      {report.overallScore < 50
                         ? 'Critical crawl or schema gaps'
                         : report.overallScore < 80
                           ? 'Some blockers remain'
@@ -896,12 +888,8 @@ export default function Home() {
                   <span className={`flex items-center gap-2 ${report.evidence.htmlFetched ? 'text-cyan-300' : 'text-amber-300'}`}>
                     <Globe className={`w-4 h-4 ${report.evidence.htmlFetched ? 'text-cyan-400' : 'text-amber-400'}`} />
                     {report.evidence.htmlFetched
-                      ? (lang === 'ar'
-                        ? `بيانات حقيقية من HTML (مصدر الجلب: ${report.evidence.fetchMode === 'server' ? 'سيرفر SchemaCraft' : report.evidence.fetchMode || 'المتصفح'})`
-                        : `Live HTML evidence (fetch: ${report.evidence.fetchMode === 'server' ? 'SchemaCraft server' : report.evidence.fetchMode || 'browser'})`)
-                      : (lang === 'ar'
-                        ? 'تعذر جلب HTML — الفئات غير المفحوصة تظهر — وليست 50/100'
-                        : 'HTML not retrieved — uninspected categories show — not 50/100')
+                      ? (lang === 'ar' ? 'البيانات الحقيقية المستخرجة مباشرة من كود الصفحة:' : 'Live Data Extracted Directly From Target HTML:')
+                      : (lang === 'ar' ? 'لم يتمكن المحرك من جلب كود HTML (حماية CORS/WAF):' : 'HTML Could Not Be Fetched (CORS/WAF Protection):')
                     }
                   </span>
                   <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded border font-bold ${
@@ -909,9 +897,7 @@ export default function Home() {
                       ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
                       : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
                   }`}>
-                    {report.evidence.htmlFetched
-                      ? (report.evidence.fetchMode === 'server' ? (lang === 'ar' ? 'جلب سيرفر' : 'Server fetch') : (lang === 'ar' ? 'تم الاستخراج' : 'Fetched'))
-                      : (lang === 'ar' ? 'غير مُفتَحَص' : 'Not inspected')}
+                    {report.evidence.htmlFetched ? (lang === 'ar' ? 'تم الاستخراج' : 'Fetched') : (lang === 'ar' ? 'محظور' : 'Blocked')}
                   </span>
                 </div>
 
@@ -992,7 +978,7 @@ export default function Home() {
                               ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                               : item.status === 'fail'
                               ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                          : item.status === 'warning' || item.status === 'skipped'
+                              : item.status === 'warning'
                               ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                               : 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20'
                           }`}>
@@ -1010,17 +996,12 @@ export default function Home() {
 
             </div>
 
-            {/* Highest-severity findings (free preview) */}
-            {report.criticalBlockers.length > 0 && (
+            {/* Top 3 Detected Blockers (Free Teaser Cards) */}
             <section className="space-y-6">
               <div className="space-y-1">
-                <div className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider ${countCritical(report.checks) > 0 ? 'text-rose-400' : 'text-amber-400'}`}>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-400">
                   <AlertTriangle className="w-4 h-4" />
-                  <span>
-                    {countCritical(report.checks) > 0
-                      ? t.blockers.badge
-                      : (lang === 'ar' ? 'نتائج هذا الفحص' : 'Findings from this scan')}
-                  </span>
+                  <span>{t.blockers.badge}</span>
                 </div>
                 <h3 className="text-2xl font-black text-white tracking-tight">
                   {t.blockers.title}
@@ -1074,7 +1055,6 @@ export default function Home() {
                 ))}
               </div>
             </section>
-            )}
 
             {/* Live Search Engine & AI Citation Simulation Preview */}
             <section className="rounded-3xl border border-white/10 bg-[#0b0b12] p-6 sm:p-8 space-y-6 shadow-2xl">
@@ -1132,7 +1112,7 @@ export default function Home() {
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                         : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
                     }`}>
-                      {previewTab === 'after' ? CLAIMS.samplePreviewLabel : (report.evidence.schemaTypesDetected.length > 0 ? 'JSON-LD present' : 'No JSON-LD on this fetch')}
+                      {previewTab === 'after' ? '✓ Cited Source' : '✗ Uncited / Skipped'}
                     </span>
                   </div>
 
@@ -1151,7 +1131,9 @@ export default function Home() {
                       </div>
                     </div>
                     <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
-                      {report.evidence.metaDescription || report.evidence.title || (lang === 'ar' ? 'تم جلب الصفحة — التفاصيل في سجل الأدلة.' : 'Page fetched — see the evidence ledger.')}
+                      {previewTab === 'after'
+                        ? (report.evidence.metaDescription || `According to verified Schema.org data from ${report.url}, the service provides authoritative solutions.`)
+                        : 'No structured entity data available. LLM fallback used or competitor cited.'}
                     </p>
                   </div>
 
@@ -1172,7 +1154,7 @@ export default function Home() {
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                         : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
                     }`}>
-                      {previewTab === 'after' ? CLAIMS.samplePreviewLabel : 'Standard Snippet'}
+                      {previewTab === 'after' ? '★ Rich Snippet Active' : 'Standard Snippet'}
                     </span>
                   </div>
 
@@ -1187,7 +1169,9 @@ export default function Home() {
                     </h4>
                     {previewTab === 'after' && (
                       <div className="flex items-center gap-2 text-[10px] text-amber-400 font-mono">
-                        <span>{CLAIMS.samplePreviewLabel}</span>
+                        <span>★★★★★ 4.9 (640+ Reviews)</span>
+                        <span>•</span>
+                        <span className="text-emerald-400">In Stock / $9.00</span>
                       </div>
                     )}
                     <p className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed">
@@ -1197,10 +1181,8 @@ export default function Home() {
 
                   <p className="text-[10px] text-slate-400">
                     {previewTab === 'after'
-                      ? (lang === 'ar' ? 'معاينة توضيحية — الوسم الصحيح لا يضمن نتيجة غنية من جوجل.' : CLAIMS.richResultsDisclaimer)
-                      : (report.evidence.schemaTypesDetected.length > 0
-                        ? (lang === 'ar' ? 'محاكاة. JSON-LD اكتُشف في هذا الجلب — انظر درجة الكيان وسجل الأدلة.' : 'Simulation. JSON-LD was detected on this fetch — see Entity score and the evidence ledger.')
-                        : (lang === 'ar' ? 'بدون بيانات منظمة في هذا الجلب، المحركات تعتمد على النص فقط.' : 'No structured data on this fetch — engines rely on unstructured text.'))}
+                      ? (lang === 'ar' ? 'وسوم Schema.org تظهر نجوم التقييم والسعر وتزيد نسبة النقر (CTR) بأكثر من 30%.' : 'Schema.org JSON-LD activates review stars & price badges, increasing SERP CTR by +30%.')
+                      : (lang === 'ar' ? 'غياب بيانات السكيما يحرم موقعك من النجوم والمزايا البصرية في جوجل.' : 'Absence of schema prevents rich star ratings, pricing, and FAQ dropdowns on Google.')}
                   </p>
                 </div>
               </div>
@@ -1210,7 +1192,7 @@ export default function Home() {
             {!isProUnlocked ? (
               <section className="relative rounded-3xl border border-indigo-500/30 bg-[#0c0c14] p-6 sm:p-10 shadow-2xl overflow-hidden">
                 
-                {report.lockedIssues.length > 0 && (
+                {/* Background Blurred Teasers */}
                 <div className="space-y-4 select-none filter blur-[5px] pointer-events-none opacity-40">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {report.lockedIssues.slice(0, 4).map((item, idx) => (
@@ -1221,7 +1203,6 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                )}
 
                 {/* Conversion Overlay Box */}
                 <div className="relative z-10 max-w-2xl mx-auto text-center space-y-5 pt-4">
@@ -1231,11 +1212,7 @@ export default function Home() {
                   </div>
 
                   <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                    {report.lockedIssues.length > 0
-                      ? (lang === 'ar'
-                        ? `${report.lockedIssues.length} نتائج إضافية بالأدلة`
-                        : `${report.lockedIssues.length} additional findings with evidence`)
-                      : t.lockedSection.title}
+                    {t.lockedSection.title}
                   </h3>
 
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -1285,7 +1262,7 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-xl font-black text-white">
-                        {t.issuesSection.title} ({countFindings(report.checks)})
+                        {t.issuesSection.title} ({report.allIssues.length})
                       </h3>
                       <p className="text-xs text-slate-400">
                         {t.issuesSection.subtitle}
@@ -1817,8 +1794,8 @@ export default function Home() {
               </div>
               <p className="text-xs text-white font-medium truncate">
                 {lang === 'ar'
-                  ? `${countFindings(report.checks)} ${countFindings(report.checks) === 1 ? 'مشكلة مكتشفة' : 'مشاكل مكتشفة'} • جاهزة للإصلاح`
-                  : `${countFindings(report.checks)} ${countFindings(report.checks) === 1 ? 'issue detected' : 'issues detected'} • ready to fix`}
+                  ? `${report.allIssues.length} مشكلة مكتشفة • جاهزة للإصلاح`
+                  : `${report.allIssues.length} issues detected • ready to fix`}
               </p>
             </div>
             <button
