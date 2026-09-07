@@ -11,6 +11,7 @@ import {
   RawEvidence,
 } from '@/lib/auditEngine';
 import { translations, Language } from '@/lib/translations';
+import { auditBadgeLabels, countCritical, countFindings, countPassed } from '@/lib/audit/scoring';
 import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
 import { isProUnlockedClient, setProUnlockedClient } from '@/lib/payment';
 import FixGeneratorModal from '@/components/FixGeneratorModal';
@@ -727,13 +728,13 @@ export default function Home() {
               {/* Executive Summary Badges */}
               <div className="flex flex-wrap items-center gap-2 pt-5 pb-2">
                 <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400">
-                  {report.criticalBlockers.length} {lang === 'ar' ? 'عوائق حرجة' : 'Critical Blockers'}
+                  {auditBadgeLabels(countCritical(report.checks), lang, 'critical')}
                 </span>
                 <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400">
-                  {report.allIssues.length} {lang === 'ar' ? 'مشكلة مكتشفة' : 'Issues Found'}
+                  {auditBadgeLabels(countFindings(report.checks), lang, 'issues')}
                 </span>
                 <span className="text-[10px] uppercase font-mono font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
-                  {report.evidenceLedger.filter(e => e.status === 'pass').length} {lang === 'ar' ? 'فحص ناجح' : 'Checks Passed'}
+                  {auditBadgeLabels(countPassed(report.checks), lang, 'passed')}
                 </span>
               </div>
 
@@ -1262,7 +1263,7 @@ export default function Home() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-xl font-black text-white">
-                        {t.issuesSection.title} ({report.allIssues.length})
+                        {t.issuesSection.title} ({countFindings(report.checks)})
                       </h3>
                       <p className="text-xs text-slate-400">
                         {t.issuesSection.subtitle}
@@ -1794,8 +1795,8 @@ export default function Home() {
               </div>
               <p className="text-xs text-white font-medium truncate">
                 {lang === 'ar'
-                  ? `${report.allIssues.length} مشكلة مكتشفة • جاهزة للإصلاح`
-                  : `${report.allIssues.length} issues detected • ready to fix`}
+                  ? `${countFindings(report.checks)} ${countFindings(report.checks) === 1 ? 'مشكلة مكتشفة' : 'مشاكل مكتشفة'} • جاهزة للإصلاح`
+                  : `${countFindings(report.checks)} ${countFindings(report.checks) === 1 ? 'issue detected' : 'issues detected'} • ready to fix`}
               </p>
             </div>
             <button

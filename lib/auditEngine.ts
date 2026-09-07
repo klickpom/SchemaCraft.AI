@@ -7,6 +7,17 @@
  */
 
 import { BOT_REGISTRY } from '@/lib/bots/registry';
+import {
+  type AuditCheck,
+  HTML_NOT_FETCHED_CONTENT,
+  HTML_NOT_FETCHED_ENTITY,
+  assembleChecks,
+  assertAuditConsistency,
+  findingsFromChecks,
+  ledgerFromChecks,
+  overallScoreFromCategories,
+  scoresFromChecks,
+} from '@/lib/audit/scoring';
 
 export interface RawEvidence {
   httpStatus: number | null;
@@ -45,6 +56,7 @@ export interface AuditIssue {
   category: 'technical' | 'crawlability' | 'content' | 'entity' | 'ai_readiness';
   severity: Severity;
   weight: number; // 5x critical, 3x high, 2x med, 1x low, 0x info
+  penalty?: number; // explicit point deduction; defaults to weight * 7.5
   title: string;
   titleAr: string;
   signalDetected: string;
@@ -88,6 +100,7 @@ export interface AuditReport {
     detail: string;
     detailAr: string;
   }[];
+  checks: AuditCheck[];
   criticalBlockers: AuditIssue[];
   lockedIssues: AuditIssue[];
   allIssues: AuditIssue[];
@@ -244,7 +257,8 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
   const issues: AuditIssue[] = [];
   const ledger: AuditReport['evidenceLedger'] = [];
 
-  // TRANSPARENCY: If HTML was not fetched, add a prominent notice
+  // TRANSPARENCY: If HTML was not fetched, record visible findings that explain
+  // content/entity deductions. Never silently floor those scores to 50.
   if (!raw.htmlFetched) {
     ledger.push({
       name: 'HTML Fetch Status',
@@ -253,6 +267,8 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
       detail: 'Could not fetch live HTML. Bot protection or CORS may be blocking the request. Results below are based on robots.txt and limited signals only.',
       detailAr: 'لم نتمكن من جلب كود HTML الحي. قد يكون جدار حماية أو حماية CORS يمنع الوصول. النتائج أدناه مبنية على robots.txt والإشارات المتاحة فقط.',
     });
+    issues.push({ ...HTML_NOT_FETCHED_CONTENT });
+    issues.push({ ...HTML_NOT_FETCHED_ENTITY });
   }
 
   if (!raw.robotsFetched) {
@@ -809,44 +825,16 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
     }
   }
 
-  // ----------------------------------------------------
-  // WEIGHTED SCORING ENGINE (5x / 3x / 2x / 1x)
-  // ----------------------------------------------------
-  const categoryDeductions: Record<string, number> = {
-    technical: 0,
-    crawlability: 0,
-    content: 0,
-    entity: 0,
-    ai_readiness: 0,
-  };
+  // Single source of truth: one check list. Scores, ledger, and counts derive from it.
+  const checks = assembleChecks(issues, ledger);
+  const categoryScores = scoresFromChecks(checks);
+  const overallScore = overallScoreFromCategories(categoryScores);
+  assertAuditConsistency(checks, categoryScores);
 
-  issues.forEach(issue => {
-    if (issue.severity !== 'informational') {
-      categoryDeductions[issue.category] += issue.weight * 7.5;
-    }
-  });
-
-  const technicalSEO = Math.max(15, Math.min(98, Math.round(100 - categoryDeductions.technical)));
-  const crawlability = Math.max(10, Math.min(98, Math.round(100 - categoryDeductions.crawlability)));
-  const contentAnswerability = raw.htmlFetched
-    ? Math.max(20, Math.min(98, Math.round(100 - categoryDeductions.content)))
-    : 50; // Neutral if content couldn't be inspected
-  const entitySchema = raw.htmlFetched
-    ? Math.max(10, Math.min(98, Math.round(100 - categoryDeductions.entity)))
-    : 50; // Neutral if content couldn't be inspected
-  const aiSearchReadiness = Math.max(15, Math.min(98, Math.round((crawlability * 0.35) + (contentAnswerability * 0.35) + (entitySchema * 0.3))));
-
-  const overallScore = Math.max(18, Math.min(96, Math.round(
-    (technicalSEO * 0.2) +
-    (crawlability * 0.25) +
-    (contentAnswerability * 0.25) +
-    (entitySchema * 0.2) +
-    (aiSearchReadiness * 0.1)
-  )));
-
-  // Separate 3 Free Critical Blockers vs Locked Issues
-  const criticalBlockers = issues.filter(i => i.severity !== 'informational').slice(0, 3);
-  const lockedIssues = issues.filter(i => i.severity !== 'informational').slice(3);
+  const failFindings = checks.filter((c) => c.outcome === 'fail');
+  const criticalBlockers = failFindings.slice(0, 3);
+  const lockedIssues = failFindings.slice(3);
+  const allIssues = findingsFromChecks(checks);
 
   // Generate AI Search Opportunities based on site type
   const aiOpportunities: AIOpportunity[] = generateAIOpportunities(raw.detectedSiteType, raw);
@@ -859,17 +847,12 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
     timestamp: new Date().toISOString(),
     engineVersion: AUDIT_ENGINE_VERSION,
     overallScore,
-    categoryScores: {
-      technicalSEO,
-      crawlability,
-      contentAnswerability,
-      entitySchema,
-      aiSearchReadiness,
-    },
-    evidenceLedger: ledger,
+    categoryScores,
+    evidenceLedger: ledgerFromChecks(checks),
+    checks,
     criticalBlockers,
     lockedIssues,
-    allIssues: issues,
+    allIssues,
     aiOpportunities,
     detectedSiteType: raw.detectedSiteType,
     evidence: raw,
