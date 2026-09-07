@@ -1198,7 +1198,9 @@ export default function Home() {
                   <p className="text-[10px] text-slate-400">
                     {previewTab === 'after'
                       ? (lang === 'ar' ? 'معاينة توضيحية — الوسم الصحيح لا يضمن نتيجة غنية من جوجل.' : CLAIMS.richResultsDisclaimer)
-                      : (lang === 'ar' ? 'بدون بيانات منظمة، محركات البحث تعتمد على تخمين النص فقط.' : 'Without structured data, search engines rely on unstructured text.')}
+                      : (report.evidence.schemaTypesDetected.length > 0
+                        ? (lang === 'ar' ? 'محاكاة. JSON-LD اكتُشف في هذا الجلب — انظر درجة الكيان وسجل الأدلة.' : 'Simulation. JSON-LD was detected on this fetch — see Entity score and the evidence ledger.')
+                        : (lang === 'ar' ? 'بدون بيانات منظمة في هذا الجلب، المحركات تعتمد على النص فقط.' : 'No structured data on this fetch — engines rely on unstructured text.'))}
                   </p>
                 </div>
               </div>
