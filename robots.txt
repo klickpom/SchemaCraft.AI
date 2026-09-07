@@ -1,30 +1,43 @@
-# SchemaCraft AI Robots Configuration
-# Permissive indexing for Search & Generative AI Citation Engines
+# SchemaCraft AI robots.txt
+# We deliberately allow GPTBot: this site's documentation should be available
+# to foundation-model corpora. Customer sites can choose otherwise in the
+# on-page robots.txt generator (training crawlers default to Disallow there).
 
 User-agent: *
 Allow: /
 Disallow: /api/
 
-# Specialized Generative AI & Retrieval Bots
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Claude-Web
+User-agent: Perplexity-User
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
 
-User-agent: OAI-SearchBot
+User-agent: Google-CloudVertexBot
+Allow: /
+
+User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
@@ -33,8 +46,11 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 
-User-agent: Meta-ExternalAgent
+User-agent: Bingbot
 Allow: /
 
-# Sitemap
+# Legacy Anthropic agent (superseded by Claude-User / Claude-SearchBot)
+User-agent: Claude-Web
+Allow: /
+
 Sitemap: https://schemacraft-ai.site/sitemap.xml

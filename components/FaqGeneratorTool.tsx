@@ -34,12 +34,12 @@ const PRESETS: Record<string, { nameEn: string; nameAr: string; faqs: FaqItem[] 
       {
         id: '1',
         question: 'How fast does SchemaCraft AI index changes with search engines?',
-        answer: 'SchemaCraft utilizes the IndexNow protocol and validated Schema.org microdata to notify Bing, Yandex, and AI crawlers in under 12 hours.',
+        answer: 'IndexNow notifies Bing and Yandex that a URL changed. Google does not participate in IndexNow.',
       },
       {
         id: '2',
         question: 'Does this schema generator work with Next.js 15 and WordPress?',
-        answer: 'Yes, SchemaCraft generates 0ms client-side JSON-LD formatted for Next.js App Router, WordPress headers, and Shopify Liquid themes.',
+        answer: 'Yes. SchemaCraft generates JSON-LD in your browser for Next.js App Router, WordPress headers, and Shopify Liquid themes.',
       },
       {
         id: '3',
@@ -157,8 +157,8 @@ export default function FaqGeneratorTool({ lang }: FaqGeneratorToolProps) {
           </div>
           <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight">
             {lang === 'ar'
-              ? 'ضاعف مساحة ظهور موقعك بنسبة 200% في نتائج بحث جوجل'
-              : 'Expand Your Google SERP Real Estate by 200% with FAQPage Schema'}
+              ? 'ولّد FAQPage للقراءة الآلية — جوجل أوقف نتائج FAQ الغنية'
+              : 'FAQPage schema for AI retrieval — not Google FAQ rich results'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-400">
             {lang === 'ar'

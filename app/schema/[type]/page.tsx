@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
 import { SCHEMA_DEFINITIONS } from '@/lib/schemaTypes';
 import SchemaPageShell from '@/components/SchemaPageShell';
+import { canonicalUrl, ogImageUrl, schemaUrl } from '@/lib/seo/urls';
 
 interface PageProps {
   params: Promise<{
@@ -27,9 +28,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const pageUrl = schemaUrl(type);
+
   return {
     title: pageData.title,
     description: pageData.metaDescription,
+    alternates: {
+      canonical: pageUrl,
+    },
     keywords: [
       `${pageData.schemaCategory} schema generator`,
       `JSON-LD ${pageData.schemaCategory}`,
@@ -40,12 +46,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: pageData.title,
       description: pageData.metaDescription,
-      url: `https://schemacraft-ai.site/schema/${type}`,
+      url: pageUrl,
       type: 'article',
       siteName: 'SchemaCraft AI',
       images: [
         {
-          url: 'https://schemacraft-ai.site/og-image.png',
+          url: ogImageUrl(),
           width: 1200,
           height: 630,
           alt: pageData.title,
@@ -56,7 +62,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: 'summary_large_image',
       title: pageData.title,
       description: pageData.metaDescription,
-      images: ['https://schemacraft-ai.site/og-image.png'],
+      images: [ogImageUrl()],
     },
   };
 }
@@ -71,19 +77,22 @@ export default async function ProgrammaticSchemaPage({ params }: PageProps) {
 
   const categoryDef = SCHEMA_DEFINITIONS[pageData.schemaCategory];
 
+  const pageUrl = schemaUrl(type);
+  const homeUrl = canonicalUrl('/');
+
   // Specific Page Enhanced Graph: TechArticle + BreadcrumbList + FAQPage
   const pageJsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'TechArticle',
-        '@id': `https://schemacraft-ai.site/schema/${type}/#article`,
+        '@id': `${pageUrl}#article`,
         headline: pageData.h1,
         description: pageData.blufSummary,
         author: {
           '@type': 'Organization',
           name: 'SchemaCraft AI Global',
-          url: 'https://schemacraft-ai.site',
+          url: homeUrl,
         },
         about: {
           '@type': 'Thing',
@@ -92,31 +101,31 @@ export default async function ProgrammaticSchemaPage({ params }: PageProps) {
       },
       {
         '@type': 'BreadcrumbList',
-        '@id': `https://schemacraft-ai.site/schema/${type}/#breadcrumb`,
+        '@id': `${pageUrl}#breadcrumb`,
         itemListElement: [
           {
             '@type': 'ListItem',
             position: 1,
             name: 'Home',
-            item: 'https://schemacraft-ai.site',
+            item: homeUrl,
           },
           {
             '@type': 'ListItem',
             position: 2,
             name: 'Schema Generators',
-            item: `https://schemacraft-ai.site/schema/${type}`,
+            item: pageUrl,
           },
           {
             '@type': 'ListItem',
             position: 3,
             name: pageData.badge,
-            item: `https://schemacraft-ai.site/schema/${type}`,
+            item: pageUrl,
           },
         ],
       },
       {
         '@type': 'FAQPage',
-        '@id': `https://schemacraft-ai.site/schema/${type}/#faq`,
+        '@id': `${pageUrl}#faq`,
         mainEntity: pageData.faqs.map((faq) => ({
           '@type': 'Question',
           name: faq.question,

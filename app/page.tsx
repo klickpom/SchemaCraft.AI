@@ -11,6 +11,7 @@ import {
   RawEvidence,
 } from '@/lib/auditEngine';
 import { translations, Language } from '@/lib/translations';
+import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
 import { isProUnlockedClient, setProUnlockedClient } from '@/lib/payment';
 import FixGeneratorModal from '@/components/FixGeneratorModal';
 import PayPalCheckout from '@/components/PayPalCheckout';
@@ -546,8 +547,8 @@ export default function Home() {
                 </h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   {lang === 'ar'
-                    ? 'تحديد أسباب عدم اقتباس ChatGPT و Perplexity لموقعك وتقدير عدد الزيارات والعملاء المفقودين شهرياً.'
-                    : 'Uncover why ChatGPT & Perplexity skip your site and calculate estimated monthly lost visitors and leads.'}
+                    ? 'تحديد أسباب عدم اقتباس ChatGPT و Perplexity لموقعك من خلال robots.txt والعناوين والـ JSON-LD.'
+                    : 'Uncover why ChatGPT and Perplexity may skip your site, with evidence from robots.txt, headers, and JSON-LD.'}
                 </p>
               </div>
 
@@ -855,19 +856,23 @@ export default function Home() {
                   <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
                     <span className="text-[10px] text-slate-400 block">{t.trafficLoss.lostRate}</span>
                     <span className="text-lg sm:text-xl font-extrabold text-rose-400 font-mono">
-                      {report.overallScore < 50 ? '-68%' : report.overallScore < 80 ? '-35%' : '-10%'}
+                      {report.overallScore < 50 ? 'Blocked' : report.overallScore < 80 ? 'Partial' : 'Mostly ready'}
                     </span>
                   </div>
                   <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
                     <span className="text-[10px] text-slate-400 block">{t.trafficLoss.estLostVisitors}</span>
-                    <span className="text-lg sm:text-xl font-extrabold text-amber-400 font-mono">
-                      {report.overallScore < 50 ? '1,500 - 4,200 /mo' : report.overallScore < 80 ? '600 - 1,800 /mo' : 'Minimal (<100)'}
+                    <span className="text-sm sm:text-base font-bold text-amber-300">
+                      {report.overallScore < 50
+                        ? 'Critical crawl or schema gaps'
+                        : report.overallScore < 80
+                          ? 'Some blockers remain'
+                          : 'No traffic forecast — score only'}
                     </span>
                   </div>
                   <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
                     <span className="text-[10px] text-slate-400 block">{t.trafficLoss.recoveryTime}</span>
-                    <span className="text-lg sm:text-xl font-extrabold text-emerald-400 font-mono">
-                      &lt; 60s
+                    <span className="text-sm sm:text-base font-bold text-emerald-400">
+                      Search Console / IndexNow
                     </span>
                   </div>
                 </div>
@@ -1632,7 +1637,7 @@ export default function Home() {
                 <li>• WordPress & WooCommerce</li>
                 <li>• Next.js 15 (App Router)</li>
                 <li>• Shopify Liquid Themes</li>
-                <li>• Schema.org v26.0 Graph</li>
+                <li>• {SCHEMA_ORG_LABEL}</li>
               </ul>
             </div>
 

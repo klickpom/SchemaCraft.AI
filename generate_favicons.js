@@ -83,7 +83,7 @@ async function generateAllFavicons() {
   const manifest = {
     name: "SchemaCraft AI",
     short_name: "SchemaCraft",
-    description: "0ms Real-Time JSON-LD Schema Generator for Search & AI Engines",
+    description: "In-browser JSON-LD schema generator for search and AI engines",
     start_url: "/",
     display: "standalone",
     background_color: "#060608",

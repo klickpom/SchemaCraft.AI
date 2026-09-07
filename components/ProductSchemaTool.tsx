@@ -122,7 +122,7 @@ export default function ProductSchemaTool({ lang }: ProductSchemaToolProps) {
     if (codePlatform === 'woo') {
       return `<?php
 /**
- * WooCommerce functions.php hook for 0ms Validated Product JSON-LD
+ * WooCommerce functions.php hook for validated Product JSON-LD
  */
 add_action('wp_head', function() {
   if (is_product()) {

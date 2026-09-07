@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Language } from '@/lib/translations';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
+import { schemaPath } from '@/lib/seo/urls';
 import {
   Sparkles,
   ArrowRight,
@@ -139,7 +140,7 @@ export default function SchemaDirectoryHub({ lang }: SchemaDirectoryHubProps) {
           return (
             <Link
               key={page.slug}
-              href={`/schema/${page.slug}`}
+              href={schemaPath(page.slug)}
               className="group p-5 rounded-2xl border border-white/10 bg-black/40 hover:bg-white/[0.04] hover:border-indigo-500/40 transition duration-200 flex flex-col justify-between space-y-4"
             >
               <div className="space-y-2.5">
@@ -148,7 +149,7 @@ export default function SchemaDirectoryHub({ lang }: SchemaDirectoryHubProps) {
                     <Icon className="w-4 h-4" />
                   </div>
                   <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    {page.ctrBoost}
+                    {page.capabilityLabel}
                   </span>
                 </div>
 

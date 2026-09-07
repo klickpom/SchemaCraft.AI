@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Language } from '@/lib/translations';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
+import { schemaPath } from '@/lib/seo/urls';
 import {
   Search,
   X,
@@ -64,7 +65,7 @@ export default function CommandPalette({
       );
 
   const handleNavigate = (slug: string) => {
-    router.push(`/schema/${slug}`);
+    router.push(schemaPath(slug));
     onClose();
   };
 
@@ -124,14 +125,14 @@ export default function CommandPalette({
                       {schema.badge}
                     </div>
                     <div className="text-[10px] text-slate-400 font-mono truncate">
-                      /schema/{schema.slug}
+                      {schemaPath(schema.slug)}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
                   <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    {schema.ctrBoost}
+                    {schema.capabilityLabel}
                   </span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition" />
                 </div>

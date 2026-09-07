@@ -8,8 +8,8 @@ export interface ProgrammaticPageData {
   h1: string;
   blufSummary: string;
   badge: string;
-  ctrBoost: string;
-  indexingSpeed: string;
+  capabilityLabel: string;
+  discoveryNote: string;
   keyBenefits: { title: string; desc: string }[];
   technicalSpecs: { attribute: string; format: string; requirement: string; googleImpact: string }[];
   faqs: { question: string; answer: string }[];
@@ -20,16 +20,16 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
   'shopify-product': {
     slug: 'shopify-product',
     schemaCategory: 'Product',
-    title: 'Shopify Product Schema Generator | Instant 0ms JSON-LD & Rich Snippets',
-    metaDescription: 'Generate valid Shopify JSON-LD Product schema with Price, Currency, Stock Status, and Star Ratings. Guaranteed 100% Google Rich Results compliance.',
+    title: 'Shopify Product Schema Generator | JSON-LD for Price, Stock & Offers',
+    metaDescription: 'Generate Shopify JSON-LD Product markup with price, currency, availability, and optional reviews. Valid markup does not guarantee a Google rich result.',
     h1: 'Shopify Product JSON-LD Schema Architect',
     blufSummary: 'Shopify Product Schema is a structured JSON-LD specification that enables Google Search to display real-time pricing, stock availability badges, and 5-star review ratings directly in SERPs and Google Shopping Graph. SchemaCraft validates your product payload against Google Merchant Center criteria with zero latency.',
     badge: 'Shopify & E-Commerce Pro',
-    ctrBoost: '+41.2% SERP CTR',
-    indexingSpeed: '< 18 Hours',
+    capabilityLabel: 'Price, stock, and offer markup',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Merchant Center Sync', desc: 'Compliant with Google Search Central 2026 product specifications including priceValidUntil and itemCondition.' },
-      { title: 'Rich Star Rating Display', desc: 'Renders verified gold star reviews in organic Google results to dramatically lower customer acquisition costs.' },
+      { title: 'Liquid One-Click Export', desc: 'Directly output snippets/product-schema.liquid ready for seamless theme integration.' },
       { title: 'Liquid One-Click Export', desc: 'Directly output snippets/product-schema.liquid ready for seamless theme integration.' },
     ],
     technicalSpecs: [
@@ -41,7 +41,7 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     faqs: [
       {
         question: 'How do I add JSON-LD schema to my Shopify theme without apps slowing down my store?',
-        answer: 'You can insert SchemaCraft-generated JSON-LD into your theme.liquid or a dedicated snippet (e.g., snippets/schema-product.liquid) directly before the </head> tag. Because it is pure client-side JSON-LD, it adds 0KB of render-blocking JavaScript and maintains perfect Core Web Vitals.',
+        answer: 'You can insert SchemaCraft-generated JSON-LD into your theme.liquid or a dedicated snippet (e.g., snippets/schema-product.liquid) directly before the </head> tag. It is a JSON-LD script tag, not a render-blocking app.',
       },
     ],
   },
@@ -54,11 +54,11 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Next.js 15 Software & SaaS Schema Architect',
     blufSummary: 'SoftwareApplication Schema allows developer tools, cloud SaaS platforms, and mobile apps to display verified software categories, operating system compatibility, trial pricing, and developer author entities. SchemaCraft provides server-side ready script tags designed for Next.js App Router.',
     badge: 'Next.js 15 & React 19',
-    ctrBoost: '+38.7% Click-Through',
-    indexingSpeed: '< 12 Hours',
+    capabilityLabel: 'SoftwareApplication properties',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Zero Hydration Penalty', desc: 'Pure static JSON-LD script tags executed during server-side rendering with no client bundle footprint.' },
-      { title: 'AI Overviews Knowledge Graph', desc: 'Directly guides Perplexity, Claude Web, and OpenAI Search to classify your SaaS capabilities.' },
+      { title: 'AI Overviews Knowledge Graph', desc: 'Gives Perplexity, Claude, and OpenAI Search structured SaaS attributes to classify.' },
     ],
     technicalSpecs: [
       { attribute: 'applicationCategory', format: 'Schema.org Category string', requirement: 'Mandatory', googleImpact: 'Categorizes SaaS in Google SERP' },
@@ -75,15 +75,15 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
   'saas-faq': {
     slug: 'saas-faq',
     schemaCategory: 'FAQPage',
-    title: 'SaaS FAQ Schema Generator | Expandable Google SERP Q&A Accordions',
-    metaDescription: 'Generate validated FAQPage JSON-LD markup to occupy 2x more visual space on Google Search results and dominate Perplexity Q&A answers.',
+    title: 'SaaS FAQ Schema Generator | FAQPage JSON-LD for AI retrieval',
+    metaDescription: 'Generate FAQPage JSON-LD so crawlers can extract question-answer pairs. Google no longer shows FAQ rich results; this markup is for machine readability.',
     h1: 'High-Conversion SaaS FAQ Schema Architect',
-    blufSummary: 'FAQPage Schema formats your questions and answers into verified Schema.org Question/Answer entities. This triggers interactive collapsible accordion drawers directly below your organic search listing on Google, capturing up to 55% more visual SERP area.',
-    badge: '2x SERP Real Estate',
-    ctrBoost: '+53.4% SERP CTR',
-    indexingSpeed: '< 24 Hours',
+    blufSummary: 'FAQPage Schema formats questions and answers into Schema.org Question/Answer entities. Google retired FAQ rich results, so this markup does not expand a Google listing. It remains valid structured data that Bing and AI retrieval crawlers can read.',
+    badge: 'AEO / Retrieval',
+    capabilityLabel: 'Q&A pairs for retrieval crawlers',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
-      { title: 'Maximum Search Real Estate', desc: 'Expand your listing with up to 3 interactive dropdown answers right in Google SERPs.' },
+      { title: 'Maximum Search Real Estate', desc: 'FAQPage remains valid Schema.org markup for Q&A extraction by Bing and AI crawlers — not a Google listing expander.' },
       { title: 'Generative AI Q&A Feeder', desc: 'Perplexity and ChatGPT citation models prioritize structured Q&A pairs for direct synthesis.' },
     ],
     technicalSpecs: [
@@ -105,8 +105,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Local Business & Local SEO Schema Architect',
     blufSummary: 'LocalBusiness Schema embeds structured geographical and operational metadata including exact street address, telephone, price range, and opening hours. It is the single most critical ranking signal for Google Local 3-Pack and voice assistant queries.',
     badge: 'Google Maps & Local 3-Pack',
-    ctrBoost: '+64.1% Local Inquiries',
-    indexingSpeed: '< 24 Hours',
+    capabilityLabel: 'NAP, hours, and geo coordinates',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Maps Knowledge Sync', desc: 'Binds your official website domain to your Google Business Profile entity.' },
       { title: 'Voice Search Ready', desc: 'Optimized for "near me" voice queries across Apple Siri, Google Assistant, and Amazon Alexa.' },
@@ -131,8 +131,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Online Course & Academy Schema Architect',
     blufSummary: 'Course Schema formats educational programs, bootcamps, and certifications into structured entities. Google uses this markup to power the dedicated Course Carousel at the top of education search queries.',
     badge: 'Google Education Carousel',
-    ctrBoost: '+48.6% Student Enrollment',
-    indexingSpeed: '< 24 Hours',
+    capabilityLabel: 'Course title, provider, and offer',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Course Carousel Display', desc: 'Qualify for prominent card carousels showcasing provider name, syllabus, and course pricing.' },
       { title: 'Knowledge Graph Accreditation', desc: 'Grounds your educational organization as a verified authority in AI training datasets.' },
@@ -157,8 +157,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Article & Google Discover Schema Architect',
     blufSummary: 'Article Schema provides critical editorial signals including headline, datePublished, dateModified, author entity, and high-resolution publisher logo. It is essential for Google Discover feeds and Top Stories carousel indexing.',
     badge: 'Google Discover & Top Stories',
-    ctrBoost: '+59.3% Feed Impressions',
-    indexingSpeed: '< 6 Hours',
+    capabilityLabel: 'Headline, dates, and author entity',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Discover Feed Optimization', desc: 'Accelerates algorithmic selection for the personalized Google Discover mobile feed.' },
       { title: 'Instant Freshness Signals', desc: 'Communicates real-time dateModified metadata so crawlers prioritize updated technical content.' },
@@ -183,8 +183,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'WooCommerce Product Schema Architect for WordPress',
     blufSummary: 'WooCommerce Product Schema is structured JSON-LD data designed for WordPress e-commerce stores to trigger rich product badges, in-stock pills, pricing, and 5-star ratings directly in Google organic search and Google Shopping Graph.',
     badge: 'WooCommerce & WordPress E-Com',
-    ctrBoost: '+44.5% E-Commerce CTR',
-    indexingSpeed: '< 18 Hours',
+    capabilityLabel: 'WooCommerce product offer markup',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Shopping Graph Ready', desc: 'Syncs prices, availability, and variations directly with Google search crawlers.' },
       { title: 'Zero Bloat WordPress Hook', desc: 'Replaces heavy, slow WordPress plugins with clean, lightweight JSON-LD script tags.' },
@@ -204,15 +204,15 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
   'howto-step-by-step-schema': {
     slug: 'howto-step-by-step-schema',
     schemaCategory: 'HowTo',
-    title: 'How-To Step-by-Step Schema Generator | Google Visual Rich Cards',
-    metaDescription: 'Generate Schema.org HowTo JSON-LD markup. Display structured step-by-step guides with duration, tools, and images in Google search carousels.',
+    title: 'How-To Step-by-Step Schema Generator | HowTo JSON-LD for retrieval',
+    metaDescription: 'Generate Schema.org HowTo JSON-LD for step-by-step instructions. Google no longer shows HowTo rich results; this markup is for machine readability.',
     h1: 'How-To Step-by-Step Schema Architect',
-    blufSummary: 'HowTo Schema organizes instructional and tutorial content into sequential step-by-step entities with time estimates and supply lists, unlocking interactive visual tutorial cards in Google Search.',
-    badge: 'Google How-To Carousel',
-    ctrBoost: '+52.1% Tutorial Clicks',
-    indexingSpeed: '< 12 Hours',
+    blufSummary: 'HowTo Schema organizes instructional content into sequential step entities with time estimates and supply lists. Google removed HowTo rich results; the type remains valid Schema.org markup that other crawlers can still parse.',
+    badge: 'AEO / Retrieval',
+    capabilityLabel: 'Ordered steps for machine parsing',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
-      { title: 'Step-by-Step Search Cards', desc: 'Presents each tutorial step in a distinct visual card directly on Google results page.' },
+      { title: 'Step-by-step structure', desc: 'Declares an ordered HowToStep list so retrieval systems can parse the procedure. Google does not show a HowTo rich result.' },
       { title: 'Voice Search Step Dictation', desc: 'Allows Google Assistant and smart speakers to read your instructions step-by-step.' },
     ],
     technicalSpecs: [
@@ -235,8 +235,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Organization & Brand Knowledge Graph Architect',
     blufSummary: 'Organization Schema establishes your corporate identity, official logo, verified social channels, and customer support contact points, claiming your entity within Google Knowledge Graph and AI training datasets.',
     badge: 'Google Knowledge Panel',
-    ctrBoost: '+36.8% Brand Authority',
-    indexingSpeed: '< 24 Hours',
+    capabilityLabel: 'Logo, sameAs, and contact identity',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Knowledge Panel Sidebar', desc: 'Enhances eligibility for official branded sidebar panels on desktop and mobile search.' },
       { title: 'AI Entity Grounding', desc: 'Directly informs ChatGPT Search, Perplexity, and Claude of your official brand identity.' },
@@ -261,8 +261,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Event & Conference Schema Architect',
     blufSummary: 'Event Schema formats conferences, webinars, workshops, and concerts into structured calendar entities. Google displays these directly in the dedicated Google Events search grid with dates, venue location, and booking links.',
     badge: 'Google Events Search Grid',
-    ctrBoost: '+61.4% Ticket Reservations',
-    indexingSpeed: '< 12 Hours',
+    capabilityLabel: 'Dates, location, and event offers',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Events Grid Placement', desc: 'Appears in interactive event listings with calendar filters and ticket action buttons.' },
       { title: 'Hybrid & Virtual Support', desc: 'Supports both in-person venue locations and online virtual webinar broadcast links.' },
@@ -287,8 +287,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Medical Clinic & Healthcare Schema Architect',
     blufSummary: 'MedicalBusiness Schema embeds clinical specialty, accepted health insurances, operating hours, exact geolocation, and verified telephone into machine-readable JSON-LD. It is the core ranking signal for medical search and healthcare voice assistant queries.',
     badge: 'Google Health & Medical 3-Pack',
-    ctrBoost: '+68.2% Patient Inquiries',
-    indexingSpeed: '< 12 Hours',
+    capabilityLabel: 'Specialty, NAP, and clinic hours',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Health Entity Recognition', desc: 'Validates clinical credentials and practice specialty within Google Knowledge Graph.' },
       { title: 'Voice Search Triage Ready', desc: 'Directly informs Siri, Google Assistant, and Alexa for "doctor near me" emergency and appointment queries.' },
@@ -313,8 +313,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Law Firm & Legal Practice Schema Architect',
     blufSummary: 'LegalService Schema structures law firm practice areas, office addresses, attorney bar credentials, and consultation intake channels, capturing high-intent commercial searches in competitive legal markets.',
     badge: 'Google Legal Pack',
-    ctrBoost: '+54.3% Retainer Calls',
-    indexingSpeed: '< 18 Hours',
+    capabilityLabel: 'Practice area and office NAP',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Local 3-Pack Dominance', desc: 'Pins your firm to Google Maps and Local Pack for competitive attorney searches.' },
       { title: 'Zero Bloat Script Export', desc: 'Integrate directly into WordPress, Webflow, or custom law firm sites without slow plugins.' },
@@ -335,15 +335,15 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     slug: 'wordpress-yoast-alternative-schema',
     schemaCategory: 'SoftwareApplication',
     title: 'Free Yoast Schema Alternative (2026) | Zero-Bloat WordPress JSON-LD Generator',
-    metaDescription: 'Generate lightweight, plugin-free WordPress JSON-LD schema. Replace slow, bloatware SEO plugins like Yoast and RankMath with pure 0ms code snippets.',
+    metaDescription: 'Generate plugin-free WordPress JSON-LD schema. Replace heavy SEO plugins like Yoast and RankMath with a small JSON-LD script in wp_head.',
     h1: 'Zero-Bloat WordPress Schema Architect',
     blufSummary: 'SchemaCraft provides 100% valid Schema.org JSON-LD code snippets hooked directly into your WordPress wp_head hook, eliminating bloated plugins that degrade Core Web Vitals and PageSpeed scores.',
     badge: 'WordPress Speed & SEO',
-    ctrBoost: '+46.0% PageSpeed & CTR',
-    indexingSpeed: '< 12 Hours',
+    capabilityLabel: 'Plugin-free JSON-LD in wp_head',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: '0KB Plugin Footprint', desc: 'Eliminates SQL queries and PHP overhead caused by legacy SEO plugins.' },
-      { title: '100% Google Rich Results Compliant', desc: 'Strict AST validation guarantees zero errors in Google Search Console.' },
+      { title: 'Checked properties', desc: "Checked against Google's documented required and recommended properties. Google does not guarantee a rich result." },
     ],
     technicalSpecs: [
       { attribute: '@context', format: 'https://schema.org', requirement: 'Mandatory', googleImpact: 'Validates Semantic Standard' },
@@ -365,8 +365,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Recipe & Culinary Food Schema Architect',
     blufSummary: 'Recipe Schema enables food bloggers and culinary platforms to display cooking prep time, calorie count, recipe yield, and 5-star review snippets directly in Google Recipe Carousels and Google Assistant voice cooking instructions.',
     badge: 'Google Recipe Carousel',
-    ctrBoost: '+72.4% Food Blog Clicks',
-    indexingSpeed: '< 8 Hours',
+    capabilityLabel: 'Time, yield, and nutrition properties',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Recipe Carousel Inclusion', desc: 'Displays visual recipe cards with prep time, calorie pills, and rating badges.' },
       { title: 'Smart Speaker Cooking Assistant', desc: 'Allows Google Nest and Amazon Echo to read ingredients and cooking steps aloud.' },
@@ -391,8 +391,8 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     h1: 'Video & Media Broadcast Schema Architect',
     blufSummary: 'VideoObject Schema organizes embedded videos, YouTube tutorials, and webinar recordings into structured video entities, qualifying your content for Google Video search carousels and key moments chapter markers.',
     badge: 'Google Video Carousel',
-    ctrBoost: '+64.7% Video Play Clicks',
-    indexingSpeed: '< 6 Hours',
+    capabilityLabel: 'Thumbnail, duration, and upload date',
+    discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Video Tab Dominance', desc: 'Renders prominent video preview cards with duration timestamps and creator credits.' },
       { title: 'Discover Feed Video Carousel', desc: 'Enhances eligibility for video embeds appearing in mobile Google Discover feeds.' },

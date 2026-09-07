@@ -208,7 +208,7 @@ export function SchemaBuilder({
           <span className="font-semibold uppercase tracking-wider text-zinc-300">
             Select Schema.org Entity Type:
           </span>
-          <span className="text-[11px] text-zinc-400">0ms Real-Time Synthesis</span>
+          <span className="text-[11px] text-zinc-400">In-browser synthesis</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
@@ -270,7 +270,7 @@ export function SchemaBuilder({
 
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span className="text-[11px] font-mono text-emerald-400">Live 0ms AST</span>
+                <span className="text-[11px] font-mono text-emerald-400">Live in-browser check</span>
               </div>
             </div>
 

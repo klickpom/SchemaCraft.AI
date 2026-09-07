@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Language } from '@/lib/translations';
 import { Sparkles, ShieldCheck, Zap } from 'lucide-react';
 
+import { CLAIMS } from '@/lib/content/claims';
+
 interface LiveActivityTickerProps {
   lang: Language;
 }
@@ -53,6 +55,7 @@ export default function LiveActivityTicker({ lang }: LiveActivityTickerProps) {
             <span className="text-[10px] text-slate-400 font-mono">{act.location}</span>
           </div>
           <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300">{CLAIMS.demoAuditLabel}</span>
             <span className="text-emerald-400 font-bold font-mono">Score: {act.score}/100</span>
             <span className="text-slate-600">•</span>
             <span className="text-indigo-300 font-semibold">{act.type}</span>

@@ -49,8 +49,8 @@ const TOOLS: ToolMeta[] = [
     id: 'faq',
     nameEn: 'FAQPage & SERP Dropdowns',
     nameAr: 'الأسئلة الشائعة وقوائم جوجل',
-    badgeEn: '200% SERP Area',
-    badgeAr: 'مضاعفة المساحة 200%',
+    badgeEn: 'AEO / Retrieval',
+    badgeAr: 'استرجاع / AEO',
     icon: HelpCircle,
     category: 'rich_serp',
   },
@@ -169,7 +169,7 @@ export default function SchemaStudioSuite({ lang }: SchemaStudioSuiteProps) {
             <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
               {lang === 'ar'
                 ? 'اختر الأداة المناسبة لموقعك لتوليد كود السكيما المعتمد، ومعاينته الحية فوراً على نتائج بحث جوجل والذكاء الاصطناعي.'
-                : 'Select any specialized microdata engine below to construct, preview, and export 100% compliant structured JSON-LD with 0ms latency.'}
+                : 'Select a generator to build JSON-LD in your browser. Valid markup does not guarantee a rich result.'}
             </p>
           </div>
 

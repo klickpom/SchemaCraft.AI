@@ -15,15 +15,15 @@ interface FaqAccordionProps {
 const DEFAULT_FAQS: FaqItem[] = [
   {
     question: 'How do I generate valid JSON-LD schema without coding?',
-    answer: 'Select your schema category (SoftwareApplication, Product, FAQPage, LocalBusiness, Article, etc.) inside the SchemaCraft Visual Builder. Enter your core attributes in the form fields, and our real-time client-side AST engine generates 100% compliant JSON-LD script tags with 0ms latency, ready to copy and paste directly into your HTML.',
+    answer: 'Select your schema category inside the SchemaCraft Visual Builder. Enter the attributes that are actually visible on the page. The builder generates a JSON-LD script tag in your browser, ready to copy into HTML.',
   },
   {
     question: 'What is the best schema markup for Google AI Overviews and Perplexity citations?',
-    answer: 'Google AI Overviews and Perplexity prioritize structured JSON-LD entities over unformatted HTML. Combining SoftwareApplication or Product schemas with nested FAQPage and Organization entities provides direct semantic facts (pricing, author, OS compatibility, specifications) that AI models extract with 99.4% factual precision.',
+    answer: 'Google AI Overviews and Perplexity prefer structured JSON-LD over unformatted HTML. Combining SoftwareApplication or Product markup with Organization (and FAQPage for retrieval, not Google FAQ rich results) gives crawlers explicit facts such as pricing, author, and OS compatibility.',
   },
   {
     question: 'How does Schema.org JSON-LD impact organic search click-through rates (CTR)?',
-    answer: 'Empirical industry data reveals that rich snippets—including gold review stars, price tags, green in-stock indicators, and expandable FAQ accordions—boost organic CTR by +38.7% to +64.1% compared to flat, standard blue-link search listings.',
+    answer: 'Valid rich-result markup can change how a listing looks when Google chooses to show it. There is no guaranteed CTR lift. Google retired FAQ rich results in 2026, so FAQPage should not be marketed as a SERP expander.',
   },
   {
     question: 'How do I integrate SchemaCraft JSON-LD into Next.js 15 App Router?',

@@ -1,26 +1,34 @@
 import { MetadataRoute } from 'next';
-import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
+import { canonicalUrl } from '@/lib/seo/urls';
+import { isNoindexRoute, listPublicRoutes } from '@/lib/seo/routeManifest';
+import { lastmodForFiles } from '@/lib/seo/gitLastmod';
 
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://schemacraft-ai.site';
-
-  const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1.0,
-    },
-  ];
-
-  const programmaticRoutes: MetadataRoute.Sitemap = Object.values(PROGRAMMATIC_SEO_PAGES).map((page) => ({
-    url: `${baseUrl}/schema/${page.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 0.8,
+  const routes = listPublicRoutes().filter((route) => !isNoindexRoute(route.path));
+  const entries: MetadataRoute.Sitemap = routes.map((route) => ({
+    url: canonicalUrl(route.path),
+    lastModified: lastmodForFiles(route.sourceFiles),
   }));
 
-  return [...staticRoutes, ...programmaticRoutes];
+  const urls = entries.map((entry) => entry.url);
+  const unique = new Set(urls);
+  if (unique.size !== urls.length) {
+    throw new Error('Sitemap contains duplicate URLs');
+  }
+
+  const expected = new Set(routes.map((route) => canonicalUrl(route.path)));
+  for (const url of urls) {
+    if (!expected.has(url)) {
+      throw new Error(`Sitemap URL is not a live route: ${url}`);
+    }
+  }
+  for (const expectedUrl of expected) {
+    if (!urls.includes(expectedUrl)) {
+      throw new Error(`Live route missing from sitemap: ${expectedUrl}`);
+    }
+  }
+
+  return entries;
 }

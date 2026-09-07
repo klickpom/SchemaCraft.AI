@@ -4,6 +4,8 @@ import React, { useState, useMemo } from 'react';
 import { Language, translations } from '@/lib/translations';
 import { CheckCircle2, AlertTriangle, XCircle, Sparkles, Copy, Check, Terminal, FileCode2, Play } from 'lucide-react';
 
+import { CLAIMS } from '@/lib/content/claims';
+
 interface SchemaValidatorToolProps {
   lang: Language;
 }
@@ -218,7 +220,7 @@ export default function SchemaValidatorTool({ lang }: SchemaValidatorToolProps) 
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-950/40 text-[10px] sm:text-xs font-bold text-cyan-300">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{lang === 'ar' ? 'أداة الفحص والتدقيق اللحظي للكود' : '0ms Instant AST Code Validator'}</span>
+            <span>{lang === 'ar' ? 'أداة الفحص والتدقيق اللحظي للكود' : 'In-browser JSON-LD validator'}</span>
           </div>
           <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight">
             {lang === 'ar' ? 'مختبر وفاحص كود Schema.org المباشر' : 'Live Schema.org & JSON-LD Validator'}
@@ -367,8 +369,8 @@ export default function SchemaValidatorTool({ lang }: SchemaValidatorToolProps) 
           <div className="pt-3 border-t border-white/10 text-center">
             <span className="text-[11px] text-slate-400">
               {lang === 'ar'
-                ? 'متوافق 100% مع معايير Google Rich Results Tool و Schema.org v26'
-                : '100% compliant with official Google Rich Results & Schema.org v26 specs'}
+                ? 'مفحوص مقابل خصائص Google الموثّقة لهذا النوع — بدون ضمان نتيجة غنية'
+                : CLAIMS.validatorVsGoogle}
             </span>
           </div>
         </div>

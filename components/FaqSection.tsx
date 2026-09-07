@@ -25,7 +25,7 @@ const FAQS: FaqItem[] = [
   {
     qEn: 'How does SchemaCraft AI audit websites for Google and AI Search Engines?',
     qAr: 'كيف يقوم SchemaCraft AI بفحص وتدقيق المواقع لمحركات بحث جوجل والذكاء الاصطناعي؟',
-    aEn: 'SchemaCraft executes a deterministic multi-wave crawler that analyzes HTTP server status, noindex gates, robots.txt bot rules (OAI-SearchBot, PerplexityBot, Claude-Web), BLUF lead answerability, and Schema.org JSON-LD graph integrity in 0ms.',
+    aEn: 'SchemaCraft runs a multi-wave diagnostic of HTTP status, noindex gates, robots.txt directives (OAI-SearchBot, PerplexityBot, Claude-SearchBot), BLUF lead answerability, and Schema.org JSON-LD graph completeness. Fetching third-party HTML depends on the target site and CORS proxies.',
     aAr: 'يقوم SchemaCraft بتشغيل زاحف فني يفحص استجابة الخادم، بوابات الفهرسة، أوامر ملف robots.txt لبوتات الذكاء الاصطناعي (مثل OAI-SearchBot و PerplexityBot)، وضوح الإجابات المباشرة (BLUF)، واكتمال بيانات Schema.org JSON-LD بدقة وحتمية وبدون أي تخمين.',
   },
   {

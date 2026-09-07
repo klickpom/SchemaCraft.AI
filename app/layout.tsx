@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { canonicalUrl, ogImageUrl, SITE_ORIGIN } from "@/lib/seo/urls";
 
 export const viewport: Viewport = {
   themeColor: "#09090b",
@@ -9,7 +10,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://schemacraft-ai.site"),
+  metadataBase: new URL(SITE_ORIGIN),
   title: "SchemaCraft AI | AI Search Visibility Auditor & Optimizer",
   description:
     "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     "فحص سيو الذكاء الاصطناعي",
     "تحسين الظهور في شات جي بي تي",
   ],
-  authors: [{ name: "SchemaCraft AI Architect Labs", url: "https://schemacraft-ai.site" }],
+  authors: [{ name: "SchemaCraft AI Architect Labs", url: SITE_ORIGIN }],
   creator: "SchemaCraft AI",
   publisher: "SchemaCraft AI",
   formatDetection: {
@@ -41,17 +42,17 @@ export const metadata: Metadata = {
     telephone: false,
   },
   alternates: {
-    canonical: "https://schemacraft-ai.site",
+    canonical: canonicalUrl("/"),
   },
   openGraph: {
     title: "SchemaCraft AI | AI Search Visibility Auditor & Schema Generator",
     description:
-      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate 100% compliant Schema.org JSON-LD microdata and WAF bot safelists in 0ms.",
-    url: "https://schemacraft-ai.site",
+      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate Schema.org JSON-LD and WAF bot safelists in the browser.",
+    url: canonicalUrl("/"),
     siteName: "SchemaCraft.AI",
     images: [
       {
-        url: "https://schemacraft-ai.site/og-image.png",
+        url: ogImageUrl(),
         width: 1200,
         height: 630,
         alt: "SchemaCraft AI - AI Search Visibility Auditor",
@@ -64,8 +65,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SchemaCraft AI | AI Search Visibility Auditor & Schema Generator",
     description:
-      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate 100% compliant Schema.org JSON-LD microdata and WAF bot safelists in 0ms.",
-    images: ["https://schemacraft-ai.site/og-image.png"],
+      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate Schema.org JSON-LD and WAF bot safelists in the browser.",
+    images: [ogImageUrl()],
     creator: "@SchemaCraftAI",
   },
   icons: {
@@ -107,14 +108,14 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        "@id": "https://schemacraft-ai.site/#software",
+        "@id": `${canonicalUrl("/")}#software`,
         name: "SchemaCraft AI Search Visibility Auditor",
         alternateName: "SchemaCraft AI Visibility Optimizer",
         description:
           "Fast deterministic website audit engine diagnosing SEO, crawlability, content answerability, and entity structured data readiness for Google and AI-powered search.",
         applicationCategory: "DeveloperApplication",
-        operatingSystem: "All Modern Web Browsers, macOS, Windows, Linux, iOS, Android",
-        url: "https://schemacraft-ai.site",
+        operatingSystem: "Web",
+        url: canonicalUrl("/"),
         softwareVersion: "1.0.0",
         offers: {
           "@type": "Offer",
@@ -123,38 +124,31 @@ export default function RootLayout({
           availability: "https://schema.org/InStock",
           priceValidUntil: "2027-12-31",
         },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "4.96",
-          reviewCount: "648",
-          bestRating: "5",
-          worstRating: "1",
-        },
         author: {
           "@type": "Organization",
-          "@id": "https://schemacraft-ai.site/#organization",
+          "@id": `${canonicalUrl("/")}#organization`,
           name: "SchemaCraft AI Global",
-          url: "https://schemacraft-ai.site",
+          url: canonicalUrl("/"),
         },
       },
       {
         "@type": "WebSite",
-        "@id": "https://schemacraft-ai.site/#website",
-        url: "https://schemacraft-ai.site",
+        "@id": `${canonicalUrl("/")}#website`,
+        url: canonicalUrl("/"),
         name: "SchemaCraft AI",
         description: "AI Search Visibility Auditor & Optimizer",
         publisher: {
-          "@id": "https://schemacraft-ai.site/#organization",
+          "@id": `${canonicalUrl("/")}#organization`,
         },
       },
       {
         "@type": "Organization",
-        "@id": "https://schemacraft-ai.site/#organization",
+        "@id": `${canonicalUrl("/")}#organization`,
         name: "SchemaCraft AI",
-        url: "https://schemacraft-ai.site",
+        url: canonicalUrl("/"),
         logo: {
           "@type": "ImageObject",
-          url: "https://schemacraft-ai.site/icon.png",
+          url: `${SITE_ORIGIN}/icon.png`,
         },
         sameAs: [
           "https://x.com/SchemaCraftAI",
@@ -163,7 +157,7 @@ export default function RootLayout({
       },
       {
         "@type": "HowTo",
-        "@id": "https://schemacraft-ai.site/#howto-audit",
+        "@id": `${canonicalUrl("/")}#howto-audit`,
         name: "How to Audit and Optimize Your Website for AI Search Engines",
         description: "Step-by-step methodology to diagnose crawl barriers, unblock AI bots, and deploy Schema.org structured data.",
         step: [
@@ -183,13 +177,13 @@ export default function RootLayout({
             "@type": "HowToStep",
             position: 3,
             name: "Deploy 1-Click Code Fixes",
-            text: "Copy production-ready WordPress hooks, Next.js metadata scripts, or Shopify Liquid tags to achieve 100% readiness."
+            text: "Copy production-ready WordPress hooks, Next.js metadata scripts, or Shopify Liquid tags. Valid markup does not guarantee a rich result."
           }
         ]
       },
       {
         "@type": "FAQPage",
-        "@id": "https://schemacraft-ai.site/#faq",
+        "@id": `${canonicalUrl("/")}#faq`,
         mainEntity: [
           {
             "@type": "Question",
@@ -204,7 +198,7 @@ export default function RootLayout({
             name: "What platforms does SchemaCraft AI provide ready code fixes for?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "SchemaCraft AI generates 100% production-ready, copy-paste code fixes for WordPress (functions.php hooks & filters), Next.js 15 App Router (TypeScript metadata, sitemaps & JSON-LD scripts), and Shopify Liquid themes.",
+              text: "SchemaCraft AI generates copy-paste code for WordPress (functions.php hooks), Next.js 15 App Router (TypeScript metadata and JSON-LD scripts), and Shopify Liquid themes.",
             },
           },
           {

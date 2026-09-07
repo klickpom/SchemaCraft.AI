@@ -38,7 +38,7 @@ export default function AeoCheatSheetModal({
 ## 1. Official AI Search Crawler User-Agents (2026)
 - **ChatGPT Search / OpenAI**: User-agent: \`OAI-SearchBot\` (Allow for live search citations)
 - **Perplexity AI**: User-agent: \`PerplexityBot\` (Allow for sourced references)
-- **Anthropic Claude 3.5**: User-agent: \`Claude-Web\` (Allow for live browsing)
+- **Anthropic**: \`Claude-SearchBot\` (search), \`Claude-User\` (user fetch), \`ClaudeBot\` (training). \`Claude-Web\` is legacy/deprecated.
 - **Google Gemini Overviews**: User-agent: \`Google-Extended\` (Allow for AI search summaries)
 - **Apple Intelligence Siri**: User-agent: \`Applebot-Extended\` (Allow for Siri spotlight answers)
 - **OpenAI Foundation Training**: User-agent: \`GPTBot\` (Optional: Disallow if protecting raw datasets)
@@ -55,7 +55,7 @@ export default function AeoCheatSheetModal({
 - Maintain a clear subject-predicate-object structure for neural parsing.
 
 ## 4. Cloudflare WAF Expression Rule for AI Bots
-\`(http.user_agent contains "OAI-SearchBot") or (http.user_agent contains "PerplexityBot") or (http.user_agent contains "Claude-Web")\`
+\`(http.user_agent contains "OAI-SearchBot") or (http.user_agent contains "PerplexityBot") or (http.user_agent contains "Claude-SearchBot")\`
 -> Action: **Skip / Allow** (Bypass Bot Fight Mode)
 
 ---
@@ -213,8 +213,8 @@ Generated via SchemaCraft.AI (https://schemacraft-ai.site) — Real-Time AI Sear
                 </div>
                 <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between">
                   <div>
-                    <div className="font-mono text-cyan-300 font-bold">Claude-Web</div>
-                    <div className="text-slate-400 text-[11px]">Anthropic Claude 3.5 Real-Time Browsing</div>
+                    <div className="font-mono text-cyan-300 font-bold">Claude-SearchBot</div>
+                    <div className="text-slate-400 text-[11px]">Anthropic search indexing (Claude-Web is deprecated)</div>
                   </div>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold text-[10px]">ALLOW (Essential)</span>
                 </div>
@@ -280,7 +280,7 @@ Generated via SchemaCraft.AI (https://schemacraft-ai.site) — Real-Time AI Sear
                   : 'Cloudflare WAF Custom Rule to bypass Bot Fight Mode for legitimate AI search crawlers:'}
               </p>
               <div className="p-4 rounded-xl bg-black/80 border border-white/10 font-mono text-emerald-300 text-xs overflow-x-auto">
-                (http.user_agent contains "OAI-SearchBot") or (http.user_agent contains "PerplexityBot") or (http.user_agent contains "Claude-Web")
+                (http.user_agent contains "OAI-SearchBot") or (http.user_agent contains "PerplexityBot") or (http.user_agent contains "Claude-SearchBot")
               </div>
               <div className="text-[11px] text-slate-400">
                 Action: <strong className="text-white">Skip &gt; Bot Fight Mode</strong>

@@ -51,8 +51,8 @@ export default function CompetitorComparison({ lang }: CompetitorComparisonProps
       googleTest: false,
     },
     {
-      featureEn: '0ms Instant AST Code Validator & AST Parser',
-      featureAr: 'مختبر وتدقيق تركيبي فوري 0ms لأكواد JSON-LD',
+      featureEn: 'In-browser JSON-LD validator',
+      featureAr: 'مدقق JSON-LD يعمل في المتصفح',
       schemacraft: true,
       schemaApp: true,
       yoast: false,

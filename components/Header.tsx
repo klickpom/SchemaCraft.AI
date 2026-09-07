@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { schemaPath } from '@/lib/seo/urls';
 import {
   Zap,
   ShieldCheck,
@@ -43,7 +44,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
               </span>
             </div>
             <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
-              0ms AST Engine & Search Simulator
+              In-browser validator & search simulator
             </span>
           </div>
         </Link>
@@ -73,7 +74,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
               }`}
             >
               <Link
-                href="/schema/shopify-product"
+                href={schemaPath('shopify-product')}
                 onClick={() => setSchemasOpen(false)}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
               >
@@ -81,7 +82,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
                 <span className="truncate">Shopify E-Com Product</span>
               </Link>
               <Link
-                href="/schema/woocommerce-product-schema"
+                href={schemaPath('woocommerce-product-schema')}
                 onClick={() => setSchemasOpen(false)}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
               >
@@ -89,7 +90,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
                 <span className="truncate">WooCommerce Product</span>
               </Link>
               <Link
-                href="/schema/nextjs-software"
+                href={schemaPath('nextjs-software')}
                 onClick={() => setSchemasOpen(false)}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
               >
@@ -97,7 +98,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
                 <span className="truncate">Next.js 15 SaaS App</span>
               </Link>
               <Link
-                href="/schema/medical-clinic-doctor-schema"
+                href={schemaPath('medical-clinic-doctor-schema')}
                 onClick={() => setSchemasOpen(false)}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
               >
@@ -105,7 +106,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
                 <span className="truncate">Medical & Doctor Clinic</span>
               </Link>
               <Link
-                href="/schema/legal-law-firm-schema"
+                href={schemaPath('legal-law-firm-schema')}
                 onClick={() => setSchemasOpen(false)}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
               >
@@ -113,7 +114,7 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
                 <span className="truncate">Law Firm & Attorney</span>
               </Link>
               <Link
-                href="/schema/wordpress-yoast-alternative-schema"
+                href={schemaPath('wordpress-yoast-alternative-schema')}
                 onClick={() => setSchemasOpen(false)}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
               >
@@ -123,10 +124,10 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
             </div>
           </div>
 
-          <Link href="/schema/saas-faq" className="hover:text-cyan-300 transition-colors">
+          <Link href={schemaPath('saas-faq')} className="hover:text-cyan-300 transition-colors">
             FAQ Schema
           </Link>
-          <Link href="/schema/local-seo-schema" className="hover:text-cyan-300 transition-colors">
+          <Link href={schemaPath('local-seo-schema')} className="hover:text-cyan-300 transition-colors">
             Local SEO Maps
           </Link>
         </nav>
@@ -196,42 +197,42 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
           </div>
           <div className="grid grid-cols-2 gap-1.5">
             <Link
-              href="/schema/shopify-product"
+              href={schemaPath('shopify-product')}
               onClick={() => setMobileMenuOpen(false)}
               className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
             >
               Shopify Product
             </Link>
             <Link
-              href="/schema/woocommerce-product-schema"
+              href={schemaPath('woocommerce-product-schema')}
               onClick={() => setMobileMenuOpen(false)}
               className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
             >
               WooCommerce
             </Link>
             <Link
-              href="/schema/nextjs-software"
+              href={schemaPath('nextjs-software')}
               onClick={() => setMobileMenuOpen(false)}
               className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
             >
               Next.js 15 SaaS
             </Link>
             <Link
-              href="/schema/medical-clinic-doctor-schema"
+              href={schemaPath('medical-clinic-doctor-schema')}
               onClick={() => setMobileMenuOpen(false)}
               className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
             >
               Medical Clinic
             </Link>
             <Link
-              href="/schema/legal-law-firm-schema"
+              href={schemaPath('legal-law-firm-schema')}
               onClick={() => setMobileMenuOpen(false)}
               className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
             >
               Law Firm
             </Link>
             <Link
-              href="/schema/wordpress-yoast-alternative-schema"
+              href={schemaPath('wordpress-yoast-alternative-schema')}
               onClick={() => setMobileMenuOpen(false)}
               className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
             >

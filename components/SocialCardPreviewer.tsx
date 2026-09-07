@@ -13,6 +13,8 @@ import {
   Star,
 } from 'lucide-react';
 
+import { CLAIMS } from '@/lib/content/claims';
+
 interface SocialCardPreviewerProps {
   lang: Language;
 }
@@ -23,7 +25,7 @@ export default function SocialCardPreviewer({ lang }: SocialCardPreviewerProps) 
   const [platform, setPlatform] = useState<PreviewPlatform>('google');
   const [title, setTitle] = useState('SchemaCraft AI — Real-Time JSON-LD & AEO Search Auditor');
   const [description, setDescription] = useState(
-    'Audit, validate, and optimize your website for ChatGPT Search, Perplexity, and Google 5-Star Rich Snippets with 0ms client-side AST engine.'
+    'Audit, validate, and optimize your website for ChatGPT Search, Perplexity, and Google rich results. Validation runs in your browser.'
   );
   const [url, setUrl] = useState('https://schemacraft-ai.site');
   const [imageUrl, setImageUrl] = useState('https://schemacraft-ai.site/og-image.png');
@@ -204,6 +206,7 @@ export default function SocialCardPreviewer({ lang }: SocialCardPreviewerProps) 
           {/* Google SERP Preview */}
           {platform === 'google' && (
             <div className="p-5 rounded-2xl bg-[#202124] border border-white/10 space-y-2 font-sans shadow-lg text-left">
+              <div className="text-[10px] uppercase tracking-wider text-amber-300 font-bold">{CLAIMS.samplePreviewLabel}</div>
               <div className="flex items-center gap-2">
                 <div className="h-6 w-6 rounded-full bg-white/10 flex items-center justify-center text-[10px] text-white">
                   🌐
@@ -219,7 +222,7 @@ export default function SocialCardPreviewer({ lang }: SocialCardPreviewerProps) 
                     <Star key={i} className="w-3 h-3 fill-current text-[#fbbc04]" />
                   ))}
                 </div>
-                <span className="text-[#bdc1c6] text-[11px] font-mono">4.9 ★★★★★ (328 reviews)</span>
+                <span className="text-[#bdc1c6] text-[11px] font-mono">Example stars (not live reviews)</span>
               </div>
               <p className="text-xs text-[#bdc1c6] line-clamp-2 leading-relaxed">
                 {description}

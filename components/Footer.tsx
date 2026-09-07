@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { schemaPath } from '@/lib/seo/urls';
+import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
 import { Layers, ShieldCheck, Bot, Heart, Zap, Terminal } from 'lucide-react';
 
 export function Footer() {
@@ -20,12 +22,12 @@ export function Footer() {
               <span className="font-bold text-white text-base">SchemaCraft AI</span>
             </Link>
             <p className="text-zinc-400 text-xs leading-relaxed">
-              Enterprise-grade JSON-LD structured data engine and AEO optimizer. Client-side AST validation with 0ms latency.
+              Enterprise-grade JSON-LD structured data engine and AEO optimizer. Validation runs in your browser.
             </p>
             <div className="flex items-center gap-2 flex-wrap text-[11px] text-zinc-400 pt-1">
               <div className="flex items-center gap-1 text-emerald-400">
                 <ShieldCheck className="h-3.5 w-3.5" />
-                <span>Schema.org v26.0</span>
+                <span>{SCHEMA_ORG_LABEL}</span>
               </div>
               <a
                 href="https://x.com/SchemaCraftAI"
@@ -48,52 +50,52 @@ export function Footer() {
             </h4>
             <ul className="space-y-1.5">
               <li>
-                <Link href="/schema/shopify-product" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('shopify-product')} className="hover:text-cyan-400 transition-colors">
                   Shopify Product JSON-LD
                 </Link>
               </li>
               <li>
-                <Link href="/schema/woocommerce-product-schema" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('woocommerce-product-schema')} className="hover:text-cyan-400 transition-colors">
                   WooCommerce Product Schema
                 </Link>
               </li>
               <li>
-                <Link href="/schema/nextjs-software" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('nextjs-software')} className="hover:text-cyan-400 transition-colors">
                   Next.js 15 Software App
                 </Link>
               </li>
               <li>
-                <Link href="/schema/wordpress-yoast-alternative-schema" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('wordpress-yoast-alternative-schema')} className="hover:text-cyan-400 transition-colors">
                   WordPress Yoast Alternative
                 </Link>
               </li>
               <li>
-                <Link href="/schema/medical-clinic-doctor-schema" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('medical-clinic-doctor-schema')} className="hover:text-cyan-400 transition-colors">
                   Medical &amp; Doctor Schema
                 </Link>
               </li>
               <li>
-                <Link href="/schema/legal-law-firm-schema" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('legal-law-firm-schema')} className="hover:text-cyan-400 transition-colors">
                   Law Firm &amp; Legal Service
                 </Link>
               </li>
               <li>
-                <Link href="/schema/recipe-food-nutrition-schema" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('recipe-food-nutrition-schema')} className="hover:text-cyan-400 transition-colors">
                   Recipe &amp; Culinary Food
                 </Link>
               </li>
               <li>
-                <Link href="/schema/video-youtube-embed-schema" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('video-youtube-embed-schema')} className="hover:text-cyan-400 transition-colors">
                   Video &amp; YouTube Embed
                 </Link>
               </li>
               <li>
-                <Link href="/schema/saas-faq" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('saas-faq')} className="hover:text-cyan-400 transition-colors">
                   FAQPage Rich Snippets
                 </Link>
               </li>
               <li>
-                <Link href="/schema/local-seo-schema" className="hover:text-cyan-400 transition-colors">
+                <Link href={schemaPath('local-seo-schema')} className="hover:text-cyan-400 transition-colors">
                   Local Business Maps &amp; NAP
                 </Link>
               </li>
@@ -116,7 +118,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-1.5 text-zinc-400">
                 <Terminal className="h-3 w-3 text-emerald-400" />
-                <span>0ms Client-Side AST Engine</span>
+                <span>In-browser JSON-LD validator</span>
               </li>
               <li>
                 <a
@@ -151,8 +153,6 @@ export function Footer() {
         <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400">
           <p>© {new Date().getFullYear()} SchemaCraft AI & Data Architect. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <span className="text-zinc-400">Core Web Vitals: 100/100</span>
-            <span className="text-zinc-500">•</span>
             <span className="text-zinc-400">Zero-Friction Single-Utility</span>
           </div>
         </div>

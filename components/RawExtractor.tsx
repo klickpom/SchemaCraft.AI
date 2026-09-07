@@ -37,7 +37,7 @@ export function RawExtractor({ onExtracted }: RawExtractorProps) {
             Intelligent AST Parser & Schema Extractor
           </p>
           <p className="text-zinc-400 mt-0.5">
-            Paste raw JSON, OpenGraph meta tags, Q&A text, or product specs. Our client-side parser synthesizes clean, valid JSON-LD in 0ms.
+            Paste raw JSON, OpenGraph meta tags, Q&A text, or product specs. The parser builds JSON-LD in your browser.
           </p>
         </div>
       </div>

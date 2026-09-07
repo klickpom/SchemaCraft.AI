@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { SchemaCategory } from '@/lib/schemaTypes';
 import { Monitor, Smartphone, Bot, ExternalLink, ChevronDown, ChevronUp, Star, ShieldCheck, Zap } from 'lucide-react';
 
+import { CLAIMS } from '@/lib/content/claims';
+
 interface SerpPreviewProps {
   category: SchemaCategory;
   values: Record<string, any>;
@@ -25,19 +27,21 @@ export function SerpPreview({ category, values, schemaObj }: SerpPreviewProps) {
   const description =
     values.description ||
     values.reviewBody ||
-    'Ultra-fast real-time JSON-LD schema builder and AEO optimizer with 0ms client-side AST validation and live SERP preview.';
+    'JSON-LD schema builder and AEO optimizer with in-browser validation and live SERP preview.';
 
   const url = values.url || 'https://schemacraft.ai';
   const displayHost = 'schemacraft.ai';
-  const ratingValue = parseFloat(values.ratingValue || '4.9');
-  const ratingCount = values.ratingCount || values.reviewCount || '328';
+  const ratingValue = values.ratingValue ? parseFloat(values.ratingValue) : NaN;
+  const ratingCount = values.ratingCount || values.reviewCount || '';
   const price = values.price || '0';
   const currency = values.priceCurrency || 'USD';
   const availability = values.availability || 'InStock';
 
   return (
     <div className="rounded-xl border border-white/[0.08] bg-zinc-950/80 backdrop-blur-md overflow-hidden shadow-2xl flex flex-col h-full">
-      {/* Header Controls */}
+      <div className="px-4 py-1.5 bg-amber-950/40 border-b border-amber-500/20 text-[10px] uppercase tracking-wider text-amber-200 font-bold">
+        {CLAIMS.samplePreviewLabel}
+      </div>
       <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-3 bg-zinc-900/50">
         <div className="flex items-center gap-1.5 p-0.5 rounded-lg bg-black/40 border border-white/[0.06]">
           <button

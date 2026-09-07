@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'export',
+  // Canonical URL form is WITH trailing slash (Hostinger + this export).
   trailingSlash: true,
   devIndicators: false,
   images: {

@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { SchemaBuilder } from '@/components/SchemaBuilder';
 import { FaqAccordion } from '@/components/FaqAccordion';
 import { Footer } from '@/components/Footer';
+import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
 import { PaywallModal } from '@/components/PaywallModal';
 import { isProUnlockedClient } from '@/lib/payment';
 import {
@@ -73,12 +74,12 @@ export default function SchemaPageShell({
           {/* Key Metric Highlights */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
             <div className="rounded-2xl border border-white/[0.08] bg-black/40 p-3.5 text-center">
-              <span className="text-[10px] text-zinc-400 block uppercase font-semibold">Measured CTR Impact</span>
-              <span className="text-lg font-black text-emerald-400 font-mono">{pageData.ctrBoost}</span>
+              <span className="text-[10px] text-zinc-400 block uppercase font-semibold">What this markup does</span>
+              <span className="text-sm font-bold text-emerald-400">{pageData.capabilityLabel}</span>
             </div>
             <div className="rounded-2xl border border-white/[0.08] bg-black/40 p-3.5 text-center">
-              <span className="text-[10px] text-zinc-400 block uppercase font-semibold">Indexing Velocity</span>
-              <span className="text-lg font-black text-cyan-300 font-mono">{pageData.indexingSpeed}</span>
+              <span className="text-[10px] text-zinc-400 block uppercase font-semibold">Discovery</span>
+              <span className="text-sm font-bold text-cyan-300">{pageData.discoveryNote}</span>
             </div>
             <div className="rounded-2xl border border-white/[0.08] bg-black/40 p-3.5 text-center">
               <span className="text-[10px] text-zinc-400 block uppercase font-semibold">Rich Snippet Type</span>
@@ -86,7 +87,7 @@ export default function SchemaPageShell({
             </div>
             <div className="rounded-2xl border border-white/[0.08] bg-black/40 p-3.5 text-center">
               <span className="text-[10px] text-zinc-400 block uppercase font-semibold">Schema Standard</span>
-              <span className="text-xs font-bold text-indigo-300 block mt-1 font-mono">Schema.org v26.0</span>
+              <span className="text-xs font-bold text-indigo-300 block mt-1">{SCHEMA_ORG_LABEL}</span>
             </div>
           </div>
 

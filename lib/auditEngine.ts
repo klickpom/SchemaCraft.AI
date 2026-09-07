@@ -6,6 +6,8 @@
  * INTEGRITY RULE: Never fabricate data. If a signal cannot be fetched, report it as 'not_fetched' with transparent reasoning.
  */
 
+import { BOT_REGISTRY } from '@/lib/bots/registry';
+
 export interface RawEvidence {
   httpStatus: number | null;
   robotsTxtFound: boolean;
@@ -33,6 +35,7 @@ export interface RawEvidence {
   detectedSiteType: 'saas' | 'ecommerce' | 'clinic' | 'agency' | 'general';
   htmlFetched: boolean;
   robotsFetched: boolean;
+  botDirectives?: Record<string, 'allowed' | 'disallowed' | 'not_specified'>;
 }
 
 export type Severity = 'critical' | 'high' | 'medium' | 'low' | 'informational';
@@ -1319,6 +1322,13 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
   const googlebotDirective = robotsFetched ? getBotDirective(parsedRobots, 'googlebot') : 'not_specified';
   const perplexityBotDirective = robotsFetched ? getBotDirective(parsedRobots, 'perplexitybot') : 'not_specified';
 
+  const botDirectives: Record<string, 'allowed' | 'disallowed' | 'not_specified'> = {};
+  for (const bot of BOT_REGISTRY) {
+    botDirectives[bot.userAgent] = robotsFetched
+      ? getBotDirective(parsedRobots, bot.userAgent)
+      : 'not_specified';
+  }
+
   // Detect site type from REAL extracted content only
   const combinedText = `${title || ''} ${metaDescription || ''} ${h1Tags.join(' ')} ${targetUrl}`.toLowerCase();
   let detectedSiteType: 'saas' | 'ecommerce' | 'clinic' | 'agency' | 'general' = 'general';
@@ -1387,6 +1397,7 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     detectedSiteType,
     htmlFetched,
     robotsFetched,
+    botDirectives,
   };
 }
 

@@ -41,7 +41,7 @@ export function ValidationBadge({ validation, onAutoFix }: ValidationBadgeProps)
               )}
             </div>
             <p className="text-xs text-zinc-400">
-              0ms AST Client Validation • Schema.org v26.0
+              In-browser AST client validation • current Schema.org vocabulary
             </p>
           </div>
         </div>
