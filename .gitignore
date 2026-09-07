@@ -6,6 +6,10 @@
 
 # testing
 /coverage
+_madar_api.json
+_verify_live.mjs
+_splice_eval.js
+_audit_body.json
 
 # next.js
 /.next/

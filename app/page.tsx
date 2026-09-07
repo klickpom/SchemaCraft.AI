@@ -13,6 +13,7 @@ import {
 import { translations, Language } from '@/lib/translations';
 import { auditBadgeLabels, countCritical, countFindings, countPassed, formatAuditScore } from '@/lib/audit/scoring';
 import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
+import { CLAIMS } from '@/lib/content/claims';
 import { isProUnlockedClient, setProUnlockedClient } from '@/lib/payment';
 import FixGeneratorModal from '@/components/FixGeneratorModal';
 import PayPalCheckout from '@/components/PayPalCheckout';
@@ -77,7 +78,7 @@ export default function Home() {
   const [showEvidenceLedger, setShowEvidenceLedger] = useState(true);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [activeDemoProfile, setActiveDemoProfile] = useState<string | null>(null);
-  const [previewTab, setPreviewTab] = useState<'before' | 'after'>('after');
+  const [previewTab, setPreviewTab] = useState<'before' | 'after'>('before');
   const [isAgencyMode, setIsAgencyMode] = useState(false);
   const [copiedBadgeType, setCopiedBadgeType] = useState<'html' | 'markdown' | null>(null);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
@@ -1009,12 +1010,17 @@ export default function Home() {
 
             </div>
 
-            {/* Top 3 Detected Blockers (Free Teaser Cards) */}
+            {/* Highest-severity findings (free preview) */}
+            {report.criticalBlockers.length > 0 && (
             <section className="space-y-6">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-400">
+                <div className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider ${countCritical(report.checks) > 0 ? 'text-rose-400' : 'text-amber-400'}`}>
                   <AlertTriangle className="w-4 h-4" />
-                  <span>{t.blockers.badge}</span>
+                  <span>
+                    {countCritical(report.checks) > 0
+                      ? t.blockers.badge
+                      : (lang === 'ar' ? 'نتائج هذا الفحص' : 'Findings from this scan')}
+                  </span>
                 </div>
                 <h3 className="text-2xl font-black text-white tracking-tight">
                   {t.blockers.title}
@@ -1068,6 +1074,7 @@ export default function Home() {
                 ))}
               </div>
             </section>
+            )}
 
             {/* Live Search Engine & AI Citation Simulation Preview */}
             <section className="rounded-3xl border border-white/10 bg-[#0b0b12] p-6 sm:p-8 space-y-6 shadow-2xl">
@@ -1182,9 +1189,7 @@ export default function Home() {
                     </h4>
                     {previewTab === 'after' && (
                       <div className="flex items-center gap-2 text-[10px] text-amber-400 font-mono">
-                        <span>★★★★★ 4.9 (640+ Reviews)</span>
-                        <span>•</span>
-                        <span className="text-emerald-400">In Stock / $9.00</span>
+                        <span>{CLAIMS.samplePreviewLabel}</span>
                       </div>
                     )}
                     <p className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed">
@@ -1194,8 +1199,8 @@ export default function Home() {
 
                   <p className="text-[10px] text-slate-400">
                     {previewTab === 'after'
-                      ? (lang === 'ar' ? 'وسوم Schema.org تظهر نجوم التقييم والسعر وتزيد نسبة النقر (CTR) بأكثر من 30%.' : 'Schema.org JSON-LD activates review stars & price badges, increasing SERP CTR by +30%.')
-                      : (lang === 'ar' ? 'غياب بيانات السكيما يحرم موقعك من النجوم والمزايا البصرية في جوجل.' : 'Absence of schema prevents rich star ratings, pricing, and FAQ dropdowns on Google.')}
+                      ? (lang === 'ar' ? 'معاينة توضيحية — الوسم الصحيح لا يضمن نتيجة غنية من جوجل.' : CLAIMS.richResultsDisclaimer)
+                      : (lang === 'ar' ? 'بدون بيانات منظمة، محركات البحث تعتمد على تخمين النص فقط.' : 'Without structured data, search engines rely on unstructured text.')}
                   </p>
                 </div>
               </div>
@@ -1205,7 +1210,7 @@ export default function Home() {
             {!isProUnlocked ? (
               <section className="relative rounded-3xl border border-indigo-500/30 bg-[#0c0c14] p-6 sm:p-10 shadow-2xl overflow-hidden">
                 
-                {/* Background Blurred Teasers */}
+                {report.lockedIssues.length > 0 && (
                 <div className="space-y-4 select-none filter blur-[5px] pointer-events-none opacity-40">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {report.lockedIssues.slice(0, 4).map((item, idx) => (
@@ -1216,6 +1221,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
+                )}
 
                 {/* Conversion Overlay Box */}
                 <div className="relative z-10 max-w-2xl mx-auto text-center space-y-5 pt-4">
@@ -1225,7 +1231,11 @@ export default function Home() {
                   </div>
 
                   <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                    {t.lockedSection.title}
+                    {report.lockedIssues.length > 0
+                      ? (lang === 'ar'
+                        ? `${report.lockedIssues.length} نتائج إضافية بالأدلة`
+                        : `${report.lockedIssues.length} additional findings with evidence`)
+                      : t.lockedSection.title}
                   </h3>
 
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">

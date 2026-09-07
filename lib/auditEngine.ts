@@ -531,19 +531,21 @@ interface ServerAuditPayload {
 
 async function tryServerAudit(targetUrl: string): Promise<ServerAuditPayload | null> {
   if (typeof window === 'undefined') return null;
-  try {
-    const res = await fetch('/api/audit.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ url: targetUrl }),
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as ServerAuditPayload;
-    if (!data || data.ok !== true || typeof data.html !== 'string') return null;
-    return data;
-  } catch {
-    return null;
+  for (const endpoint of ['/api/audit.php', '/api/audit']) {
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ url: targetUrl }),
+      });
+      if (!res.ok) continue;
+      const data = (await res.json()) as ServerAuditPayload;
+      if (data && data.ok === true && typeof data.html === 'string') return data;
+    } catch {
+      // try next endpoint
+    }
   }
+  return null;
 }
 
 function emptyEvidence(partial: Partial<RawEvidence> & { fetchMode: RawEvidence['fetchMode']; fetchError?: string }): RawEvidence {
