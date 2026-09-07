@@ -7,7 +7,7 @@
 
 export type IssueCategory = 'technical' | 'crawlability' | 'content' | 'entity' | 'ai_readiness';
 export type Severity = 'critical' | 'high' | 'medium' | 'low' | 'informational';
-export type CheckOutcome = 'pass' | 'fail' | 'warning' | 'info';
+export type CheckOutcome = 'pass' | 'fail' | 'warning' | 'info' | 'skipped';
 export type FixCategory = 'robots' | 'schema' | 'meta' | 'content' | 'sitemap' | 'headers';
 
 export const PENALTY_PER_WEIGHT = 7.5;
@@ -15,7 +15,7 @@ export const PENALTY_PER_WEIGHT = 7.5;
 export interface LedgerItem {
   name: string;
   nameAr: string;
-  status: 'pass' | 'fail' | 'warning' | 'info';
+  status: 'pass' | 'fail' | 'warning' | 'info' | 'skipped';
   detail: string;
   detailAr: string;
 }
@@ -50,11 +50,11 @@ export interface AuditCheck extends FindingLike {
 }
 
 export interface CategoryScores {
-  technicalSEO: number;
-  crawlability: number;
-  contentAnswerability: number;
-  entitySchema: number;
-  aiSearchReadiness: number;
+  technicalSEO: number | null;
+  crawlability: number | null;
+  contentAnswerability: number | null;
+  entitySchema: number | null;
+  aiSearchReadiness: number | null;
 }
 
 export const CATEGORY_TO_SCORE: Record<IssueCategory, keyof CategoryScores> = {
@@ -81,9 +81,13 @@ function clampScore(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
-export function categoryScore(checks: AuditCheck[], category: IssueCategory): number {
-  const penalty = checks
-    .filter((c) => c.category === category && c.outcome === 'fail')
+export function categoryScore(checks: AuditCheck[], category: IssueCategory): number | null {
+  const inspected = checks.filter(
+    (c) => c.category === category && (c.outcome === 'pass' || c.outcome === 'fail')
+  );
+  if (inspected.length === 0) return null;
+  const penalty = inspected
+    .filter((c) => c.outcome === 'fail')
     .reduce((sum, c) => sum + c.penalty, 0);
   return clampScore(100 - penalty);
 }
@@ -94,19 +98,42 @@ export function scoresFromChecks(checks: AuditCheck[]): CategoryScores {
   const contentAnswerability = categoryScore(checks, 'content');
   const entitySchema = categoryScore(checks, 'entity');
   const aiOwn = categoryScore(checks, 'ai_readiness');
-  const blended = crawlability * 0.35 + contentAnswerability * 0.35 + entitySchema * 0.3;
-  const aiSearchReadiness = clampScore(Math.min(aiOwn, blended));
+  const parts = [crawlability, contentAnswerability, entitySchema];
+  const known = parts.filter((n): n is number => n !== null);
+  let aiSearchReadiness: number | null = null;
+  if (known.length > 0) {
+    const blended =
+      (crawlability ?? 0) * (crawlability === null ? 0 : 0.35) +
+      (contentAnswerability ?? 0) * (contentAnswerability === null ? 0 : 0.35) +
+      (entitySchema ?? 0) * (entitySchema === null ? 0 : 0.3);
+    const weight =
+      (crawlability === null ? 0 : 0.35) +
+      (contentAnswerability === null ? 0 : 0.35) +
+      (entitySchema === null ? 0 : 0.3);
+    const composite = weight > 0 ? blended / weight : null;
+    aiSearchReadiness = clampScore(
+      Math.min(aiOwn ?? 100, composite ?? 100)
+    );
+  } else if (aiOwn !== null) {
+    aiSearchReadiness = aiOwn;
+  }
   return { technicalSEO, crawlability, contentAnswerability, entitySchema, aiSearchReadiness };
 }
 
-export function overallScoreFromCategories(scores: CategoryScores): number {
-  return clampScore(
-    scores.technicalSEO * 0.2 +
-      scores.crawlability * 0.25 +
-      scores.contentAnswerability * 0.25 +
-      scores.entitySchema * 0.2 +
-      scores.aiSearchReadiness * 0.1
-  );
+export function overallScoreFromCategories(scores: CategoryScores): number | null {
+  const weighted: Array<[number, number]> = [];
+  if (scores.technicalSEO !== null) weighted.push([scores.technicalSEO, 0.2]);
+  if (scores.crawlability !== null) weighted.push([scores.crawlability, 0.25]);
+  if (scores.contentAnswerability !== null) weighted.push([scores.contentAnswerability, 0.25]);
+  if (scores.entitySchema !== null) weighted.push([scores.entitySchema, 0.2]);
+  if (scores.aiSearchReadiness !== null) weighted.push([scores.aiSearchReadiness, 0.1]);
+  if (weighted.length === 0) return null;
+  const wsum = weighted.reduce((s, [, w]) => s + w, 0);
+  return clampScore(weighted.reduce((s, [v, w]) => s + v * w, 0) / wsum);
+}
+
+export function formatAuditScore(score: number | null): string {
+  return score === null ? '—' : `${score}/100`;
 }
 
 export function countPassed(checks: AuditCheck[]): number {
@@ -129,7 +156,7 @@ export function ledgerFromChecks(checks: AuditCheck[]): LedgerItem[] {
   return checks.map((c) => ({
     name: c.ledgerName,
     nameAr: c.ledgerNameAr,
-    status: c.outcome === 'fail' ? 'fail' : c.outcome,
+    status: c.outcome === 'fail' ? 'fail' : c.outcome === 'pass' ? 'pass' : c.outcome === 'skipped' ? 'skipped' : c.outcome === 'warning' ? 'warning' : 'info',
     detail: c.ledgerDetail,
     detailAr: c.ledgerDetailAr,
   }));
@@ -208,13 +235,23 @@ export function assertAuditConsistency(checks: AuditCheck[], scores: CategorySco
   }
 
   for (const [scoreKey, categories] of Object.entries(SCORE_TO_CATEGORIES) as [keyof CategoryScores, IssueCategory[]][]) {
-    if (scores[scoreKey] >= 100) continue;
+    const score = scores[scoreKey];
+    if (score === null) {
+      const inspected = checks.some(
+        (c) => categories.includes(c.category) && (c.outcome === 'pass' || c.outcome === 'fail')
+      );
+      if (inspected) {
+        throw new AuditConsistencyError(`${scoreKey} is not inspected but pass/fail checks exist`);
+      }
+      continue;
+    }
+    if (score >= 100) continue;
     const hasFinding = checks.some(
       (c) => c.outcome === 'fail' && categories.includes(c.category)
     );
     if (!hasFinding) {
       throw new AuditConsistencyError(
-        `${scoreKey} is ${scores[scoreKey]} but no failing check explains the deduction`
+        `${scoreKey} is ${score} but no failing check explains the deduction`
       );
     }
   }

@@ -72,7 +72,7 @@ describe('scoresFromChecks', () => {
       issue({ id: 'bluf', category: 'content', weight: 3 }),
     ], []);
     expect(scoresFromChecks(checks).contentAnswerability).toBe(78);
-    expect(scoresFromChecks(checks).technicalSEO).toBe(100);
+    expect(scoresFromChecks(checks).technicalSEO).toBeNull();
   });
 });
 
@@ -87,7 +87,7 @@ describe('assertAuditConsistency', () => {
         entitySchema: 50,
         aiSearchReadiness: 50,
       })
-    ).toThrow(/contentAnswerability/);
+    ).toThrow(/Score mismatch|contentAnswerability/);
   });
 
   it('passes when every deducted category has a failing check', () => {
@@ -112,19 +112,19 @@ describe('auditBadgeLabels', () => {
 });
 
 describe('evaluateEvidence — single source of truth', () => {
-  it('does not report 98 technical / 50 content with a single unrelated finding when HTML was not fetched', () => {
+  it('does not invent 100/50 scores when HTML was not fetched', () => {
     const report = evaluateEvidence('https://blocked.example/', unreachableHtml, 'TEST01');
 
-    expect(report.categoryScores.technicalSEO).not.toBe(98);
-    expect(countFindings(report.checks)).toBeGreaterThan(1);
-    expect(countPassed(report.checks)).toBe(report.evidenceLedger.filter((e) => e.status === 'pass').length);
+    expect(report.categoryScores.technicalSEO).toBeNull();
+    expect(report.categoryScores.contentAnswerability).toBeNull();
+    expect(report.categoryScores.entitySchema).toBeNull();
+    expect(report.categoryScores.crawlability).not.toBeNull();
+    expect(countPassed(report.checks)).toBe(0);
+    expect(countFindings(report.checks)).toBeGreaterThanOrEqual(1);
+    expect(report.checks.some((c) => c.category === 'content' && c.outcome === 'skipped')).toBe(true);
+    expect(report.checks.some((c) => c.category === 'entity' && c.outcome === 'skipped')).toBe(true);
     expect(report.categoryScores).toEqual(scoresFromChecks(report.checks));
     expect(() => assertAuditConsistency(report.checks, report.categoryScores)).not.toThrow();
-
-    const contentFindings = report.checks.filter((c) => c.category === 'content' && c.outcome === 'fail');
-    const entityFindings = report.checks.filter((c) => c.category === 'entity' && c.outcome === 'fail');
-    expect(contentFindings.length).toBeGreaterThanOrEqual(1);
-    expect(entityFindings.length).toBeGreaterThanOrEqual(1);
   });
 
   it('derives badge counts from the same check list', () => {

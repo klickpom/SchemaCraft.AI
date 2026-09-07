@@ -34,8 +34,8 @@ export default function ShareSnapshotModal({
     : `https://schemacraft-ai.site/?url=${encodeURIComponent(report.url)}`;
 
   const shareText = lang === 'ar'
-    ? `تقرير فحص ظهور وسيو الذكاء الاصطناعي لموقع ${report.url} (النتيجة: ${report.overallScore}/100) عبر @SchemaCraftAI`
-    : `AI Search & SEO audit for ${report.url} (Score: ${report.overallScore}/100) on @SchemaCraftAI`;
+    ? `تقرير فحص ظهور وسيو الذكاء الاصطناعي لموقع ${report.url} (النتيجة: ${report.overallScore === null ? 'غير مكتمل' : report.overallScore + '/100'}) عبر @SchemaCraftAI`
+    : `AI Search & SEO audit for ${report.url} (Score: ${report.overallScore === null ? 'incomplete' : report.overallScore + '/100'}) on @SchemaCraftAI`;
 
   const handleCopy = async () => {
     try {
