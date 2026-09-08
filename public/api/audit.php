@@ -180,6 +180,18 @@ function sc_follow(string $url): array {
   return [$final, $chain];
 }
 
+function sc_jsonld(string $html): array {
+  $out = [];
+  if (!preg_match_all('/<script[^>]*type=["\']application\/ld\+json["\'][^>]*>(.*?)<\/script>/is', $html, $m)) {
+    return $out;
+  }
+  foreach ($m[1] as $block) {
+    $decoded = json_decode(html_entity_decode(trim($block), ENT_QUOTES | ENT_HTML5), true);
+    if (is_array($decoded)) $out[] = $decoded;
+  }
+  return $out;
+}
+
 sc_rate_limit(sc_client_ip());
 
 $payload = [];
@@ -210,6 +222,7 @@ echo json_encode([
   'redirects' => $chain,
   'headers' => $page['headers'],
   'html' => $page['body'],
+  'jsonLd' => sc_jsonld($page['body']),
   'robotsTxt' => ($robots && $robots['status'] === 200) ? $robots['body'] : '',
   'robotsStatus' => $robots['status'] ?? null,
   'sitemapXml' => ($sitemap && $sitemap['status'] === 200) ? $sitemap['body'] : '',

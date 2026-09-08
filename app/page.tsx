@@ -234,6 +234,9 @@ export default function Home() {
     return t.scoreSection.badgeCritical;
   };
 
+  const formatCategoryScore = (score: number | null) =>
+    score === null ? (lang === 'ar' ? 'غير مُقيَّم' : 'Not assessed') : `${score}/100`;
+
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#060608] text-slate-100 font-sans selection:bg-indigo-600 selection:text-white pb-20">
       
@@ -738,6 +741,19 @@ export default function Home() {
               </div>
 
               {/* Score & 5 Category Breakdown Grid */}
+              {report.overallScore === null || !report.evidence.htmlFetched ? (
+                <div className="mt-6 p-6 rounded-2xl border border-amber-500/40 bg-amber-950/20 text-center space-y-2">
+                  <p className="text-sm font-bold text-amber-200">
+                    {lang === 'ar' ? 'الفحص لم يتم.' : 'Audit did not complete.'}
+                  </p>
+                  <p className="text-xs text-slate-300 leading-relaxed max-w-xl mx-auto">
+                    {lang === 'ar'
+                      ? 'تعذر جلب HTML الصفحة من السيرفر. لا تظهر درجة لأن الأداة لم تشاهد الصفحة.'
+                      : 'The page HTML could not be retrieved from the server. No score is shown because the tool did not see the page.'}
+                  </p>
+                </div>
+              ) : (
+              <>
               <div className="pt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
                 {/* Master Score Ring (Animated SVG) */}
@@ -781,40 +797,40 @@ export default function Home() {
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.technicalSEO}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.technicalSEO)}`}>{report.categoryScores.technicalSEO}/100</span>
+                      <span className={`font-mono font-bold ${report.categoryScores.technicalSEO === null ? 'text-slate-400' : getCategoryTextColor(report.categoryScores.technicalSEO)}`}>{formatCategoryScore(report.categoryScores.technicalSEO)}</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.technicalSEO)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.technicalSEO}%` }} />
+                      <div className={`${report.categoryScores.technicalSEO === null ? 'bg-slate-600' : getCategoryBarColor(report.categoryScores.technicalSEO)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.technicalSEO ?? 0}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.crawlability}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.crawlability)}`}>{report.categoryScores.crawlability}/100</span>
+                      <span className={`font-mono font-bold ${report.categoryScores.crawlability === null ? 'text-slate-400' : getCategoryTextColor(report.categoryScores.crawlability)}`}>{formatCategoryScore(report.categoryScores.crawlability)}</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.crawlability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.crawlability}%` }} />
+                      <div className={`${report.categoryScores.crawlability === null ? 'bg-slate-600' : getCategoryBarColor(report.categoryScores.crawlability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.crawlability ?? 0}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.contentAnswerability}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.contentAnswerability)}`}>{report.categoryScores.contentAnswerability}/100</span>
+                      <span className={`font-mono font-bold ${report.categoryScores.contentAnswerability === null ? 'text-slate-400' : getCategoryTextColor(report.categoryScores.contentAnswerability)}`}>{formatCategoryScore(report.categoryScores.contentAnswerability)}</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.contentAnswerability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.contentAnswerability}%` }} />
+                      <div className={`${report.categoryScores.contentAnswerability === null ? 'bg-slate-600' : getCategoryBarColor(report.categoryScores.contentAnswerability)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.contentAnswerability ?? 0}%` }} />
                     </div>
                   </div>
 
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0d0d14] space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-slate-300">{t.scoreSection.entitySchema}</span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.entitySchema)}`}>{report.categoryScores.entitySchema}/100</span>
+                      <span className={`font-mono font-bold ${report.categoryScores.entitySchema === null ? 'text-slate-400' : getCategoryTextColor(report.categoryScores.entitySchema)}`}>{formatCategoryScore(report.categoryScores.entitySchema)}</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className={`${getCategoryBarColor(report.categoryScores.entitySchema)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.entitySchema}%` }} />
+                      <div className={`${report.categoryScores.entitySchema === null ? 'bg-slate-600' : getCategoryBarColor(report.categoryScores.entitySchema)} h-full rounded-full transition-all duration-700`} style={{ width: `${report.categoryScores.entitySchema ?? 0}%` }} />
                     </div>
                   </div>
 
@@ -824,10 +840,10 @@ export default function Home() {
                         <Cpu className="w-4 h-4 text-cyan-400" />
                         {t.scoreSection.aiSearchReadiness}
                       </span>
-                      <span className={`font-mono font-bold ${getCategoryTextColor(report.categoryScores.aiSearchReadiness)}`}>{report.categoryScores.aiSearchReadiness}/100</span>
+                      <span className={`font-mono font-bold ${report.categoryScores.aiSearchReadiness === null ? 'text-slate-400' : getCategoryTextColor(report.categoryScores.aiSearchReadiness)}`}>{formatCategoryScore(report.categoryScores.aiSearchReadiness)}</span>
                     </div>
                     <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full rounded-full" style={{ width: `${report.categoryScores.aiSearchReadiness}%` }} />
+                      <div className="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full rounded-full" style={{ width: `${report.categoryScores.aiSearchReadiness ?? 0}%` }} />
                     </div>
                   </div>
 
@@ -877,32 +893,22 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              </>
+              )}
 
-              {/* Live Extracted Real Data Transparency Card */}
-              <div className={`mt-6 p-4 rounded-2xl border space-y-3 ${
-                report.evidence.htmlFetched
-                  ? 'border-cyan-500/20 bg-cyan-950/15'
-                  : 'border-amber-500/20 bg-amber-950/15'
-              }`}>
+              {report.evidence.htmlFetched && (
+              <div className="mt-6 p-4 rounded-2xl border space-y-3 border-cyan-500/20 bg-cyan-950/15">
                 <div className="flex items-center justify-between text-xs font-bold">
-                  <span className={`flex items-center gap-2 ${report.evidence.htmlFetched ? 'text-cyan-300' : 'text-amber-300'}`}>
-                    <Globe className={`w-4 h-4 ${report.evidence.htmlFetched ? 'text-cyan-400' : 'text-amber-400'}`} />
-                    {report.evidence.htmlFetched
-                      ? (lang === 'ar' ? 'البيانات الحقيقية المستخرجة مباشرة من كود الصفحة:' : 'Live Data Extracted Directly From Target HTML:')
-                      : (lang === 'ar' ? 'لم يتمكن المحرك من جلب كود HTML (حماية CORS/WAF):' : 'HTML Could Not Be Fetched (CORS/WAF Protection):')
-                    }
+                  <span className="flex items-center gap-2 text-cyan-300">
+                    <Globe className="w-4 h-4 text-cyan-400" />
+                    {lang === 'ar' ? 'البيانات الحقيقية المستخرجة مباشرة من كود الصفحة:' : 'Live Data Extracted Directly From Target HTML:'}
                   </span>
-                  <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded border font-bold ${
-                    report.evidence.htmlFetched
-                      ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
-                      : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                  }`}>
-                    {report.evidence.htmlFetched ? (lang === 'ar' ? 'تم الاستخراج' : 'Fetched') : (lang === 'ar' ? 'محظور' : 'Blocked')}
+                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border font-bold bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                    {lang === 'ar' ? 'تم الاستخراج' : 'Fetched'}
                   </span>
                 </div>
 
-                {report.evidence.htmlFetched ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                     <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 space-y-1">
                       <span className="text-[10px] uppercase font-bold text-slate-400 block">
                         {lang === 'ar' ? 'عنوان الصفحة الفعلي (<title>):' : 'Live Page Title (<title>):'}
@@ -941,17 +947,8 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div className="p-3 rounded-xl bg-black/30 border border-amber-500/10 text-xs text-amber-300/80">
-                    <p>
-                      {lang === 'ar'
-                        ? 'لم يتمكن محرك الفحص من جلب كود HTML بسبب حماية CORS أو جدار حماية الموقع. النتائج أدناه مبنية على ملف robots.txt والإشارات المتاحة فقط. لتحقيق أفضل نتائج، افحص موقعك مباشرة من نفس النطاق.'
-                        : 'The audit engine could not fetch the HTML due to CORS restrictions or WAF protection. Results below are based on robots.txt and available signals only. For best results, run the audit from the same domain.'
-                      }
-                    </p>
-                  </div>
-                )}
               </div>
+              )}
 
               {/* Raw Evidence Ledger Accordion */}
               <div className="mt-8 pt-6 border-t border-white/10">

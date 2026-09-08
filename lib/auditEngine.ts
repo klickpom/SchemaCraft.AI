@@ -73,13 +73,13 @@ export interface AuditReport {
   url: string;
   timestamp: string;
   engineVersion: string;
-  overallScore: number;
+  overallScore: number | null;
   categoryScores: {
-    technicalSEO: number;
-    crawlability: number;
-    contentAnswerability: number;
-    entitySchema: number;
-    aiSearchReadiness: number;
+    technicalSEO: number | null;
+    crawlability: number | null;
+    contentAnswerability: number | null;
+    entitySchema: number | null;
+    aiSearchReadiness: number | null;
   };
   evidenceLedger: {
     name: string;
@@ -243,16 +243,36 @@ export const SAMPLE_PROFILES: Record<string, { name: string; nameAr: string; url
 export function evaluateEvidence(url: string, raw: RawEvidence, customId?: string): AuditReport {
   const issues: AuditIssue[] = [];
   const ledger: AuditReport['evidenceLedger'] = [];
+  const reportId = customId || generateAuditId();
 
-  // TRANSPARENCY: If HTML was not fetched, add a prominent notice
   if (!raw.htmlFetched) {
-    ledger.push({
-      name: 'HTML Fetch Status',
-      nameAr: 'حالة جلب كود HTML',
-      status: 'warning',
-      detail: 'Could not fetch live HTML. Bot protection or CORS may be blocking the request. Results below are based on robots.txt and limited signals only.',
-      detailAr: 'لم نتمكن من جلب كود HTML الحي. قد يكون جدار حماية أو حماية CORS يمنع الوصول. النتائج أدناه مبنية على robots.txt والإشارات المتاحة فقط.',
-    });
+    return {
+      id: reportId,
+      url,
+      timestamp: new Date().toISOString(),
+      engineVersion: AUDIT_ENGINE_VERSION,
+      overallScore: null,
+      categoryScores: {
+        technicalSEO: null,
+        crawlability: null,
+        contentAnswerability: null,
+        entitySchema: null,
+        aiSearchReadiness: null,
+      },
+      evidenceLedger: [{
+        name: 'HTML fetch',
+        nameAr: 'جلب HTML',
+        status: 'warning',
+        detail: 'Audit did not complete. Page HTML was not retrieved.',
+        detailAr: 'الفحص لم يتم. تعذر جلب HTML الصفحة.',
+      }],
+      criticalBlockers: [],
+      lockedIssues: [],
+      allIssues: [],
+      aiOpportunities: [],
+      detectedSiteType: raw.detectedSiteType,
+      evidence: raw,
+    };
   }
 
   if (!raw.robotsFetched) {
@@ -826,23 +846,33 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
     }
   });
 
-  const technicalSEO = Math.max(15, Math.min(98, Math.round(100 - categoryDeductions.technical)));
-  const crawlability = Math.max(10, Math.min(98, Math.round(100 - categoryDeductions.crawlability)));
-  const contentAnswerability = raw.htmlFetched
-    ? Math.max(20, Math.min(98, Math.round(100 - categoryDeductions.content)))
-    : 50; // Neutral if content couldn't be inspected
-  const entitySchema = raw.htmlFetched
-    ? Math.max(10, Math.min(98, Math.round(100 - categoryDeductions.entity)))
-    : 50; // Neutral if content couldn't be inspected
-  const aiSearchReadiness = Math.max(15, Math.min(98, Math.round((crawlability * 0.35) + (contentAnswerability * 0.35) + (entitySchema * 0.3))));
+  const clamp100 = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
+  const technicalSEO = clamp100(100 - categoryDeductions.technical);
+  const crawlability = raw.robotsFetched
+    ? clamp100(100 - categoryDeductions.crawlability)
+    : null;
+  const contentAnswerability = clamp100(100 - categoryDeductions.content);
+  const entitySchema = clamp100(100 - categoryDeductions.entity);
 
-  const overallScore = Math.max(18, Math.min(96, Math.round(
-    (technicalSEO * 0.2) +
-    (crawlability * 0.25) +
-    (contentAnswerability * 0.25) +
-    (entitySchema * 0.2) +
-    (aiSearchReadiness * 0.1)
-  )));
+  const aiParts: Array<[number, number]> = [];
+  if (crawlability !== null) aiParts.push([crawlability, 0.35]);
+  if (contentAnswerability !== null) aiParts.push([contentAnswerability, 0.35]);
+  if (entitySchema !== null) aiParts.push([entitySchema, 0.3]);
+  const aiWeight = aiParts.reduce((sum, [, weight]) => sum + weight, 0);
+  const aiSearchReadiness = aiWeight > 0
+    ? clamp100(aiParts.reduce((sum, [value, weight]) => sum + value * weight, 0) / aiWeight)
+    : null;
+
+  const overallParts: Array<[number, number]> = [];
+  if (technicalSEO !== null) overallParts.push([technicalSEO, 0.2]);
+  if (crawlability !== null) overallParts.push([crawlability, 0.25]);
+  if (contentAnswerability !== null) overallParts.push([contentAnswerability, 0.25]);
+  if (entitySchema !== null) overallParts.push([entitySchema, 0.2]);
+  if (aiSearchReadiness !== null) overallParts.push([aiSearchReadiness, 0.1]);
+  const overallWeight = overallParts.reduce((sum, [, weight]) => sum + weight, 0);
+  const overallScore = overallWeight > 0
+    ? clamp100(overallParts.reduce((sum, [value, weight]) => sum + value * weight, 0) / overallWeight)
+    : null;
 
   // Separate 3 Free Critical Blockers vs Locked Issues
   const criticalBlockers = issues.filter(i => i.severity !== 'informational').slice(0, 3);
@@ -850,8 +880,6 @@ export function evaluateEvidence(url: string, raw: RawEvidence, customId?: strin
 
   // Generate AI Search Opportunities based on site type
   const aiOpportunities: AIOpportunity[] = generateAIOpportunities(raw.detectedSiteType, raw);
-
-  const reportId = customId || generateAuditId();
 
   return {
     id: reportId,
@@ -975,48 +1003,141 @@ function generateAIOpportunities(siteType: string, raw: RawEvidence): AIOpportun
 }
 
 /**
- * Helper to fetch with strict timeout
+ * Same-origin Hostinger PHP fetch. Static export cannot host a Next.js API route.
  */
-async function fetchWithTimeout(url: string, timeoutMs = 5000): Promise<Response> {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeoutMs);
+type ServerAuditPayload = {
+  ok?: boolean;
+  status?: number;
+  finalUrl?: string;
+  redirects?: { url: string; status: number }[];
+  headers?: Record<string, string>;
+  html?: string;
+  robotsTxt?: string;
+  robotsStatus?: number | null;
+  sitemapXml?: string;
+  sitemapUrl?: string;
+  sitemapStatus?: number | null;
+  jsonLd?: unknown[];
+};
+
+function emptyEvidence(): RawEvidence {
+  return {
+    httpStatus: null,
+    robotsTxtFound: false,
+    robotsTxtContent: '',
+    sitemapFound: null,
+    sitemapUrl: '',
+    canonicalUrl: null,
+    metaRobots: null,
+    xRobotsTag: null,
+    title: null,
+    metaDescription: null,
+    h1Tags: [],
+    h2Tags: [],
+    leadParagraph: null,
+    hasQuestionHeadings: false,
+    hasDefinitionPatterns: false,
+    schemaTypesDetected: [],
+    rawJsonLd: [],
+    oaiSearchBotDirective: 'not_specified',
+    oaiAdsBotDirective: 'not_specified',
+    googleExtendedDirective: 'not_specified',
+    googlebotDirective: 'not_specified',
+    perplexityBotDirective: 'not_specified',
+    potentialBotBarrier: false,
+    detectedSiteType: 'general',
+    htmlFetched: false,
+    robotsFetched: false,
+  };
+}
+
+async function tryServerAudit(targetUrl: string): Promise<ServerAuditPayload | null> {
+  if (typeof window === 'undefined') return null;
+  for (const endpoint of ['/api/audit', '/api/audit/', '/api/audit.php']) {
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ url: targetUrl }),
+      });
+      if (!res.ok) continue;
+      const data = (await res.json()) as ServerAuditPayload;
+      if (data && data.ok === true && typeof data.html === 'string') return data;
+    } catch {
+      // try next path
+    }
+  }
+  return null;
+}
+
+function parseHtmlFields(html: string): Pick<
+  RawEvidence,
+  'title' | 'metaDescription' | 'canonicalUrl' | 'metaRobots' | 'h1Tags' | 'h2Tags' | 'leadParagraph' | 'hasQuestionHeadings' | 'schemaTypesDetected' | 'rawJsonLd'
+> {
+  const empty = {
+    title: null as string | null,
+    metaDescription: null as string | null,
+    canonicalUrl: null as string | null,
+    metaRobots: null as string | null,
+    h1Tags: [] as string[],
+    h2Tags: [] as string[],
+    leadParagraph: null as string | null,
+    hasQuestionHeadings: false,
+    schemaTypesDetected: [] as string[],
+    rawJsonLd: [] as any[],
+  };
+  if (typeof window === 'undefined' || !window.DOMParser) return empty;
   try {
-    const res = await fetch(url, {
-      signal: controller.signal,
-      headers: { 'Accept': 'text/html,text/plain,application/json,*/*' },
-      redirect: 'follow',
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    empty.title = doc.querySelector('title')?.textContent?.trim() || null;
+    empty.metaDescription = doc.querySelector('meta[name="description" i]')?.getAttribute('content')?.trim() || null;
+    empty.canonicalUrl = doc.querySelector('link[rel="canonical" i]')?.getAttribute('href')?.trim() || null;
+    empty.metaRobots = doc.querySelector('meta[name="robots" i]')?.getAttribute('content')?.trim() || null;
+    doc.querySelectorAll('h1').forEach((h1) => {
+      const text = h1.textContent?.trim();
+      if (text && text.length > 1) empty.h1Tags.push(text);
     });
-    clearTimeout(id);
-    return res;
-  } catch (err) {
-    clearTimeout(id);
-    throw err;
+    doc.querySelectorAll('h2').forEach((h2) => {
+      const text = h2.textContent?.trim();
+      if (text && text.length > 1) {
+        empty.h2Tags.push(text);
+        if (text.includes('?') || text.includes('؟') || /^(how|what|why|who|is|can|do|does|هل|كيف|ما|لماذا)/i.test(text)) {
+          empty.hasQuestionHeadings = true;
+        }
+      }
+    });
+    const paragraphs = doc.querySelectorAll('main p, article p, section p, .content p, #content p, p');
+    for (const p of paragraphs) {
+      const text = p.textContent?.trim();
+      if (text && text.length > 30 && !text.includes('©') && !text.includes('cookie') && !text.includes('privacy')) {
+        empty.leadParagraph = text.length > 300 ? text.substring(0, 300) : text;
+        break;
+      }
+    }
+    doc.querySelectorAll('script[type="application/ld+json" i]').forEach((script) => {
+      try {
+        const json = JSON.parse(script.textContent || '');
+        empty.rawJsonLd.push(json);
+        if (json['@type']) {
+          const types = Array.isArray(json['@type']) ? json['@type'] : [json['@type']];
+          empty.schemaTypesDetected.push(...types);
+        } else if (Array.isArray(json['@graph'])) {
+          json['@graph'].forEach((node: any) => {
+            if (node['@type']) {
+              const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']];
+              empty.schemaTypesDetected.push(...types);
+            }
+          });
+        }
+      } catch {
+        // skip invalid JSON-LD
+      }
+    });
+    empty.schemaTypesDetected = [...new Set(empty.schemaTypesDetected)];
+  } catch {
+    return empty;
   }
-}
-
-/**
- * Try fetching from a single proxy, return HTML string or throw
- */
-async function tryProxy(proxyUrl: string, timeoutMs = 5000): Promise<string> {
-  const res = await fetchWithTimeout(proxyUrl, timeoutMs);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const text = await res.text();
-  if (!text || text.length < 50) throw new Error('Empty response');
-  return text;
-}
-
-/**
- * allorigins returns JSON wrapper { contents: "..." } - unwrap it
- */
-async function tryAlloriginsJson(targetUrl: string, timeoutMs = 5000): Promise<string> {
-  const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-  const res = await fetchWithTimeout(apiUrl, timeoutMs);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const json = await res.json();
-  if (json && json.contents && json.contents.length > 50) {
-    return json.contents;
-  }
-  throw new Error('Empty contents');
+  return empty;
 }
 
 /**
@@ -1086,252 +1207,63 @@ function getBotDirective(parsed: Record<string, 'allowed' | 'disallowed'>, botNa
 }
 
 /**
- * ROBUST Multi-Strategy Live Web Crawler & DOM Parser
- * Uses 8+ proxy services with sequential fallback, allorigins JSON wrapper,
- * separate robots.txt fetch with independent proxy attempts,
- * and generous timeouts.
- *
- * INTEGRITY: ZERO fabrication. Reports only what was actually fetched.
+ * Server-side fetch via /api/audit. No browser CORS proxies.
  */
 export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence> {
-  let html = '';
-  let httpStatus: number | null = null;
-  let potentialBotBarrier = false;
-  let robotsTxtContent = '';
-  let robotsTxtFound = false;
-  let htmlFetched = false;
-  let robotsFetched = false;
-
-  let origin = '';
+  const blank = emptyEvidence();
+  let href = targetUrl;
   try {
-    const parsedUrl = new URL(targetUrl);
-    origin = parsedUrl.origin;
-  } catch (e) {
-    origin = targetUrl;
+    href = new URL(/^https?:\/\//i.test(targetUrl) ? targetUrl : `https://${targetUrl}`).href;
+  } catch {
+    return blank;
   }
 
-  const isSameOrigin = typeof window !== 'undefined' && (
-    window.location.origin === origin ||
-    targetUrl.includes(window.location.hostname) ||
-    window.location.hostname === 'localhost'
-  );
+  const server = await tryServerAudit(href);
+  if (!server) return blank;
 
-  // ─── Strategy 1: Same-origin direct fetch (zero proxy needed) ───
-  if (isSameOrigin) {
-    try {
-      const res = await fetch(targetUrl);
-      httpStatus = res.status;
-      if (res.ok) {
-        html = await res.text();
-        if (html.length > 100) htmlFetched = true;
+  const html = typeof server.html === 'string' ? server.html : '';
+  const httpStatus = typeof server.status === 'number' ? server.status : null;
+  const htmlFetched = httpStatus === 200 && html.length > 100;
+  if (!htmlFetched) return { ...blank, httpStatus };
+
+  const parsed = parseHtmlFields(html);
+  if (Array.isArray(server.jsonLd) && server.jsonLd.length > 0 && parsed.rawJsonLd.length === 0) {
+    parsed.rawJsonLd = server.jsonLd;
+    const types: string[] = [];
+    for (const block of server.jsonLd) {
+      if (!block || typeof block !== 'object') continue;
+      const node = block as { '@type'?: string | string[]; '@graph'?: Array<{ '@type'?: string | string[] }> };
+      if (node['@type']) {
+        types.push(...(Array.isArray(node['@type']) ? node['@type'] : [node['@type']]));
       }
-    } catch (e) {}
-
-    try {
-      const resRobots = await fetch('/robots.txt');
-      if (resRobots.ok) {
-        robotsTxtContent = await resRobots.text();
-        if (robotsTxtContent && robotsTxtContent.toLowerCase().includes('user-agent')) {
-          robotsTxtFound = true;
-          robotsFetched = true;
-        }
-      }
-    } catch (e) {}
-  }
-
-  // ─── Strategy 2: Multi-proxy racing with generous timeouts ───
-  if (!htmlFetched) {
-    const encoded = encodeURIComponent(targetUrl);
-
-    // Wave 1: Race the 3 fastest proxies simultaneously (5s timeout)
-    const wave1 = [
-      () => tryAlloriginsJson(targetUrl, 6000),
-      () => tryProxy(`https://corsproxy.io/?url=${encoded}`, 5000),
-      () => tryProxy(`https://api.codetabs.com/v1/proxy?quest=${encoded}`, 5000),
-    ];
-
-    try {
-      html = await Promise.any(wave1.map(fn => fn()));
-      if (html && html.length > 100) {
-        htmlFetched = true;
-        httpStatus = 200;
-      }
-    } catch (e) {}
-
-    // Wave 2: If wave 1 failed, try alternative proxies sequentially (each 6s)
-    if (!htmlFetched) {
-      const wave2 = [
-        `https://api.allorigins.win/raw?url=${encoded}`,
-        `https://thingproxy.freeboard.io/fetch/${targetUrl}`,
-        `https://cors-proxy.htmldriven.com/?url=${encoded}`,
-        `https://corsproxy.org/?url=${encoded}`,
-        `https://proxy.cors.sh/${targetUrl}`,
-      ];
-
-      for (const proxyUrl of wave2) {
-        if (htmlFetched) break;
-        try {
-          html = await tryProxy(proxyUrl, 6000);
-          if (html && html.length > 100) {
-            htmlFetched = true;
-            httpStatus = 200;
+      if (Array.isArray(node['@graph'])) {
+        for (const graphNode of node['@graph']) {
+          if (graphNode['@type']) {
+            types.push(...(Array.isArray(graphNode['@type']) ? graphNode['@type'] : [graphNode['@type']]));
           }
-        } catch (e) {
-          // Try next proxy
         }
       }
     }
-
-    // Wave 3: Instead of deprecated Google WebCache, try one more batch
-    if (!htmlFetched) {
-      // Last attempt with longer timeout
-      try {
-        html = await tryAlloriginsJson(targetUrl, 8000);
-        if (html && html.length > 100) {
-          htmlFetched = true;
-          httpStatus = 200;
-        }
-      } catch (e) {}
-    }
-
-    if (!htmlFetched) {
-      potentialBotBarrier = true;
-    }
+    parsed.schemaTypesDetected = [...new Set(types)];
   }
 
-  // ─── Robots.txt: Independent multi-proxy fetch (separate from HTML) ───
-  if (!robotsFetched) {
-    const robotsUrl = `${origin}/robots.txt`;
-    const robotsEncoded = encodeURIComponent(robotsUrl);
+  const robotsTxtContent = server.robotsTxt || '';
+  const robotsFetched = typeof server.robotsStatus === 'number'
+    ? server.robotsStatus === 200 && robotsTxtContent.toLowerCase().includes('user-agent')
+    : robotsTxtContent.toLowerCase().includes('user-agent');
+  const robotsTxtFound = robotsFetched;
 
-    const robotsStrategies = [
-      () => tryAlloriginsJson(robotsUrl, 5000),
-      () => tryProxy(`https://corsproxy.io/?url=${robotsEncoded}`, 4000),
-      () => tryProxy(`https://api.allorigins.win/raw?url=${robotsEncoded}`, 4000),
-      () => tryProxy(`https://api.codetabs.com/v1/proxy?quest=${robotsEncoded}`, 4000),
-      () => tryProxy(`https://thingproxy.freeboard.io/fetch/${robotsUrl}`, 4000),
-      () => tryProxy(`https://corsproxy.org/?url=${robotsEncoded}`, 4000),
-    ];
+  const sitemapXml = server.sitemapXml || '';
+  const sitemapFound = typeof server.sitemapStatus === 'number'
+    ? server.sitemapStatus === 200 && (sitemapXml.includes('<urlset') || sitemapXml.includes('<sitemapindex'))
+    : robotsFetched && robotsTxtContent.toLowerCase().includes('sitemap:')
+      ? true
+      : null;
 
-    // Race first 3
-    try {
-      const robotsResult = await Promise.any(robotsStrategies.slice(0, 3).map(fn => fn()));
-      if (robotsResult && robotsResult.toLowerCase().includes('user-agent')) {
-        robotsTxtContent = robotsResult;
-        robotsTxtFound = true;
-        robotsFetched = true;
-      }
-    } catch (e) {}
-
-    // Sequential fallback for remaining
-    if (!robotsFetched) {
-      for (const strategy of robotsStrategies.slice(3)) {
-        if (robotsFetched) break;
-        try {
-          const robotsResult = await strategy();
-          if (robotsResult && robotsResult.toLowerCase().includes('user-agent')) {
-            robotsTxtContent = robotsResult;
-            robotsTxtFound = true;
-            robotsFetched = true;
-          }
-        } catch (e) {}
-      }
-    }
-  }
-
-  // ─── 3. Real DOM Parser — ONLY from genuinely fetched HTML ───
-  let title: string | null = null;
-  let metaDescription: string | null = null;
-  let canonicalUrl: string | null = null;
-  let metaRobots: string | null = null;
-  let h1Tags: string[] = [];
-  let h2Tags: string[] = [];
-  let leadParagraph: string | null = null;
-  let hasQuestionHeadings = false;
-  let schemaTypesDetected: string[] = [];
-  let rawJsonLd: any[] = [];
-
-  if (htmlFetched && html.length > 100) {
-    try {
-      if (typeof window !== 'undefined' && window.DOMParser) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        title = doc.querySelector('title')?.textContent?.trim() || null;
-        metaDescription = doc.querySelector('meta[name="description" i]')?.getAttribute('content')?.trim() || null;
-        canonicalUrl = doc.querySelector('link[rel="canonical" i]')?.getAttribute('href')?.trim() || null;
-        metaRobots = doc.querySelector('meta[name="robots" i]')?.getAttribute('content')?.trim() || null;
-
-        doc.querySelectorAll('h1').forEach((h1) => {
-          const text = h1.textContent?.trim();
-          if (text && text.length > 1) h1Tags.push(text);
-        });
-
-        doc.querySelectorAll('h2').forEach((h2) => {
-          const text = h2.textContent?.trim();
-          if (text && text.length > 1) {
-            h2Tags.push(text);
-            if (text.includes('?') || text.includes('؟') || /^(how|what|why|who|is|can|do|does|هل|كيف|ما|لماذا)/i.test(text)) {
-              hasQuestionHeadings = true;
-            }
-          }
-        });
-
-        // Find first meaningful paragraph
-        const paragraphs = doc.querySelectorAll('main p, article p, section p, .content p, #content p, p');
-        for (const p of paragraphs) {
-          const text = p.textContent?.trim();
-          if (text && text.length > 30 && !text.includes('©') && !text.includes('cookie') && !text.includes('privacy')) {
-            leadParagraph = text.length > 300 ? text.substring(0, 300) : text;
-            break;
-          }
-        }
-
-        doc.querySelectorAll('script[type="application/ld+json" i]').forEach((script) => {
-          try {
-            const json = JSON.parse(script.textContent || '');
-            rawJsonLd.push(json);
-            if (json['@type']) {
-              const types = Array.isArray(json['@type']) ? json['@type'] : [json['@type']];
-              schemaTypesDetected.push(...types);
-            } else if (Array.isArray(json['@graph'])) {
-              json['@graph'].forEach((node: any) => {
-                if (node['@type']) {
-                  const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']];
-                  schemaTypesDetected.push(...types);
-                }
-              });
-            }
-          } catch (e) {}
-        });
-
-        schemaTypesDetected = [...new Set(schemaTypesDetected)];
-      }
-    } catch (e) {}
-  }
-
-  if (!htmlFetched) {
-    potentialBotBarrier = true;
-  }
-
-  // ─── 4. Accurate per-bot robots.txt parsing ───
+  const headers = server.headers || {};
   const parsedRobots = parseRobotsTxt(robotsTxtContent);
-  const oaiSearchBotDirective = robotsFetched ? getBotDirective(parsedRobots, 'oai-searchbot') : 'not_specified';
-  const oaiAdsBotDirective = robotsFetched ? getBotDirective(parsedRobots, 'oai-adsbot') : 'not_specified';
-  const googleExtendedDirective = robotsFetched ? getBotDirective(parsedRobots, 'google-extended') : 'not_specified';
-  const googlebotDirective = robotsFetched ? getBotDirective(parsedRobots, 'googlebot') : 'not_specified';
-  const perplexityBotDirective = robotsFetched ? getBotDirective(parsedRobots, 'perplexitybot') : 'not_specified';
-
-  const botDirectives: Record<string, 'allowed' | 'disallowed' | 'not_specified'> = {};
-  for (const bot of BOT_REGISTRY) {
-    botDirectives[bot.userAgent] = robotsFetched
-      ? getBotDirective(parsedRobots, bot.userAgent)
-      : 'not_specified';
-  }
-
-  // Detect site type from REAL extracted content only
-  const combinedText = `${title || ''} ${metaDescription || ''} ${h1Tags.join(' ')} ${targetUrl}`.toLowerCase();
-  let detectedSiteType: 'saas' | 'ecommerce' | 'clinic' | 'agency' | 'general' = 'general';
+  const combinedText = `${parsed.title || ''} ${parsed.metaDescription || ''} ${parsed.h1Tags.join(' ')} ${href}`.toLowerCase();
+  let detectedSiteType: RawEvidence['detectedSiteType'] = 'general';
   if (combinedText.includes('software') || combinedText.includes('saas') || combinedText.includes(' app ') || combinedText.includes('api') || combinedText.includes('platform')) {
     detectedSiteType = 'saas';
   } else if (combinedText.includes('shop') || combinedText.includes('store') || combinedText.includes('cart') || combinedText.includes('product') || combinedText.includes('price')) {
@@ -1342,32 +1274,11 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     detectedSiteType = 'agency';
   }
 
-  // Sitemap check: First check robots.txt, then probe /sitemap.xml directly
-  let sitemapFound: boolean | null = null;
-  let sitemapUrl = '';
-
-  if (robotsFetched && robotsTxtContent.toLowerCase().includes('sitemap:')) {
-    sitemapFound = true;
-    sitemapUrl = robotsTxtContent.match(/Sitemap:\s*(.*)/i)?.[1]?.trim() || `${origin}/sitemap.xml`;
-  } else {
-    // Probe /sitemap.xml directly via proxy (don't falsely penalize)
-    const sitemapProbeUrl = `${origin}/sitemap.xml`;
-    const sitemapEncoded = encodeURIComponent(sitemapProbeUrl);
-    try {
-      const sitemapRes = await Promise.any([
-        tryProxy(`https://corsproxy.io/?url=${sitemapEncoded}`, 3000),
-        tryProxy(`https://api.allorigins.win/raw?url=${sitemapEncoded}`, 3000),
-      ]);
-      if (sitemapRes && (sitemapRes.includes('<urlset') || sitemapRes.includes('<sitemapindex') || sitemapRes.includes('<?xml'))) {
-        sitemapFound = true;
-        sitemapUrl = sitemapProbeUrl;
-      } else {
-        sitemapFound = false;
-      }
-    } catch (e) {
-      // Could not determine
-      sitemapFound = robotsFetched ? false : null;
-    }
+  const botDirectives: Record<string, 'allowed' | 'disallowed' | 'not_specified'> = {};
+  for (const bot of BOT_REGISTRY) {
+    botDirectives[bot.userAgent] = robotsFetched
+      ? getBotDirective(parsedRobots, bot.userAgent)
+      : 'not_specified';
   }
 
   return {
@@ -1375,27 +1286,27 @@ export async function fetchLiveEvidence(targetUrl: string): Promise<RawEvidence>
     robotsTxtFound,
     robotsTxtContent,
     sitemapFound,
-    sitemapUrl,
-    canonicalUrl,
-    metaRobots,
-    xRobotsTag: null,
-    title,
-    metaDescription,
-    h1Tags,
-    h2Tags,
-    leadParagraph,
-    hasQuestionHeadings,
-    hasDefinitionPatterns: leadParagraph ? /is a |are |defined as |يعتبر |هو |عبارة عن/i.test(leadParagraph) : false,
-    schemaTypesDetected,
-    rawJsonLd,
-    oaiSearchBotDirective,
-    oaiAdsBotDirective,
-    googleExtendedDirective,
-    googlebotDirective,
-    perplexityBotDirective,
-    potentialBotBarrier,
+    sitemapUrl: server.sitemapUrl || '',
+    canonicalUrl: parsed.canonicalUrl,
+    metaRobots: parsed.metaRobots,
+    xRobotsTag: headers['x-robots-tag'] || null,
+    title: parsed.title,
+    metaDescription: parsed.metaDescription,
+    h1Tags: parsed.h1Tags,
+    h2Tags: parsed.h2Tags,
+    leadParagraph: parsed.leadParagraph,
+    hasQuestionHeadings: parsed.hasQuestionHeadings,
+    hasDefinitionPatterns: parsed.leadParagraph ? /is a |are |defined as |يعتبر |هو |عبارة عن/i.test(parsed.leadParagraph) : false,
+    schemaTypesDetected: parsed.schemaTypesDetected,
+    rawJsonLd: parsed.rawJsonLd,
+    oaiSearchBotDirective: robotsFetched ? getBotDirective(parsedRobots, 'oai-searchbot') : 'not_specified',
+    oaiAdsBotDirective: robotsFetched ? getBotDirective(parsedRobots, 'oai-adsbot') : 'not_specified',
+    googleExtendedDirective: robotsFetched ? getBotDirective(parsedRobots, 'google-extended') : 'not_specified',
+    googlebotDirective: robotsFetched ? getBotDirective(parsedRobots, 'googlebot') : 'not_specified',
+    perplexityBotDirective: robotsFetched ? getBotDirective(parsedRobots, 'perplexitybot') : 'not_specified',
+    potentialBotBarrier: false,
     detectedSiteType,
-    htmlFetched,
+    htmlFetched: true,
     robotsFetched,
     botDirectives,
   };
