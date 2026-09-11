@@ -1,34 +1,29 @@
 # SchemaCraft AI
 
-> Real-Time AI Search Visibility Auditor, Technical SEO Diagnostics & Context-Aware Schema.org Generator.
+> Free SEO audit and JSON-LD schema generator. Scores are computed only from HTML the server actually retrieved.
 
-## About SchemaCraft AI
-SchemaCraft AI (https://schemacraft-ai.site) is a deterministic audit platform designed to analyze, score, and optimize websites for traditional search engines (Google, Bing) and next-generation Generative AI search engines (ChatGPT Search, Perplexity AI, Google AI Overviews, Claude, Gemini).
+## Product
+SchemaCraft AI (https://schemacraft-ai.site) audits a public URL by fetching it from SchemaCraft servers (`POST /api/audit`). The report includes final HTTP status, redirects, headers, HTML, robots.txt, and JSON-LD blocks. If HTML is missing, no overall score is shown. Checks without evidence are labeled Not assessed.
 
-## Key Diagnostic Modules
-- **Technical SEO & Canonical Audits**: Indexability gates, HTTP headers, canonical URL integrity, redirect chains, mobile viewport compliance.
-- **Crawlability & AI Bot Directives**: Robots.txt verification for standard web crawlers and AI search agents (GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended, Applebot-Extended).
-- **Content Answerability & Structure (BLUF)**: Primary heading (H1) detection, lead section density, meta descriptions, FAQ extraction.
-- **Entity & Schema.org Graph Diagnostics**: JSON-LD semantic structured data extraction, entity relation graphs, missing rich snippet opportunities.
-- **AI Search Opportunity Matrix**: Custom prompt and query visibility analysis, predictive search triggers.
+A free audit does not require an account. Full audit access is $9 USD one-time with a 30-day refund via support@schemacraft-ai.site. Valid Schema.org markup does not guarantee a Google rich result.
 
-## Platform-Specific Remediation Engines
-- **Next.js 15 App Router**: TypeScript metadata exports, dynamic JSON-LD injection, server sitemaps (`app/sitemap.ts`), and security headers.
-- **WordPress**: Functions.php hooks, wp_head schema filters, RankMath/Yoast integrations, `.htaccess` caching rules.
-- **Shopify**: Liquid theme templates (`theme.liquid`), JSON-LD product/collection schemas, CDN bypasses.
+## Primary pages
+- [Free SEO audit](https://schemacraft-ai.site/)
+- [JSON-LD schema generator](https://schemacraft-ai.site/json-ld-generator/)
+- [About](https://schemacraft-ai.site/about/)
+- [Privacy](https://schemacraft-ai.site/privacy/)
+- [Terms](https://schemacraft-ai.site/terms/)
 
-## Programmatic Schema Endpoints
-- [Shopify Product Schema Generator](https://schemacraft-ai.site/schema/shopify-product/)
-- [Next.js SoftwareApplication Schema Generator](https://schemacraft-ai.site/schema/nextjs-software/)
-- [SaaS FAQPage Rich Snippet Schema](https://schemacraft-ai.site/schema/saas-faq/)
-- [Local Business SEO Schema](https://schemacraft-ai.site/schema/local-seo-schema/)
-- [Course & Educational Structured Data](https://schemacraft-ai.site/schema/course-education-schema/)
-- [Article & Google Discover Schema](https://schemacraft-ai.site/schema/article-google-discover-schema/)
+## Schema generators
+- [Shopify Product](https://schemacraft-ai.site/schema/shopify-product/)
+- [Next.js SoftwareApplication](https://schemacraft-ai.site/schema/nextjs-software/)
+- [FAQPage](https://schemacraft-ai.site/schema/saas-faq/)
+- [Local Business](https://schemacraft-ai.site/schema/local-seo-schema/)
+- [WooCommerce Product](https://schemacraft-ai.site/schema/woocommerce-product-schema/)
+- [Organization](https://schemacraft-ai.site/schema/organization-brand-schema/)
 
-## Canonical Information
+## Canonical
 - Website: https://schemacraft-ai.site
 - Sitemap: https://schemacraft-ai.site/sitemap.xml
 - Robots: https://schemacraft-ai.site/robots.txt
-- Pricing: $9.00 USD (Lifetime Single Audit & Fix Generator Access)
-- Guarantee: 30-Day Money-Back Guarantee
 - Support: support@schemacraft-ai.site

@@ -6,6 +6,10 @@ const keyLocation = `https://${host}/${key}.txt`;
 
 const urlList = [
   `https://${host}/`,
+  `https://${host}/json-ld-generator/`,
+  `https://${host}/about/`,
+  `https://${host}/privacy/`,
+  `https://${host}/terms/`,
   `https://${host}/schema/shopify-product/`,
   `https://${host}/schema/nextjs-software/`,
   `https://${host}/schema/saas-faq/`,

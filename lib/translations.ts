@@ -199,7 +199,8 @@ export interface Translations {
     rights: string;
     privacy: string;
     terms: string;
-    whitepaper: string;
+    about: string;
+    jsonLd: string;
   };
 }
 
@@ -218,8 +219,8 @@ export const translations: Record<Language, Translations> = {
     },
     hero: {
       badge: 'Fast Deterministic SEO + GEO + AEO Diagnostic',
-      h1: 'See How Search Engines and AI Understand Your Website',
-      subtitle: 'Run a free SEO + AI Search audit and uncover the technical, content, entity, and crawlability issues limiting your visibility.',
+      h1: 'Free SEO Audit and JSON-LD Schema Generator',
+      subtitle: 'Paste a URL. We fetch the page from our server, score only what we inspected, and generate Schema.org JSON-LD. Missing evidence is Not assessed — never a made-up number.',
       inputPlaceholder: 'Enter website URL (e.g. company.com)...',
       ctaAnalyze: 'Analyze My Website →',
       scanningText: 'Running Deep Diagnostic Scan...',
@@ -403,7 +404,8 @@ export const translations: Record<Language, Translations> = {
       rights: '© 2026 SchemaCraft.AI • Deterministic Audit Engine v1.0 • All Rights Reserved.',
       privacy: 'Privacy Policy',
       terms: 'Terms of Service',
-      whitepaper: 'GEO 2026 Architecture Whitepaper',
+      about: 'About',
+      jsonLd: 'JSON-LD Generator',
     },
   },
   ar: {
@@ -420,8 +422,8 @@ export const translations: Record<Language, Translations> = {
     },
     hero: {
       badge: 'فحص تشخيصي حتمي شامل لـ SEO والذكاء الاصطناعي',
-      h1: 'اكتشف كيف تفهم محركات البحث والذكاء الاصطناعي موقعك',
-      subtitle: 'قم بتشغيل فحص مجاني شامل واكتشف المشاكل التقنية ومشاكل المحتوى والزحف التي تحد من ظهور وفهم موقعك.',
+      h1: 'فحص سيو مجاني ومولد JSON-LD',
+      subtitle: 'الصق الرابط. نجلب الصفحة من سيرفرنا، ونحسب الدرجة مما فحصناه فقط، ونولّد سكيما Schema.org. اللي مالوش دليل يظهر غير مُقيَّم — مش رقم مخترع.',
       inputPlaceholder: 'أدخل رابط موقعك (مثل: company.com)...',
       ctaAnalyze: 'افحص موقعي الآن →',
       scanningText: 'جاري تشغيل الفحص التشخيصي العميق...',
@@ -605,7 +607,8 @@ export const translations: Record<Language, Translations> = {
       rights: '© 2026 SchemaCraft.AI • محرك الفحص الحتمي v1.0 • جميع الحقوق محفوظة.',
       privacy: 'سياسة الخصوصية',
       terms: 'شروط الخدمة والاستخدام',
-      whitepaper: 'ورقة عمل بنية GEO 2026',
+      about: 'عن المنصة',
+      jsonLd: 'مولد JSON-LD',
     },
   },
 };

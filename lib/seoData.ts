@@ -29,8 +29,7 @@ export const PROGRAMMATIC_SEO_PAGES: Record<string, ProgrammaticPageData> = {
     discoveryNote: 'Request indexing in Search Console',
     keyBenefits: [
       { title: 'Google Merchant Center Sync', desc: 'Compliant with Google Search Central 2026 product specifications including priceValidUntil and itemCondition.' },
-      { title: 'Liquid One-Click Export', desc: 'Directly output snippets/product-schema.liquid ready for seamless theme integration.' },
-      { title: 'Liquid One-Click Export', desc: 'Directly output snippets/product-schema.liquid ready for seamless theme integration.' },
+      { title: 'Liquid snippet export', desc: 'Output a theme snippet you can include from theme.liquid or the product template.' },
     ],
     technicalSpecs: [
       { attribute: 'offers.price', format: 'Decimal String (e.g. "89.00")', requirement: 'Mandatory', googleImpact: 'Triggers SERP Price Badge' },

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { canonicalUrl, ogImageUrl, SITE_ORIGIN } from "@/lib/seo/urls";
+import { sitewideGraph } from "@/lib/seo/jsonld";
+import { ogImageUrl, SITE_ORIGIN } from "@/lib/seo/urls";
 
 export const viewport: Viewport = {
   themeColor: "#09090b",
@@ -11,9 +12,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
-  title: "SchemaCraft AI | AI Search Visibility Auditor & Optimizer",
+  title: {
+    default: "Free SEO Audit & JSON-LD Schema Generator | SchemaCraft AI",
+    template: "%s",
+  },
   description:
-    "Discover the technical, content, entity, and crawlability issues that may limit how search engines and AI systems discover and understand your website.",
+    "Paste a URL. SchemaCraft fetches the page from our server, scores only what it inspected, and generates Schema.org JSON-LD.",
   keywords: [
     "AI Search Visibility Audit",
     "GEO Audit Tool",
@@ -41,14 +45,11 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  alternates: {
-    canonical: canonicalUrl("/"),
-  },
   openGraph: {
-    title: "SchemaCraft AI | AI Search Visibility Auditor & Schema Generator",
+    title: "Free SEO Audit & JSON-LD Schema Generator | SchemaCraft AI",
     description:
-      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate Schema.org JSON-LD and WAF bot safelists in the browser.",
-    url: canonicalUrl("/"),
+      "Server-side website audit and in-browser Schema.org JSON-LD generator. Unretrieved pages are not scored.",
+    url: SITE_ORIGIN,
     siteName: "SchemaCraft.AI",
     images: [
       {
@@ -63,9 +64,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SchemaCraft AI | AI Search Visibility Auditor & Schema Generator",
+    title: "Free SEO Audit & JSON-LD Schema Generator | SchemaCraft AI",
     description:
-      "Audit your website for Google, ChatGPT Search, and Perplexity. Generate Schema.org JSON-LD and WAF bot safelists in the browser.",
+      "Server-side website audit and in-browser Schema.org JSON-LD generator. Unretrieved pages are not scored.",
     images: [ogImageUrl()],
     creator: "@SchemaCraftAI",
   },
@@ -103,125 +104,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const rootSchemaGraph = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "@id": `${canonicalUrl("/")}#software`,
-        name: "SchemaCraft AI Search Visibility Auditor",
-        alternateName: "SchemaCraft AI Visibility Optimizer",
-        description:
-          "Fast deterministic website audit engine diagnosing SEO, crawlability, content answerability, and entity structured data readiness for Google and AI-powered search.",
-        applicationCategory: "DeveloperApplication",
-        operatingSystem: "Web",
-        url: canonicalUrl("/"),
-        softwareVersion: "1.0.0",
-        offers: {
-          "@type": "Offer",
-          price: "9.00",
-          priceCurrency: "USD",
-          availability: "https://schema.org/InStock",
-          priceValidUntil: "2027-12-31",
-        },
-        author: {
-          "@type": "Organization",
-          "@id": `${canonicalUrl("/")}#organization`,
-          name: "SchemaCraft AI Global",
-          url: canonicalUrl("/"),
-        },
-      },
-      {
-        "@type": "WebSite",
-        "@id": `${canonicalUrl("/")}#website`,
-        url: canonicalUrl("/"),
-        name: "SchemaCraft AI",
-        description: "AI Search Visibility Auditor & Optimizer",
-        publisher: {
-          "@id": `${canonicalUrl("/")}#organization`,
-        },
-      },
-      {
-        "@type": "Organization",
-        "@id": `${canonicalUrl("/")}#organization`,
-        name: "SchemaCraft AI",
-        url: canonicalUrl("/"),
-        logo: {
-          "@type": "ImageObject",
-          url: `${SITE_ORIGIN}/icon.png`,
-        },
-        sameAs: [
-          "https://x.com/SchemaCraftAI",
-          "https://github.com/klickpom/SchemaCraft.AI",
-        ],
-      },
-      {
-        "@type": "HowTo",
-        "@id": `${canonicalUrl("/")}#howto-audit`,
-        name: "How to Audit and Optimize Your Website for AI Search Engines",
-        description: "Step-by-step methodology to diagnose crawl barriers, unblock AI bots, and deploy Schema.org structured data.",
-        step: [
-          {
-            "@type": "HowToStep",
-            position: 1,
-            name: "Run Free AI Search Audit",
-            text: "Enter your domain URL into SchemaCraft AI to crawl HTTP headers, robots.txt, and live DOM markup."
-          },
-          {
-            "@type": "HowToStep",
-            position: 2,
-            name: "Review AI Discovery Blockers",
-            text: "Examine OAI-SearchBot directives, BLUF direct answer summaries, and missing Schema.org JSON-LD entities."
-          },
-          {
-            "@type": "HowToStep",
-            position: 3,
-            name: "Deploy 1-Click Code Fixes",
-            text: "Copy production-ready WordPress hooks, Next.js metadata scripts, or Shopify Liquid tags. Valid markup does not guarantee a rich result."
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": `${canonicalUrl("/")}#faq`,
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "How does SchemaCraft AI audit websites for Google, ChatGPT Search and Perplexity?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "SchemaCraft AI executes a multi-wave deterministic diagnostic inspecting server HTTP status, indexability gates, robots.txt bot directives (including OAI-SearchBot and PerplexityBot), BLUF content answerability, and Schema.org JSON-LD entity graph completeness.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "What platforms does SchemaCraft AI provide ready code fixes for?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "SchemaCraft AI generates copy-paste code for WordPress (functions.php hooks), Next.js 15 App Router (TypeScript metadata and JSON-LD scripts), and Shopify Liquid themes.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "What is the difference between SEO, GEO, and AEO?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "SEO (Search Engine Optimization) optimizes for traditional keyword rankings. GEO (Generative Engine Optimization) structures entity relations so LLMs understand brand context. AEO (Answer Engine Optimization) structures concise BLUF answers so ChatGPT Search, Perplexity, and Google AI Overviews directly cite your domain as the authoritative source.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "How much does SchemaCraft AI cost and what is the guarantee?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "SchemaCraft AI offers a single lifetime full audit access pass for $9.00 USD with zero recurring fees, backed by an unconditional 30-Day Money-Back Guarantee.",
-            },
-          },
-        ],
-      },
-    ],
-  };
-
   return (
     <html lang="en" className="dark overflow-x-hidden max-w-full">
       <head>
@@ -234,7 +116,7 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(rootSchemaGraph) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(sitewideGraph()) }}
         />
       </head>
       <body className="min-h-screen w-full max-w-full bg-[#060608] text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white overflow-x-hidden">

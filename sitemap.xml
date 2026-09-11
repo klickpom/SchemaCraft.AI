@@ -2,7 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://schemacraft-ai.site/</loc>
-<lastmod>2026-09-08T01:53:37+03:00</lastmod>
+<lastmod>2026-09-08T06:03:43+03:00</lastmod>
+</url>
+<url>
+<loc>https://schemacraft-ai.site/about/</loc>
+<lastmod>2026-09-11T17:21:48.385Z</lastmod>
+</url>
+<url>
+<loc>https://schemacraft-ai.site/json-ld-generator/</loc>
+<lastmod>2026-09-11T17:21:48.736Z</lastmod>
+</url>
+<url>
+<loc>https://schemacraft-ai.site/privacy/</loc>
+<lastmod>2026-09-11T17:21:49.053Z</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/schema/shopify-product/</loc>
@@ -63,5 +75,9 @@
 <url>
 <loc>https://schemacraft-ai.site/schema/video-youtube-embed-schema/</loc>
 <lastmod>2026-09-07T05:38:34+03:00</lastmod>
+</url>
+<url>
+<loc>https://schemacraft-ai.site/terms/</loc>
+<lastmod>2026-09-11T17:22:01.042Z</lastmod>
 </url>
 </urlset>

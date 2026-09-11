@@ -372,14 +372,14 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
     googleRichResultType: 'Review Snippet',
     fields: [
       { id: 'itemName', label: 'Item / Service Reviewed', type: 'text', placeholder: 'SchemaCraft Pro Suite', required: true, defaultValue: 'SchemaCraft Pro Suite' },
-      { id: 'reviewBody', label: 'Review Testimonial', type: 'textarea', placeholder: 'Cut our technical SEO indexing time from 2 weeks to 4 hours.', defaultValue: 'SchemaCraft simplified our Next.js structured data workflow overnight. Our rich snippet CTR surged by 42% within 7 days.' },
+      { id: 'reviewBody', label: 'Review Testimonial', type: 'textarea', placeholder: 'Quote a real customer. Do not invent ratings.', defaultValue: 'Replace this text with a real quote from your own customers.' },
       { id: 'authorName', label: 'Reviewer Name', type: 'text', placeholder: 'Marcus Vance, VP of Growth', required: true, defaultValue: 'Marcus Vance, Head of SEO at Veloce' },
       { id: 'ratingValue', label: 'Rating (1-5)', type: 'number', placeholder: '5', required: true, defaultValue: '5' },
       { id: 'bestRating', label: 'Max Rating (Default 5)', type: 'number', placeholder: '5', defaultValue: '5' },
     ],
     defaultValues: {
       itemName: 'SchemaCraft Pro Suite',
-      reviewBody: 'SchemaCraft simplified our Next.js structured data workflow overnight. Our rich snippet CTR surged by 42% within 7 days.',
+      reviewBody: 'SchemaCraft simplified our Next.js structured data workflow. Replace this text with a real quote from your own customers.',
       authorName: 'Marcus Vance, Head of SEO at Veloce',
       ratingValue: '5',
       bestRating: '5',

@@ -91,7 +91,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href={schemaPath('saas-faq')} className="hover:text-cyan-400 transition-colors">
-                  FAQPage Rich Snippets
+                  FAQPage JSON-LD
                 </Link>
               </li>
               <li>
@@ -108,6 +108,16 @@ export function Footer() {
               AEO & AI Search
             </h4>
             <ul className="space-y-2">
+              <li>
+                <Link href="/json-ld-generator/" className="hover:text-cyan-400 transition-colors">
+                  JSON-LD generator
+                </Link>
+              </li>
+              <li>
+                <Link href="/about/" className="hover:text-cyan-400 transition-colors">
+                  About
+                </Link>
+              </li>
               <li className="flex items-center gap-1.5 text-zinc-400">
                 <Bot className="h-3 w-3 text-cyan-400" />
                 <span>Perplexity Entity Grounding</span>
@@ -152,8 +162,16 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400">
           <p>© {new Date().getFullYear()} SchemaCraft AI & Data Architect. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <span className="text-zinc-400">Zero-Friction Single-Utility</span>
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            <Link href="/privacy/" className="hover:text-cyan-400 transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms/" className="hover:text-cyan-400 transition-colors">
+              Terms
+            </Link>
+            <a href="mailto:support@schemacraft-ai.site" className="hover:text-cyan-400 transition-colors">
+              support@schemacraft-ai.site
+            </a>
           </div>
         </div>
 

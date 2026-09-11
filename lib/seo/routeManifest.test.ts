@@ -15,6 +15,16 @@ describe('route manifest', () => {
     }
   });
 
+  it('includes trust pages and the JSON-LD hub once', () => {
+    const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
+    expect(urls).toEqual(expect.arrayContaining([
+      'https://schemacraft-ai.site/about/',
+      'https://schemacraft-ai.site/privacy/',
+      'https://schemacraft-ai.site/terms/',
+      'https://schemacraft-ai.site/json-ld-generator/',
+    ]));
+  });
+
   it('includes the shopify generator once', () => {
     const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
     const shopify = urls.filter((url) => url.includes('/schema/shopify-product/'));

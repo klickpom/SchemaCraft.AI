@@ -52,7 +52,10 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-300">
           <Link href="/" className="hover:text-cyan-300 transition-colors">
-            Audit Engine
+            Free Audit
+          </Link>
+          <Link href="/json-ld-generator/" className="hover:text-cyan-300 transition-colors">
+            JSON-LD Generator
           </Link>
 
           <div className="relative group">
@@ -190,7 +193,14 @@ export function Header({ onOpenPaywall, isPro }: HeaderProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-xl bg-white/[0.04] text-xs font-bold text-white hover:bg-white/[0.08]"
           >
-            🚀 Run AI Search Audit
+            Run free audit
+          </Link>
+          <Link
+            href="/json-ld-generator/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-xl bg-white/[0.04] text-xs font-bold text-white hover:bg-white/[0.08]"
+          >
+            JSON-LD generator
           </Link>
           <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 pt-1">
             Top Schema Generators

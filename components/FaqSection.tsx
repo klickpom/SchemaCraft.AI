@@ -25,14 +25,14 @@ const FAQS: FaqItem[] = [
   {
     qEn: 'How does SchemaCraft AI audit websites for Google and AI Search Engines?',
     qAr: 'كيف يقوم SchemaCraft AI بفحص وتدقيق المواقع لمحركات بحث جوجل والذكاء الاصطناعي؟',
-    aEn: 'SchemaCraft runs a multi-wave diagnostic of HTTP status, noindex gates, robots.txt directives (OAI-SearchBot, PerplexityBot, Claude-SearchBot), BLUF lead answerability, and Schema.org JSON-LD graph completeness. Fetching third-party HTML depends on the target site and CORS proxies.',
-    aAr: 'يقوم SchemaCraft بتشغيل زاحف فني يفحص استجابة الخادم، بوابات الفهرسة، أوامر ملف robots.txt لبوتات الذكاء الاصطناعي (مثل OAI-SearchBot و PerplexityBot)، وضوح الإجابات المباشرة (BLUF)، واكتمال بيانات Schema.org JSON-LD بدقة وحتمية وبدون أي تخمين.',
+    aEn: 'SchemaCraft fetches the URL from its own servers and inspects HTTP status, robots.txt, headings, and JSON-LD found in the HTML. If the page cannot be retrieved, no score is shown.',
+    aAr: 'SchemaCraft يجلب الرابط من سيرفره ويفحص حالة HTTP وملف robots.txt والعناوين وJSON-LD الموجود في HTML. لو الصفحة متعرّفتش، مفيش درجة.',
   },
   {
     qEn: 'Why is Schema.org JSON-LD structured data essential for Google Rich Results?',
     qAr: 'لماذا تعتبر بيانات Schema.org JSON-LD ضرورية للحصول على النتائج الغنية في جوجل؟',
-    aEn: 'Schema.org JSON-LD gives search engines explicit machine-readable context. It unlocks Google Rich Snippets—including 5-star review ratings, pricing badges, FAQ drop-down drawers, and video key moments—which boosts organic click-through rate (CTR) by over 30%.',
-    aAr: 'تزود سكيما JSON-LD محركات البحث ببيانات منظمة يفهمها الروبوت فوراً. هذا يفعل المزايا البصرية في جوجل (النتائج الغنية) مثل نجوم التقييم الخماسية، شارات الأسعار والمخزون، قوائم الأسئلة الشائعة، ولحظات الفيديو، مما يرفع نسبة النقر بنسبة تتجاوز 30%.',
+    aEn: 'JSON-LD gives crawlers explicit machine-readable facts. It can make a listing eligible for some rich results when Google chooses to show them. It does not guarantee a rich result or a click-through-rate increase.',
+    aAr: 'JSON-LD يعطي الزواحف حقائق قابلة للقراءة آلياً. قد يؤهّل النتيجة لبعض الأشكال الغنية إذا اختار جوجل عرضها. لا يضمن نتيجة غنية ولا زيادة نقر.',
   },
   {
     qEn: 'How do I add the generated Schema JSON-LD to WordPress, Next.js, or Shopify?',
