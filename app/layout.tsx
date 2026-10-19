@@ -1,7 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Cairo, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { sitewideGraph } from "@/lib/seo/jsonld";
 import { ogImageUrl, SITE_ORIGIN } from "@/lib/seo/urls";
+
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-jakarta", display: "swap" });
+const cairo = Cairo({ subsets: ["arabic", "latin"], weight: ["400", "600", "700", "800", "900"], variable: "--font-cairo", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-jbmono", display: "swap" });
 
 export const viewport: Viewport = {
   themeColor: "#09090b",
@@ -13,31 +18,13 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "Free SEO Audit & JSON-LD Schema Generator | SchemaCraft AI",
+    default: "Free AI SEO Audit & AI Visibility Checker | SchemaCraft",
     template: "%s",
   },
   description:
-    "Paste a URL. SchemaCraft fetches the page from our server, scores only what it inspected, and generates Schema.org JSON-LD.",
-  keywords: [
-    "AI Search Visibility Audit",
-    "GEO Audit Tool",
-    "AEO Optimization",
-    "Technical SEO Audit",
-    "Schema Markup Generator",
-    "JSON-LD Schema Generator",
-    "OAI-SearchBot",
-    "ChatGPT Search Readiness",
-    "Perplexity AI SEO",
-    "Google Rich Snippets Generator",
-    "Shopify Schema Markup",
-    "Next.js SEO Metadata",
-    "WordPress Schema Generator",
-    "Schema.org Validator",
-    "مولد سكيما",
-    "فحص سيو الذكاء الاصطناعي",
-    "تحسين الظهور في شات جي بي تي",
-  ],
-  authors: [{ name: "SchemaCraft AI Architect Labs", url: SITE_ORIGIN }],
+    "Check if ChatGPT, Google, Perplexity and Claude can crawl and cite your page. Free SEO, GEO and AEO audit with evidence and exact fixes.",
+  applicationName: "SchemaCraft AI",
+  authors: [{ name: "SchemaCraft AI", url: SITE_ORIGIN }],
   creator: "SchemaCraft AI",
   publisher: "SchemaCraft AI",
   formatDetection: {
@@ -46,27 +33,18 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "Free SEO Audit & JSON-LD Schema Generator | SchemaCraft AI",
-    description:
-      "Server-side website audit and in-browser Schema.org JSON-LD generator. Unretrieved pages are not scored.",
+    title: "Free AI SEO Audit & AI Visibility Checker | SchemaCraft",
+    description: "Check if ChatGPT, Google, Perplexity and Claude can crawl and cite your page.",
     url: SITE_ORIGIN,
-    siteName: "SchemaCraft.AI",
-    images: [
-      {
-        url: ogImageUrl(),
-        width: 1200,
-        height: 630,
-        alt: "SchemaCraft AI - AI Search Visibility Auditor",
-      },
-    ],
+    siteName: "SchemaCraft AI",
+    images: [{ url: ogImageUrl(), width: 1200, height: 630, alt: "SchemaCraft AI — AI search visibility audit" }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free SEO Audit & JSON-LD Schema Generator | SchemaCraft AI",
-    description:
-      "Server-side website audit and in-browser Schema.org JSON-LD generator. Unretrieved pages are not scored.",
+    title: "Free AI SEO Audit & AI Visibility Checker | SchemaCraft",
+    description: "Check if ChatGPT, Google, Perplexity and Claude can crawl and cite your page.",
     images: [ogImageUrl()],
     creator: "@SchemaCraftAI",
   },
@@ -77,9 +55,7 @@ export const metadata: Metadata = {
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: ["/favicon.ico"],
   },
   robots: {
@@ -105,15 +81,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark overflow-x-hidden max-w-full">
+    // lang/dir are rewritten to ar/rtl for /ar/ pages by scripts/postbuild.mjs
+    <html lang="en" className={`dark overflow-x-hidden max-w-full ${jakarta.variable} ${cairo.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
-        <meta name="google-site-verification" content="DsJHeUQVQt94en0tyfm_POyTVC3-dBavIg43_IjlBsc" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(sitewideGraph()) }}

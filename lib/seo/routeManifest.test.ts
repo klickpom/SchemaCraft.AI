@@ -25,6 +25,19 @@ describe('route manifest', () => {
     ]));
   });
 
+  it('includes the tool pages, guides and the Arabic homepage', () => {
+    const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
+    expect(urls).toEqual(expect.arrayContaining([
+      'https://schemacraft-ai.site/ar/',
+      'https://schemacraft-ai.site/ai-crawler-checker/',
+      'https://schemacraft-ai.site/robots-txt-generator/',
+      'https://schemacraft-ai.site/llms-txt-generator/',
+      'https://schemacraft-ai.site/schema-validator/',
+      'https://schemacraft-ai.site/ai-crawlers/',
+      'https://schemacraft-ai.site/geo-vs-aeo/',
+    ]));
+  });
+
   it('includes the shopify generator once', () => {
     const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
     const shopify = urls.filter((url) => url.includes('/schema/shopify-product/'));

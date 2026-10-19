@@ -1,18 +1,26 @@
 import Link from 'next/link';
+import { SiteChrome } from '@/components/SiteChrome';
+import { RELATED } from '@/components/ContentShell';
 
 export default function NotFound() {
+  const links = [RELATED.audit, RELATED.crawlerChecker, RELATED.robots, RELATED.validator, RELATED.generators, RELATED.crawlers];
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-100 flex flex-col items-center justify-center p-6 text-center">
-      <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 max-w-md space-y-4 shadow-2xl">
-        <h2 className="text-3xl font-black text-white">404</h2>
-        <p className="text-sm text-slate-400">Page not found in SchemaCraft AI.</p>
-        <Link
-          href="/"
-          className="inline-block rounded-xl bg-indigo-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20"
-        >
-          Return to Workspace
-        </Link>
-      </div>
-    </div>
+    <SiteChrome lang="en">
+      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-8 text-center">
+        <p className="text-sm font-mono text-cyan-300">404</p>
+        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">This page doesn’t exist</h1>
+        <p className="text-slate-400">The link may be old or mistyped. These are the pages most people are looking for:</p>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-start">
+          {links.map((l) => (
+            <li key={l.href}>
+              <Link href={l.href} className="block p-4 rounded-2xl border border-white/10 bg-[#0c0c14] hover:border-indigo-500/40 transition">
+                <span className="block text-sm font-bold text-white">{l.title}</span>
+                <span className="block text-[13px] text-slate-400">{l.desc}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </SiteChrome>
   );
 }

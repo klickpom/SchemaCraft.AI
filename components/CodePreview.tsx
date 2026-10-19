@@ -2,15 +2,13 @@
 
 import React, { useState } from 'react';
 import { CodeExportFormat, formatCodeForOutput } from '@/lib/schemaTypes';
-import { Copy, Check, Download, Minimize2, Maximize2, ExternalLink, Zap, FileCode, Lock } from 'lucide-react';
+import { Copy, Check, Download, Minimize2, Maximize2, ExternalLink } from 'lucide-react';
 
 interface CodePreviewProps {
   schemaObj: object;
-  onOpenPaywall?: () => void;
-  isPro?: boolean;
 }
 
-export function CodePreview({ schemaObj, onOpenPaywall, isPro }: CodePreviewProps) {
+export function CodePreview({ schemaObj }: CodePreviewProps) {
   const [format, setFormat] = useState<CodeExportFormat>('html-script');
   const [minified, setMinified] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -39,7 +37,6 @@ export function CodePreview({ schemaObj, onOpenPaywall, isPro }: CodePreviewProp
   };
 
   const handleOpenGoogleTester = () => {
-    const jsonStr = JSON.stringify(schemaObj);
     window.open('https://search.google.com/test/rich-results', '_blank');
   };
 
@@ -154,20 +151,15 @@ export function CodePreview({ schemaObj, onOpenPaywall, isPro }: CodePreviewProp
           <span>Google Rich Results Test (Official)</span>
         </button>
 
-        <button
-          type="button"
-          onClick={onOpenPaywall}
-          className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center gap-1 text-[11px]"
+        <a
+          href="https://validator.schema.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-zinc-400 hover:text-cyan-400 transition-colors flex items-center gap-1.5"
         >
-          {isPro ? (
-            <span className="text-emerald-400">✓ Batch Export & Webhooks Unlocked</span>
-          ) : (
-            <>
-              <Zap className="h-3 w-3 text-cyan-400" />
-              <span>Need Batch Site Export or Webhooks? Unlock Pro</span>
-            </>
-          )}
-        </button>
+          <ExternalLink className="h-3 w-3" />
+          <span>Schema.org Validator</span>
+        </a>
       </div>
     </div>
   );

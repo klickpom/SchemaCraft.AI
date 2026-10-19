@@ -8,9 +8,7 @@ import { RawExtractor } from './RawExtractor';
 import { ValidationBadge } from './ValidationBadge';
 import { CodePreview } from './CodePreview';
 import { SerpPreview } from './SerpPreview';
-import { PaywallModal } from './PaywallModal';
 import { BatchModal } from './BatchModal';
-import { isProUnlockedClient } from '@/lib/payment';
 import {
   Zap,
   Layers,
@@ -74,14 +72,7 @@ export function SchemaBuilder({
     return states as Record<SchemaCategory, Record<string, any>>;
   });
 
-  // Pro & Modal States
-  const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isBatchOpen, setIsBatchOpen] = useState(false);
-  const [isProUnlocked, setIsProUnlocked] = useState(false);
-
-  useEffect(() => {
-    setIsProUnlocked(isProUnlockedClient());
-  }, []);
 
   // Sync activeCategory and overrides when prop changes
   useEffect(() => {
@@ -167,7 +158,7 @@ export function SchemaBuilder({
           </button>
         </div>
 
-        {/* Pro Triggers & Batch Export Action */}
+        {/* Batch Export Action */}
         <div className="flex items-center gap-2.5">
           <button
             type="button"
@@ -176,28 +167,6 @@ export function SchemaBuilder({
           >
             <FileArchive className="h-3.5 w-3.5 text-cyan-400" />
             <span>Batch Site Schemas (@graph)</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsPaywallOpen(true)}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all shadow-sm ${
-              isProUnlocked
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                : 'bg-white/[0.05] hover:bg-white/[0.08] text-zinc-300 border border-white/[0.08]'
-            }`}
-          >
-            {isProUnlocked ? (
-              <>
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Pro Active</span>
-              </>
-            ) : (
-              <>
-                <Zap className="h-3.5 w-3.5 text-indigo-400" />
-                <span>Unlock Dynamic Scripts</span>
-              </>
-            )}
           </button>
         </div>
       </div>
@@ -330,8 +299,6 @@ export function SchemaBuilder({
           {rightPanelTab === 'code' ? (
             <CodePreview
               schemaObj={schemaJsonObj}
-              onOpenPaywall={() => setIsPaywallOpen(true)}
-              isPro={isProUnlocked}
             />
           ) : (
             <SerpPreview
@@ -366,23 +333,9 @@ export function SchemaBuilder({
         </div>
       </div>
 
-      {/* Pro Modals */}
-      <PaywallModal
-        isOpen={isPaywallOpen}
-        onClose={() => setIsPaywallOpen(false)}
-        onSuccess={() => {
-          setIsProUnlocked(true);
-        }}
-      />
-
       <BatchModal
         isOpen={isBatchOpen}
         onClose={() => setIsBatchOpen(false)}
-        isPro={isProUnlocked}
-        onOpenPaywall={() => {
-          setIsBatchOpen(false);
-          setIsPaywallOpen(true);
-        }}
       />
     </div>
   );

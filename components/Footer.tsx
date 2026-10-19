@@ -1,180 +1,91 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 import { schemaPath } from '@/lib/seo/urls';
-import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
-import { Layers, ShieldCheck, Bot, Heart, Zap, Terminal } from 'lucide-react';
 
-export function Footer() {
+const COLUMNS = [
+  {
+    en: 'Free tools',
+    ar: 'أدوات مجانية',
+    links: [
+      { href: '/', en: 'AI search & SEO audit', ar: 'فحص السيو والبحث الذكي' },
+      { href: '/ai-crawler-checker/', en: 'AI crawler checker', ar: 'فاحص زواحف الذكاء الاصطناعي' },
+      { href: '/robots-txt-generator/', en: 'robots.txt generator', ar: 'مولد robots.txt' },
+      { href: '/llms-txt-generator/', en: 'llms.txt generator', ar: 'مولد llms.txt' },
+      { href: '/schema-validator/', en: 'Schema validator', ar: 'مدقق السكيما' },
+      { href: '/json-ld-generator/', en: 'JSON-LD generator', ar: 'مولد JSON-LD' },
+    ],
+  },
+  {
+    en: 'Guides',
+    ar: 'أدلة',
+    links: [
+      { href: '/ai-crawlers/', en: 'AI crawler user-agent list', ar: 'قائمة وكلاء زواحف الذكاء الاصطناعي' },
+      { href: '/geo-vs-aeo/', en: 'GEO vs AEO vs SEO', ar: 'الفرق بين GEO وAEO وSEO' },
+      { href: '/about/', en: 'Audit methodology', ar: 'منهجية الفحص' },
+      { href: '/ar/', en: 'العربية', ar: 'English' },
+    ],
+  },
+  {
+    en: 'Schema generators',
+    ar: 'مولدات السكيما',
+    links: [
+      { href: schemaPath('shopify-product'), en: 'Shopify product', ar: 'منتج شوبيفاي' },
+      { href: schemaPath('woocommerce-product-schema'), en: 'WooCommerce product', ar: 'منتج ووكومرس' },
+      { href: schemaPath('local-seo-schema'), en: 'Local business', ar: 'نشاط محلي' },
+      { href: schemaPath('medical-clinic-doctor-schema'), en: 'Medical clinic', ar: 'عيادة طبية' },
+      { href: schemaPath('nextjs-software'), en: 'Software / SaaS', ar: 'برنامج / SaaS' },
+      { href: schemaPath('saas-faq'), en: 'FAQPage', ar: 'الأسئلة الشائعة' },
+    ],
+  },
+];
+
+export function Footer({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
+  const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   return (
-    <footer className="border-t border-white/[0.08] bg-[#070709] text-zinc-400 text-xs mt-20">
+    <footer className="border-t border-white/[0.08] bg-[#070709] text-zinc-400 text-xs mt-20 print:hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-        
-        {/* Top Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Col */}
-          <div className="space-y-3 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="relative flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden shadow-md shadow-indigo-500/20 border border-indigo-400/30 bg-[#09090b]">
-                <img src="/logo.png" alt="SchemaCraft AI" className="h-full w-full object-cover" />
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="space-y-3">
+            <Link href={lang === 'ar' ? '/ar/' : '/'} className="flex items-center gap-2.5">
+              <span className="relative flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden border border-indigo-400/30 bg-[#09090b]">
+                <img src="/logo.png" alt="" width={32} height={32} className="h-full w-full object-cover" />
+              </span>
               <span className="font-bold text-white text-base">SchemaCraft AI</span>
             </Link>
             <p className="text-zinc-400 text-xs leading-relaxed">
-              Enterprise-grade JSON-LD structured data engine and AEO optimizer. Validation runs in your browser.
+              {t(
+                'Free audit that shows whether Google, ChatGPT, Perplexity and Claude can crawl, understand and quote your page — with the evidence and the exact fix for every issue.',
+                'فحص مجاني يوضح هل يستطيع جوجل وChatGPT وPerplexity وClaude الزحف لصفحتك وفهمها والاقتباس منها — مع الدليل والإصلاح الدقيق لكل مشكلة.',
+              )}
             </p>
-            <div className="flex items-center gap-2 flex-wrap text-[11px] text-zinc-400 pt-1">
-              <div className="flex items-center gap-1 text-emerald-400">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                <span>{SCHEMA_ORG_LABEL}</span>
-              </div>
-              <a
-                href="https://x.com/SchemaCraftAI"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-indigo-400/40 text-[10px] font-semibold text-zinc-300 transition"
-              >
-                <svg className="w-2.5 h-2.5 fill-current text-white" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-                <span>@SchemaCraftAI</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Programmatic Schema Links */}
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
-              Schema Generators
-            </h4>
-            <ul className="space-y-1.5">
-              <li>
-                <Link href={schemaPath('shopify-product')} className="hover:text-cyan-400 transition-colors">
-                  Shopify Product JSON-LD
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('woocommerce-product-schema')} className="hover:text-cyan-400 transition-colors">
-                  WooCommerce Product Schema
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('nextjs-software')} className="hover:text-cyan-400 transition-colors">
-                  Next.js 15 Software App
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('wordpress-yoast-alternative-schema')} className="hover:text-cyan-400 transition-colors">
-                  WordPress Yoast Alternative
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('medical-clinic-doctor-schema')} className="hover:text-cyan-400 transition-colors">
-                  Medical &amp; Doctor Schema
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('legal-law-firm-schema')} className="hover:text-cyan-400 transition-colors">
-                  Law Firm &amp; Legal Service
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('recipe-food-nutrition-schema')} className="hover:text-cyan-400 transition-colors">
-                  Recipe &amp; Culinary Food
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('video-youtube-embed-schema')} className="hover:text-cyan-400 transition-colors">
-                  Video &amp; YouTube Embed
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('saas-faq')} className="hover:text-cyan-400 transition-colors">
-                  FAQPage JSON-LD
-                </Link>
-              </li>
-              <li>
-                <Link href={schemaPath('local-seo-schema')} className="hover:text-cyan-400 transition-colors">
-                  Local Business Maps &amp; NAP
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Technical Specs & AEO */}
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
-              AEO & AI Search
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/json-ld-generator/" className="hover:text-cyan-400 transition-colors">
-                  JSON-LD generator
-                </Link>
-              </li>
-              <li>
-                <Link href="/about/" className="hover:text-cyan-400 transition-colors">
-                  About
-                </Link>
-              </li>
-              <li className="flex items-center gap-1.5 text-zinc-400">
-                <Bot className="h-3 w-3 text-cyan-400" />
-                <span>Perplexity Entity Grounding</span>
-              </li>
-              <li className="flex items-center gap-1.5 text-zinc-400">
-                <Zap className="h-3 w-3 text-indigo-400" />
-                <span>ChatGPT Search Optimization</span>
-              </li>
-              <li className="flex items-center gap-1.5 text-zinc-400">
-                <Terminal className="h-3 w-3 text-emerald-400" />
-                <span>In-browser JSON-LD validator</span>
-              </li>
-              <li>
-                <a
-                  href="https://search.google.com/test/rich-results"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-cyan-400 transition-colors"
-                >
-                  Official Google Rich Test ↗
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Bot Governance Policy */}
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider">
-              Bot Access Governance
-            </h4>
-            <p className="text-[11px] text-zinc-400 leading-relaxed">
-              SchemaCraft explicitly authorizes AI crawlers (<code className="text-cyan-300">OAI-SearchBot</code>, <code className="text-cyan-300">PerplexityBot</code>, <code className="text-cyan-300">Google-Extended</code>) for indexing and knowledge grounding.
-            </p>
-            <div className="pt-1">
-              <Link href="/robots.txt" className="text-[11px] text-indigo-400 hover:underline">
-                View robots.txt governance ↗
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400">
-          <p>© {new Date().getFullYear()} SchemaCraft AI & Data Architect. All rights reserved.</p>
-          <div className="flex items-center gap-4 flex-wrap justify-center">
-            <Link href="/privacy/" className="hover:text-cyan-400 transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms/" className="hover:text-cyan-400 transition-colors">
-              Terms
-            </Link>
-            <a href="mailto:support@schemacraft-ai.site" className="hover:text-cyan-400 transition-colors">
-              support@schemacraft-ai.site
+            <a href="https://x.com/SchemaCraftAI" target="_blank" rel="noopener noreferrer me" className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-semibold text-zinc-300">
+              @SchemaCraftAI
             </a>
           </div>
+          {COLUMNS.map((col) => (
+            <div key={col.en} className="space-y-2.5">
+              <h2 className="text-xs font-semibold text-white uppercase tracking-wider">{t(col.en, col.ar)}</h2>
+              <ul className="space-y-1.5">
+                {col.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={lang === 'ar' && link.href === '/' ? '/ar/' : lang === 'ar' && link.href === '/ar/' ? '/' : link.href} className="hover:text-cyan-400 transition-colors">
+                      {t(link.en, link.ar)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-
+        <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
+          <p>© {new Date().getFullYear()} SchemaCraft AI</p>
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            <Link href="/privacy/" className="hover:text-cyan-400">{t('Privacy', 'الخصوصية')}</Link>
+            <Link href="/terms/" className="hover:text-cyan-400">{t('Terms', 'الشروط')}</Link>
+            <Link href="/about/" className="hover:text-cyan-400">{t('About', 'من نحن')}</Link>
+            <a href="mailto:support@schemacraft-ai.site" className="hover:text-cyan-400">support@schemacraft-ai.site</a>
+          </div>
+        </div>
       </div>
     </footer>
   );

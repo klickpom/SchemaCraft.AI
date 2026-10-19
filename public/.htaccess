@@ -1,4 +1,31 @@
+Options -Indexes
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .txt .xml .html .json .webmanifest
+AddType text/plain .txt
+AddType application/manifest+json .webmanifest
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  RewriteCond %{HTTP_HOST} ^www\.schemacraft-ai\.site$ [NC]
+  RewriteRule ^(.*)$ https://schemacraft-ai.site/$1 [R=301,L]
+
   RewriteRule ^api/audit/?$ api/audit.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  <FilesMatch "\.(html|txt|xml)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(ico|png|jpg|jpeg|svg|webp|webmanifest)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
 </IfModule>

@@ -7,9 +7,11 @@ export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = listPublicRoutes().filter((route) => !isNoindexRoute(route.path));
+  const homeLanguages = { en: canonicalUrl('/'), ar: canonicalUrl('/ar/'), 'x-default': canonicalUrl('/') };
   const entries: MetadataRoute.Sitemap = routes.map((route) => ({
     url: canonicalUrl(route.path),
     lastModified: lastmodForFiles(route.sourceFiles),
+    ...(route.path === '/' || route.path === '/ar/' ? { alternates: { languages: homeLanguages } } : {}),
   }));
 
   const urls = entries.map((entry) => entry.url);

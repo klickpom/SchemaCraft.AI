@@ -2,254 +2,103 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { ChevronDown, Globe, Menu, X } from 'lucide-react';
 import { schemaPath } from '@/lib/seo/urls';
-import {
-  Zap,
-  ShieldCheck,
-  Menu,
-  X,
-  Sparkles,
-  ChevronDown,
-  Terminal,
-  ShoppingBag,
-  Layers,
-  ArrowRight,
-} from 'lucide-react';
 
 interface HeaderProps {
-  onOpenPaywall?: () => void;
-  isPro?: boolean;
+  lang?: 'en' | 'ar';
+  onToggleLang?: () => void;
 }
 
-export function Header({ onOpenPaywall, isPro }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [schemasOpen, setSchemasOpen] = useState(false);
+const TOOLS = [
+  { href: '/ai-crawler-checker/', en: 'AI crawler checker', ar: 'فاحص زواحف الذكاء الاصطناعي' },
+  { href: '/robots-txt-generator/', en: 'robots.txt generator', ar: 'مولد robots.txt' },
+  { href: '/llms-txt-generator/', en: 'llms.txt generator', ar: 'مولد llms.txt' },
+  { href: '/schema-validator/', en: 'Schema validator', ar: 'مدقق السكيما' },
+  { href: '/json-ld-generator/', en: 'JSON-LD generator', ar: 'مولد JSON-LD' },
+];
+
+const GUIDES = [
+  { href: '/ai-crawlers/', en: 'AI crawler list (user-agents)', ar: 'قائمة زواحف الذكاء الاصطناعي' },
+  { href: '/geo-vs-aeo/', en: 'GEO vs AEO vs SEO', ar: 'GEO وAEO وSEO' },
+  { href: schemaPath('local-seo-schema'), en: 'Local business schema', ar: 'سكيما النشاط المحلي' },
+  { href: schemaPath('shopify-product'), en: 'Shopify product schema', ar: 'سكيما منتجات شوبيفاي' },
+];
+
+export function Header({ lang = 'en', onToggleLang }: HeaderProps) {
+  const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState<'tools' | 'guides' | null>(null);
+  const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
+
+  const dropdown = (id: 'tools' | 'guides', label: string, items: typeof TOOLS) => (
+    <div className="relative" onMouseLeave={() => setMenu(null)}>
+      <button
+        type="button"
+        onClick={() => setMenu(menu === id ? null : id)}
+        onMouseEnter={() => setMenu(id)}
+        className="flex items-center gap-1 hover:text-cyan-300 transition-colors py-2"
+        aria-expanded={menu === id}
+      >
+        {label}
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${menu === id ? 'rotate-180' : ''}`} />
+      </button>
+      <div className={`absolute top-full start-0 w-64 rounded-2xl border border-white/15 bg-[#0e0e18] shadow-2xl p-2 transition-all ${menu === id ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
+        {items.map((item) => (
+          <Link key={item.href} href={item.href} onClick={() => setMenu(null)} className="block px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white">
+            {t(item.en, item.ar)}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#08080f]/90 backdrop-blur-xl transition-all">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        
-        {/* Logo & Brand */}
-        <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 border border-indigo-400/30 group-hover:scale-105 transition-all bg-[#09090b]">
-            <img src="/logo.png" alt="SchemaCraft AI" className="h-full w-full object-cover" />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <span className="font-black tracking-tight text-white text-base">
-                SchemaCraft <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">AI</span>
-              </span>
-              <span className="hidden sm:inline-flex items-center rounded-full bg-indigo-500/10 px-1.5 py-0.5 text-[9px] font-bold text-indigo-300 ring-1 ring-inset ring-indigo-500/30 font-mono">
-                AEO v2.6
-              </span>
-            </div>
-            <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
-              In-browser validator & search simulator
-            </span>
-          </div>
+    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#08080f]/90 backdrop-blur-xl print:hidden">
+      <div className="mx-auto flex h-14 sm:h-16 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8 gap-2">
+        <Link href={lang === 'ar' ? '/ar/' : '/'} className="flex items-center gap-2 shrink-0" aria-label="SchemaCraft AI home">
+          <span className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl overflow-hidden border border-indigo-400/30 bg-[#09090b]">
+            <img src="/logo.png" alt="" width={36} height={36} className="h-full w-full object-cover" />
+          </span>
+          <span className="font-black tracking-tight text-white text-sm sm:text-base">
+            SchemaCraft<span className="text-indigo-400">.AI</span>
+          </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-300">
-          <Link href="/" className="hover:text-cyan-300 transition-colors">
-            Free Audit
-          </Link>
-          <Link href="/json-ld-generator/" className="hover:text-cyan-300 transition-colors">
-            JSON-LD Generator
-          </Link>
-
-          <div className="relative group">
-            <button
-              type="button"
-              onClick={() => setSchemasOpen(!schemasOpen)}
-              onMouseEnter={() => setSchemasOpen(true)}
-              className="flex items-center gap-1 hover:text-cyan-300 transition-colors cursor-pointer py-2"
-            >
-              <span>Schema Generators</span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-300 transition-transform group-hover:rotate-180" />
-            </button>
-
-            {/* Dropdown Menu */}
-            <div
-              onMouseLeave={() => setSchemasOpen(false)}
-              className={`absolute top-full left-0 w-64 rounded-2xl border border-white/15 bg-[#0e0e18] shadow-2xl p-2.5 space-y-1 transition-all duration-200 ${
-                schemasOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'
-              }`}
-            >
-              <Link
-                href={schemaPath('shopify-product')}
-                onClick={() => setSchemasOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
-              >
-                <ShoppingBag className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                <span className="truncate">Shopify E-Com Product</span>
-              </Link>
-              <Link
-                href={schemaPath('woocommerce-product-schema')}
-                onClick={() => setSchemasOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
-              >
-                <ShoppingBag className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                <span className="truncate">WooCommerce Product</span>
-              </Link>
-              <Link
-                href={schemaPath('nextjs-software')}
-                onClick={() => setSchemasOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
-              >
-                <Terminal className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="truncate">Next.js 15 SaaS App</span>
-              </Link>
-              <Link
-                href={schemaPath('medical-clinic-doctor-schema')}
-                onClick={() => setSchemasOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                <span className="truncate">Medical & Doctor Clinic</span>
-              </Link>
-              <Link
-                href={schemaPath('legal-law-firm-schema')}
-                onClick={() => setSchemasOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                <span className="truncate">Law Firm & Attorney</span>
-              </Link>
-              <Link
-                href={schemaPath('wordpress-yoast-alternative-schema')}
-                onClick={() => setSchemasOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white transition"
-              >
-                <Layers className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                <span className="truncate">WordPress Yoast Alternative</span>
-              </Link>
-            </div>
-          </div>
-
-          <Link href={schemaPath('saas-faq')} className="hover:text-cyan-300 transition-colors">
-            FAQ Schema
-          </Link>
-          <Link href={schemaPath('local-seo-schema')} className="hover:text-cyan-300 transition-colors">
-            Local SEO Maps
-          </Link>
+        <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-300" aria-label={t('Main', 'الرئيسية')}>
+          <Link href={lang === 'ar' ? '/ar/' : '/'} className="hover:text-cyan-300">{t('Free audit', 'الفحص المجاني')}</Link>
+          <Link href="/ai-crawler-checker/" className="hover:text-cyan-300">{t('AI crawler checker', 'فاحص زواحف AI')}</Link>
+          {dropdown('tools', t('Free tools', 'أدوات مجانية'), TOOLS)}
+          {dropdown('guides', t('Guides', 'أدلة'), GUIDES)}
+          <Link href="/about/" className="hover:text-cyan-300">{t('Methodology', 'المنهجية')}</Link>
         </nav>
 
-        {/* Right Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <a
-            href="https://x.com/SchemaCraftAI"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-slate-200 transition active:scale-95"
-            title="Follow @SchemaCraftAI on X"
-          >
-            <svg className="w-3 h-3 fill-current text-white" viewBox="0 0 24 24">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-            <span className="hidden sm:inline text-[11px] font-mono">@SchemaCraftAI</span>
-          </a>
-
-          {/* Primary CTA */}
-          <button
-            type="button"
-            onClick={onOpenPaywall}
-            className={`transition px-3 py-1.5 sm:px-4 sm:py-1.5 rounded-lg font-black text-xs flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer shrink-0 ${
-              isPro
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                : 'bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 text-white hover:opacity-95 shadow-indigo-500/25'
-            }`}
-          >
-            {isPro ? (
-              <>
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" />
-                <span>Pro Active</span>
-              </>
-            ) : (
-              <>
-                <Zap className="h-3.5 w-3.5 text-cyan-200" />
-                <span>Unlock All ($9)</span>
-              </>
-            )}
-          </button>
-
-          {/* Mobile Menu Toggle Button */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-slate-300 hover:text-white"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {onToggleLang ? (
+            <button type="button" onClick={onToggleLang} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-bold text-slate-200" aria-label={t('Switch to Arabic', 'التبديل إلى الإنجليزية')}>
+              <Globe className="w-3.5 h-3.5 text-cyan-400" /> {lang === 'en' ? 'عربي' : 'EN'}
+            </button>
+          ) : (
+            <Link href={lang === 'ar' ? '/' : '/ar/'} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-bold text-slate-200" hrefLang={lang === 'ar' ? 'en' : 'ar'}>
+              <Globe className="w-3.5 h-3.5 text-cyan-400" /> {lang === 'en' ? 'عربي' : 'EN'}
+            </Link>
+          )}
+          <Link href={lang === 'ar' ? '/ar/#audit' : '/#audit'} className="hidden sm:inline-flex px-3.5 py-1.5 rounded-lg font-black text-xs bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 text-white hover:opacity-95">
+            {t('Run free audit', 'افحص موقعك مجاناً')}
+          </Link>
+          <button type="button" onClick={() => setOpen(!open)} className="lg:hidden p-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-slate-300" aria-label={t('Menu', 'القائمة')} aria-expanded={open}>
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
-
       </div>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-white/10 bg-[#0c0c16] px-4 py-4 space-y-3 animate-in slide-in-from-top-2 duration-150">
-          <Link
-            href="/"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-xl bg-white/[0.04] text-xs font-bold text-white hover:bg-white/[0.08]"
-          >
-            Run free audit
-          </Link>
-          <Link
-            href="/json-ld-generator/"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-xl bg-white/[0.04] text-xs font-bold text-white hover:bg-white/[0.08]"
-          >
-            JSON-LD generator
-          </Link>
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 pt-1">
-            Top Schema Generators
-          </div>
-          <div className="grid grid-cols-2 gap-1.5">
-            <Link
-              href={schemaPath('shopify-product')}
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
-            >
-              Shopify Product
+      {open && (
+        <nav className="lg:hidden border-t border-white/10 bg-[#0c0c16] px-4 py-4 space-y-1" aria-label={t('Mobile', 'الجوال')}>
+          {[{ href: lang === 'ar' ? '/ar/' : '/', en: 'Free audit', ar: 'الفحص المجاني' }, ...TOOLS, ...GUIDES, { href: '/about/', en: 'Methodology', ar: 'المنهجية' }].map((item) => (
+            <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="block px-3 py-2 rounded-xl hover:bg-white/[0.06] text-sm text-white">
+              {t(item.en, item.ar)}
             </Link>
-            <Link
-              href={schemaPath('woocommerce-product-schema')}
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
-            >
-              WooCommerce
-            </Link>
-            <Link
-              href={schemaPath('nextjs-software')}
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
-            >
-              Next.js 15 SaaS
-            </Link>
-            <Link
-              href={schemaPath('medical-clinic-doctor-schema')}
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
-            >
-              Medical Clinic
-            </Link>
-            <Link
-              href={schemaPath('legal-law-firm-schema')}
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
-            >
-              Law Firm
-            </Link>
-            <Link
-              href={schemaPath('wordpress-yoast-alternative-schema')}
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-xl bg-white/[0.03] text-[11px] text-slate-300 hover:text-white"
-            >
-              Yoast Alternative
-            </Link>
-          </div>
-        </div>
+          ))}
+        </nav>
       )}
     </header>
   );

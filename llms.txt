@@ -1,29 +1,29 @@
 # SchemaCraft AI
 
-> Free SEO audit and JSON-LD schema generator. Scores are computed only from HTML the server actually retrieved.
+> SchemaCraft AI is a free audit that shows whether Google, ChatGPT, Perplexity and Claude can crawl, read and cite a web page — about 50 SEO, GEO and AEO checks with the evidence and the exact fix for each.
 
-## Product
-SchemaCraft AI (https://schemacraft-ai.site) audits a public URL by fetching it from SchemaCraft servers (`POST /api/audit`). The report includes final HTTP status, redirects, headers, HTML, robots.txt, and JSON-LD blocks. If HTML is missing, no overall score is shown. Checks without evidence are labeled Not assessed.
+Everything on the site is free and needs no account. Audits are fetched from SchemaCraft's server; scores are computed only from what was actually retrieved, checks that could not be verified are marked "Not assessed" and excluded, and if the page cannot be fetched no score is shown. Blocking AI training crawlers does not lower the score. The score measures on-page readiness, not backlinks or authority.
 
-A free audit does not require an account. Full audit access is $9 USD one-time with a 30-day refund via support@schemacraft-ai.site. Valid Schema.org markup does not guarantee a Google rich result.
+## Tools
 
-## Primary pages
-- [Free SEO audit](https://schemacraft-ai.site/)
-- [JSON-LD schema generator](https://schemacraft-ai.site/json-ld-generator/)
-- [About](https://schemacraft-ai.site/about/)
+- [Free AI SEO audit](https://schemacraft-ai.site/): Full audit of one URL across technical SEO, crawlability, content, schema and AI readiness
+- [AI crawler checker](https://schemacraft-ai.site/ai-crawler-checker/): Whether GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot and Google-Extended may crawl a page, per robots.txt rule
+- [robots.txt generator](https://schemacraft-ai.site/robots-txt-generator/): Build a robots.txt that allows AI search crawlers and blocks training crawlers
+- [llms.txt generator](https://schemacraft-ai.site/llms-txt-generator/): Draft an llms.txt from a site's sitemap
+- [Schema markup validator](https://schemacraft-ai.site/schema-validator/): Check JSON-LD against Google's required properties, including @graph
+- [JSON-LD generators](https://schemacraft-ai.site/json-ld-generator/): Product, LocalBusiness, Article, FAQ, Event and other Schema.org types
+
+## Guides
+
+- [AI crawler list](https://schemacraft-ai.site/ai-crawlers/): Every AI user-agent, whether it serves search or training, and its official documentation
+- [GEO vs AEO vs SEO](https://schemacraft-ai.site/geo-vs-aeo/): What each term means and a practical checklist
+- [Methodology](https://schemacraft-ai.site/about/): How checks are weighted, how caps work, and what the score does not measure
+
+## Optional
+
+- [Arabic homepage](https://schemacraft-ai.site/ar/): The audit in Arabic
+- [Shopify product schema](https://schemacraft-ai.site/schema/shopify-product/)
+- [Local business schema](https://schemacraft-ai.site/schema/local-seo-schema/)
+- [Organization schema](https://schemacraft-ai.site/schema/organization-brand-schema/)
 - [Privacy](https://schemacraft-ai.site/privacy/)
 - [Terms](https://schemacraft-ai.site/terms/)
-
-## Schema generators
-- [Shopify Product](https://schemacraft-ai.site/schema/shopify-product/)
-- [Next.js SoftwareApplication](https://schemacraft-ai.site/schema/nextjs-software/)
-- [FAQPage](https://schemacraft-ai.site/schema/saas-faq/)
-- [Local Business](https://schemacraft-ai.site/schema/local-seo-schema/)
-- [WooCommerce Product](https://schemacraft-ai.site/schema/woocommerce-product-schema/)
-- [Organization](https://schemacraft-ai.site/schema/organization-brand-schema/)
-
-## Canonical
-- Website: https://schemacraft-ai.site
-- Sitemap: https://schemacraft-ai.site/sitemap.xml
-- Robots: https://schemacraft-ai.site/robots.txt
-- Support: support@schemacraft-ai.site

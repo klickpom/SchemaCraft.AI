@@ -2,16 +2,14 @@
 
 import React, { useState } from 'react';
 import { SchemaCategory, SCHEMA_DEFINITIONS } from '@/lib/schemaTypes';
-import { X, Layers, Download, Check, Zap, Lock, ArrowRight, FileArchive, CheckCircle2 } from 'lucide-react';
+import { X, Layers, Check, FileArchive, CheckCircle2 } from 'lucide-react';
 
 interface BatchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  isPro: boolean;
-  onOpenPaywall: () => void;
 }
 
-export function BatchModal({ isOpen, onClose, isPro, onOpenPaywall }: BatchModalProps) {
+export function BatchModal({ isOpen, onClose }: BatchModalProps) {
   const [selectedTypes, setSelectedTypes] = useState<SchemaCategory[]>([
     'SoftwareApplication',
     'Product',
@@ -43,20 +41,12 @@ export function BatchModal({ isOpen, onClose, isPro, onOpenPaywall }: BatchModal
   const batchJsonString = JSON.stringify(batchGraph, null, 2);
 
   const handleCopyBatch = async () => {
-    if (!isPro) {
-      onOpenPaywall();
-      return;
-    }
     await navigator.clipboard.writeText(batchJsonString);
     setCopiedBatch(true);
     setTimeout(() => setCopiedBatch(false), 2000);
   };
 
   const handleDownloadZip = () => {
-    if (!isPro) {
-      onOpenPaywall();
-      return;
-    }
     const blob = new Blob([batchJsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -91,7 +81,7 @@ export function BatchModal({ isOpen, onClose, isPro, onOpenPaywall }: BatchModal
               Export Unified @graph Structured Architecture
             </h3>
             <p className="text-xs text-zinc-400">
-              Select the schema nodes you want to bundle into a single consolidated, high-performance Schema.org @graph entity payload.
+              Bundle several schema types into one @graph. These are starter templates filled with sample values — replace every value with your real data before publishing.
             </p>
           </div>
 
@@ -123,7 +113,7 @@ export function BatchModal({ isOpen, onClose, isPro, onOpenPaywall }: BatchModal
             </div>
           </div>
 
-          {/* Code preview with blur lock if not pro */}
+          
           <div className="relative rounded-xl border border-white/[0.08] bg-[#0a0a0f] overflow-hidden">
             <div className="px-3.5 py-2 border-b border-white/[0.06] bg-zinc-900/50 flex items-center justify-between text-xs text-zinc-400">
               <span className="font-mono">unified-site-graph.json-ld</span>
@@ -133,24 +123,6 @@ export function BatchModal({ isOpen, onClose, isPro, onOpenPaywall }: BatchModal
             <div className="p-3 max-h-48 overflow-y-auto font-mono text-[11px] text-zinc-300 whitespace-pre">
               {batchJsonString}
             </div>
-
-            {!isPro && (
-              <div className="absolute inset-0 bg-black/70 backdrop-blur-xs flex flex-col items-center justify-center p-4 text-center">
-                <Lock className="h-8 w-8 text-cyan-400 mb-2" />
-                <h4 className="text-sm font-bold text-white">Pro Batch Export Feature</h4>
-                <p className="text-xs text-zinc-400 max-w-xs mb-3">
-                  Unlock unlimited batch downloads, dynamic variable scripts, and automated CMS bundles.
-                </p>
-                <button
-                  type="button"
-                  onClick={onOpenPaywall}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-indigo-500/20"
-                >
-                  <Zap className="h-3.5 w-3.5" />
-                  <span>Unlock Instant Batch ($4.99)</span>
-                </button>
-              </div>
-            )}
           </div>
 
           {/* Action Footer */}

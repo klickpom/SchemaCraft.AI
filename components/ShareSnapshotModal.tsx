@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AuditReport } from '@/lib/auditEngine';
+import type { AuditReport } from '@/lib/audit/types';
 import { Language, translations } from '@/lib/translations';
 import { X, Copy, Check, Share2, Globe, MessageSquare } from 'lucide-react';
 
@@ -30,7 +30,7 @@ export default function ShareSnapshotModal({
   }, [onClose]);
 
   const shareUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/?url=${encodeURIComponent(report.url)}`
+    ? `${window.location.origin}${window.location.pathname}?url=${encodeURIComponent(report.url)}`
     : `https://schemacraft-ai.site/?url=${encodeURIComponent(report.url)}`;
 
   const shareText = lang === 'ar'

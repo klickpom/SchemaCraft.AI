@@ -1,16 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { ProgrammaticPageData } from '@/lib/seoData';
 import { SCHEMA_DEFINITIONS } from '@/lib/schemaTypes';
-import { Header } from '@/components/Header';
 import { SchemaBuilder } from '@/components/SchemaBuilder';
 import { FaqAccordion } from '@/components/FaqAccordion';
-import { Footer } from '@/components/Footer';
+import { SiteChrome } from '@/components/SiteChrome';
 import { SCHEMA_ORG_LABEL } from '@/lib/seo/standards';
-import { PaywallModal } from '@/components/PaywallModal';
-import { isProUnlockedClient } from '@/lib/payment';
 import {
   Zap,
   ShieldCheck,
@@ -28,25 +25,9 @@ export default function SchemaPageShell({
   pageData,
 }: SchemaPageShellProps) {
   const categoryDef = SCHEMA_DEFINITIONS[pageData.schemaCategory];
-  const [isProUnlocked, setIsProUnlocked] = useState(false);
-  const [showPaywall, setShowPaywall] = useState(false);
-
-  useEffect(() => {
-    setIsProUnlocked(isProUnlockedClient());
-  }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#08080f] text-zinc-100 flex flex-col font-sans">
-      {/* Mesh Background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.14),transparent_70%)]" />
-        <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-      </div>
-
-      <Header
-        onOpenPaywall={() => setShowPaywall(true)}
-        isPro={isProUnlocked}
-      />
+    <SiteChrome lang="en">
 
       <main className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
         
@@ -187,18 +168,6 @@ export default function SchemaPageShell({
         </section>
 
       </main>
-
-      <Footer />
-
-      {/* Interactive Paywall Modal */}
-      <PaywallModal
-        isOpen={showPaywall}
-        onClose={() => setShowPaywall(false)}
-        onSuccess={() => {
-          setIsProUnlocked(true);
-          setShowPaywall(false);
-        }}
-      />
-    </div>
+    </SiteChrome>
   );
 }

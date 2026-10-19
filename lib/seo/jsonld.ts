@@ -1,5 +1,6 @@
+import { HOME_FAQ } from '@/lib/content/home';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
-import { canonicalUrl, schemaUrl, SITE_ORIGIN } from '@/lib/seo/urls';
+import { canonicalUrl, ogImageUrl, schemaUrl, SITE_ORIGIN } from '@/lib/seo/urls';
 
 export const SUPPORT_EMAIL = 'support@schemacraft-ai.site';
 
@@ -38,102 +39,140 @@ export function sitewideGraph() {
         url: HOME,
         name: 'SchemaCraft AI',
         description:
-          'Free SEO audit and JSON-LD schema generator. Scores are computed only from HTML the server actually retrieved.',
+          'Free AI search visibility audit and SEO tools: check whether Google, ChatGPT, Perplexity and Claude can crawl, understand and cite a page.',
         publisher: { '@id': ORG_ID },
-        inLanguage: 'en',
+        inLanguage: ['en', 'ar'],
       },
     ],
   };
 }
 
-export function homepageGraph() {
+export function homepageGraph(lang: 'en' | 'ar' = 'en') {
+  const url = canonicalUrl(lang === 'ar' ? '/ar/' : '/');
+  const faq = HOME_FAQ[lang];
   return {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'SoftwareApplication',
-        '@id': `${HOME}#software`,
-        name: 'SchemaCraft AI',
-        applicationCategory: 'DeveloperApplication',
-        operatingSystem: 'Web',
-        url: HOME,
-        description:
-          'Server-side website audit and in-browser Schema.org JSON-LD generator. Unretrieved pages are marked Not assessed and are not scored.',
-        offers: {
-          '@type': 'Offer',
-          price: '9.00',
-          priceCurrency: 'USD',
-          availability: 'https://schema.org/InStock',
-        },
-        author: { '@id': ORG_ID },
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name: lang === 'ar' ? 'فحص مجاني لظهور موقعك في البحث الذكي وجوجل' : 'Free AI Search Visibility Audit',
+        inLanguage: lang,
+        isPartOf: { '@id': WEBSITE_ID },
+        about: { '@id': `${HOME}#app` },
+        publisher: { '@id': ORG_ID },
       },
       {
-        '@type': 'HowTo',
-        '@id': `${HOME}#howto-audit`,
-        name: 'How to run a SchemaCraft website audit',
+        '@type': 'WebApplication',
+        '@id': `${HOME}#app`,
+        name: 'SchemaCraft AI Search Visibility Audit',
+        applicationCategory: 'BusinessApplication',
+        applicationSubCategory: 'SEO tool',
+        operatingSystem: 'Any (web browser)',
+        url: HOME,
+        inLanguage: ['en', 'ar'],
+        isAccessibleForFree: true,
         description:
-          'Fetch a page from SchemaCraft servers, review only inspected checks, then copy JSON-LD if the HTML was retrieved.',
-        step: [
-          {
-            '@type': 'HowToStep',
-            position: 1,
-            name: 'Paste a public URL',
-            text: 'Enter a publicly reachable https URL. SchemaCraft fetches the page from its server, not from your browser.',
-          },
-          {
-            '@type': 'HowToStep',
-            position: 2,
-            name: 'Read only inspected results',
-            text: 'If HTML cannot be retrieved, no overall score is shown. Checks without evidence are labeled Not assessed.',
-          },
-          {
-            '@type': 'HowToStep',
-            position: 3,
-            name: 'Copy JSON-LD when you need markup',
-            text: 'Use a schema generator for your page type. Valid markup does not guarantee a Google rich result.',
-          },
+          'Free audit that fetches a page the way crawlers do and runs about 50 SEO, GEO and AEO checks: AI crawler access (OAI-SearchBot, PerplexityBot, Claude), robots.txt, JavaScript dependence, structured data and answer-ready content. Every result shows its evidence and fix.',
+        featureList: [
+          'AI crawler access matrix from robots.txt (RFC 9309)',
+          'Live requests with Googlebot, OAI-SearchBot, PerplexityBot and ClaudeBot user-agents',
+          'JavaScript dependence check for non-rendering AI crawlers',
+          'JSON-LD validation against Google required properties',
+          'Copy-paste fixes for robots.txt, meta tags and JSON-LD',
         ],
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+        publisher: { '@id': ORG_ID },
       },
       {
         '@type': 'FAQPage',
-        '@id': `${HOME}#faq`,
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: 'What is the difference between SEO, GEO, and AEO?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'SEO targets classic search rankings. GEO structures entities so generative engines can ground a brand. AEO structures concise answers and JSON-LD so answer engines can cite a page when they choose to.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'How does SchemaCraft fetch the page it audits?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'The audit endpoint fetches the URL from SchemaCraft servers and returns status, redirects, headers, HTML, robots.txt, and JSON-LD blocks. The browser does not scrape the target site through CORS proxies.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Does valid Schema.org JSON-LD guarantee Google rich results or a CTR increase?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'No. Valid markup is an eligibility signal. Google decides whether to show a rich result. SchemaCraft does not claim a guaranteed click-through-rate lift.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'How much does SchemaCraft AI cost?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'A free audit runs without an account. Full audit access is a $9 USD one-time pass with a 30-day money-back guarantee via support@schemacraft-ai.site.',
-            },
-          },
-        ],
+        '@id': `${url}#faq`,
+        inLanguage: lang,
+        mainEntity: faq.map((item) => ({
+          '@type': 'Question',
+          name: item.q,
+          acceptedAnswer: { '@type': 'Answer', text: item.a },
+        })),
       },
     ],
   };
+}
+
+export function toolPageGraph(opts: { path: string; name: string; description: string; faq?: { q: string; a: string }[]; breadcrumb: string }) {
+  const url = canonicalUrl(opts.path);
+  const graph: Record<string, unknown>[] = [
+    {
+      '@type': 'WebApplication',
+      '@id': `${url}#app`,
+      name: opts.name,
+      url,
+      description: opts.description,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Any (web browser)',
+      isAccessibleForFree: true,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      isPartOf: { '@id': WEBSITE_ID },
+      publisher: { '@id': ORG_ID },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'SchemaCraft AI', item: HOME },
+        { '@type': 'ListItem', position: 2, name: opts.breadcrumb, item: url },
+      ],
+    },
+  ];
+  if (opts.faq?.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      '@id': `${url}#faq`,
+      mainEntity: opts.faq.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+    });
+  }
+  return { '@context': 'https://schema.org', '@graph': graph };
+}
+
+export function articleGraph(opts: { path: string; headline: string; description: string; datePublished: string; dateModified: string; breadcrumb: string; faq?: { q: string; a: string }[] }) {
+  const url = canonicalUrl(opts.path);
+  const graph: Record<string, unknown>[] = [
+    {
+      '@type': 'TechArticle',
+      '@id': `${url}#article`,
+      headline: opts.headline,
+      description: opts.description,
+      url,
+      mainEntityOfPage: url,
+      datePublished: opts.datePublished,
+      dateModified: opts.dateModified,
+      inLanguage: 'en',
+      image: ogImageUrl(),
+      author: { '@id': ORG_ID },
+      publisher: { '@id': ORG_ID },
+      isPartOf: { '@id': WEBSITE_ID },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'SchemaCraft AI', item: HOME },
+        { '@type': 'ListItem', position: 2, name: opts.breadcrumb, item: url },
+      ],
+    },
+  ];
+  if (opts.faq?.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      '@id': `${url}#faq`,
+      mainEntity: opts.faq.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+    });
+  }
+  return { '@context': 'https://schema.org', '@graph': graph };
 }
 
 export function webPageGraph(path: string, name: string, description: string) {
