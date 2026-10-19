@@ -44,7 +44,8 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
           <AuditRunner lang={lang} examples={EXAMPLES} />
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto" aria-label={t('How it works', 'طريقة العمل')}>
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto" aria-labelledby="how-it-works">
+          <h2 id="how-it-works" className="md:col-span-3 text-2xl sm:text-3xl font-black text-white tracking-tight">{t('How it works', 'طريقة العمل')}</h2>
           {[
             [Search, t('1. Real crawl, no guessing', '1. زحف حقيقي بدون تخمين'), t('Our server requests your page, robots.txt, sitemap and llms.txt, then repeats the request as Googlebot, OAI-SearchBot, PerplexityBot and ClaudeBot.', 'سيرفرنا يطلب صفحتك وrobots.txt وخريطة الموقع وllms.txt، ثم يكرر الطلب بوكيل Googlebot وOAI-SearchBot وPerplexityBot وClaudeBot.')],
             [Gauge, t('2. Score built only from evidence', '2. درجة مبنية على الأدلة فقط'), t('Each check is pass, warning or fail with the raw evidence. Anything we could not verify is marked “Not assessed” and does not count.', 'كل فحص ناجح أو تحذير أو فشل مع الدليل الخام. أي شيء لم نتمكن من التحقق منه يُكتب "غير مُقيَّم" ولا يُحسب.')],
@@ -59,6 +60,16 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
               </div>
             );
           })}
+        </section>
+
+        <section className="max-w-3xl mx-auto space-y-3 text-center" aria-labelledby="pricing">
+          <h2 id="pricing" className="text-2xl sm:text-3xl font-black text-white tracking-tight">{t('Pricing', 'الأسعار')}</h2>
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            {t(
+              'SchemaCraft pricing is zero. There is no paid plan and no sign-up. The full report is free, with a limit of 20 audits per 10 minutes per network so the service stays fast.',
+              'سعر SchemaCraft صفر. لا توجد خطة مدفوعة ولا تسجيل. التقرير الكامل مجاني، بحد 20 فحصاً كل 10 دقائق لكل شبكة حتى تبقى الخدمة سريعة.',
+            )}
+          </p>
         </section>
 
         <section className="space-y-8" aria-labelledby="what-we-check">
