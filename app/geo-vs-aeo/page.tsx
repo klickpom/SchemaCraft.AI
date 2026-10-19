@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ContentShell, RELATED } from '@/components/ContentShell';
 import { articleGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl } from '@/lib/seo/urls';
+import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/geo-vs-aeo/';
 const TITLE = 'GEO vs AEO vs SEO: What’s the Difference and What to Do';
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: canonicalUrl(PATH) },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: canonicalUrl(PATH), type: 'article' },
+  ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH, type: 'article' }),
 };
 
 export default function GeoVsAeoPage() {
@@ -62,7 +62,7 @@ export default function GeoVsAeoPage() {
         }
         updated={UPDATED}
         faq={FAQ}
-        related={[RELATED.audit, RELATED.crawlerChecker, RELATED.crawlers]}
+        related={[RELATED.audit, RELATED.gptbot, RELATED.chatgpt, RELATED.crawlers]}
       >
         <h2>The three terms side by side</h2>
         <table>
@@ -82,7 +82,7 @@ export default function GeoVsAeoPage() {
         <p>
           ChatGPT Search relies on OAI-SearchBot, Perplexity on PerplexityBot, Claude on Claude-SearchBot. Each reads its own robots.txt
           group, and CDN bot protection often blocks them while letting Googlebot through. A site can rank well on Google and still be
-          missing from ChatGPT. See the <Link href="/ai-crawlers/">AI crawler list</Link>.
+          missing from ChatGPT. See <Link href="/should-i-block-gptbot/">whether to block GPTBot</Link>, <Link href="/chatgpt-search/">how ChatGPT Search finds a page</Link>, and the <Link href="/ai-crawlers/">AI crawler list</Link>.
         </p>
         <h3>2. Little or no JavaScript rendering</h3>
         <p>

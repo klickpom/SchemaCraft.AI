@@ -37,8 +37,8 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
           </h1>
           <p className="text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             {t(
-              'Free AI search visibility audit. We fetch your page the way crawlers do, run about 50 SEO, GEO and AEO checks, and show the evidence and the exact fix for every problem.',
-              'فحص مجاني لظهور موقعك في البحث الذكي. نجلب صفحتك كما تفعل الزواحف، ونجري حوالي 50 فحصاً للسيو وGEO وAEO، ونعرض الدليل والإصلاح الدقيق لكل مشكلة.',
+              'SchemaCraft is a free AI search visibility audit. It shows whether ChatGPT, Google, Perplexity and Claude can crawl, read and cite a page, using about 50 SEO, GEO and AEO checks. Every problem includes the evidence and a copy-paste fix. The full report is free, limited to 20 audits per 10 minutes, and most audits finish within 20 seconds.',
+              'SchemaCraft أداة مجانية لفحص ظهور موقعك في البحث الذكي. تبيّن هل يستطيع ChatGPT وجوجل وPerplexity وClaude الزحف لصفحتك وقراءتها والاقتباس منها، عبر حوالي 50 فحصاً للسيو وGEO وAEO. كل مشكلة معها الدليل وإصلاح جاهز للنسخ. التقرير كامل ومجاني، بحد 20 فحصاً كل 10 دقائق، ومعظم الفحوص تنتهي خلال 20 ثانية.',
             )}
           </p>
           <AuditRunner lang={lang} examples={EXAMPLES} />
@@ -106,9 +106,17 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
                 <li key={line} className="flex items-start gap-2"><ArrowRight className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5 rtl:rotate-180" aria-hidden />{line}</li>
               ))}
             </ul>
-            <Link href="/geo-vs-aeo/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
-              {t('Read: GEO vs AEO vs SEO explained', 'اقرأ: شرح الفرق بين GEO وAEO وSEO')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
-            </Link>
+            <div className="flex flex-col items-start gap-2">
+              <Link href="/should-i-block-gptbot/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
+                {t('Should you block GPTBot?', 'هل تمنع GPTBot؟')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
+              </Link>
+              <Link href="/chatgpt-search/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
+                {t('How to show up in ChatGPT Search', 'كيف تظهر في بحث ChatGPT')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
+              </Link>
+              <Link href="/geo-vs-aeo/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
+                {t('Read: GEO vs AEO vs SEO explained', 'اقرأ: شرح الفرق بين GEO وAEO وSEO')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
+              </Link>
+            </div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-[#0b0b12] p-5 space-y-3">
             <h3 className="text-sm font-bold text-white">{t('Search crawler vs training crawler', 'زاحف البحث مقابل زاحف التدريب')}</h3>

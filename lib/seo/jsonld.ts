@@ -152,7 +152,7 @@ export function articleGraph(opts: { path: string; headline: string; description
       dateModified: opts.dateModified,
       inLanguage: 'en',
       image: ogImageUrl(),
-      author: { '@id': ORG_ID },
+      author: { '@type': 'Organization', '@id': ORG_ID, name: 'SchemaCraft AI' },
       publisher: { '@id': ORG_ID },
       isPartOf: { '@id': WEBSITE_ID },
     },

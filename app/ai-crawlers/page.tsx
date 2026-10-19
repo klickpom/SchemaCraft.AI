@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ContentShell, RELATED } from '@/components/ContentShell';
 import { ACTIVE_BOTS, DEPRECATED_BOTS, type BotPurpose } from '@/lib/bots/registry';
 import { articleGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl } from '@/lib/seo/urls';
+import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/ai-crawlers/';
 const TITLE = 'AI Crawler List 2026: Every AI User-Agent and What It Does';
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: canonicalUrl(PATH) },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: canonicalUrl(PATH), type: 'article' },
+  ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH, type: 'article' }),
 };
 
 export default function AiCrawlersPage() {
@@ -70,7 +70,7 @@ export default function AiCrawlersPage() {
         }
         updated={UPDATED}
         faq={FAQ}
-        related={[RELATED.crawlerChecker, RELATED.robots, RELATED.geo]}
+        related={[RELATED.crawlerChecker, RELATED.gptbot, RELATED.chatgpt, RELATED.robots]}
       >
         {groups.map((purpose) => {
           const bots = ACTIVE_BOTS.filter((b) => b.purpose === purpose);

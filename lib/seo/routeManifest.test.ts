@@ -35,6 +35,8 @@ describe('route manifest', () => {
       'https://schemacraft-ai.site/schema-validator/',
       'https://schemacraft-ai.site/ai-crawlers/',
       'https://schemacraft-ai.site/geo-vs-aeo/',
+      'https://schemacraft-ai.site/should-i-block-gptbot/',
+      'https://schemacraft-ai.site/chatgpt-search/',
     ]));
   });
 

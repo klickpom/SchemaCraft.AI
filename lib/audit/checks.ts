@@ -974,6 +974,12 @@ const E = {
     why: bi('Google retired HowTo rich results (2023) and several others (2025); FAQ rich results are limited to authoritative government and health sites.', 'جوجل أوقف نتائج HowTo الغنية (2023) وأنواعاً أخرى (2025)، ونتائج FAQ الغنية مقصورة على المواقع الحكومية والصحية الموثوقة.'),
     source: 'https://developers.google.com/search/blog/2023/08/howto-faq-changes',
   },
+  reviews: {
+    id: 'schema-review-stars', category: 'entity', severity: 'informational', fixCategory: 'schema',
+    title: bi('Review stars', 'نجوم التقييم'),
+    why: bi('Google shows star rich results only from real reviews. A missing rating is not a defect, and an invented one violates Google’s guidelines.', 'جوجل يعرض النجوم فقط من تقييمات حقيقية. غياب التقييم ليس عيباً، واختلاقه يخالف إرشادات جوجل.'),
+    source: 'https://developers.google.com/search/docs/appearance/structured-data/review-snippet',
+  },
 } satisfies Record<string, Def>;
 
 function organizationSnippet(ctx: CheckContext): FixSnippet {
@@ -1034,8 +1040,10 @@ function entityChecks(ctx: CheckContext): AuditCheck[] {
       out.push(make(E.syntax, 'pass', bi('All JSON-LD blocks parse and use the schema.org context.', 'كل بلوكات JSON-LD سليمة وتستخدم سياق schema.org.')));
     }
 
+    const isInventedReviewAdvice = (property: string) => /aggregateRating or review/.test(property);
     const required = schema.problems.filter((p) => p.level === 'required');
-    const recommended = schema.problems.filter((p) => p.level === 'recommended');
+    const recommended = schema.problems.filter((p) => p.level === 'recommended' && !isInventedReviewAdvice(p.property));
+    const reviewNotes = schema.problems.filter((p) => p.level === 'recommended' && isInventedReviewAdvice(p.property));
     const list = (items: typeof schema.problems) => items.slice(0, 6).map((p) => `${p.type}: ${p.property}`).join('\n');
     if (schema.nodes.length === 0) {
       out.push(notAssessed(E.validity, bi('No typed nodes to validate.', 'لا توجد عناصر لها @type للتحقق.')));
@@ -1047,6 +1055,13 @@ function entityChecks(ctx: CheckContext): AuditCheck[] {
         bi('Fill the recommended properties where the information exists on the page.', 'أكمل الخصائص الموصى بها حيث تتوفر المعلومة في الصفحة.'), { severity: 'low' }));
     } else {
       out.push(make(E.validity, 'pass', bi('Required and recommended properties present for detected types.', 'الخصائص المطلوبة والموصى بها موجودة للأنواع المكتشفة.')));
+    }
+
+    if (reviewNotes.length > 0) {
+      out.push(make(E.reviews, 'info',
+        bi('No review markup, so star rich results are not available. That is not scored — only add a rating you can show on the page.', 'لا توجد سكيما تقييمات، لذا النجوم غير متاحة. هذا لا يُحسب في الدرجة — أضف تقييماً فقط إذا كان ظاهراً في الصفحة.'),
+        bi(list(reviewNotes), list(reviewNotes)),
+        bi('Add aggregateRating only when the same ratingValue and ratingCount (or reviewCount) are visible to visitors. Never invent them.', 'أضف aggregateRating فقط عندما يكون ratingValue وratingCount (أو reviewCount) ظاهرين للزائر. لا تخترعهما.')));
     }
   }
 

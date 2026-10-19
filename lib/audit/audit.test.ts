@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { buildReport } from './engine';
+import { countQuantifiedStatements, parsePage } from './html';
 import { evaluateRobots, parseRobots } from './robots';
 import { analyzeSchema } from './schema';
 import { TestParser } from './testParser';
@@ -138,6 +139,24 @@ describe('robots.txt (RFC 9309)', () => {
   });
 });
 
+describe('opening paragraph', () => {
+  it('uses the lede in an article header and skips the site chrome', () => {
+    const html = `<html><body><header><p>${'Free shipping on every order this week only. '.repeat(3)}</p></header><main><header><p class="eyebrow">Guide</p><h1>Title</h1><p>Acme is a tool that helps teams ship an audit with evidence instead of a guess.</p></header><article><p>This later paragraph is also long enough to be mistaken for the opening if the header lede is skipped.</p></article></main></body></html>`;
+    const page = parsePage(html, 'https://acme.example/', TestParser);
+    expect(page.leadParagraph?.startsWith('Acme is a tool')).toBe(true);
+  });
+});
+
+describe('citable facts', () => {
+  it('counts units, percents and durations, and ignores bare digits', () => {
+    expect(countQuantifiedStatements('about 50 checks in 2026')).toBe(0);
+    expect(countQuantifiedStatements('finishes within 20 seconds, limited to 20 audits per 10 minutes, and cut churn by 18%')).toBe(3);
+    expect(countQuantifiedStatements('22 ms and 76 KB, used 3 times')).toBe(3);
+    expect(countQuantifiedStatements('Google stops reading robots.txt after 500 KiB')).toBe(1);
+    expect(countQuantifiedStatements('بحد 20 فحصاً كل 10 دقائق وخلال 20 ثانية وعلى مدى 3 أيام')).toBe(3);
+  });
+});
+
 describe('JSON-LD validation', () => {
   it('flags missing required Product properties but ignores variant/url stubs', () => {
     const analysis = analyzeSchema([
@@ -170,6 +189,18 @@ describe('audit engine', () => {
     const interstitial = build(payload({ html: '<html><head><meta http-equiv="refresh" content="5; URL=\'/?bm-verify=AAQ\'"></head><body></body></html>' }));
     expect(interstitial.failure?.code).toBe('bot_protection');
     assertConsistent(interstitial);
+  });
+
+  it('does not deduct points when a software app has no real reviews', () => {
+    const html = GOOD_HTML.replace(
+      '</head>',
+      '<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Acme","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script></head>',
+    );
+    const report = build(payload({ html }));
+    assertConsistent(report);
+    expect(report.checks.find((c) => c.id === 'schema-properties')?.status).toBe('pass');
+    expect(report.checks.find((c) => c.id === 'schema-review-stars')?.status).toBe('info');
+    expect(report.checks.find((c) => c.id === 'schema-review-stars')?.weight).toBe(0);
   });
 
   it('scores a well-built page highly with every number explained', () => {

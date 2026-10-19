@@ -111,6 +111,17 @@ function resolve(href: string, base: string): string | null {
   }
 }
 
+/**
+ * A number sitting next to a unit, percent, duration or size.
+ * Bare digits ("50 checks", years, IDs) do not count — they are not a citable measurement.
+ */
+const QUANTIFIED_STATEMENT =
+  /\b\d+(?:[.,]\d+)?\s?(?:%|٪|percent|milliseconds?|seconds?|secs?|minutes?|mins?|hours?|hrs?|days?|weeks?|months?|years?|ms|kb|mb|gb|kib|x\b|times|users|customers|مللي ثانية|ثواني|ثوانٍ|ثانية|دقائق|دقيقة|ساعات|ساعة|أيام|يوم|أسابيع|أسبوع|أشهر|شهر|سنوات|سنة)/gi;
+
+export function countQuantifiedStatements(text: string): number {
+  return (text.match(QUANTIFIED_STATEMENT) || []).length;
+}
+
 type DomParserCtor = new () => { parseFromString(html: string, type: string): Document };
 
 export function parsePage(html: string, pageUrl: string, Parser?: DomParserCtor): PageFacts {
@@ -214,7 +225,10 @@ export function parsePage(html: string, pageUrl: string, Parser?: DomParserCtor)
   const contentRoot = (textRoot.querySelector('main') || textRoot.querySelector('article') || textRoot) as Element;
   let leadParagraph: string | null = null;
   for (const p of Array.from(contentRoot.querySelectorAll('p'))) {
-    if (p.closest('nav, header, footer, aside, form, [role="navigation"], [aria-hidden="true"]')) continue;
+    if (p.closest('nav, footer, aside, form, [role="navigation"], [aria-hidden="true"]')) continue;
+    // Site chrome <header> is navigation. An article header (it contains the h1, or it sits inside main) holds the lede.
+    const header = p.closest('header');
+    if (header && !header.querySelector('h1') && !header.closest('main, article')) continue;
     const t = clean(p.textContent);
     if (t.length >= 60 && !/©|cookie|all rights reserved|جميع الحقوق/i.test(t)) {
       leadParagraph = t.slice(0, 600);
@@ -330,7 +344,7 @@ export function parsePage(html: string, pageUrl: string, Parser?: DomParserCtor)
   const priceSignals = /(?:[$€£¥₹]|USD|EUR|GBP|SAR|AED|EGP|ج\.م|ر\.س)\s?\d|\d[\d,.]*\s?(?:USD|EUR|SAR|AED|EGP|ريال|جنيه|درهم)/i.test(visibleSample) || !!og['price:amount'] || !!og['product:price:amount'];
   const cartSignals = /add to cart|add to bag|buy now|أضف إلى السلة|اشتر الآن/i.test(visibleSample) || !!doc.querySelector('form[action*="cart"], [name="add"], button[name="add-to-cart"]');
   const addressSignals = !!doc.querySelector('address') || /\b\d{1,5}\s+\w+\s+(street|st\.|road|rd\.|avenue|ave\.|blvd)\b/i.test(visibleSample) || /شارع|ميدان/.test(visibleSample);
-  const numbersInText = (visibleSample.match(/\b\d+(?:[.,]\d+)?\s?(?:%|percent|ms|kb|mb|gb|x|times|users|customers|يوم|ساعة|٪)/gi) || []).length;
+  const numbersInText = countQuantifiedStatements(visibleSample);
 
   return {
     lang: clean(doc.documentElement.getAttribute('lang')) || null,

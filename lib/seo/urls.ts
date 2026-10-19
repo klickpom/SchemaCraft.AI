@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 /**
  * Single source of truth for public URLs.
  * Convention: HTTPS, apex host (no www), trailing slash on every page.
@@ -54,4 +56,24 @@ export function schemaUrl(slug: string): string {
 
 export function ogImageUrl(): string {
   return `${SITE_ORIGIN}/og-image.png`;
+}
+
+/** Open Graph + Twitter card. Child pages that set openGraph without an image wipe the layout default. */
+export function socialMeta(opts: { title: string; description: string; path: string; type?: 'website' | 'article' }): Pick<Metadata, 'openGraph' | 'twitter'> {
+  const image = { url: ogImageUrl(), width: 1200, height: 630, alt: opts.title };
+  return {
+    openGraph: {
+      title: opts.title,
+      description: opts.description,
+      url: canonicalUrl(opts.path),
+      type: opts.type ?? 'website',
+      images: [image],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: opts.title,
+      description: opts.description,
+      images: [ogImageUrl()],
+    },
+  };
 }

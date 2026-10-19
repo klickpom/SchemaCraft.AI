@@ -3,7 +3,7 @@ import HomeClient from '@/components/HomeClient';
 import { homepageGraph } from '@/lib/seo/jsonld';
 import { canonicalUrl, ogImageUrl } from '@/lib/seo/urls';
 
-const TITLE = 'فحص سيو مجاني للذكاء الاصطناعي: هل يقرأ ChatGPT موقعك؟';
+const TITLE = 'فحص سيو مجاني: هل يقرأ ChatGPT موقعك؟';
 const DESCRIPTION =
   'افحص مجاناً هل يستطيع ChatGPT وجوجل وPerplexity وClaude الزحف لموقعك وفهمه والاقتباس منه. حوالي 50 فحصاً للسيو وGEO وAEO مع الدليل والإصلاح.';
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import RobotsTxtBuilder from '@/components/tools/RobotsTxtBuilder';
 import { ContentShell, RELATED } from '@/components/ContentShell';
 import { toolPageGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl } from '@/lib/seo/urls';
+import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/robots-txt-generator/';
 const TITLE = 'AI robots.txt Generator: Allow AI Search, Block Training';
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: canonicalUrl(PATH) },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: canonicalUrl(PATH), type: 'website' },
+  ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH }),
 };
 
 export default function RobotsTxtGeneratorPage() {
@@ -60,7 +60,7 @@ export default function RobotsTxtGeneratorPage() {
         updated="2026-10-19"
         tool={<RobotsTxtBuilder lang="en" />}
         faq={FAQ}
-        related={[RELATED.crawlerChecker, RELATED.crawlers, RELATED.llms]}
+        related={[RELATED.crawlerChecker, RELATED.gptbot, RELATED.crawlers, RELATED.llms]}
       >
         <h2>How the generated file works</h2>
         <p>

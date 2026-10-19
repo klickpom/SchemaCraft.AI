@@ -19,6 +19,8 @@ const TOOLS = [
 ];
 
 const GUIDES = [
+  { href: '/should-i-block-gptbot/', en: 'Should you block GPTBot?', ar: 'هل تمنع GPTBot؟' },
+  { href: '/chatgpt-search/', en: 'Show up in ChatGPT Search', ar: 'الظهور في بحث ChatGPT' },
   { href: '/ai-crawlers/', en: 'AI crawler list (user-agents)', ar: 'قائمة زواحف الذكاء الاصطناعي' },
   { href: '/geo-vs-aeo/', en: 'GEO vs AEO vs SEO', ar: 'GEO وAEO وSEO' },
   { href: schemaPath('local-seo-schema'), en: 'Local business schema', ar: 'سكيما النشاط المحلي' },

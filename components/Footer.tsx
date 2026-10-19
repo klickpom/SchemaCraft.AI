@@ -19,6 +19,8 @@ const COLUMNS = [
     en: 'Guides',
     ar: 'أدلة',
     links: [
+      { href: '/should-i-block-gptbot/', en: 'Should you block GPTBot?', ar: 'هل تمنع GPTBot؟' },
+      { href: '/chatgpt-search/', en: 'Show up in ChatGPT Search', ar: 'الظهور في بحث ChatGPT' },
       { href: '/ai-crawlers/', en: 'AI crawler user-agent list', ar: 'قائمة وكلاء زواحف الذكاء الاصطناعي' },
       { href: '/geo-vs-aeo/', en: 'GEO vs AEO vs SEO', ar: 'الفرق بين GEO وAEO وSEO' },
       { href: '/about/', en: 'Audit methodology', ar: 'منهجية الفحص' },

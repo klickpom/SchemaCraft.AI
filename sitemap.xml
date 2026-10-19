@@ -5,30 +5,34 @@
 <xhtml:link rel="alternate" hreflang="en" href="https://schemacraft-ai.site/" />
 <xhtml:link rel="alternate" hreflang="ar" href="https://schemacraft-ai.site/ar/" />
 <xhtml:link rel="alternate" hreflang="x-default" href="https://schemacraft-ai.site/" />
-<lastmod>2026-09-11T20:24:13+03:00</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/about/</loc>
-<lastmod>2026-09-11T20:24:13+03:00</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/ai-crawler-checker/</loc>
-<lastmod>2026-10-19T14:59:15.609Z</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/ai-crawlers/</loc>
-<lastmod>2026-10-19T14:59:15.759Z</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/ar/</loc>
 <xhtml:link rel="alternate" hreflang="en" href="https://schemacraft-ai.site/" />
 <xhtml:link rel="alternate" hreflang="ar" href="https://schemacraft-ai.site/ar/" />
 <xhtml:link rel="alternate" hreflang="x-default" href="https://schemacraft-ai.site/" />
-<lastmod>2026-10-19T14:59:15.881Z</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
+</url>
+<url>
+<loc>https://schemacraft-ai.site/chatgpt-search/</loc>
+<lastmod>2026-10-19T15:15:14.170Z</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/geo-vs-aeo/</loc>
-<lastmod>2026-10-19T14:59:16.007Z</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/json-ld-generator/</loc>
@@ -36,15 +40,15 @@
 </url>
 <url>
 <loc>https://schemacraft-ai.site/llms-txt-generator/</loc>
-<lastmod>2026-10-19T14:59:16.262Z</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/privacy/</loc>
-<lastmod>2026-09-11T20:24:13+03:00</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/robots-txt-generator/</loc>
-<lastmod>2026-10-19T14:59:16.531Z</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/schema/shopify-product/</loc>
@@ -108,10 +112,14 @@
 </url>
 <url>
 <loc>https://schemacraft-ai.site/schema-validator/</loc>
-<lastmod>2026-10-19T14:59:20.620Z</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
+</url>
+<url>
+<loc>https://schemacraft-ai.site/should-i-block-gptbot/</loc>
+<lastmod>2026-10-19T15:15:17.842Z</lastmod>
 </url>
 <url>
 <loc>https://schemacraft-ai.site/terms/</loc>
-<lastmod>2026-09-11T20:24:13+03:00</lastmod>
+<lastmod>2026-10-19T18:00:47+03:00</lastmod>
 </url>
 </urlset>

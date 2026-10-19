@@ -3,7 +3,7 @@ import Link from 'next/link';
 import LlmsTxtBuilder from '@/components/tools/LlmsTxtBuilder';
 import { ContentShell, RELATED } from '@/components/ContentShell';
 import { toolPageGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl } from '@/lib/seo/urls';
+import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/llms-txt-generator/';
 const TITLE = 'llms.txt Generator: Create an llms.txt File From Your Sitemap';
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: canonicalUrl(PATH) },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: canonicalUrl(PATH), type: 'website' },
+  ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH }),
 };
 
 export default function LlmsTxtGeneratorPage() {
