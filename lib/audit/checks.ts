@@ -3,7 +3,7 @@
  * if the evidence is missing the check is `not_assessed` and carries no weight.
  */
 import { BOT_REGISTRY } from '@/lib/bots/registry';
-import type { PageFacts } from './html';
+import { openingDefinition, quantifiedSamples, type PageFacts } from './html';
 import { describeRule, evaluateRobots, type ParsedRobots } from './robots';
 import type { SchemaAnalysis } from './schema';
 import { SCHEMA_SETS } from './schema';
@@ -850,9 +850,10 @@ function contentChecks(ctx: CheckContext): AuditCheck[] {
     out.push(make(K.depth, 'pass', bi(`${page.wordCount} words of crawlable text.`, `${page.wordCount} كلمة نصية قابلة للزحف.`)));
   }
 
-  const lead = page.leadParagraph;
+  const opening = page.openingParagraphs.length > 0 ? page.openingParagraphs : (page.leadParagraph ? [page.leadParagraph] : []);
+  const lead = opening[0] ?? null;
   const leadWords = lead ? lead.split(/\s+/).length : 0;
-  const definitional = lead ? /\b(is|are|was|helps?|provides?|offers?|lets?|enables?)\b|\s(هو|هي|هى|عبارة عن|تساعد|يساعد|تقدم|يقدم|منصة|أداة|شركة)\s/i.test(lead) : false;
+  const defined = openingDefinition(opening);
   const blufTemplate: FixSnippet = {
     language: 'html',
     label: 'Pattern for the first paragraph under the H1',
@@ -864,11 +865,20 @@ function contentChecks(ctx: CheckContext): AuditCheck[] {
   } else if (!lead) {
     out.push(make(K.bluf, 'fail', bi('No substantial opening paragraph found.', 'لا توجد فقرة افتتاحية واضحة.'), bi('No <p> with 60+ characters in the main content', 'لا توجد <p> بها 60 حرفاً أو أكثر في المحتوى الرئيسي'),
       bi('Open with a 40–80-word paragraph that states what this is, who it is for and the key fact.', 'ابدأ بفقرة من 40–80 كلمة تقول ما هذا ولمن وما الحقيقة الأساسية.'), { snippet: blufTemplate }));
-  } else if (leadWords < 20 || !definitional) {
-    out.push(make(K.bluf, 'warn', bi(leadWords < 20 ? `Opening paragraph is short (${leadWords} words).` : 'Opening paragraph does not define the topic directly.', leadWords < 20 ? `الفقرة الافتتاحية قصيرة (${leadWords} كلمة).` : 'الفقرة الافتتاحية لا تعرّف الموضوع مباشرة.'),
+  } else if (defined && defined.index === 0 && leadWords >= 20) {
+    out.push(make(K.bluf, 'pass', bi(`Clear opening paragraph (${leadWords} words).`, `فقرة افتتاحية واضحة (${leadWords} كلمة).`), bi(`"${truncate(lead, 220)}"`, `"${truncate(lead, 220)}"`)));
+  } else if (defined && defined.index > 0) {
+    const n = defined.index + 1;
+    out.push(make(K.bluf, 'warn', bi(`A definition exists, but it is paragraph ${n}, not the opening.`, `يوجد تعريف، لكنه في الفقرة ${n} وليس في الفقرة الافتتاحية.`),
+      bi(`Opening:\n"${truncate(lead, 180)}"\n\nDefinition:\n"${truncate(defined.text, 220)}"`, `الافتتاح:\n"${truncate(lead, 180)}"\n\nالتعريف:\n"${truncate(defined.text, 220)}"`),
+      bi('Move that definition into the first paragraph under the H1. Leave the product list after it.', 'انقل هذا التعريف إلى الفقرة الأولى تحت H1، واترك قائمة المنتجات بعدها.'),
+      { severity: 'low', snippet: blufTemplate }));
+  } else if (leadWords < 20) {
+    out.push(make(K.bluf, 'warn', bi(`Opening paragraph is short (${leadWords} words).`, `الفقرة الافتتاحية قصيرة (${leadWords} كلمة).`),
       bi(`"${truncate(lead, 220)}"`, `"${truncate(lead, 220)}"`), bi('Rewrite it as a self-contained definition an assistant could quote verbatim.', 'أعد صياغتها كتعريف مستقل يمكن للمساعد الذكي اقتباسه كما هو.'), { snippet: blufTemplate }));
   } else {
-    out.push(make(K.bluf, 'pass', bi(`Clear opening paragraph (${leadWords} words).`, `فقرة افتتاحية واضحة (${leadWords} كلمة).`), bi(`"${truncate(lead, 220)}"`, `"${truncate(lead, 220)}"`)));
+    out.push(make(K.bluf, 'warn', bi('Opening paragraph does not define the topic directly.', 'الفقرة الافتتاحية لا تعرّف الموضوع مباشرة.'),
+      bi(`"${truncate(lead, 220)}"`, `"${truncate(lead, 220)}"`), bi('Rewrite it as a self-contained definition an assistant could quote verbatim.', 'أعد صياغتها كتعريف مستقل يمكن للمساعد الذكي اقتباسه كما هو.'), { snippet: blufTemplate }));
   }
 
   const qh = page.questionHeadings.length;
@@ -1041,8 +1051,9 @@ function entityChecks(ctx: CheckContext): AuditCheck[] {
     }
 
     const isInventedReviewAdvice = (property: string) => /aggregateRating or review/.test(property);
+    // sameAs has its own check. Counting it here as well scored one gap twice.
     const required = schema.problems.filter((p) => p.level === 'required');
-    const recommended = schema.problems.filter((p) => p.level === 'recommended' && !isInventedReviewAdvice(p.property));
+    const recommended = schema.problems.filter((p) => p.level === 'recommended' && p.property !== 'sameAs' && !isInventedReviewAdvice(p.property));
     const reviewNotes = schema.problems.filter((p) => p.level === 'recommended' && isInventedReviewAdvice(p.property));
     const list = (items: typeof schema.problems) => items.slice(0, 6).map((p) => `${p.type}: ${p.property}`).join('\n');
     if (schema.nodes.length === 0) {
@@ -1083,10 +1094,15 @@ function entityChecks(ctx: CheckContext): AuditCheck[] {
     const count = id.sameAs.length;
     if (count >= 2) {
       out.push(make(E.sameAs, 'pass', bi(`${count} sameAs profile links.`, `${count} رابط sameAs للحسابات.`), bi(id.sameAs.slice(0, 6).join('\n'), id.sameAs.slice(0, 6).join('\n'))));
+    } else if (count === 0 && page.links.social.length === 0) {
+      out.push(make(E.sameAs, 'warn', bi('No official profiles on the page or in the schema.', 'لا توجد حسابات رسمية في الصفحة ولا في السكيما.'),
+        bi('No sameAs, and no profile links in the HTML', 'لا يوجد sameAs ولا روابط حسابات في HTML'),
+        bi('Add sameAs only for profiles that actually exist (Facebook, Instagram, WhatsApp, LinkedIn, X). Do not invent them.', 'أضف sameAs فقط لحسابات موجودة فعلاً (فيسبوك، إنستغرام، واتساب، لينكدإن، X). لا تخترعها.'),
+        { severity: 'low', snippet: organizationSnippet(ctx) }));
     } else {
-      out.push(make(E.sameAs, 'warn', bi(count === 1 ? 'Only one sameAs link.' : 'Entity has no sameAs links.', count === 1 ? 'رابط sameAs واحد فقط.' : 'الكيان بدون روابط sameAs.'),
+      out.push(make(E.sameAs, 'warn', bi(count === 1 ? 'Only one sameAs link.' : 'Profiles are on the page but missing from sameAs.', count === 1 ? 'رابط sameAs واحد فقط.' : 'الحسابات موجودة في الصفحة وناقصة من sameAs.'),
         bi(page.links.social.length ? `Profiles linked on the page but not in schema:\n${page.links.social.join('\n')}` : 'No official profiles referenced', page.links.social.length ? `حسابات مرتبطة في الصفحة وغير موجودة في السكيما:\n${page.links.social.join('\n')}` : 'لا توجد حسابات رسمية مذكورة'),
-        bi('List your official profiles (and Wikipedia/Wikidata/Crunchbase if they exist) in sameAs.', 'اذكر حساباتك الرسمية (وويكيبيديا/ويكي بيانات/Crunchbase إن وجدت) في sameAs.'), { snippet: organizationSnippet(ctx) }));
+        bi('Copy the profile URLs that are already on the page into sameAs.', 'انسخ روابط الحسابات الموجودة في الصفحة إلى sameAs.'), { snippet: organizationSnippet(ctx) }));
     }
   } else {
     out.push(make(E.sameAs, 'fail', bi('No entity to attach sameAs profiles to.', 'لا يوجد كيان لربط حسابات sameAs به.'), undefined,
@@ -1367,13 +1383,23 @@ function aiChecks(ctx: CheckContext, matrix: BotMatrixRow[]): AuditCheck[] {
   }
 
   // Citable facts
+  const factSamples = quantifiedSamples(page.text.slice(0, 20000));
+  const factEvidence = factSamples.length
+    ? bi(factSamples.map((s) => `"${s}"`).join('\n'), factSamples.map((s) => `"${s}"`).join('\n'))
+    : bi(`Scanned ${page.wordCount} words of visible text. No number sits next to a unit, percent, duration or price.`, `فُحص ${page.wordCount} كلمة من النص الظاهر. لا يوجد رقم بجانب وحدة أو نسبة أو مدة أو سعر.`);
   if (ctx.jsDependent === 'yes') {
     out.push(make(A.facts, 'info', bi('Not scored separately (JavaScript-rendered page).', 'غير محسوب منفصلاً (صفحة تُرسم بالجافاسكربت).')));
   } else if (page.numbersInText >= 3) {
-    out.push(make(A.facts, 'pass', bi(`${page.numbersInText} quantified statements (numbers with units/percentages).`, `${page.numbersInText} عبارة بها أرقام ووحدات أو نسب.`)));
+    out.push(make(A.facts, 'pass', bi(`${page.numbersInText} quantified statements (a number with a unit, percent, duration or price).`, `${page.numbersInText} عبارة بها رقم مع وحدة أو نسبة أو مدة أو سعر.`), factEvidence));
   } else {
-    out.push(make(A.facts, 'warn', bi(page.numbersInText ? `Only ${page.numbersInText} quantified statement(s).` : 'No quantified statements (numbers, %, durations).', page.numbersInText ? `${page.numbersInText} عبارة رقمية فقط.` : 'لا توجد عبارات رقمية (أرقام أو نسب أو مدد).'), undefined,
-      bi('Add verifiable specifics: prices, years in business, customers served, delivery times, test results — with sources where relevant.', 'أضف تفاصيل قابلة للتحقق: الأسعار، سنوات العمل، عدد العملاء، مدة التوصيل، نتائج الاختبارات — مع المصادر عند الحاجة.')));
+    const n = page.numbersInText;
+    out.push(make(A.facts, 'warn', n === 0
+      ? bi('No quantified statements (a number next to a unit, percent, duration or price).', 'لا توجد عبارات رقمية (رقم بجانب وحدة أو نسبة أو مدة أو سعر).')
+      : n === 1
+        ? bi('Only 1 quantified statement.', 'عبارة رقمية واحدة فقط.')
+        : bi(`Only ${n} quantified statements.`, `${n} عبارات رقمية فقط.`),
+    factEvidence,
+      bi('Add verifiable specifics: prices, weights, years in business, customers served, delivery times — only facts that are true.', 'أضف تفاصيل قابلة للتحقق: الأسعار، الأوزان، سنوات العمل، عدد العملاء، مدة التوصيل — حقائق صحيحة فقط.')));
   }
 
   return out;

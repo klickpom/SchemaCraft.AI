@@ -145,6 +145,33 @@ describe('opening paragraph', () => {
     const page = parsePage(html, 'https://acme.example/', TestParser);
     expect(page.leadParagraph?.startsWith('Acme is a tool')).toBe(true);
   });
+
+  it('warns when the definition is a later paragraph and quotes it', () => {
+    const html = `<!doctype html><html lang="ar"><head><title>البروفيسور | مواد بناء</title></head><body><main><h1>البروفيسور</h1>
+<p>شكاير فيكس، روبة بلاط CG2، ولاتكس بوند 1 لتر. الكتالوج من العبوة نفسها.</p>
+<p>البروفيسور هو وكيل معتمد لمادة لصق البورسلين إيتونج في محافظة الغربية، مصر. النشاط بورسلين وسيراميك وكيماويات بناء، والكتالوج هنا العبوات المصوّرة فقط.</p>
+</main></body></html>`;
+    const report = build(payload({ html }));
+    const check = report.checks.find((c) => c.id === 'answer-first');
+    expect(check?.status).toBe('warn');
+    expect(check?.severity).toBe('low');
+    expect(check?.detail).toContain('paragraph 2');
+    expect(check?.evidence).toContain('وكيل معتمد');
+    expect(check?.detail).not.toContain('does not define');
+    const what = report.aiOpportunities.find((o) => o.query.startsWith('What is'));
+    expect(what?.status).toBe('partially_covered');
+    expect(what?.reason).toContain('paragraph 2');
+  });
+
+  it('keeps a missing definition as a medium warning', () => {
+    const filler = 'New arrivals this week include several products from the current catalog and the shelf photos. ';
+    const html = `<!doctype html><html lang="en"><head><title>Shop</title></head><body><main><h1>Shop</h1><p>${filler.repeat(2)}</p></main></body></html>`;
+    const report = build(payload({ html }));
+    const check = report.checks.find((c) => c.id === 'answer-first');
+    expect(check?.status).toBe('warn');
+    expect(check?.severity).toBe('medium');
+    expect(check?.detail).toContain('does not define');
+  });
 });
 
 describe('citable facts', () => {
@@ -154,6 +181,9 @@ describe('citable facts', () => {
     expect(countQuantifiedStatements('22 ms and 76 KB, used 3 times')).toBe(3);
     expect(countQuantifiedStatements('Google stops reading robots.txt after 500 KiB')).toBe(1);
     expect(countQuantifiedStatements('بحد 20 فحصاً كل 10 دقائق وخلال 20 ثانية وعلى مدى 3 أيام')).toBe(3);
+    expect(countQuantifiedStatements('إيتونج فيكس 25 كجم وروبة 5 كجم ولاتكس 1 لتر')).toBe(3);
+    expect(countQuantifiedStatements('السعر 150 جنيه')).toBe(1);
+    expect(countQuantifiedStatements('Plans start at $19 per month')).toBe(1);
   });
 });
 

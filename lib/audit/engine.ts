@@ -4,7 +4,7 @@
  */
 import { buildChecks, type CheckContext } from './checks';
 import { fetchAuditPayload, normalizeAuditUrl } from './client';
-import { parsePage, type PageFacts } from './html';
+import { openingDefinition, parsePage, type PageFacts } from './html';
 import { parseRobots } from './robots';
 import { analyzeSchema, SCHEMA_SETS, type SchemaAnalysis } from './schema';
 import type {
@@ -219,13 +219,27 @@ function opportunities(page: PageFacts, schema: SchemaAnalysis, pageType: PageTy
   const out: AIOpportunity[] = [];
 
   const definition = status('answer-first') === 'pass';
+  const definedLater = openingDefinition(page.openingParagraphs || []);
+  const buried = definedLater && definedLater.index > 0;
   out.push({
     query: `What is ${brand}?`,
     queryAr: `ما هو ${brand}؟`,
     intent: 'informational',
-    status: definition && schema.identity ? 'covered' : page.leadParagraph ? 'partially_covered' : 'missing',
-    reason: definition && schema.identity ? 'Clear definition paragraph plus an Organization entity — easy to quote and attribute.' : page.leadParagraph ? 'There is an opening paragraph, but it either lacks a direct definition or an entity in schema to attribute it to.' : 'No definition-style paragraph in the server HTML.',
-    reasonAr: definition && schema.identity ? 'فقرة تعريف واضحة مع كيان Organization — سهلة الاقتباس والنسب.' : page.leadParagraph ? 'توجد فقرة افتتاحية لكنها تفتقد تعريفاً مباشراً أو كياناً في السكيما يُنسب إليه.' : 'لا توجد فقرة تعريفية في HTML السيرفر.',
+    status: definition && schema.identity ? 'covered' : (buried || page.leadParagraph) ? 'partially_covered' : 'missing',
+    reason: definition && schema.identity
+      ? 'Clear definition paragraph plus an Organization entity — easy to quote and attribute.'
+      : buried
+        ? `A definition is in paragraph ${definedLater.index + 1}, so an assistant that quotes the opening will miss it.`
+        : page.leadParagraph
+          ? 'There is an opening paragraph, but it either lacks a direct definition or an entity in schema to attribute it to.'
+          : 'No definition-style paragraph in the server HTML.',
+    reasonAr: definition && schema.identity
+      ? 'فقرة تعريف واضحة مع كيان Organization — سهلة الاقتباس والنسب.'
+      : buried
+        ? `التعريف في الفقرة ${definedLater.index + 1}، فالمساعد الذي يقتبس الافتتاح لن يراه.`
+        : page.leadParagraph
+          ? 'توجد فقرة افتتاحية لكنها تفتقد تعريفاً مباشراً أو كياناً في السكيما يُنسب إليه.'
+          : 'لا توجد فقرة تعريفية في HTML السيرفر.',
   });
 
   if (pageType === 'product') {

@@ -34,6 +34,8 @@ export interface PageFacts {
   text: string;
   wordCount: number;
   leadParagraph: string | null;
+  /** First substantial paragraphs in main content, in order. At most four. */
+  openingParagraphs: string[];
   paragraphCount: number;
   listCount: number;
   tableCount: number;
@@ -82,7 +84,19 @@ const TRUST_PATTERNS = {
 const SOCIAL_HOSTS = [
   'twitter.com', 'x.com', 'linkedin.com', 'facebook.com', 'instagram.com', 'youtube.com', 'github.com',
   'tiktok.com', 'wikipedia.org', 'wikidata.org', 'crunchbase.com', 'threads.net', 'pinterest.com', 'g2.com', 'trustpilot.com',
+  'wa.me', 'whatsapp.com',
 ];
+
+/** A passage that states what something is. Twelve words minimum, so a slogan does not qualify. */
+const DEFINITION = /\b(is|are|was|helps?|provides?|offers?|lets?|enables?)\b|(?:^|\s)(هو|هي|هى|عبارة عن|تساعد|يساعد|تقدم|يقدم|منصة|أداة|شركة)(?:\s|$)/i;
+
+export function openingDefinition(paragraphs: string[]): { index: number; text: string } | null {
+  for (let index = 0; index < paragraphs.length; index++) {
+    const text = paragraphs[index];
+    if (text.split(/\s+/).length >= 12 && DEFINITION.test(text)) return { index, text };
+  }
+  return null;
+}
 
 function clean(text: string | null | undefined): string {
   return (text || '').replace(/\s+/g, ' ').trim();
@@ -116,10 +130,23 @@ function resolve(href: string, base: string): string | null {
  * Bare digits ("50 checks", years, IDs) do not count — they are not a citable measurement.
  */
 const QUANTIFIED_STATEMENT =
-  /\b\d+(?:[.,]\d+)?\s?(?:%|٪|percent|milliseconds?|seconds?|secs?|minutes?|mins?|hours?|hrs?|days?|weeks?|months?|years?|ms|kb|mb|gb|kib|x\b|times|users|customers|مللي ثانية|ثواني|ثوانٍ|ثانية|دقائق|دقيقة|ساعات|ساعة|أيام|يوم|أسابيع|أسبوع|أشهر|شهر|سنوات|سنة)/gi;
+  /(?:^|[^\w])(?:\d+(?:[.,]\d+)?\s?(?:%|٪|percent|milliseconds?|seconds?|secs?|minutes?|mins?|hours?|hrs?|days?|weeks?|months?|years?|ms|kb|mb|gb|kib|x\b|times|users|customers|مللي ثانية|ثواني|ثوانٍ|ثانية|دقائق|دقيقة|ساعات|ساعة|أيام|يوم|أسابيع|أسبوع|أشهر|شهر|سنوات|سنة|لترات|لتر|كيلوغرام|كيلوجرام|كجم|كيلو|جرام|غرام|طن|أمتار|متر|سم|جنيهات|جنيه|ريال|درهم|egp|usd|eur|sar|aed|gbp)|[$€£¥₹]\s?\d+(?:[.,]\d+)?)/gi;
 
 export function countQuantifiedStatements(text: string): number {
   return (text.match(QUANTIFIED_STATEMENT) || []).length;
+}
+
+/** Short quotes around the measurements that were actually counted. */
+export function quantifiedSamples(text: string, limit = 3): string[] {
+  const re = new RegExp(QUANTIFIED_STATEMENT.source, QUANTIFIED_STATEMENT.flags);
+  const samples: string[] = [];
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(text)) && samples.length < limit) {
+    const sample = text.slice(Math.max(0, match.index - 12), match.index + match[0].length + 18).replace(/\s+/g, ' ').trim();
+    if (sample && !samples.includes(sample)) samples.push(sample);
+    if (match[0].length === 0) re.lastIndex += 1;
+  }
+  return samples;
 }
 
 type DomParserCtor = new () => { parseFromString(html: string, type: string): Document };
@@ -223,7 +250,7 @@ export function parsePage(html: string, pageUrl: string, Parser?: DomParserCtor)
   const wordCount = countWords(text);
 
   const contentRoot = (textRoot.querySelector('main') || textRoot.querySelector('article') || textRoot) as Element;
-  let leadParagraph: string | null = null;
+  const openingParagraphs: string[] = [];
   for (const p of Array.from(contentRoot.querySelectorAll('p'))) {
     if (p.closest('nav, footer, aside, form, [role="navigation"], [aria-hidden="true"]')) continue;
     // Site chrome <header> is navigation. An article header (it contains the h1, or it sits inside main) holds the lede.
@@ -231,10 +258,11 @@ export function parsePage(html: string, pageUrl: string, Parser?: DomParserCtor)
     if (header && !header.querySelector('h1') && !header.closest('main, article')) continue;
     const t = clean(p.textContent);
     if (t.length >= 60 && !/©|cookie|all rights reserved|جميع الحقوق/i.test(t)) {
-      leadParagraph = t.slice(0, 600);
-      break;
+      openingParagraphs.push(t.slice(0, 600));
+      if (openingParagraphs.length >= 4) break;
     }
   }
+  const leadParagraph = openingParagraphs[0] ?? null;
   const paragraphCount = Array.from(textRoot.querySelectorAll('p')).filter((p) => clean(p.textContent).length >= 40).length;
   const listCount = Array.from(textRoot.querySelectorAll('ul, ol')).filter(
     (l) => !l.closest('nav, header, footer') && l.querySelectorAll('li').length >= 3,
@@ -366,6 +394,7 @@ export function parsePage(html: string, pageUrl: string, Parser?: DomParserCtor)
     text,
     wordCount,
     leadParagraph,
+    openingParagraphs,
     paragraphCount,
     listCount,
     tableCount,
