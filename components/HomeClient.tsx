@@ -43,18 +43,18 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
             {lang === 'ar' ? (
               <>
                 <span className="block">هل يستطيع</span>
-                <span className="my-1 block text-[0.72em]" dir="ltr">ChatGPT · Google · Perplexity</span>
+                <span className="my-1 block text-[0.58em] sm:text-[0.62em]" dir="ltr">ChatGPT · Google · Perplexity · Claude</span>
                 <span className="block">قراءة موقعك فعلاً؟</span>
               </>
             ) : (
               'Can ChatGPT, Google and Perplexity actually read your site?'
             )}
           </h1>
-          <p className={`text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto text-start ${lang === 'ar' ? 'leading-8' : 'leading-relaxed text-center'}`}>
+          <p className={`text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto ${lang === 'ar' ? 'leading-8' : 'leading-relaxed'}`}>
             {lang === 'ar' ? (
               <>
-                أداة مجانية من <bdi>SchemaCraft</bdi> لفحص ظهور موقعك في البحث الذكي. تعرف هل تستطيع محركات <bdi dir="ltr">ChatGPT</bdi> وجوجل و<bdi dir="ltr">Perplexity</bdi> و<bdi dir="ltr">Claude</bdi> الزحف إلى الصفحة وقراءتها والاقتباس منها.
-                <span className="mt-2 block">حوالي 50 فحصاً للسيو و<bdi dir="ltr">GEO</bdi> و<bdi dir="ltr">AEO</bdi>، وكل مشكلة معها الدليل وإصلاح جاهز للنسخ. التقرير كامل ومجاني، بحد 20 فحصاً كل 10 دقائق، ومعظم الفحوص تنتهي خلال 20 ثانية.</span>
+                أداة مجانية لفحص ظهور موقعك في البحث الذكي. تعرف هل تستطيع المحركات في العنوان الزحف إلى الصفحة وقراءتها والاقتباس منها.
+                <span className="mt-2 block">حوالي 50 فحصاً للسيو وظهور الإجابة والذكاء التوليدي. كل مشكلة معها الدليل وإصلاح جاهز للنسخ. التقرير كامل ومجاني، بحد 20 فحصاً كل 10 دقائق، ومعظم الفحوص تنتهي خلال 20 ثانية.</span>
               </>
             ) : (
               'SchemaCraft is a free AI search visibility audit. It shows whether ChatGPT, Google, Perplexity and Claude can crawl, read and cite a page, using about 50 SEO, GEO and AEO checks. Every problem includes the evidence and a copy-paste fix. The full report is free, limited to 20 audits per 10 minutes, and most audits finish within 20 seconds.'
@@ -66,16 +66,17 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto" aria-labelledby="how-it-works">
           <h2 id="how-it-works" className="md:col-span-3 text-center text-2xl sm:text-3xl font-black text-white tracking-tight">{t('How it works', 'طريقة العمل')}</h2>
           {[
-            [Search, t('1. Real crawl, no guessing', '1. زحف حقيقي بدون تخمين'), t('Our server requests your page, robots.txt, sitemap and llms.txt, then repeats the request as Googlebot, OAI-SearchBot, PerplexityBot and ClaudeBot.', 'سيرفرنا يطلب صفحتك وrobots.txt وخريطة الموقع وllms.txt، ثم يكرر الطلب بوكيل Googlebot وOAI-SearchBot وPerplexityBot وClaudeBot.')],
-            [Gauge, t('2. Score built only from evidence', '2. درجة مبنية على الأدلة فقط'), t('Each check is pass, warning or fail with the raw evidence. Anything we could not verify is marked “Not assessed” and does not count.', 'كل فحص ناجح أو تحذير أو فشل مع الدليل الخام. أي شيء لم نتمكن من التحقق منه يُكتب "غير مُقيَّم" ولا يُحسب.')],
-            [Wrench, t('3. Copy-paste fixes', '3. إصلاحات جاهزة للنسخ'), t('Every issue comes with the exact robots.txt line, meta tag or JSON-LD to add — prefilled with your site’s details where we can.', 'كل مشكلة معها سطر robots.txt أو وسم الميتا أو JSON-LD المطلوب بالضبط — مملوءاً ببيانات موقعك حيثما أمكن.')],
-          ].map(([Icon, title, body]) => {
+            [Search, t('1. Real crawl, no guessing', '1. زحف حقيقي بدون تخمين'), t('Our server requests your page, robots.txt, sitemap and llms.txt, then repeats the request as Googlebot, OAI-SearchBot, PerplexityBot and ClaudeBot.', 'سيرفرنا يطلب الصفحة وملفات التوجيه وخريطة الموقع، ثم يكرر الطلب بوكلاء البحث.'), lang === 'ar' ? 'Googlebot · OAI-SearchBot · PerplexityBot · ClaudeBot' : ''],
+            [Gauge, t('2. Score built only from evidence', '2. درجة مبنية على الأدلة فقط'), t('Each check is pass, warning or fail with the raw evidence. Anything we could not verify is marked “Not assessed” and does not count.', 'كل فحص ناجح أو تحذير أو فشل، ومعه الدليل الخام. ما لم نتحقق منه يُكتب «غير مُقيَّم» ولا يدخل في الدرجة.'), ''],
+            [Wrench, t('3. Copy-paste fixes', '3. إصلاحات جاهزة للنسخ'), t('Every issue comes with the exact robots.txt line, meta tag or JSON-LD to add — prefilled with your site’s details where we can.', 'كل مشكلة معها السطر أو الوسم المطلوب، مملوءاً ببيانات موقعك حين تتوفر.'), lang === 'ar' ? 'robots.txt · meta · JSON-LD' : ''],
+          ].map(([Icon, title, body, latin]) => {
             const I = Icon as typeof Search;
             return (
-              <div key={title as string} className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#0c0c14] space-y-2.5">
+              <div key={title as string} className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#0c0c14] space-y-2.5 text-start">
                 <I className="w-5 h-5 text-cyan-400" aria-hidden />
-                <h2 className="text-base font-bold text-white leading-snug">{mix(lang, title as string)}</h2>
-                <p className={`text-sm text-slate-400 ${lang === 'ar' ? 'leading-7 text-pretty' : 'leading-relaxed'}`}>{mix(lang, body as string)}</p>
+                <h2 className="text-base font-bold text-white leading-snug">{title as string}</h2>
+                <p className={`text-sm text-slate-400 ${lang === 'ar' ? 'leading-7' : 'leading-relaxed'}`}>{body as string}</p>
+                {latin ? <p className="text-xs font-mono text-cyan-200/90 text-right" dir="ltr">{latin as string}</p> : null}
               </div>
             );
           })}
@@ -86,7 +87,7 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
           <p className={`text-sm sm:text-base text-slate-300 ${lang === 'ar' ? 'leading-8' : 'leading-relaxed'}`}>
             {mix(lang, t(
               'SchemaCraft pricing is zero. There is no paid plan and no sign-up. The full report is free, with a limit of 20 audits per 10 minutes per network so the service stays fast.',
-              'سعر SchemaCraft صفر. لا توجد خطة مدفوعة ولا تسجيل. التقرير الكامل مجاني، بحد 20 فحصاً كل 10 دقائق لكل شبكة حتى تبقى الخدمة سريعة.',
+              'السعر صفر. لا توجد خطة مدفوعة ولا تسجيل. التقرير الكامل مجاني، بحد 20 فحصاً كل 10 دقائق لكل شبكة حتى تبقى الخدمة سريعة.',
             ))}
           </p>
         </section>
