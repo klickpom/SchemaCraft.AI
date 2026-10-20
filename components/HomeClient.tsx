@@ -39,21 +39,26 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
             <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
             {t('Free · No sign-up · Every score explained', 'مجاني · بدون تسجيل · كل درجة لها تفسير')}
           </p>
-          <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-black tracking-tight leading-tight text-gradient-metallic">
+          <h1 className={`text-3xl sm:text-5xl text-gradient-metallic ${lang === 'ar' ? 'font-extrabold leading-[1.4]' : 'lg:text-6xl font-black tracking-tight leading-tight'}`}>
             {lang === 'ar' ? (
               <>
-                هل يستطيع <bdi>ChatGPT</bdi> وجوجل و<bdi>Perplexity</bdi>
-                <span className="mt-1 block">قراءة موقعك فعلاً؟</span>
+                <span className="block">هل يستطيع</span>
+                <span className="my-1 block text-[0.72em]" dir="ltr">ChatGPT · Google · Perplexity</span>
+                <span className="block">قراءة موقعك فعلاً؟</span>
               </>
             ) : (
               'Can ChatGPT, Google and Perplexity actually read your site?'
             )}
           </h1>
-          <p className={`text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto ${lang === 'ar' ? 'leading-8 text-pretty' : 'leading-relaxed'}`}>
-            {mix(lang, t(
-              'SchemaCraft is a free AI search visibility audit. It shows whether ChatGPT, Google, Perplexity and Claude can crawl, read and cite a page, using about 50 SEO, GEO and AEO checks. Every problem includes the evidence and a copy-paste fix. The full report is free, limited to 20 audits per 10 minutes, and most audits finish within 20 seconds.',
-              'SchemaCraft أداة مجانية لفحص ظهور موقعك في البحث الذكي. تبيّن هل يستطيع ChatGPT وجوجل وPerplexity وClaude الزحف لصفحتك وقراءتها والاقتباس منها، عبر حوالي 50 فحصاً للسيو وGEO وAEO. كل مشكلة معها الدليل وإصلاح جاهز للنسخ. التقرير كامل ومجاني، بحد 20 فحصاً كل 10 دقائق، ومعظم الفحوص تنتهي خلال 20 ثانية.',
-            ))}
+          <p className={`text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto text-start ${lang === 'ar' ? 'leading-8' : 'leading-relaxed text-center'}`}>
+            {lang === 'ar' ? (
+              <>
+                أداة مجانية من <bdi>SchemaCraft</bdi> لفحص ظهور موقعك في البحث الذكي. تعرف هل تستطيع محركات <bdi dir="ltr">ChatGPT</bdi> وجوجل و<bdi dir="ltr">Perplexity</bdi> و<bdi dir="ltr">Claude</bdi> الزحف إلى الصفحة وقراءتها والاقتباس منها.
+                <span className="mt-2 block">حوالي 50 فحصاً للسيو و<bdi dir="ltr">GEO</bdi> و<bdi dir="ltr">AEO</bdi>، وكل مشكلة معها الدليل وإصلاح جاهز للنسخ. التقرير كامل ومجاني، بحد 20 فحصاً كل 10 دقائق، ومعظم الفحوص تنتهي خلال 20 ثانية.</span>
+              </>
+            ) : (
+              'SchemaCraft is a free AI search visibility audit. It shows whether ChatGPT, Google, Perplexity and Claude can crawl, read and cite a page, using about 50 SEO, GEO and AEO checks. Every problem includes the evidence and a copy-paste fix. The full report is free, limited to 20 audits per 10 minutes, and most audits finish within 20 seconds.'
+            )}
           </p>
           <AuditRunner lang={lang} examples={EXAMPLES} />
         </section>
