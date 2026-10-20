@@ -104,15 +104,15 @@ export function validateSchemaAST(schemaObj: any): ValidationResult {
           recommendation: 'Adjust ratingValue to a standard 5-point scale.',
         });
       } else {
-        passedChecks.push('Google 5-star aggregate rating verified');
+        passedChecks.push('AggregateRating is present. Publish it only if visitors can see the same numbers.');
       }
     } else {
       issues.push({
         id: 'missing-rating',
         field: 'aggregateRating',
         severity: 'info',
-        message: 'AggregateRating omitted. Rich stars will not appear in SERPs.',
-        recommendation: 'Add ratingValue and reviewCount to unlock Google gold star badges.',
+        message: 'No AggregateRating, so star rich results are not available. That is fine when you have no public reviews.',
+        recommendation: 'Add ratingValue and reviewCount only when those exact numbers are visible on the page. Do not invent them.',
       });
     }
   }

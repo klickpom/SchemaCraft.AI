@@ -113,7 +113,7 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
       { id: 'priceCurrency', label: 'Currency', type: 'select', options: ['USD', 'EUR', 'GBP', 'CAD', 'AUD', 'AED', 'SAR'], required: true, defaultValue: 'USD' },
       { id: 'availability', label: 'Availability', type: 'select', options: ['InStock', 'OutOfStock', 'PreOrder'], required: true, defaultValue: 'InStock' },
       { id: 'ratingValue', label: 'Average Rating', type: 'number', placeholder: 'Only if reviews are visible on-page' },
-      { id: 'reviewCount', label: 'Total Reviews', type: 'number', placeholder: '540', defaultValue: '540' },
+      { id: 'reviewCount', label: 'Total Reviews', type: 'number', placeholder: 'Only if this count is visible on the page' },
     ],
     defaultValues: {
       name: 'Ultra-Pro Cloud Mechanical Keyboard',
@@ -146,10 +146,10 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
         availability: `https://schema.org/${val.availability || 'InStock'}`,
         itemCondition: 'https://schema.org/NewCondition',
       },
-      aggregateRating: val.ratingValue ? {
+      aggregateRating: val.ratingValue && val.reviewCount ? {
         '@type': 'AggregateRating',
         ratingValue: String(val.ratingValue),
-        reviewCount: String(val.reviewCount || '10'),
+        reviewCount: String(val.reviewCount),
       } : undefined,
     }),
   },
@@ -158,9 +158,9 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
     id: 'FAQPage',
     name: 'FAQ Page / Accordion',
     icon: 'HelpCircle',
-    badge: 'SERP Dropdown Expanders',
-    description: 'Double your search real estate by rendering interactive Q&A dropdowns directly inside Google Search and AEO.',
-    googleRichResultType: 'FAQ Rich Result',
+    badge: 'Not a Google rich result for most sites',
+    description: 'Google no longer shows FAQ dropdowns for most sites. Keep the questions you actually answer on the page — answer engines can still read them.',
+    googleRichResultType: 'Retired for most sites',
     fields: [
       { id: 'faqs', label: 'FAQ Items (Question & Answer)', type: 'array-faq', required: true },
     ],
@@ -341,47 +341,50 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
       { id: 'url', label: 'Website URL', type: 'text', placeholder: 'https://schemacraft.ai', required: true, defaultValue: 'https://schemacraft.ai' },
       { id: 'logo', label: 'Logo URL', type: 'text', placeholder: 'https://schemacraft.ai/logo.png', required: true, defaultValue: 'https://schemacraft.ai/logo.png' },
       { id: 'description', label: 'Corporate Bio', type: 'textarea', placeholder: 'Enterprise data architecture and automated schema generation platform.', defaultValue: 'Enterprise data architecture and automated schema generation platform providing in-browser AEO tooling.' },
-      { id: 'sameAs', label: 'Social Profiles (comma separated)', type: 'text', placeholder: 'https://twitter.com/schemacraft, https://github.com/schemacraft', defaultValue: 'https://twitter.com/schemacraft, https://github.com/schemacraft, https://linkedin.com/company/schemacraft' },
+      { id: 'sameAs', label: 'Social Profiles (comma separated)', type: 'text', placeholder: 'Only profiles that exist, comma separated' },
     ],
     defaultValues: {
       name: 'SchemaCraft Global Technologies',
       url: 'https://schemacraft.ai',
       logo: 'https://schemacraft.ai/logo.png',
       description: 'Enterprise data architecture and automated schema generation platform providing in-browser AEO tooling.',
-      sameAs: 'https://twitter.com/schemacraft, https://github.com/schemacraft, https://linkedin.com/company/schemacraft',
+      sameAs: '',
     },
-    generateJsonLd: (val) => ({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: val.name,
-      url: val.url,
-      logo: val.logo,
-      description: val.description,
-      sameAs: typeof val.sameAs === 'string'
+    generateJsonLd: (val) => {
+      const sameAs = (typeof val.sameAs === 'string'
         ? val.sameAs.split(',').map((s: string) => s.trim()).filter(Boolean)
-        : val.sameAs || [],
-    }),
+        : Array.isArray(val.sameAs) ? val.sameAs : []);
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: val.name,
+        url: val.url,
+        logo: val.logo,
+        description: val.description,
+        ...(sameAs.length ? { sameAs } : {}),
+      };
+    },
   },
 
   Review: {
     id: 'Review',
     name: 'Review & Aggregate Rating',
     icon: 'Star',
-    badge: 'Direct Gold Star Rating',
-    description: 'Embed authentic customer ratings to trigger verified 5-star badges in Google Organic & Merchant listings.',
+    badge: 'Only from a real review',
+    description: 'A star result needs a review that visitors can already read on the page. Leave the fields empty until you have that review. Do not invent a person or a score.',
     googleRichResultType: 'Review Snippet',
     fields: [
-      { id: 'itemName', label: 'Item / Service Reviewed', type: 'text', placeholder: 'SchemaCraft Pro Suite', required: true, defaultValue: 'SchemaCraft Pro Suite' },
-      { id: 'reviewBody', label: 'Review Testimonial', type: 'textarea', placeholder: 'Quote a real customer. Do not invent ratings.', defaultValue: 'Replace this text with a real quote from your own customers.' },
-      { id: 'authorName', label: 'Reviewer Name', type: 'text', placeholder: 'Marcus Vance, VP of Growth', required: true, defaultValue: 'Marcus Vance, Head of SEO at Veloce' },
-      { id: 'ratingValue', label: 'Rating (1-5)', type: 'number', placeholder: '5', required: true, defaultValue: '5' },
-      { id: 'bestRating', label: 'Max Rating (Default 5)', type: 'number', placeholder: '5', defaultValue: '5' },
+      { id: 'itemName', label: 'Item / Service Reviewed', type: 'text', placeholder: 'Name of the product on this page', required: true },
+      { id: 'reviewBody', label: 'Review text', type: 'textarea', placeholder: 'Paste a real review that is visible on the page' },
+      { id: 'authorName', label: 'Reviewer name', type: 'text', placeholder: 'Name shown next to that review', required: true },
+      { id: 'ratingValue', label: 'Rating (1-5)', type: 'number', placeholder: 'Only the rating shown on the page', required: true },
+      { id: 'bestRating', label: 'Max rating', type: 'number', placeholder: '5', defaultValue: '5' },
     ],
     defaultValues: {
-      itemName: 'SchemaCraft Pro Suite',
-      reviewBody: 'SchemaCraft simplified our Next.js structured data workflow. Replace this text with a real quote from your own customers.',
-      authorName: 'Marcus Vance, Head of SEO at Veloce',
-      ratingValue: '5',
+      itemName: '',
+      reviewBody: '',
+      authorName: '',
+      ratingValue: '',
       bestRating: '5',
     },
     generateJsonLd: (val) => ({
@@ -389,18 +392,22 @@ export const SCHEMA_DEFINITIONS: Record<SchemaCategory, SchemaTypeDefinition> = 
       '@type': 'Review',
       itemReviewed: {
         '@type': 'Thing',
-        name: val.itemName || 'Product or Service',
+        name: val.itemName || '',
       },
-      reviewRating: {
-        '@type': 'Rating',
-        ratingValue: String(val.ratingValue || '5'),
-        bestRating: String(val.bestRating || '5'),
-      },
-      author: {
-        '@type': 'Person',
-        name: val.authorName || 'Verified Reviewer',
-      },
-      reviewBody: val.reviewBody || '',
+      ...(val.ratingValue ? {
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: String(val.ratingValue),
+          bestRating: String(val.bestRating || '5'),
+        },
+      } : {}),
+      ...(val.authorName ? {
+        author: {
+          '@type': 'Person',
+          name: val.authorName,
+        },
+      } : {}),
+      ...(val.reviewBody ? { reviewBody: val.reviewBody } : {}),
     }),
   },
 

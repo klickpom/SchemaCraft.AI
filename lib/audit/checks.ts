@@ -1002,7 +1002,7 @@ function organizationSnippet(ctx: CheckContext): FixSnippet {
         name: ctx.siteName,
         url: `${ctx.origin}/`,
         logo: ctx.page.og.image || `${ctx.origin}/logo.png`,
-        ...(ctx.page.links.social.length ? { sameAs: ctx.page.links.social } : { sameAs: ['https://www.linkedin.com/company/your-company', 'https://x.com/yourhandle'] }),
+        ...(ctx.page.links.social.length ? { sameAs: ctx.page.links.social } : {}),
       },
       {
         '@type': 'WebSite',
@@ -1016,8 +1016,8 @@ function organizationSnippet(ctx: CheckContext): FixSnippet {
   };
   return {
     language: 'json',
-    label: ctx.page.links.social.length ? 'Prefilled with the profiles linked on your page' : 'Replace the placeholder profile URLs',
-    labelAr: ctx.page.links.social.length ? 'معبأة بالحسابات المرتبطة في صفحتك' : 'استبدل روابط الحسابات النموذجية',
+    label: ctx.page.links.social.length ? 'Prefilled with the profiles linked on your page' : 'No sameAs — add a profile only if it exists',
+    labelAr: ctx.page.links.social.length ? 'معبأة بالحسابات المرتبطة في صفحتك' : 'بدون sameAs — أضف حساباً فقط إذا كان موجوداً',
     code: `<script type="application/ld+json">\n${JSON.stringify(node, null, 2)}\n</script>`,
   };
 }

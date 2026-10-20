@@ -347,8 +347,8 @@ export default function AuditReportView({ report, lang, onNewAudit, onShare, foc
             )}
             <p className="text-[10px] text-slate-500 leading-relaxed max-w-xs">
               {L(lang,
-                'Measures on-page readiness from evidence we fetched. It does not measure backlinks, authority or rankings.',
-                'يقيس جاهزية الصفحة من الأدلة التي جلبناها. لا يقيس الروابط الخلفية أو السلطة أو الترتيب.')}
+                'One page, from evidence we fetched. Not rankings, backlinks, Chrome field speed, or whether Google has indexed the URL. Schema here is not Google’s Rich Results Test.',
+                'صفحة واحدة، من الأدلة التي جلبناها. ليست ترتيباً ولا روابط خلفية ولا سرعة كروم الميدانية ولا حالة الفهرسة في جوجل. السكيما هنا ليست اختبار النتائج الغنية الرسمي.')}
             </p>
           </div>
 

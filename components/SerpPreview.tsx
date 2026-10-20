@@ -252,14 +252,14 @@ export function SerpPreview({ category, values, schemaObj }: SerpPreviewProps) {
                 </div>
               </div>
               <span className="inline-flex items-center gap-1 rounded-full bg-cyan-500/10 px-2 py-0.5 text-[10px] font-medium text-cyan-300 ring-1 ring-cyan-500/30">
-                <ShieldCheck className="h-3 w-3" /> High Grounding Score
+                <ShieldCheck className="h-3 w-3" /> Preview only
               </span>
             </div>
 
             {/* Synthesized Answer Box */}
             <div className="space-y-2 text-zinc-300 leading-relaxed">
               <p>
-                According to the verified structured JSON-LD specification for{' '}
+                From the markup you entered for{' '}
                 <strong className="text-white">{title}</strong>:
               </p>
               <ul className="space-y-1.5 pl-4 list-disc text-zinc-300">
@@ -276,7 +276,7 @@ export function SerpPreview({ category, values, schemaObj }: SerpPreviewProps) {
                 )}
                 {values.ratingValue && (
                   <li>
-                    <strong className="text-zinc-100">Verified User Rating:</strong> {values.ratingValue} / 5.0 across {ratingCount} audited reviews.
+                    <strong className="text-zinc-100">Rating entered:</strong> {values.ratingValue} / 5.0{ratingCount ? ` from ${ratingCount} reviews` : ''}.
                   </li>
                 )}
               </ul>
