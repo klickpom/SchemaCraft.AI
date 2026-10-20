@@ -4,7 +4,7 @@ import { ContentShell } from '@/components/ContentShell';
 import { RELATED } from '@/lib/content/related';
 import { ACTIVE_BOTS, DEPRECATED_BOTS, type BotPurpose } from '@/lib/bots/registry';
 import { articleGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
+import { pageAlternates, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/ai-crawlers/';
 const TITLE = 'AI Crawler List 2026: Every AI User-Agent and What It Does';
@@ -44,7 +44,7 @@ const FAQ = [
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl(PATH) },
+  alternates: pageAlternates(PATH, 'en'),
   ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH, type: 'article' }),
 };
 

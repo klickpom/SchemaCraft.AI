@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { withLang } from '@/lib/i18n/path';
+import type { UiLang } from '@/lib/uiLang';
 
 /**
  * Single source of truth for public URLs.
@@ -38,6 +40,16 @@ export function canonicalPath(input: string): string {
   if (pathname === '/') return '/';
   if (!pathname.endsWith('/')) pathname = `${pathname}/`;
   return pathname;
+}
+
+/** Canonical plus hreflang for the English path and its /ar twin. */
+export function pageAlternates(enPath: string, lang: UiLang): Metadata['alternates'] {
+  const en = canonicalUrl(enPath);
+  const ar = canonicalUrl(withLang(enPath, 'ar'));
+  return {
+    canonical: lang === 'ar' ? ar : en,
+    languages: { en, ar, 'x-default': en },
+  };
 }
 
 /** Absolute self-referential canonical URL. */

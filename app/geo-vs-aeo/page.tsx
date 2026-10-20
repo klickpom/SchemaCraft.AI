@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ContentShell } from '@/components/ContentShell';
 import { RELATED } from '@/lib/content/related';
 import { articleGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
+import { pageAlternates, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/geo-vs-aeo/';
 const TITLE = 'GEO vs AEO vs SEO: What’s the Difference and What to Do';
@@ -37,7 +37,7 @@ const FAQ = [
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl(PATH) },
+  alternates: pageAlternates(PATH, 'en'),
   ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH, type: 'article' }),
 };
 

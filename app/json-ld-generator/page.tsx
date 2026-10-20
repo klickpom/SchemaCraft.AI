@@ -4,7 +4,7 @@ import { SiteChrome } from '@/components/SiteChrome';
 import SchemaDirectoryHub from '@/components/SchemaDirectoryHub';
 import { jsonLdGeneratorGraph } from '@/lib/seo/jsonld';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
-import { canonicalUrl, schemaPath } from '@/lib/seo/urls';
+import { pageAlternates, schemaPath } from '@/lib/seo/urls';
 import { CLAIMS } from '@/lib/content/claims';
 
 const TITLE = 'JSON-LD Schema Generator (Free) | SchemaCraft AI';
@@ -14,7 +14,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl('/json-ld-generator/') },
+  alternates: pageAlternates('/json-ld-generator/', 'en'),
   keywords: [
     'JSON-LD generator',
     'schema markup generator',

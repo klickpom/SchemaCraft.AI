@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { SiteChrome } from '@/components/SiteChrome';
 import { ArticlePage } from '@/components/ArticlePage';
 import { SUPPORT_EMAIL, webPageGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl } from '@/lib/seo/urls';
+import { pageAlternates } from '@/lib/seo/urls';
 
 const TITLE = 'Privacy Policy';
 const DESCRIPTION =
@@ -11,7 +11,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl('/privacy/') },
+  alternates: pageAlternates('/privacy/', 'en'),
 };
 
 export default function PrivacyPage() {
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
       <SiteChrome>
         <ArticlePage
           title={TITLE}
-          lede="Last updated 19 October 2026. This policy describes what SchemaCraft AI collects when you use schemacraft-ai.site."
+          lede="Last updated 20 October 2026. This policy describes what SchemaCraft AI collects when you use schemacraft-ai.site."
         >
           <h2>Who we are</h2>
           <p>
@@ -54,7 +54,8 @@ export default function PrivacyPage() {
           <h2>Cookies</h2>
           <p>
             This site does not set cookies and does not use a marketing pixel or analytics cookie. Fonts are
-            served from our own domain.
+            served from our own domain. If you choose Arabic or English, that choice is saved in this browser’s
+            local storage so the next page opens in the same language. It is not sent to our server.
           </p>
           <h2>Retention</h2>
           <p>

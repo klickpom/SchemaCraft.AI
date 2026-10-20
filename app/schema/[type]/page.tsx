@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
 import { SCHEMA_DEFINITIONS } from '@/lib/schemaTypes';
 import SchemaPageShell from '@/components/SchemaPageShell';
-import { canonicalUrl, ogImageUrl, schemaUrl } from '@/lib/seo/urls';
+import { canonicalUrl, ogImageUrl, pageAlternates, schemaUrl } from '@/lib/seo/urls';
 
 interface PageProps {
   params: Promise<{
@@ -33,9 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: pageData.title,
     description: pageData.metaDescription,
-    alternates: {
-      canonical: pageUrl,
-    },
+    alternates: pageAlternates(`/schema/${type}/`, 'en'),
     keywords: [
       `${pageData.schemaCategory} schema generator`,
       `JSON-LD ${pageData.schemaCategory}`,
@@ -91,7 +89,7 @@ export default async function ProgrammaticSchemaPage({ params }: PageProps) {
         description: pageData.blufSummary,
         author: {
           '@type': 'Organization',
-          name: 'SchemaCraft AI Global',
+          name: 'SchemaCraft AI',
           url: homeUrl,
         },
         about: {

@@ -1,0 +1,255 @@
+import type { ProgrammaticPageData } from '@/lib/seoData';
+
+const REQUIREMENT: Record<string, string> = {
+  Mandatory: 'إلزامي',
+  Recommended: 'مُستحسن',
+};
+
+const IMPACT: Record<string, string> = {
+  'Triggers SERP Price Badge': 'قد يظهر السعر في النتيجة إذا اختار جوجل ذلك',
+  'Triggers Green In-Stock Pill': 'قد يظهر حالة التوفر',
+  'Renders 5-Star Visual Snippet': 'قد تظهر النجوم إذا كانت المراجعات ظاهرة في الصفحة',
+  'Google Image & Shopping Graph': 'صورة مطلوبة لنتائج التسوق والصور',
+  'Categorizes SaaS in Google SERP': 'يصنّف نوع التطبيق',
+  'Displays Platform Compatibility': 'يذكر أنظمة التشغيل',
+  'Defines total Q&A list': 'يعرّف قائمة الأسئلة',
+  'Pins Local 3-Pack Location': 'يوضح عنوان النشاط، من غير ضمان للحزمة المحلية',
+  'Unlocks "Click-to-Call" Button': 'يوفر رقم هاتف يمكن لجوجل عرضه',
+  'Displays Main Course Header': 'عنوان الدورة',
+  'Attaches Official Academy Badge': 'يربط الدورة بالجهة المقدِّمة',
+  'Featured in Top Stories Carousel': 'عنوان المقال، وليس ضماناً لأخبار بارزة',
+  'Freshness Indicator in SERP': 'تاريخ يقرأه الزاحف، وليس ضماناً لتحديث الترتيب',
+  'Displays Live Currency & Price': 'قد يظهر السعر والعملة',
+  'Triggers In-Stock Status': 'قد يظهر حالة التوفر',
+  'Renders Numbered Tutorial Steps': 'جوجل لم يعد يعرض نتيجة HowTo المنسّقة',
+  'Shows Total Completion Time': 'مدة يمكن للآلات قراءتها',
+  'Official Knowledge Panel Logo': 'الشعار الرسمي للكيان، وليس ضماناً للوحة المعرفة',
+  'Connects Official Social Profiles': 'يربط الحسابات الموجودة فعلاً',
+  'Displays Event Date & Time Pill': 'قد يظهر تاريخ الحدث',
+  'Shows Maps Pin or Stream Link': 'قد يظهر المكان أو رابط البث',
+  'Categorizes Healthcare Specialty': 'يذكر التخصص',
+  'Click-to-Call Emergency Dial': 'يوفر رقم الهاتف',
+  'Pins Physical Office in Google Maps': 'يوضح عنوان المكتب، من غير ضمان للخريطة',
+  'Unlocks Consultation Call Button': 'يوفر رقم الاستشارة',
+  'Validates Semantic Standard': 'سياق Schema.org',
+  'Unlocks Rich Snippet Badges': 'نوع الكيان، وليس ضماناً لنتيجة منسّقة',
+  'Shows Total Cooking Duration': 'قد تظهر مدة الطهي',
+  'Displays Calorie Count Pill': 'قد تظهر السعرات إذا كانت مكتوبة في الصفحة',
+  'Visual Video Thumbnail Card': 'صورة مصغرة للفيديو',
+  'Freshness Indicator in Video SERP': 'تاريخ الرفع',
+};
+
+type Copy = Pick<ProgrammaticPageData, 'title' | 'metaDescription' | 'h1' | 'blufSummary' | 'badge' | 'capabilityLabel' | 'keyBenefits' | 'faqs'>;
+
+const COPY: Record<string, Copy> = {
+  'shopify-product': {
+    title: 'مولد سكيما منتج شوبيفاي | JSON-LD للسعر والتوفر',
+    metaDescription: 'أنشئ JSON-LD لمنتج شوبيفاي بالسعر والعملة والتوفر. الترميز الصحيح لا يضمن نتيجة منسّقة في جوجل.',
+    h1: 'سكيما منتج شوبيفاي',
+    blufSummary: 'سكيما المنتج تضع السعر والعملة والتوفر في JSON-LD يقرأه جوجل من الصفحة. لا تضف تقييماً أو سعراً غير ظاهر في صفحة المنتج. هذا ليس اختبار النتائج المنسّقة من جوجل.',
+    badge: 'منتجات شوبيفاي',
+    capabilityLabel: 'السعر والتوفر والعرض',
+    keyBenefits: [
+      { title: 'خصائص المنتج الموثّقة', desc: 'يشمل price وpriceCurrency وavailability، وpriceValidUntil وitemCondition حين تكون ظاهرة في الصفحة.' },
+      { title: 'مقتطف Liquid', desc: 'انسخ السكربت إلى theme.liquid أو قالب المنتج واستخدم Liquid للسعر الحي.' },
+    ],
+    faqs: [{ question: 'كيف أضيف JSON-LD لثيم شوبيفاي من غير تطبيق يبطئ المتجر؟', answer: 'الصق وسم السكربت في theme.liquid أو في snippets/schema-product.liquid قبل إغلاق head. هو وسم JSON-LD وليس تطبيقاً يحجب الرسم.' }],
+  },
+  'nextjs-software': {
+    title: 'مولد سكيما تطبيق Next.js | SoftwareApplication',
+    metaDescription: 'أنشئ JSON-LD من نوع SoftwareApplication لصفحات Next.js. الترميز يصف التطبيق ولا يضمن نتيجة منسّقة.',
+    h1: 'سكيما تطبيق وبرنامج',
+    blufSummary: 'SoftwareApplication يصف فئة التطبيق ونظام التشغيل والسعر التجريبي إن كان ظاهراً. ضع السكربت في Server Component حتى يصل في HTML الأول.',
+    badge: 'تطبيقات وساس',
+    capabilityLabel: 'خصائص SoftwareApplication',
+    keyBenefits: [
+      { title: 'في HTML السيرفر', desc: 'وسم سكربت ثابت يُرسل مع الصفحة، من غير حزمة إضافية في المتصفح.' },
+      { title: 'حقائق يقرأها الزاحف', desc: 'يعطي زواحف البحث فئة التطبيق والسعر الظاهر، ولا يختلق تقييماً.' },
+    ],
+    faqs: [{ question: 'أين أضع وسم JSON-LD في Next.js App Router؟', answer: 'داخل Server Component في app/page.tsx أو app/layout.tsx، في وسم script من نوع application/ld+json.' }],
+  },
+  'saas-faq': {
+    title: 'مولد سكيما الأسئلة الشائعة | FAQPage',
+    metaDescription: 'أنشئ FAQPage حتى تستخرج الزواحف الأسئلة والأجوبة. جوجل لم يعد يعرض نتيجة الأسئلة الشائعة لمعظم المواقع.',
+    h1: 'سكيما الأسئلة الشائعة',
+    blufSummary: 'FAQPage يضع كل سؤال وجواب في كيان Question وAnswer. جوجل أوقف نتيجة الأسئلة الشائعة لمعظم المواقع، فالترميز لا يوسّع نتيجة جوجل. يظل مقروءاً لبينج ولزواحف الاسترجاع.',
+    badge: 'استرجاع الأسئلة',
+    capabilityLabel: 'أزواج سؤال وجواب',
+    keyBenefits: [
+      { title: 'ليس موسّع نتيجة جوجل', desc: 'الترميز صحيح لـ Schema.org، ولا يعرض جوجل قائمة الأسئلة في النتيجة العادية.' },
+      { title: 'نص يمكن اقتباسه', desc: 'سؤال واضح وجواب في أول جملة أسهل على محركات الإجابة من فقرة تسويقية.' },
+    ],
+    faqs: [{ question: 'هل أضع FAQ في كل صفحة؟', answer: 'فقط في الصفحات التي تعرض فعلاً أسئلة وأجوبة كتبها صاحب الموقع. لا تخترع أسئلة غير ظاهرة للزائر.' }],
+  },
+  'local-seo-schema': {
+    title: 'مولد سكيما النشاط المحلي | العنوان والهاتف والساعات',
+    metaDescription: 'أنشئ JSON-LD لنشاط محلي بالاسم والعنوان والهاتف وساعات العمل. هذا لا يضمن الظهور في الحزمة المحلية.',
+    h1: 'سكيما النشاط المحلي',
+    blufSummary: 'LocalBusiness يضع الاسم والعنوان والهاتف ونطاق السعر وساعات العمل في JSON-LD. هي من البيانات التي يقرأها جوجل عن النشاط، وليست بحد ذاتها إشارة الترتيب الأولى ولا ضماناً للحزمة المحلية.',
+    badge: 'نشاط محلي',
+    capabilityLabel: 'الاسم والعنوان والهاتف والساعات',
+    keyBenefits: [
+      { title: 'تطابق مع ملف النشاط', desc: 'اجعل الاسم والعنوان والهاتف مطابقين لملف Google Business الظاهر للعملاء.' },
+      { title: 'ساعات مقروءة', desc: 'ساعات الفتح بصيغة يفهمها الزاحف، مطابقة لما هو مكتوب في الصفحة.' },
+    ],
+    faqs: [{ question: 'هل ترفع سكيما النشاط ترتيب خرائط جوجل؟', answer: 'هي تؤكد العنوان والساعات بشكل يقرأه الآلة. ترتيب الخرائط يعتمد أيضاً على القرب والمراجعات وصلة الصفحة، وهذا المولد لا يقيس أياً منها.' }],
+  },
+  'course-education-schema': {
+    title: 'مولد سكيما الدورات | Course',
+    metaDescription: 'أنشئ JSON-LD من نوع Course بعنوان الدورة والجهة والسعر الظاهر. جوجل يقرر إن كان سيعرض الدورة.',
+    h1: 'سكيما الدورة التعليمية',
+    blufSummary: 'Course يصف برنامجاً تعليمياً بعنوان وجهة مقدِّمة وسعر إن كان ظاهراً. جوجل قد يستخدم هذا النوع في نتائج الدورات، من غير أن يكون الترميز وحده كافياً للظهور.',
+    badge: 'دورات تعليمية',
+    capabilityLabel: 'العنوان والجهة والسعر',
+    keyBenefits: [
+      { title: 'بيانات الدورة', desc: 'العنوان والجهة والوصف المختصر كما تظهر في الصفحة.' },
+      { title: 'من غير ادعاء اعتماد', desc: 'لا تضف جهة أو شهادة غير مذكورة في الصفحة.' },
+    ],
+    faqs: [{ question: 'هل تصلح Course لندوة واحدة؟', answer: 'لحدث مباشر بتاريخ واحد استخدم Event. استخدم Course لمنهج أو دورة لها مسار، سواء كانت ذاتية أو ضمن دفعة.' }],
+  },
+  'article-google-discover-schema': {
+    title: 'مولد سكيما المقال | Article',
+    metaDescription: 'أنشئ JSON-LD لمقال بالعنوان والتواريخ والمؤلف. هذا لا يضمن الظهور في Discover أو الأخبار البارزة.',
+    h1: 'سكيما المقال',
+    blufSummary: 'Article يذكر العنوان وتاريخ النشر والتعديل والمؤلف وشعار الناشر. هذه حقول يقرأها الزاحف. الظهور في Discover أو الأخبار البارزة ليس نتيجة لهذا الترميز وحده.',
+    badge: 'مقالات',
+    capabilityLabel: 'العنوان والتواريخ والمؤلف',
+    keyBenefits: [
+      { title: 'مؤلف وتاريخ ظاهران', desc: 'اجعل المؤلف والتاريخ موجودين في الصفحة، لا في JSON-LD فقط.' },
+      { title: 'تاريخ التعديل', desc: 'dateModified يخبر الزاحف أن الصفحة تغيّرت. لا يرفع الترتيب بمفرده.' },
+    ],
+    faqs: [{ question: 'لماذا يهم dateModified؟', answer: 'الزواحف تستخدمه لفهم حداثة الصفحة. لا يوجد رقم عام يقول إن المقالات بهذا الحقل تُعاد فهرستها أسرع أو تترتب أعلى.' }],
+  },
+  'woocommerce-product-schema': {
+    title: 'مولد سكيما منتج ووكومرس | JSON-LD',
+    metaDescription: 'أنشئ JSON-LD لمنتج ووكومرس بالسعر والتوفر. لا تضف تقييماً غير ظاهر في صفحة المنتج.',
+    h1: 'سكيما منتج ووكومرس',
+    blufSummary: 'ضع سعر المنتج وتوفره في JSON-LD على صفحة المنتج في ووردبريس. لا تضف AggregateRating إلا إذا كانت المراجعات ظاهرة للزائر.',
+    badge: 'ووكومرس',
+    capabilityLabel: 'عرض منتج ووكومرس',
+    keyBenefits: [
+      { title: 'سعر وتوفر من الصفحة', desc: 'استخدم السعر والعملة والتوفر المعروضين في ووكومرس، لا قيماً ثابتة قديمة.' },
+      { title: 'وسم خفيف', desc: 'سكربت JSON-LD في wp_head بدل تكرار نفس الكيان من أكثر من إضافة.' },
+    ],
+    faqs: [{ question: 'كيف أضيفه لووكومرس من غير تعارض الإضافات؟', answer: 'عطّل إخراج السكيما من الإضافات الأخرى لنفس المنتج، ثم أضف السكربت مرة واحدة عبر functions.php في القالب الابن أو مدير مقتطفات.' }],
+  },
+  'howto-step-by-step-schema': {
+    title: 'مولد سكيما الخطوات | HowTo',
+    metaDescription: 'أنشئ JSON-LD من نوع HowTo للخطوات. جوجل أزال نتيجة HowTo المنسّقة، والترميز يبقى للقراءة الآلية.',
+    h1: 'سكيما الخطوات',
+    blufSummary: 'HowTo يرتّب الخطوات والمدة والأدوات. جوجل أزال النتيجة المنسّقة لهذا النوع. الترميز يبقى صالحاً لـ Schema.org ويمكن لزواحف أخرى قراءته.',
+    badge: 'خطوات',
+    capabilityLabel: 'خطوات مرتّبة',
+    keyBenefits: [
+      { title: 'قائمة HowToStep', desc: 'خطوات بالترتيب حتى يستطيع نظام استرجاع قراءة الإجراء. جوجل لا يعرض نتيجة HowTo.' },
+      { title: 'من غير وعد صوتي', desc: 'المساعدات الصوتية قد تقرأ الخطوات أو لا. الترميز لا يضمن ذلك.' },
+    ],
+    faqs: [{ question: 'أي الصفحات تناسب HowTo؟', answer: 'صفحة فيها خطوات واضحة لإنجاز مهمة واحدة. لا تستخدمه لمقال رأي أو لصفحة منتج.' }],
+  },
+  'organization-brand-schema': {
+    title: 'مولد سكيما المنظمة | Organization',
+    metaDescription: 'أنشئ JSON-LD للمنظمة بالاسم والشعار وحسابات sameAs الموجودة فعلاً. هذا لا يضمن لوحة معرفة.',
+    h1: 'سكيما المنظمة',
+    blufSummary: 'Organization يعرّف اسم المنظمة والشعار ونقاط التواصل وحسابات sameAs التي تعمل فعلاً. لوحة المعرفة في جوجل ليست نتيجة تلقائية لهذا الملف.',
+    badge: 'المنظمة',
+    capabilityLabel: 'الشعار وsameAs والتواصل',
+    keyBenefits: [
+      { title: 'كيان واحد واضح', desc: 'اسم وشعار وعنوان مطابق لما في الصفحة وصفحة من نحن.' },
+      { title: 'حسابات حقيقية', desc: 'ضع في sameAs روابط حسابات موجودة، لا صفحات فارغة.' },
+    ],
+    faqs: [{ question: 'أين توضع سكيما المنظمة؟', answer: 'في الصفحة الرئيسية أو صفحة من نحن، مرة واحدة، حتى لا تتكرر كيانات متعارضة.' }],
+  },
+  'event-ticket-schema': {
+    title: 'مولد سكيما الفعالية | Event',
+    metaDescription: 'أنشئ JSON-LD لفعالية بتاريخ ومكان. الظهور في نتائج الفعاليات قرار جوجل وليس ضماناً.',
+    h1: 'سكيما الفعالية',
+    blufSummary: 'Event يصف الاسم وتاريخ البداية والنهاية والمكان أو رابط البث وسعر التذكرة إن كان ظاهراً. جوجل قد يعرض الفعالية في نتائج الأحداث، والترميز وحده لا يضمن ذلك.',
+    badge: 'فعاليات',
+    capabilityLabel: 'التاريخ والمكان والعرض',
+    keyBenefits: [
+      { title: 'تاريخ بصيغة ISO', desc: 'startDate بصيغة 2026-10-20T18:00:00+03:00 كما هو معلن.' },
+      { title: 'حضوري أو عبر الإنترنت', desc: 'Place للعنوان، أو VirtualLocation لرابط البث.' },
+    ],
+    faqs: [{ question: 'هل تصلح لندوة تتكرر كل أسبوع؟', answer: 'أنشئ Event لكل موعد، بتاريخ بداية ونهاية خاصين به. لا تضع تاريخاً واحداً لسلسلة كاملة.' }],
+  },
+  'medical-clinic-doctor-schema': {
+    title: 'مولد سكيما العيادة | MedicalBusiness',
+    metaDescription: 'أنشئ JSON-LD لعيادة بالتخصص والعنوان والهاتف والساعات. هذا لا يثبت ترخيصاً ولا يضمن الحزمة المحلية.',
+    h1: 'سكيما العيادة',
+    blufSummary: 'MedicalBusiness يذكر التخصص والعنوان والهاتف وساعات العمل. جوجل يطبّق معايير أوثق على الصفحات الصحية. الترميز لا يثبت الترخيص ولا يرتّب العيادة وحده.',
+    badge: 'عيادات',
+    capabilityLabel: 'التخصص والعنوان والساعات',
+    keyBenefits: [
+      { title: 'بيانات مطابقة للعيادة', desc: 'التخصص والعنوان والهاتف كما يظهران في الصفحة وفي ملف النشاط.' },
+      { title: 'من غير ادعاء طبي', desc: 'لا تضف شهادات أو تأمينات غير مكتوبة في الصفحة.' },
+    ],
+    faqs: [{ question: 'لماذا يُطلب ترميز أوضح للعيادات؟', answer: 'جوجل يراجع صفحات الصحة بمعايير خبرة وثقة أعلى. الترميز يؤكد ما هو مكتوب، ولا يغني عن معلومات الترخيص الظاهرة للزائر.' }],
+  },
+  'legal-law-firm-schema': {
+    title: 'مولد سكيما مكتب المحاماة | LegalService',
+    metaDescription: 'أنشئ JSON-LD لمكتب محاماة بمجال العمل والعنوان والهاتف. هذا لا يضمن الحزمة المحلية.',
+    h1: 'سكيما المكتب القانوني',
+    blufSummary: 'LegalService يصف مجالات العمل وعنوان المكتب والهاتف. هو لا يثبّت القيد في النقابة ولا يضمن موضعاً في الحزمة المحلية.',
+    badge: 'مكاتب قانونية',
+    capabilityLabel: 'مجال العمل والعنوان',
+    keyBenefits: [
+      { title: 'مكتب واحد واضح', desc: 'عنوان وهاتف مطابقان للصفحة. للمكاتب المتعددة أنشئ كياناً لكل فرع.' },
+      { title: 'سكربت واحد', desc: 'وسم JSON-LD في القالب بدل تكرار الكيان من أكثر من إضافة.' },
+    ],
+    faqs: [{ question: 'هل يصلح لشركة لها أكثر من فرع؟', answer: 'نعم. أنشئ LegalService لكل مكتب بعنوانه، أو اربط الفروع من كيان Organization. لا تدمج عنوانين في حقل واحد.' }],
+  },
+  'wordpress-yoast-alternative-schema': {
+    title: 'JSON-LD لووردبريس من غير إضافة ثقيلة',
+    metaDescription: 'انسخ JSON-LD إلى wp_head. هذا لا يقيس سرعة الصفحة ولا يستبدل إعدادات Yoast الأخرى.',
+    h1: 'سكيما ووردبريس بسكربت واحد',
+    blufSummary: 'يمكنك وضع JSON-LD في wp_head من غير إضافة مخصصة للسكيما. السكربت لا يحذف استعلامات الإضافات الأخرى، ولا يقيس Core Web Vitals، ولا يضمن نتيجة منسّقة.',
+    badge: 'ووردبريس',
+    capabilityLabel: 'JSON-LD في wp_head',
+    keyBenefits: [
+      { title: 'سكربت بدل تكرار الكيان', desc: 'عطّل إخراج السكيما المكرر من الإضافات حتى لا يُرسل نوعان متعارضان.' },
+      { title: 'خصائص موثّقة', desc: 'الخصائص المطلوبة والموصى بها كما يوثّقها جوجل. جوجل لا يضمن النتيجة المنسّقة.' },
+    ],
+    faqs: [{ question: 'كيف أضيفه من غير إضافة؟', answer: 'الصق المقتطف في functions.php الخاص بالقالب الابن، أو في مدير مقتطفات خفيف، مربوطاً بـ wp_head.' }],
+  },
+  'recipe-food-nutrition-schema': {
+    title: 'مولد سكيما الوصفة | Recipe',
+    metaDescription: 'أنشئ JSON-LD لوصفة بالمدة والمكونات والسعرات الظاهرة. النجوم تحتاج مراجعات ظاهرة في الصفحة.',
+    h1: 'سكيما الوصفة',
+    blufSummary: 'Recipe يضع وقت التحضير والطهي والحصص والمكونات والسعرات إن كانت مكتوبة في الوصفة. لا تضف تقييماً غير ظاهر. جوجل يقرر إن كانت الوصفة ستظهر في نتائج الوصفات.',
+    badge: 'وصفات',
+    capabilityLabel: 'الوقت والحصص والتغذية',
+    keyBenefits: [
+      { title: 'مدة ومكونات ظاهرة', desc: 'الوقت والمكونات يجب أن يراهما الزائر، لا أن يعيشا في JSON-LD فقط.' },
+      { title: 'من غير وعد بسماعات ذكية', desc: 'بعض المساعدات تقرأ الوصفات. الترميز لا يضمن قراءة صوتية.' },
+    ],
+    faqs: [{ question: 'ماذا لو حذفت وقت الطهي؟', answer: 'جوجل يطلب prepTime أو cookTime أو totalTime لأهلية بطاقة الوصفة. غياب المدة يجعل العنصر غير مؤهل، حتى لو بقيت بقية الحقول.' }],
+  },
+  'video-youtube-embed-schema': {
+    title: 'مولد سكيما الفيديو | VideoObject',
+    metaDescription: 'أنشئ JSON-LD لفيديو بالصورة المصغرة والمدة وتاريخ الرفع. هذا لا يضمن تبويب الفيديو.',
+    h1: 'سكيما الفيديو',
+    blufSummary: 'VideoObject يصف الاسم والصورة المصغرة والمدة وتاريخ الرفع ورابط المحتوى. يصلح ليوتيوب أو فيميو أو ملف مستضاف. الظهور في نتائج الفيديو ليس مضموناً.',
+    badge: 'فيديو',
+    capabilityLabel: 'الصورة والمدة وتاريخ الرفع',
+    keyBenefits: [
+      { title: 'بيانات الفيديو المطلوبة', desc: 'thumbnailUrl وuploadDate وname كما يوثّقها جوجل.' },
+      { title: 'من غير ضمان للظهور', desc: 'الترميز يجعل الفيديو مؤهلاً للفهم. جوجل يقرر العرض.' },
+    ],
+    faqs: [{ question: 'هل يصلح لفيديو يوتيوب مضمّن؟', answer: 'نعم. VideoObject هو النوع المعتاد لتعريف فيديو يوتيوب أو فيميو أو ملف MP4 على الصفحة.' }],
+  },
+};
+
+export function arabicSchema(page: ProgrammaticPageData): ProgrammaticPageData {
+  const extra = COPY[page.slug];
+  if (!extra) throw new Error(`Missing Arabic schema copy for ${page.slug}`);
+  return {
+    ...page,
+    ...extra,
+    discoveryNote: 'اطلب الفهرسة من Search Console',
+    technicalSpecs: page.technicalSpecs.map((spec) => ({
+      ...spec,
+      requirement: REQUIREMENT[spec.requirement] ?? spec.requirement,
+      googleImpact: IMPACT[spec.googleImpact] ?? spec.googleImpact,
+    })),
+  };
+}

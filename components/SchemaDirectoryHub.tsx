@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Language } from '@/lib/translations';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
+import { arabicSchema } from '@/lib/seo/schemaAr';
+import { withLang } from '@/lib/i18n/path';
 import { schemaPath } from '@/lib/seo/urls';
 import {
   Sparkles,
@@ -46,7 +48,7 @@ export default function SchemaDirectoryHub({ lang }: SchemaDirectoryHubProps) {
     return 'media';
   };
 
-  const allPages = Object.values(PROGRAMMATIC_SEO_PAGES);
+  const allPages = Object.values(PROGRAMMATIC_SEO_PAGES).map((page) => (lang === 'ar' ? arabicSchema(page) : page));
 
   const filteredPages = activeFilter === 'all'
     ? allPages
@@ -59,16 +61,16 @@ export default function SchemaDirectoryHub({ lang }: SchemaDirectoryHubProps) {
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-950/40 text-[10px] sm:text-xs font-bold text-cyan-300">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{lang === 'ar' ? 'الدليل الشامل لمخططات السكيما 2026' : 'Complete 2026 Schema Architecture Directory'}</span>
+            <span>{lang === 'ar' ? 'دليل مولدات السكيما' : 'Complete 2026 Schema Architecture Directory'}</span>
           </div>
           <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight">
             {lang === 'ar'
-              ? 'مكتبة السكيما المعتمدة لجميع القطاعات التجارية'
+              ? 'مولدات JSON-LD حسب نوع الصفحة'
               : 'Enterprise Schema Generators & Rich Snippet Blueprints'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-400">
             {lang === 'ar'
-              ? 'اختر نوع نشاطك التجاري للحصول على كود سكيما معتمد وفوري لنجوم جوجل واقتباسات الذكاء الاصطناعي.'
+              ? 'اختر النوع وانسخ JSON-LD يصف ما هو ظاهر في الصفحة. الترميز الصحيح لا يضمن نجوماً ولا اقتباساً.'
               : 'Select your business sector to generate validated JSON-LD schema with zero hydration penalty and live Google star snippet previews.'}
           </p>
         </div>
@@ -140,7 +142,7 @@ export default function SchemaDirectoryHub({ lang }: SchemaDirectoryHubProps) {
           return (
             <Link
               key={page.slug}
-              href={schemaPath(page.slug)}
+              href={withLang(schemaPath(page.slug), lang === 'ar' ? 'ar' : 'en')}
               className="group p-5 rounded-2xl border border-white/10 bg-black/40 hover:bg-white/[0.04] hover:border-indigo-500/40 transition duration-200 flex flex-col justify-between space-y-4"
             >
               <div className="space-y-2.5">

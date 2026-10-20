@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ContentShell } from '@/components/ContentShell';
 import { RELATED } from '@/lib/content/related';
 import { articleGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
+import { pageAlternates, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/should-i-block-gptbot/';
 const TITLE = 'Should You Block GPTBot? Keep ChatGPT Search, Stop Training';
@@ -52,7 +52,7 @@ Sitemap: https://example.com/sitemap.xml
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl(PATH) },
+  alternates: pageAlternates(PATH, 'en'),
   ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH, type: 'article' }),
 };
 

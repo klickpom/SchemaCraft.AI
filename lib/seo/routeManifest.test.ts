@@ -37,12 +37,18 @@ describe('route manifest', () => {
       'https://schemacraft-ai.site/geo-vs-aeo/',
       'https://schemacraft-ai.site/should-i-block-gptbot/',
       'https://schemacraft-ai.site/chatgpt-search/',
+      'https://schemacraft-ai.site/ar/chatgpt-search/',
+      'https://schemacraft-ai.site/ar/about/',
+      'https://schemacraft-ai.site/ar/privacy/',
     ]));
   });
 
-  it('includes the shopify generator once', () => {
+  it('includes the shopify generator in English and Arabic once each', () => {
     const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
     const shopify = urls.filter((url) => url.includes('/schema/shopify-product/'));
-    expect(shopify).toEqual(['https://schemacraft-ai.site/schema/shopify-product/']);
+    expect(shopify.sort()).toEqual([
+      'https://schemacraft-ai.site/ar/schema/shopify-product/',
+      'https://schemacraft-ai.site/schema/shopify-product/',
+    ]);
   });
 });

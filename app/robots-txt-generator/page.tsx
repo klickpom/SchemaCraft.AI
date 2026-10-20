@@ -4,7 +4,7 @@ import RobotsTxtBuilder from '@/components/tools/RobotsTxtBuilder';
 import { ContentShell } from '@/components/ContentShell';
 import { RELATED } from '@/lib/content/related';
 import { toolPageGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
+import { pageAlternates, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/robots-txt-generator/';
 const TITLE = 'AI robots.txt Generator: Allow AI Search, Block Training';
@@ -37,7 +37,7 @@ const FAQ = [
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl(PATH) },
+  alternates: pageAlternates(PATH, 'en'),
   ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH }),
 };
 

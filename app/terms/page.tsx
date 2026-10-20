@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { SiteChrome } from '@/components/SiteChrome';
 import { ArticlePage } from '@/components/ArticlePage';
 import { SUPPORT_EMAIL, webPageGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl } from '@/lib/seo/urls';
+import { pageAlternates } from '@/lib/seo/urls';
 
 const TITLE = 'Terms of Use';
 const DESCRIPTION =
@@ -11,7 +11,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl('/terms/') },
+  alternates: pageAlternates('/terms/', 'en'),
 };
 
 export default function TermsPage() {

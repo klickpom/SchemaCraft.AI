@@ -8,9 +8,102 @@ interface VisualFormBuilderProps {
   category: SchemaCategory;
   values: Record<string, any>;
   onChange: (newValues: Record<string, any>) => void;
+  lang?: 'en' | 'ar';
 }
 
-export function VisualFormBuilder({ category, values, onChange }: VisualFormBuilderProps) {
+const LABEL_AR: Record<string, string> = {
+  'Application Name': 'اسم التطبيق',
+  Category: 'الفئة',
+  'Operating System': 'نظام التشغيل',
+  Description: 'الوصف',
+  'Application URL': 'رابط التطبيق',
+  Price: 'السعر',
+  Currency: 'العملة',
+  'Rating (0-5)': 'التقييم (0-5)',
+  'Rating Count': 'عدد التقييمات',
+  'Developer / Company Name': 'اسم المطوّر أو الشركة',
+  'Product Name': 'اسم المنتج',
+  'Product Description': 'وصف المنتج',
+  'Image URL': 'رابط الصورة',
+  'Brand Name': 'اسم العلامة',
+  'SKU / Model Number': 'رمز المنتج',
+  Availability: 'التوفر',
+  'Average Rating': 'متوسط التقييم',
+  'Total Reviews': 'عدد المراجعات',
+  'FAQ Items (Question & Answer)': 'الأسئلة والأجوبة',
+  'Business Name': 'اسم النشاط',
+  'Storefront Image URL': 'رابط صورة الواجهة',
+  'Phone Number': 'رقم الهاتف',
+  'Street Address': 'الشارع',
+  City: 'المدينة',
+  'State / Province': 'المنطقة',
+  'Postal / ZIP Code': 'الرمز البريدي',
+  Country: 'الدولة',
+  'Price Range (e.g. $$)': 'نطاق السعر',
+  'Opening Hours': 'ساعات العمل',
+  'Headline / Title': 'العنوان',
+  'Article Summary': 'ملخص المقال',
+  'Cover Image URL': 'رابط صورة الغلاف',
+  'Author Name': 'اسم المؤلف',
+  'Publisher / Publication': 'الناشر',
+  'Date Published (YYYY-MM-DD)': 'تاريخ النشر',
+  'Date Modified (YYYY-MM-DD)': 'تاريخ التعديل',
+  'Guide Title': 'عنوان الدليل',
+  'Total Time (ISO 8601, e.g. PT5M)': 'المدة الكلية',
+  'Steps (Name & Text)': 'الخطوات',
+  'Organization Name': 'اسم المنظمة',
+  'Website URL': 'رابط الموقع',
+  'Logo URL': 'رابط الشعار',
+  'Corporate Bio': 'نبذة',
+  'Social Profiles (comma separated)': 'الحسابات، مفصولة بفاصلة',
+  'Item / Service Reviewed': 'العنصر المُراجَع',
+  'Review text': 'نص المراجعة',
+  'Reviewer name': 'اسم المراجع',
+  'Rating (1-5)': 'التقييم (1-5)',
+  'Max rating': 'أعلى تقييم',
+  'Course Title': 'عنوان الدورة',
+  'Course Overview': 'وصف الدورة',
+  'Academy / Issuer': 'الجهة',
+  'Event Title': 'عنوان الفعالية',
+  'Start Date (YYYY-MM-DD)': 'تاريخ البداية',
+  'Virtual URL or Venue': 'المكان أو رابط البث',
+  'Ticket Price': 'سعر التذكرة',
+  'Clinic / Practice Name': 'اسم العيادة',
+  'Medical Specialty': 'التخصص',
+  'State / Region': 'المنطقة',
+  'Postal Code': 'الرمز البريدي',
+  'Price Range': 'نطاق السعر',
+  'Law Firm Name': 'اسم المكتب',
+  State: 'الولاية',
+  'Recipe Name': 'اسم الوصفة',
+  'Cook Time (ISO 8601, e.g. PT45M)': 'وقت الطهي',
+  'Prep Time (ISO 8601, e.g. PT20M)': 'وقت التحضير',
+  'Yield / Servings': 'الحصص',
+  Calories: 'السعرات',
+  'Video Title': 'عنوان الفيديو',
+  'Video Description': 'وصف الفيديو',
+  'Thumbnail URL': 'رابط الصورة المصغرة',
+  'Upload Date (YYYY-MM-DD)': 'تاريخ الرفع',
+};
+
+const DESC_AR: Partial<Record<SchemaCategory, string>> = {
+  LocalBusiness: 'العنوان والهاتف وساعات العمل بصيغة يقرأها جوجل. هذا لا يضمن الحزمة المحلية.',
+  MedicalBusiness: 'تخصص العيادة والعنوان والهاتف كما يظهران في الصفحة. الترميز لا يثبت ترخيصاً.',
+  LegalService: 'مجال العمل والعنوان والهاتف. لا يضمن موضعاً في الحزمة المحلية.',
+  Product: 'السعر والعملة والتوفر الظاهرون في الصفحة. لا تضف تقييماً غير موجود.',
+  SoftwareApplication: 'فئة التطبيق ونظام التشغيل والسعر الظاهر. لا ضمان لنتيجة منسّقة.',
+  FAQPage: 'أسئلة وأجوبة ظاهرة في الصفحة. جوجل لم يعد يعرض نتيجة الأسئلة لمعظم المواقع.',
+  Article: 'العنوان والتواريخ والمؤلف. لا يضمن الظهور في Discover.',
+  HowTo: 'خطوات مرتبة. جوجل أزال النتيجة المنسّقة لهذا النوع.',
+  Organization: 'الاسم والشعار وحسابات موجودة فعلاً. لا يضمن لوحة معرفة.',
+  Review: 'مراجعة ظاهرة في الصفحة فقط. لا تخترع تقييماً.',
+  Course: 'عنوان الدورة والجهة والسعر الظاهر. الظهور قرار جوجل.',
+  Event: 'تاريخ ومكان الفعالية. الظهور في نتائج الأحداث ليس مضموناً.',
+  Recipe: 'المدة والمكونات والسعرات المكتوبة في الوصفة.',
+  VideoObject: 'الصورة المصغرة والمدة وتاريخ الرفع. لا يضمن تبويب الفيديو.',
+};
+
+export function VisualFormBuilder({ category, values, onChange, lang = 'en' }: VisualFormBuilderProps) {
   const currentDef = SCHEMA_DEFINITIONS[category];
 
   const handleFieldChange = (fieldId: string, val: any) => {
@@ -62,10 +155,10 @@ export function VisualFormBuilder({ category, values, onChange }: VisualFormBuil
       <div className="rounded-xl bg-indigo-950/30 border border-indigo-500/20 p-3.5 flex items-center justify-between">
         <div>
           <span className="text-xs font-bold text-indigo-300">
-            {currentDef.googleRichResultType} Target
+            {lang === 'ar' ? `نوع جوجل: ${currentDef.googleRichResultType}` : `${currentDef.googleRichResultType} target`}
           </span>
           <p className="text-[11px] text-slate-400 mt-0.5">
-            {currentDef.description}
+            {lang === 'ar' ? (DESC_AR[category] ?? currentDef.description) : currentDef.description}
           </p>
         </div>
         <span className="inline-flex rounded-full bg-indigo-500/20 px-2.5 py-1 text-[11px] font-bold text-cyan-300 ring-1 ring-cyan-500/30 font-mono">
@@ -203,7 +296,7 @@ export function VisualFormBuilder({ category, values, onChange }: VisualFormBuil
             >
               <div className="flex items-center justify-between">
                 <label className="text-xs font-semibold text-slate-200 flex items-center gap-1">
-                  {field.label}
+                  {lang === 'ar' ? (LABEL_AR[field.label] ?? field.label) : field.label}
                   {field.required && <span className="text-rose-400 font-bold">*</span>}
                 </label>
                 {field.help && (

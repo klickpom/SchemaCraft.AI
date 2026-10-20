@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import { LangToggle } from '@/components/LangToggle';
+import { withLang } from '@/lib/i18n/path';
 import { schemaPath } from '@/lib/seo/urls';
 
 const COLUMNS = [
@@ -24,7 +26,6 @@ const COLUMNS = [
       { href: '/ai-crawlers/', en: 'AI crawler user-agent list', ar: 'قائمة وكلاء زواحف الذكاء الاصطناعي' },
       { href: '/geo-vs-aeo/', en: 'GEO vs AEO vs SEO', ar: 'الفرق بين GEO وAEO وSEO' },
       { href: '/about/', en: 'Audit methodology', ar: 'منهجية الفحص' },
-      { href: '/ar/', en: 'العربية', ar: 'English' },
     ],
   },
   {
@@ -41,14 +42,14 @@ const COLUMNS = [
   },
 ];
 
-export function Footer({ lang = 'en', onToggleLang }: { lang?: 'en' | 'ar'; onToggleLang?: () => void }) {
+export function Footer({ lang = 'en' }: { lang?: 'en' | 'ar'; onToggleLang?: () => void }) {
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   return (
     <footer className="border-t border-white/[0.08] bg-[#070709] text-zinc-400 text-xs mt-20 print:hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="space-y-3">
-            <Link href={lang === 'ar' ? '/ar/' : '/'} className="flex items-center gap-2.5">
+            <Link href={withLang('/', lang)} className="flex items-center gap-2.5">
               <span className="relative flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden border border-indigo-400/30 bg-[#09090b]">
                 <img src="/logo.png" alt="" width={32} height={32} className="h-full w-full object-cover" />
               </span>
@@ -70,15 +71,9 @@ export function Footer({ lang = 'en', onToggleLang }: { lang?: 'en' | 'ar'; onTo
               <ul className="space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
-                    {link.href === '/ar/' ? (
-                      <button type="button" onClick={onToggleLang} className="hover:text-cyan-400 transition-colors">
-                        {t(link.en, link.ar)}
-                      </button>
-                    ) : (
-                      <Link href={lang === 'ar' && link.href === '/' ? '/ar/' : link.href} className="hover:text-cyan-400 transition-colors">
-                        {t(link.en, link.ar)}
-                      </Link>
-                    )}
+                    <Link href={withLang(link.href, lang)} className="hover:text-cyan-400 transition-colors">
+                      {t(link.en, link.ar)}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -88,9 +83,10 @@ export function Footer({ lang = 'en', onToggleLang }: { lang?: 'en' | 'ar'; onTo
         <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
           <p>© {new Date().getFullYear()} SchemaCraft AI</p>
           <div className="flex items-center gap-4 flex-wrap justify-center">
-            <Link href="/privacy/" className="hover:text-cyan-400">{t('Privacy', 'الخصوصية')}</Link>
-            <Link href="/terms/" className="hover:text-cyan-400">{t('Terms', 'الشروط')}</Link>
-            <Link href="/about/" className="hover:text-cyan-400">{t('About', 'من نحن')}</Link>
+            <LangToggle lang={lang} />
+            <Link href={withLang('/privacy/', lang)} className="hover:text-cyan-400">{t('Privacy', 'الخصوصية')}</Link>
+            <Link href={withLang('/terms/', lang)} className="hover:text-cyan-400">{t('Terms', 'الشروط')}</Link>
+            <Link href={withLang('/about/', lang)} className="hover:text-cyan-400">{t('About', 'من نحن')}</Link>
             <a href="mailto:support@schemacraft-ai.site" className="hover:text-cyan-400">support@schemacraft-ai.site</a>
           </div>
         </div>

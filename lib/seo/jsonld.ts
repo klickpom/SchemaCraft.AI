@@ -1,6 +1,7 @@
 import { HOME_FAQ } from '@/lib/content/home';
 import { PROGRAMMATIC_SEO_PAGES } from '@/lib/seoData';
-import { canonicalUrl, ogImageUrl, schemaUrl, SITE_ORIGIN } from '@/lib/seo/urls';
+import { arabicSchema } from '@/lib/seo/schemaAr';
+import { canonicalUrl, ogImageUrl, schemaPath, SITE_ORIGIN } from '@/lib/seo/urls';
 
 export const SUPPORT_EMAIL = 'support@schemacraft-ai.site';
 
@@ -103,7 +104,7 @@ export function homepageGraph(lang: 'en' | 'ar' = 'en') {
   };
 }
 
-export function toolPageGraph(opts: { path: string; name: string; description: string; faq?: { q: string; a: string }[]; breadcrumb: string }) {
+export function toolPageGraph(opts: { path: string; name: string; description: string; lang?: 'en' | 'ar'; faq?: { q: string; a: string }[]; breadcrumb: string }) {
   const url = canonicalUrl(opts.path);
   const graph: Record<string, unknown>[] = [
     {
@@ -116,6 +117,7 @@ export function toolPageGraph(opts: { path: string; name: string; description: s
       operatingSystem: 'Any (web browser)',
       isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      inLanguage: opts.lang ?? 'en',
       isPartOf: { '@id': WEBSITE_ID },
       publisher: { '@id': ORG_ID },
     },
@@ -138,7 +140,7 @@ export function toolPageGraph(opts: { path: string; name: string; description: s
   return { '@context': 'https://schema.org', '@graph': graph };
 }
 
-export function articleGraph(opts: { path: string; headline: string; description: string; datePublished: string; dateModified: string; breadcrumb: string; faq?: { q: string; a: string }[] }) {
+export function articleGraph(opts: { path: string; headline: string; description: string; datePublished: string; dateModified: string; breadcrumb: string; lang?: 'en' | 'ar'; faq?: { q: string; a: string }[] }) {
   const url = canonicalUrl(opts.path);
   const graph: Record<string, unknown>[] = [
     {
@@ -150,7 +152,7 @@ export function articleGraph(opts: { path: string; headline: string; description
       mainEntityOfPage: url,
       datePublished: opts.datePublished,
       dateModified: opts.dateModified,
-      inLanguage: 'en',
+      inLanguage: opts.lang ?? 'en',
       image: ogImageUrl(),
       author: { '@type': 'Organization', '@id': ORG_ID, name: 'SchemaCraft AI' },
       publisher: { '@id': ORG_ID },
@@ -175,7 +177,7 @@ export function articleGraph(opts: { path: string; headline: string; description
   return { '@context': 'https://schema.org', '@graph': graph };
 }
 
-export function webPageGraph(path: string, name: string, description: string) {
+export function webPageGraph(path: string, name: string, description: string, lang: 'en' | 'ar' = 'en') {
   const url = canonicalUrl(path);
   return {
     '@context': 'https://schema.org',
@@ -184,27 +186,31 @@ export function webPageGraph(path: string, name: string, description: string) {
     url,
     name,
     description,
+    inLanguage: lang,
     isPartOf: { '@id': WEBSITE_ID },
     publisher: { '@id': ORG_ID },
   };
 }
 
-export function jsonLdGeneratorGraph() {
-  const url = canonicalUrl('/json-ld-generator/');
+export function jsonLdGeneratorGraph(lang: 'en' | 'ar' = 'en') {
+  const url = canonicalUrl(lang === 'ar' ? '/ar/json-ld-generator/' : '/json-ld-generator/');
   return {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'WebApplication',
         '@id': `${url}#app`,
-        name: 'JSON-LD Schema Generator',
+        name: lang === 'ar' ? 'مولد سكيما JSON-LD' : 'JSON-LD Schema Generator',
+        inLanguage: lang,
         url,
         applicationCategory: 'DeveloperApplication',
         operatingSystem: 'Web',
         isPartOf: { '@id': WEBSITE_ID },
         publisher: { '@id': ORG_ID },
         description:
-          'Free in-browser JSON-LD generators for Product, LocalBusiness, FAQPage, Article, and other Schema.org types.',
+          lang === 'ar'
+            ? 'مولدات JSON-LD مجانية في المتصفح للمنتج والنشاط المحلي والأسئلة والمقال وأنواع Schema.org الأخرى. الترميز الصحيح لا يضمن نتيجة منسّقة.'
+            : 'Free in-browser JSON-LD generators for Product, LocalBusiness, FAQPage, Article, and other Schema.org types.',
       },
       {
         '@type': 'ItemList',
@@ -214,8 +220,8 @@ export function jsonLdGeneratorGraph() {
         itemListElement: Object.values(PROGRAMMATIC_SEO_PAGES).map((page, index) => ({
           '@type': 'ListItem',
           position: index + 1,
-          name: page.h1,
-          url: schemaUrl(page.slug),
+          name: lang === 'ar' ? arabicSchema(page).h1 : page.h1,
+          url: canonicalUrl(lang === 'ar' ? `/ar/schema/${page.slug}/` : schemaPath(page.slug)),
         })),
       },
     ],

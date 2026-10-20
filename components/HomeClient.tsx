@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Bot, CheckCircle2, FileCode2, Gauge, ListChecks, Search, ShieldCheck, Sparkles, Wrench } from 'lucide-react';
 import { SiteChrome } from '@/components/SiteChrome';
-import { useUiLang } from '@/components/UiLangProvider';
+import { withLang } from '@/lib/i18n/path';
 import AuditRunner from '@/components/audit/AuditRunner';
 import { CHECK_AREAS, HOME_FAQ } from '@/lib/content/home';
 
@@ -26,8 +26,7 @@ const TOOLS = [
   { href: '/ai-crawlers/', icon: Search, en: ['AI crawler list', 'Every AI user-agent, what it does and how to control it.'], ar: ['قائمة زواحف الذكاء الاصطناعي', 'كل وكيل، وظيفته، وطريقة التحكم فيه.'] },
 ];
 
-export default function HomeClient({ lang: pageLang = 'en' }: { lang?: 'en' | 'ar' }) {
-  const lang = useUiLang(pageLang);
+export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   const faq = HOME_FAQ[lang];
   const areas = CHECK_AREAS[lang];
@@ -140,13 +139,13 @@ export default function HomeClient({ lang: pageLang = 'en' }: { lang?: 'en' | 'a
               ))}
             </ul>
             <div className="flex flex-col items-start gap-2">
-              <Link href="/should-i-block-gptbot/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
+              <Link href={withLang('/should-i-block-gptbot/', lang)} className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
                 {mix(lang, t('Should you block GPTBot?', 'هل تمنع GPTBot؟'))} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
               </Link>
-              <Link href="/chatgpt-search/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
+              <Link href={withLang('/chatgpt-search/', lang)} className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
                 {mix(lang, t('How to show up in ChatGPT Search', 'كيف تظهر في بحث ChatGPT'))} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
               </Link>
-              <Link href="/geo-vs-aeo/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
+              <Link href={withLang('/geo-vs-aeo/', lang)} className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
                 {mix(lang, t('Read: GEO vs AEO vs SEO explained', 'اقرأ: شرح الفرق بين GEO وAEO وSEO'))} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
               </Link>
             </div>
@@ -165,7 +164,7 @@ export default function HomeClient({ lang: pageLang = 'en' }: { lang?: 'en' | 'a
                 </tbody>
               </table>
             </div>
-            <Link href="/ai-crawlers/" className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 hover:underline">
+            <Link href={withLang('/ai-crawlers/', lang)} className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 hover:underline">
               {t('Full AI crawler list with official docs', 'القائمة الكاملة مع التوثيق الرسمي')} <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden />
             </Link>
           </div>
@@ -177,7 +176,7 @@ export default function HomeClient({ lang: pageLang = 'en' }: { lang?: 'en' | 'a
             {TOOLS.map((tool) => {
               const [title, desc] = lang === 'ar' ? tool.ar : tool.en;
               return (
-                <Link key={tool.href} href={tool.href} className="group p-5 rounded-2xl border border-white/10 bg-[#0c0c14] hover:border-indigo-500/40 transition space-y-2">
+                <Link key={tool.href} href={withLang(tool.href, lang)} className="group p-5 rounded-2xl border border-white/10 bg-[#0c0c14] hover:border-indigo-500/40 transition space-y-2">
                   <tool.icon className="w-5 h-5 text-indigo-400" aria-hidden />
                   <h3 className="text-sm font-bold text-white group-hover:text-cyan-300 leading-snug">{mix(lang, title)}</h3>
                   <p className={`text-[13px] text-slate-400 ${lang === 'ar' ? 'leading-7' : 'leading-relaxed'}`}>{mix(lang, desc)}</p>

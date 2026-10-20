@@ -19,10 +19,11 @@ function walkAppPages(dir: string, urlSegments: string[], routes: PublicRoute[])
     const sourceFile = path.join('app', relativeDir === '.' ? 'page.tsx' : path.join(relativeDir, 'page.tsx')).replace(/\\/g, '/');
     const dynamicSegment = urlSegments.find((segment) => segment.startsWith('[') && segment.endsWith(']'));
 
-    if (dynamicSegment === '[type]' && urlSegments[0] === 'schema') {
+    if (dynamicSegment === '[type]' && urlSegments.includes('schema')) {
+      const prefix = urlSegments[0] === 'ar' ? '/ar' : '';
       for (const slug of Object.keys(PROGRAMMATIC_SEO_PAGES)) {
         routes.push({
-          path: canonicalPath(`/schema/${slug}`),
+          path: canonicalPath(`${prefix}/schema/${slug}`),
           sourceFiles: [sourceFile, 'lib/seoData.ts'],
         });
       }

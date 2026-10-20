@@ -10,6 +10,7 @@ interface FaqItem {
 
 interface FaqAccordionProps {
   items?: FaqItem[];
+  lang?: 'en' | 'ar';
 }
 
 const DEFAULT_FAQS: FaqItem[] = [
@@ -31,7 +32,7 @@ const DEFAULT_FAQS: FaqItem[] = [
   },
   {
     question: 'Is SchemaCraft completely free to use?',
-    answer: 'Yes! SchemaCraft provides unlimited, free live generation, real-time AST syntax validation, SERP previews, and one-click copying for single schemas without any mandatory signup or email barriers. Pro upgrades are available for bulk batch multi-page exports and automated dynamic CMS variables.',
+    answer: 'Yes. Generating JSON-LD in the browser is free and needs no account. The site audit is also free, with a limit of 20 audits per 10 minutes.',
   },
   {
     question: 'How do I test my JSON-LD with Google Rich Results Test?',
@@ -39,21 +40,24 @@ const DEFAULT_FAQS: FaqItem[] = [
   },
 ];
 
-export function FaqAccordion({ items = DEFAULT_FAQS }: FaqAccordionProps) {
+export function FaqAccordion({ items = DEFAULT_FAQS, lang = 'en' }: FaqAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const ar = lang === 'ar';
 
   return (
     <section className="space-y-6">
       <div className="space-y-2">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-400">
           <HelpCircle className="h-3.5 w-3.5" />
-          <span>High-Intent Technical Schema FAQ</span>
+          <span>{ar ? 'أسئلة عن هذا النوع' : 'Questions about this type'}</span>
         </div>
         <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-          Frequently Asked Questions on JSON-LD Structured Data & AEO
+          {ar ? 'أسئلة شائعة عن JSON-LD' : 'Questions about JSON-LD'}
         </h2>
         <p className="text-xs text-zinc-400 max-w-2xl">
-          Everything technical architects, SEO engineers, and founders need to know about Schema.org implementation, AI search optimization, and Core Web Vitals.
+          {ar
+            ? 'الترميز يصف ما هو ظاهر في الصفحة. جوجل لا يضمن إظهار نتيجة منسّقة حتى لو كان الملف صحيحاً.'
+            : 'Markup should describe what the page already shows. Valid JSON-LD does not guarantee a rich result.'}
         </p>
       </div>
 
@@ -68,7 +72,7 @@ export function FaqAccordion({ items = DEFAULT_FAQS }: FaqAccordionProps) {
               <button
                 type="button"
                 onClick={() => setOpenIndex(isOpen ? null : idx)}
-                className="w-full flex items-center justify-between p-4 text-left font-medium text-white hover:text-cyan-300 transition-colors gap-4"
+                className="w-full flex items-center justify-between p-4 text-start font-medium text-white hover:text-cyan-300 transition-colors gap-4"
               >
                 <span className="text-sm font-semibold">{item.question}</span>
                 <ChevronDown

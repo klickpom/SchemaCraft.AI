@@ -12,6 +12,8 @@ export const CLAIMS = {
     'IndexNow notifies Bing and Yandex that a URL changed. Google does not participate in IndexNow.',
   richResultsDisclaimer:
     'Valid markup does not guarantee a rich result. Eligibility also depends on Google policies, crawl, and ranking.',
+  richResultsDisclaimerAr:
+    'الترميز الصحيح لا يضمن نتيجة منسّقة. الأهلية تعتمد أيضاً على سياسات جوجل والزحف والترتيب.',
   gptBotOnOurSite:
     "SchemaCraft's own robots.txt allows GPTBot because we want this documentation available to foundation-model corpora. The generator still defaults to blocking training crawlers on customer sites — that is a choice, not a requirement.",
   wafSpoofWarning:

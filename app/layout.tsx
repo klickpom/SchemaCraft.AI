@@ -93,7 +93,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen w-full max-w-full bg-[#060608] text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white overflow-x-hidden">
         <Script id="sc-lang" strategy="beforeInteractive">
-          {`(function(){try{var l=localStorage.getItem('sc-lang');var p=location.pathname;if(l==='ar'&&(p==='/'||p==='')){location.replace('/ar/'+location.search+location.hash);return;}var ar=l==='ar'||p==='/ar'||p.indexOf('/ar/')===0;if(ar){document.documentElement.lang='ar';document.documentElement.dir='rtl';}if(l==='ar'&&p!=='/ar'&&p.indexOf('/ar/')!==0){document.documentElement.classList.add('sc-lang-pending');setTimeout(function(){document.documentElement.classList.remove('sc-lang-pending');},3000);}}catch(e){}})();`}
+          {`(function(){try{var l=localStorage.getItem('sc-lang');var p=location.pathname||'/';if(p.length>1&&p.charAt(p.length-1)!=='/')p+='/';var onAr=p==='/ar/'||p.indexOf('/ar/')===0;if(l==='ar'&&!onAr){document.documentElement.classList.add('sc-lang-pending');location.replace((p==='/'?'/ar/':'/ar'+p)+location.search+location.hash);return;}if(onAr){document.documentElement.lang='ar';document.documentElement.dir='rtl';localStorage.setItem('sc-lang','ar');}}catch(e){}})();`}
         </Script>
         <UiLangProvider>{children}</UiLangProvider>
       </body>

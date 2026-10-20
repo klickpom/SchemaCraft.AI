@@ -21,18 +21,7 @@ export function UiLangProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<UiLang | null>(null);
 
   useLayoutEffect(() => {
-    let stored: string | null = null;
-    try {
-      stored = localStorage.getItem(LANG_KEY);
-    } catch {
-      stored = null;
-    }
-    const next = resolveUiLang(window.location.pathname, stored);
-    try {
-      localStorage.setItem(LANG_KEY, next);
-    } catch {
-      /* private mode */
-    }
+    const next = resolveUiLang(window.location.pathname);
     setLangState(next);
     applyDocument(next);
   }, []);
@@ -58,10 +47,9 @@ export function UiLangProvider({ children }: { children: React.ReactNode }) {
   return <UiLangContext.Provider value={{ lang, setLang }}>{children}</UiLangContext.Provider>;
 }
 
+/** Page language comes from the route. A stored preference never restyles an English document. */
 export function useUiLang(pageLang: UiLang = 'en'): UiLang {
-  const ctx = useContext(UiLangContext);
-  if (!ctx || ctx.lang === null) return pageLang;
-  return ctx.lang;
+  return pageLang;
 }
 
 export function useSetLang(): (next: UiLang) => void {

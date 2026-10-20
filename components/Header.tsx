@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Globe, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
+import { LangToggle } from '@/components/LangToggle';
+import { withLang } from '@/lib/i18n/path';
 import { schemaPath } from '@/lib/seo/urls';
 
 interface HeaderProps {
@@ -27,7 +29,7 @@ const GUIDES = [
   { href: schemaPath('shopify-product'), en: 'Shopify product schema', ar: 'سكيما منتجات شوبيفاي' },
 ];
 
-export function Header({ lang = 'en', onToggleLang }: HeaderProps) {
+export function Header({ lang = 'en' }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState<'tools' | 'guides' | null>(null);
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
@@ -46,7 +48,7 @@ export function Header({ lang = 'en', onToggleLang }: HeaderProps) {
       </button>
       <div className={`absolute top-full start-0 w-64 rounded-2xl border border-white/15 bg-[#0e0e18] shadow-2xl p-2 transition-all ${menu === id ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
         {items.map((item) => (
-          <Link key={item.href} href={item.href} onClick={() => setMenu(null)} className="block px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white">
+          <Link key={item.href} href={withLang(item.href, lang)} onClick={() => setMenu(null)} className="block px-3 py-2 rounded-xl hover:bg-white/10 text-xs text-white">
             {t(item.en, item.ar)}
           </Link>
         ))}
@@ -67,24 +69,16 @@ export function Header({ lang = 'en', onToggleLang }: HeaderProps) {
         </Link>
 
         <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-300" aria-label={t('Main', 'الرئيسية')}>
-          <Link href={lang === 'ar' ? '/ar/' : '/'} className="hover:text-cyan-300">{t('Free audit', 'الفحص المجاني')}</Link>
-          <Link href="/ai-crawler-checker/" className="hover:text-cyan-300">{lang === 'ar' ? <>فاحص زواحف <bdi>AI</bdi></> : 'AI crawler checker'}</Link>
+          <Link href={withLang('/', lang)} className="hover:text-cyan-300">{t('Free audit', 'الفحص المجاني')}</Link>
+          <Link href={withLang('/ai-crawler-checker/', lang)} className="hover:text-cyan-300">{lang === 'ar' ? <>فاحص زواحف <bdi>AI</bdi></> : 'AI crawler checker'}</Link>
           {dropdown('tools', t('Free tools', 'أدوات مجانية'), TOOLS)}
           {dropdown('guides', t('Guides', 'أدلة'), GUIDES)}
-          <Link href="/about/" className="hover:text-cyan-300">{t('Methodology', 'المنهجية')}</Link>
+          <Link href={withLang('/about/', lang)} className="hover:text-cyan-300">{t('Methodology', 'المنهجية')}</Link>
         </nav>
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {onToggleLang ? (
-            <button type="button" onClick={onToggleLang} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-bold text-slate-200" aria-label={t('Switch to Arabic', 'التبديل إلى الإنجليزية')}>
-              <Globe className="w-3.5 h-3.5 text-cyan-400" /> {lang === 'en' ? 'عربي' : 'EN'}
-            </button>
-          ) : (
-            <Link href={lang === 'ar' ? '/' : '/ar/'} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-xs font-bold text-slate-200" hrefLang={lang === 'ar' ? 'en' : 'ar'}>
-              <Globe className="w-3.5 h-3.5 text-cyan-400" /> {lang === 'en' ? 'عربي' : 'EN'}
-            </Link>
-          )}
-          <Link href={lang === 'ar' ? '/ar/#audit' : '/#audit'} className="hidden sm:inline-flex px-3.5 py-1.5 rounded-lg font-black text-xs bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 text-white hover:opacity-95">
+          <LangToggle lang={lang} />
+          <Link href={withLang('/#audit', lang)} className="hidden sm:inline-flex px-3.5 py-1.5 rounded-lg font-black text-xs bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 text-white hover:opacity-95">
             {t('Run free audit', 'افحص موقعك مجاناً')}
           </Link>
           <button type="button" onClick={() => setOpen(!open)} className="lg:hidden p-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-slate-300" aria-label={t('Menu', 'القائمة')} aria-expanded={open}>
@@ -95,8 +89,8 @@ export function Header({ lang = 'en', onToggleLang }: HeaderProps) {
 
       {open && (
         <nav className="lg:hidden border-t border-white/10 bg-[#0c0c16] px-4 py-4 space-y-1" aria-label={t('Mobile', 'الجوال')}>
-          {[{ href: lang === 'ar' ? '/ar/' : '/', en: 'Free audit', ar: 'الفحص المجاني' }, ...TOOLS, ...GUIDES, { href: '/about/', en: 'Methodology', ar: 'المنهجية' }].map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="block px-3 py-2 rounded-xl hover:bg-white/[0.06] text-sm text-white">
+          {[{ href: '/', en: 'Free audit', ar: 'الفحص المجاني' }, ...TOOLS, ...GUIDES, { href: '/about/', en: 'Methodology', ar: 'المنهجية' }].map((item) => (
+            <Link key={item.href} href={withLang(item.href, lang)} onClick={() => setOpen(false)} className="block px-3 py-2 rounded-xl hover:bg-white/[0.06] text-sm text-white">
               {t(item.en, item.ar)}
             </Link>
           ))}

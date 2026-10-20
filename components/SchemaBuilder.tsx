@@ -33,7 +33,25 @@ import {
 interface SchemaBuilderProps {
   initialCategory?: SchemaCategory;
   initialValuesOverride?: Record<string, any>;
+  lang?: 'en' | 'ar';
 }
+
+const CAT_AR: Record<SchemaCategory, string> = {
+  SoftwareApplication: 'تطبيق',
+  Product: 'منتج',
+  FAQPage: 'أسئلة',
+  LocalBusiness: 'نشاط محلي',
+  MedicalBusiness: 'عيادة',
+  LegalService: 'مكتب قانوني',
+  Article: 'مقال',
+  HowTo: 'خطوات',
+  Organization: 'منظمة',
+  Review: 'مراجعة',
+  Course: 'دورة',
+  Event: 'فعالية',
+  Recipe: 'وصفة',
+  VideoObject: 'فيديو',
+};
 
 const CATEGORY_ICONS: Record<SchemaCategory, React.ReactNode> = {
   SoftwareApplication: <Terminal className="h-4 w-4" />,
@@ -55,7 +73,9 @@ const CATEGORY_ICONS: Record<SchemaCategory, React.ReactNode> = {
 export function SchemaBuilder({
   initialCategory = 'SoftwareApplication',
   initialValuesOverride,
+  lang = 'en',
 }: SchemaBuilderProps) {
+  const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   const [activeCategory, setActiveCategory] = useState<SchemaCategory>(initialCategory);
   const [workspaceMode, setWorkspaceMode] = useState<'visual' | 'extractor'>('visual');
   const [rightPanelTab, setRightPanelTab] = useState<'code' | 'preview'>('code');
@@ -141,7 +161,7 @@ export function SchemaBuilder({
             }`}
           >
             <Zap className="h-3.5 w-3.5" />
-            <span>Visual Form Builder</span>
+            <span>{t('Visual form', 'نموذج الحقول')}</span>
           </button>
 
           <button
@@ -154,7 +174,7 @@ export function SchemaBuilder({
             }`}
           >
             <Wand2 className="h-3.5 w-3.5" />
-            <span>Raw Code &amp; URL Extractor</span>
+            <span>{t('Paste code or a URL', 'الصق الكود أو رابطاً')}</span>
           </button>
         </div>
 
@@ -166,7 +186,7 @@ export function SchemaBuilder({
             className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-500/30 bg-indigo-950/30 hover:bg-indigo-900/40 px-3 py-1.5 text-xs font-semibold text-indigo-300 transition-colors shadow-sm"
           >
             <FileArchive className="h-3.5 w-3.5 text-cyan-400" />
-            <span>Batch Site Schemas (@graph)</span>
+            <span>{t('Several types in one @graph', 'عدة أنواع في @graph واحد')}</span>
           </button>
         </div>
       </div>
@@ -175,9 +195,9 @@ export function SchemaBuilder({
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-zinc-400">
           <span className="font-semibold uppercase tracking-wider text-zinc-300">
-            Select Schema.org Entity Type:
+            {t('Schema.org type', 'نوع Schema.org')}
           </span>
-          <span className="text-[11px] text-zinc-400">In-browser synthesis</span>
+          <span className="text-[11px] text-zinc-400">{t('Built in your browser', 'يُبنى في المتصفح')}</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
@@ -205,7 +225,7 @@ export function SchemaBuilder({
                   {CATEGORY_ICONS[catKey]}
                 </div>
                 <span className="text-xs font-semibold leading-tight line-clamp-1">
-                  {def.name.split('/')[0]}
+                  {lang === 'ar' ? (CAT_AR[catKey] ?? def.name.split('/')[0]) : def.name.split('/')[0]}
                 </span>
                 <span className="text-[10px] text-zinc-400 mt-0.5 scale-90">
                   {def.googleRichResultType.split(' ')[0]}
@@ -229,7 +249,7 @@ export function SchemaBuilder({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white">
-                    {SCHEMA_DEFINITIONS[activeCategory].name}
+                    {lang === 'ar' ? CAT_AR[activeCategory] : SCHEMA_DEFINITIONS[activeCategory].name}
                   </h3>
                   <span className="text-[11px] text-zinc-400">
                     Schema.org/{activeCategory} Specification
@@ -249,6 +269,7 @@ export function SchemaBuilder({
                 category={activeCategory}
                 values={currentValues}
                 onChange={handleValuesChange}
+                lang={lang}
               />
             ) : (
               <RawExtractor onExtracted={handleExtracted} />
@@ -274,7 +295,7 @@ export function SchemaBuilder({
                 }`}
               >
                 <Code2 className="h-3.5 w-3.5" />
-                <span>JSON-LD Code</span>
+                <span>{t('JSON-LD code', 'كود JSON-LD')}</span>
               </button>
               <button
                 type="button"
@@ -286,7 +307,7 @@ export function SchemaBuilder({
                 }`}
               >
                 <Eye className="h-3.5 w-3.5" />
-                <span>Live SERP &amp; AIO Simulation</span>
+                <span>{t('Search result preview', 'معاينة نتيجة البحث')}</span>
               </button>
             </div>
 

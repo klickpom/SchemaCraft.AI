@@ -4,7 +4,7 @@ import AuditRunner from '@/components/audit/AuditRunner';
 import { ContentShell } from '@/components/ContentShell';
 import { RELATED } from '@/lib/content/related';
 import { toolPageGraph } from '@/lib/seo/jsonld';
-import { canonicalUrl, socialMeta } from '@/lib/seo/urls';
+import { pageAlternates, socialMeta } from '@/lib/seo/urls';
 
 const PATH = '/ai-crawler-checker/';
 const TITLE = 'Free AI Crawler Checker: Is ChatGPT Blocked on Your Site?';
@@ -37,7 +37,7 @@ const FAQ = [
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: canonicalUrl(PATH) },
+  alternates: pageAlternates(PATH, 'en'),
   ...socialMeta({ title: TITLE, description: DESCRIPTION, path: PATH }),
 };
 
