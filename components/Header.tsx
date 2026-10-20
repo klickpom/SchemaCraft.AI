@@ -68,7 +68,7 @@ export function Header({ lang = 'en', onToggleLang }: HeaderProps) {
 
         <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-300" aria-label={t('Main', 'الرئيسية')}>
           <Link href={lang === 'ar' ? '/ar/' : '/'} className="hover:text-cyan-300">{t('Free audit', 'الفحص المجاني')}</Link>
-          <Link href="/ai-crawler-checker/" className="hover:text-cyan-300">{t('AI crawler checker', 'فاحص زواحف AI')}</Link>
+          <Link href="/ai-crawler-checker/" className="hover:text-cyan-300">{lang === 'ar' ? <>فاحص زواحف <bdi>AI</bdi></> : 'AI crawler checker'}</Link>
           {dropdown('tools', t('Free tools', 'أدوات مجانية'), TOOLS)}
           {dropdown('guides', t('Guides', 'أدلة'), GUIDES)}
           <Link href="/about/" className="hover:text-cyan-300">{t('Methodology', 'المنهجية')}</Link>

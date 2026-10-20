@@ -9,6 +9,13 @@ import { CHECK_AREAS, HOME_FAQ } from '@/lib/content/home';
 
 const EXAMPLES = ['stripe.com', 'bbc.com/news', 'example.com'];
 
+/** Keep English names from gluing onto the Arabic word beside them. */
+function mix(lang: 'en' | 'ar', text: string) {
+  if (lang !== 'ar') return text;
+  const parts = text.split(/([A-Za-z][A-Za-z0-9.+#_-]*)/g);
+  return parts.map((part, i) => (/^[A-Za-z]/.test(part) ? <bdi key={`${i}-${part}`}>{part}</bdi> : part));
+}
+
 const TOOLS = [
   { href: '/ai-crawler-checker/', icon: Bot, en: ['AI crawler checker', 'See which AI bots robots.txt and your firewall let through.'], ar: ['فاحص زواحف الذكاء الاصطناعي', 'اعرف أي بوتات يسمح بها robots.txt والجدار الناري.'] },
   { href: '/robots-txt-generator/', icon: ShieldCheck, en: ['robots.txt generator', 'Allow AI search, block training — with the right user-agents.'], ar: ['مولد robots.txt', 'اسمح للبحث الذكي وامنع التدريب بالوكلاء الصحيحة.'] },
@@ -32,20 +39,27 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
             <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
             {t('Free · No sign-up · Every score explained', 'مجاني · بدون تسجيل · كل درجة لها تفسير')}
           </p>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-gradient-metallic">
-            {t('Can ChatGPT, Google and Perplexity actually read your site?', 'هل يستطيع ChatGPT وجوجل وPerplexity قراءة موقعك فعلاً؟')}
+          <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-black tracking-tight leading-tight text-gradient-metallic">
+            {lang === 'ar' ? (
+              <>
+                هل يستطيع <bdi>ChatGPT</bdi> وجوجل و<bdi>Perplexity</bdi>
+                <span className="mt-1 block">قراءة موقعك فعلاً؟</span>
+              </>
+            ) : (
+              'Can ChatGPT, Google and Perplexity actually read your site?'
+            )}
           </h1>
-          <p className="text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            {t(
+          <p className={`text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto ${lang === 'ar' ? 'leading-8 text-pretty' : 'leading-relaxed'}`}>
+            {mix(lang, t(
               'SchemaCraft is a free AI search visibility audit. It shows whether ChatGPT, Google, Perplexity and Claude can crawl, read and cite a page, using about 50 SEO, GEO and AEO checks. Every problem includes the evidence and a copy-paste fix. The full report is free, limited to 20 audits per 10 minutes, and most audits finish within 20 seconds.',
               'SchemaCraft أداة مجانية لفحص ظهور موقعك في البحث الذكي. تبيّن هل يستطيع ChatGPT وجوجل وPerplexity وClaude الزحف لصفحتك وقراءتها والاقتباس منها، عبر حوالي 50 فحصاً للسيو وGEO وAEO. كل مشكلة معها الدليل وإصلاح جاهز للنسخ. التقرير كامل ومجاني، بحد 20 فحصاً كل 10 دقائق، ومعظم الفحوص تنتهي خلال 20 ثانية.',
-            )}
+            ))}
           </p>
           <AuditRunner lang={lang} examples={EXAMPLES} />
         </section>
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto" aria-labelledby="how-it-works">
-          <h2 id="how-it-works" className="md:col-span-3 text-2xl sm:text-3xl font-black text-white tracking-tight">{t('How it works', 'طريقة العمل')}</h2>
+          <h2 id="how-it-works" className="md:col-span-3 text-center text-2xl sm:text-3xl font-black text-white tracking-tight">{t('How it works', 'طريقة العمل')}</h2>
           {[
             [Search, t('1. Real crawl, no guessing', '1. زحف حقيقي بدون تخمين'), t('Our server requests your page, robots.txt, sitemap and llms.txt, then repeats the request as Googlebot, OAI-SearchBot, PerplexityBot and ClaudeBot.', 'سيرفرنا يطلب صفحتك وrobots.txt وخريطة الموقع وllms.txt، ثم يكرر الطلب بوكيل Googlebot وOAI-SearchBot وPerplexityBot وClaudeBot.')],
             [Gauge, t('2. Score built only from evidence', '2. درجة مبنية على الأدلة فقط'), t('Each check is pass, warning or fail with the raw evidence. Anything we could not verify is marked “Not assessed” and does not count.', 'كل فحص ناجح أو تحذير أو فشل مع الدليل الخام. أي شيء لم نتمكن من التحقق منه يُكتب "غير مُقيَّم" ولا يُحسب.')],
@@ -55,8 +69,8 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
             return (
               <div key={title as string} className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#0c0c14] space-y-2.5">
                 <I className="w-5 h-5 text-cyan-400" aria-hidden />
-                <h2 className="text-base font-bold text-white">{title as string}</h2>
-                <p className="text-sm text-slate-400 leading-relaxed">{body as string}</p>
+                <h2 className="text-base font-bold text-white leading-snug">{mix(lang, title as string)}</h2>
+                <p className={`text-sm text-slate-400 ${lang === 'ar' ? 'leading-7 text-pretty' : 'leading-relaxed'}`}>{mix(lang, body as string)}</p>
               </div>
             );
           })}
@@ -64,22 +78,22 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
 
         <section className="max-w-3xl mx-auto space-y-3 text-center" aria-labelledby="pricing">
           <h2 id="pricing" className="text-2xl sm:text-3xl font-black text-white tracking-tight">{t('Pricing', 'الأسعار')}</h2>
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            {t(
+          <p className={`text-sm sm:text-base text-slate-300 ${lang === 'ar' ? 'leading-8' : 'leading-relaxed'}`}>
+            {mix(lang, t(
               'SchemaCraft pricing is zero. There is no paid plan and no sign-up. The full report is free, with a limit of 20 audits per 10 minutes per network so the service stays fast.',
               'سعر SchemaCraft صفر. لا توجد خطة مدفوعة ولا تسجيل. التقرير الكامل مجاني، بحد 20 فحصاً كل 10 دقائق لكل شبكة حتى تبقى الخدمة سريعة.',
-            )}
+            ))}
           </p>
         </section>
 
         <section className="space-y-8" aria-labelledby="what-we-check">
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <h2 id="what-we-check" className="text-2xl sm:text-4xl font-black text-white tracking-tight">{t('What the audit checks', 'ماذا يفحص التقرير')}</h2>
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-              {t(
+            <p className={`text-sm sm:text-base text-slate-400 ${lang === 'ar' ? 'leading-8' : 'leading-relaxed'}`}>
+              {mix(lang, t(
                 'AI search engines retrieve pages much like search crawlers do — then decide whether a passage is clear and trustworthy enough to quote. The audit covers both halves: access and answerability.',
                 'محركات البحث الذكي تجلب الصفحات تقريباً كما تفعل زواحف البحث — ثم تقرر هل الفقرة واضحة وموثوقة بما يكفي للاقتباس. الفحص يغطي الجانبين: الوصول وقابلية الإجابة.',
-              )}
+              ))}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -90,7 +104,7 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
                   {area.checks.map((c) => (
                     <li key={c} className="flex items-start gap-1.5 text-[12px] text-slate-300 leading-snug">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" aria-hidden />
-                      {c}
+                      {mix(lang, c)}
                     </li>
                   ))}
                 </ul>
@@ -102,11 +116,11 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start" aria-labelledby="ai-vs-seo">
           <div className="space-y-4">
             <h2 id="ai-vs-seo" className="text-2xl sm:text-3xl font-black text-white tracking-tight">{t('Why a normal SEO audit misses AI search', 'لماذا يفوت فحص السيو العادي البحث الذكي')}</h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              {t(
+            <p className={`text-sm sm:text-base text-slate-300 ${lang === 'ar' ? 'leading-8' : 'leading-relaxed'}`}>
+              {mix(lang, t(
                 'Most AI crawlers do not run JavaScript, follow their own robots.txt user-agents, and are often blocked by CDN “bot protection” that Googlebot gets through. A site can rank on Google and still be invisible to ChatGPT Search.',
                 'معظم زواحف الذكاء الاصطناعي لا تشغّل الجافاسكربت، ولها وكلاء خاصة في robots.txt، وكثيراً ما تحجبها "حماية البوتات" في الـ CDN بينما يمر Googlebot. قد يتصدر موقعك في جوجل ويظل غير مرئي لبحث ChatGPT.',
-              )}
+              ))}
             </p>
             <ul className="space-y-2 text-sm text-slate-300">
               {[
@@ -114,18 +128,18 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
                 t('Content rendered only in the browser is an empty page to OAI-SearchBot and PerplexityBot.', 'المحتوى الذي يُرسم في المتصفح فقط صفحة فارغة بالنسبة لـ OAI-SearchBot وPerplexityBot.'),
                 t('Clear definitions, question headings and lists are what answer engines quote.', 'التعريفات الواضحة والعناوين بصيغة أسئلة والقوائم هي ما تقتبسه محركات الإجابة.'),
               ].map((line) => (
-                <li key={line} className="flex items-start gap-2"><ArrowRight className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5 rtl:rotate-180" aria-hidden />{line}</li>
+                <li key={line} className="flex items-start gap-2"><ArrowRight className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5 rtl:rotate-180" aria-hidden />{mix(lang, line)}</li>
               ))}
             </ul>
             <div className="flex flex-col items-start gap-2">
               <Link href="/should-i-block-gptbot/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
-                {t('Should you block GPTBot?', 'هل تمنع GPTBot؟')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
+                {mix(lang, t('Should you block GPTBot?', 'هل تمنع GPTBot؟'))} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
               </Link>
               <Link href="/chatgpt-search/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
-                {t('How to show up in ChatGPT Search', 'كيف تظهر في بحث ChatGPT')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
+                {mix(lang, t('How to show up in ChatGPT Search', 'كيف تظهر في بحث ChatGPT'))} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
               </Link>
               <Link href="/geo-vs-aeo/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:underline">
-                {t('Read: GEO vs AEO vs SEO explained', 'اقرأ: شرح الفرق بين GEO وAEO وSEO')} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
+                {mix(lang, t('Read: GEO vs AEO vs SEO explained', 'اقرأ: شرح الفرق بين GEO وAEO وSEO'))} <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden />
               </Link>
             </div>
           </div>
@@ -136,9 +150,9 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
                 <thead className="text-slate-400 text-[10px] uppercase tracking-wider">
                   <tr><th className="py-2 pe-3">{t('Vendor', 'الشركة')}</th><th className="py-2 pe-3">{t('Search / citations', 'البحث والاقتباس')}</th><th className="py-2">{t('Training', 'التدريب')}</th></tr>
                 </thead>
-                <tbody className="font-mono text-slate-200">
+                <tbody className="text-slate-200">
                   {[['OpenAI', 'OAI-SearchBot, ChatGPT-User', 'GPTBot'], ['Google', 'Googlebot', 'Google-Extended'], ['Anthropic', 'Claude-SearchBot, Claude-User', 'ClaudeBot'], ['Perplexity', 'PerplexityBot, Perplexity-User', '—'], ['Apple', 'Applebot', 'Applebot-Extended']].map(([v, s, tr]) => (
-                    <tr key={v} className="border-t border-white/5"><td className="py-2 pe-3 font-sans font-semibold text-white">{v}</td><td className="py-2 pe-3 text-emerald-300">{s}</td><td className="py-2 text-amber-300">{tr}</td></tr>
+                    <tr key={v} className="border-t border-white/5"><td className="py-2 pe-3 font-sans font-semibold text-white">{v}</td><td className="py-2 pe-3 font-mono text-emerald-300" dir="ltr">{s}</td><td className="py-2 font-mono text-amber-300" dir="ltr">{tr}</td></tr>
                   ))}
                 </tbody>
               </table>
@@ -157,8 +171,8 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
               return (
                 <Link key={tool.href} href={tool.href} className="group p-5 rounded-2xl border border-white/10 bg-[#0c0c14] hover:border-indigo-500/40 transition space-y-2">
                   <tool.icon className="w-5 h-5 text-indigo-400" aria-hidden />
-                  <h3 className="text-sm font-bold text-white group-hover:text-cyan-300">{title}</h3>
-                  <p className="text-[13px] text-slate-400 leading-relaxed">{desc}</p>
+                  <h3 className="text-sm font-bold text-white group-hover:text-cyan-300 leading-snug">{mix(lang, title)}</h3>
+                  <p className={`text-[13px] text-slate-400 ${lang === 'ar' ? 'leading-7' : 'leading-relaxed'}`}>{mix(lang, desc)}</p>
                 </Link>
               );
             })}
@@ -171,10 +185,10 @@ export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
             {faq.map((item, i) => (
               <details key={item.q} className="group rounded-2xl border border-white/10 bg-black/40 open:border-indigo-500/40 open:bg-indigo-950/20" open={i === 0}>
                 <summary className="cursor-pointer list-none p-4 sm:p-5 flex items-center justify-between gap-4 font-bold text-sm text-white">
-                  <h3 className="text-sm font-bold">{item.q}</h3>
+                  <h3 className="text-sm font-bold leading-snug">{mix(lang, item.q)}</h3>
                   <span className="text-slate-400 group-open:rotate-45 transition text-lg leading-none" aria-hidden>+</span>
                 </summary>
-                <p className="px-4 sm:px-5 pb-5 text-sm text-slate-300 leading-relaxed">{item.a}</p>
+                <p className={`px-4 sm:px-5 pb-5 text-sm text-slate-300 ${lang === 'ar' ? 'leading-8' : 'leading-relaxed'}`}>{mix(lang, item.a)}</p>
               </details>
             ))}
           </div>

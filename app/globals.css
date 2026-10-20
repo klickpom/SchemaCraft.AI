@@ -10,6 +10,7 @@
 
   [dir="rtl"] {
     font-family: var(--font-cairo), var(--font-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: 0;
   }
 
   [dir="ltr"] {
@@ -188,6 +189,20 @@ input, select, textarea {
 .glow-focus-box:focus-within {
   border-color: rgba(99, 102, 241, 0.6);
   box-shadow: 0 0 25px rgba(99, 102, 241, 0.25), inset 0 0 15px rgba(99, 102, 241, 0.1);
+}
+
+/* Arabic letters connect. Negative tracking makes them collide. */
+[dir="rtl"] .tracking-tight,
+[dir="rtl"] .tracking-tighter,
+[dir="rtl"] .tracking-wide,
+[dir="rtl"] .tracking-wider {
+  letter-spacing: 0;
+}
+[dir="rtl"] .leading-tight {
+  line-height: 1.45;
+}
+[dir="rtl"] .font-black {
+  font-weight: 800;
 }
 
 /* Print / PDF Export Styling */

@@ -123,8 +123,8 @@ export default function AuditRunner({ lang, focus = 'full', examples = [], autoR
         </div>
         {inputError && <p className="text-xs text-rose-300 mt-2 text-center">{inputError}</p>}
         {examples.length > 0 && !running && (
-          <div className="flex flex-wrap items-center justify-center gap-1.5 mt-3 text-[11px]">
-            <span className="text-slate-500">{L(lang, 'Try a real site:', 'جرّب موقعاً حقيقياً:')}</span>
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 mt-3 text-[11px]">
+            <span className="text-slate-500 me-1">{L(lang, 'Try a real site:', 'جرّب موقعاً حقيقياً:')}</span>
             {examples.map((ex) => (
               <button key={ex} type="button" onClick={() => start(ex)} className="px-2.5 py-1 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] text-slate-300 hover:text-white font-mono" dir="ltr">
                 {ex}
