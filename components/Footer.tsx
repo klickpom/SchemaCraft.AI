@@ -41,7 +41,7 @@ const COLUMNS = [
   },
 ];
 
-export function Footer({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
+export function Footer({ lang = 'en', onToggleLang }: { lang?: 'en' | 'ar'; onToggleLang?: () => void }) {
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   return (
     <footer className="border-t border-white/[0.08] bg-[#070709] text-zinc-400 text-xs mt-20 print:hidden">
@@ -70,9 +70,15 @@ export function Footer({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
               <ul className="space-y-1.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={lang === 'ar' && link.href === '/' ? '/ar/' : lang === 'ar' && link.href === '/ar/' ? '/' : link.href} className="hover:text-cyan-400 transition-colors">
-                      {t(link.en, link.ar)}
-                    </Link>
+                    {link.href === '/ar/' ? (
+                      <button type="button" onClick={onToggleLang} className="hover:text-cyan-400 transition-colors">
+                        {t(link.en, link.ar)}
+                      </button>
+                    ) : (
+                      <Link href={lang === 'ar' && link.href === '/' ? '/ar/' : link.href} className="hover:text-cyan-400 transition-colors">
+                        {t(link.en, link.ar)}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

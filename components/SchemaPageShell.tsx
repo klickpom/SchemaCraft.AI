@@ -29,7 +29,7 @@ export default function SchemaPageShell({
   return (
     <SiteChrome lang="en">
 
-      <main className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
+      <main dir="ltr" lang="en" className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
         
         {/* HERO INTRO & BLUF */}
         <section className="space-y-6 text-center max-w-4xl mx-auto pt-2">

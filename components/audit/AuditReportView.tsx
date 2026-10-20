@@ -368,7 +368,11 @@ export default function AuditReportView({ report, lang, onNewAudit, onShare, foc
                   <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
                     <div className={`${t.bar} h-full rounded-full transition-all duration-700`} style={{ width: `${score ?? 0}%` }} />
                   </div>
-                  <p className="text-[11px] text-slate-500 leading-snug">{L(lang, cat.descEn, cat.descAr)}</p>
+                  <p className="text-[11px] text-slate-500 leading-snug">
+                    {cat.id === 'content' && score === null && report.scoreCap
+                      ? L(lang, 'Not scored on its own: the server HTML has almost no text, so this sits inside the score cap.', 'غير محسوبة وحدها: HTML السيرفر شبه خالٍ من النص، وهذا داخل في سقف الدرجة.')
+                      : L(lang, cat.descEn, cat.descAr)}
+                  </p>
                 </a>
               );
             })}

@@ -907,7 +907,9 @@ function contentChecks(ctx: CheckContext): AuditCheck[] {
   const published = ctx.schema.dates.published || page.dates.published;
   const modified = ctx.schema.dates.modified || page.dates.modified;
   const dateExpected = ctx.pageType === 'article';
-  if (published || modified || page.dates.timeElements > 0) {
+  if (js) {
+    out.push(make(K.freshness, 'info', bi('Not scored separately — the page text is not in the server HTML.', 'غير محسوب منفصلاً — نص الصفحة ليس في HTML السيرفر.')));
+  } else if (published || modified || page.dates.timeElements > 0) {
     out.push(make(K.freshness, 'pass', bi(`Dates found${modified ? ` (updated ${String(modified).slice(0, 10)})` : published ? ` (published ${String(published).slice(0, 10)})` : ''}.`, `تواريخ موجودة${modified ? ` (تحديث ${String(modified).slice(0, 10)})` : published ? ` (نشر ${String(published).slice(0, 10)})` : ''}.`)));
   } else if (dateExpected) {
     out.push(make(K.freshness, 'warn', bi('Article without machine-readable dates.', 'مقال بدون تواريخ مقروءة آلياً.'), undefined,

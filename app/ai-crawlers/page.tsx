@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ContentShell, RELATED } from '@/components/ContentShell';
+import { ContentShell } from '@/components/ContentShell';
+import { RELATED } from '@/lib/content/related';
 import { ACTIVE_BOTS, DEPRECATED_BOTS, type BotPurpose } from '@/lib/bots/registry';
 import { articleGraph } from '@/lib/seo/jsonld';
 import { canonicalUrl, socialMeta } from '@/lib/seo/urls';

@@ -204,6 +204,9 @@ input, select, textarea {
 [dir="rtl"] .font-black {
   font-weight: 800;
 }
+html.sc-lang-pending body {
+  visibility: hidden;
+}
 
 /* Print / PDF Export Styling */
 @media print {

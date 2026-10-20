@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { SiteChrome } from '@/components/SiteChrome';
-import { RELATED } from '@/components/ContentShell';
+import { RELATED } from '@/lib/content/related';
 
 export default function NotFound() {
   const links = [RELATED.audit, RELATED.crawlerChecker, RELATED.robots, RELATED.validator, RELATED.generators, RELATED.crawlers];
   return (
     <SiteChrome lang="en">
-      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-8 text-center">
+      <main dir="ltr" lang="en" className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24 space-y-8 text-center">
         <p className="text-sm font-mono text-cyan-300">404</p>
         <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">This page doesn’t exist</h1>
         <p className="text-slate-400">The link may be old or mistyped. These are the pages most people are looking for:</p>

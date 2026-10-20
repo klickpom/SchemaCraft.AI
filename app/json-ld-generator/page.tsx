@@ -35,7 +35,7 @@ export default function JsonLdGeneratorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdGeneratorGraph()) }}
       />
       <SiteChrome>
-        <main className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-12 sm:py-16 space-y-12">
+        <main dir="ltr" lang="en" className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-12 sm:py-16 space-y-12">
           <header className="max-w-3xl space-y-4">
             <p className="text-xs font-bold uppercase tracking-wider text-cyan-300">Free in-browser tool</p>
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">

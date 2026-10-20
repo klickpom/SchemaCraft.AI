@@ -10,7 +10,7 @@ export function ArticlePage({
   children: React.ReactNode;
 }) {
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-12 sm:py-16">
+    <main dir="ltr" lang="en" className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-12 sm:py-16">
       <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
         {title}
       </h1>

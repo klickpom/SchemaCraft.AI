@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, Globe, Info, Loader2, XCircle } from 'lucide-react';
 import { validateJsonLd, type LintIssue } from '@/lib/tools/jsonldValidator';
+import { useUiLang } from '@/components/UiLangProvider';
 import { fetchAuditPayload, normalizeAuditUrl } from '@/lib/audit/client';
 
 const SAMPLES: Record<string, string> = {
@@ -32,7 +33,8 @@ const LEVEL = {
   note: { icon: Info, cls: 'text-sky-300 border-sky-500/30 bg-sky-950/20', en: 'Note', ar: 'ملاحظة' },
 } as const;
 
-export default function SchemaValidator({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
+export default function SchemaValidator({ lang: pageLang = 'en' }: { lang?: 'en' | 'ar' }) {
+  const lang = useUiLang(pageLang);
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   const [mode, setMode] = useState<'code' | 'url'>('code');
   const [code, setCode] = useState(SAMPLES.Product);

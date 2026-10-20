@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Bot, CheckCircle2, FileCode2, Gauge, ListChecks, Search, ShieldCheck, Sparkles, Wrench } from 'lucide-react';
 import { SiteChrome } from '@/components/SiteChrome';
+import { useUiLang } from '@/components/UiLangProvider';
 import AuditRunner from '@/components/audit/AuditRunner';
 import { CHECK_AREAS, HOME_FAQ } from '@/lib/content/home';
 
@@ -25,7 +26,8 @@ const TOOLS = [
   { href: '/ai-crawlers/', icon: Search, en: ['AI crawler list', 'Every AI user-agent, what it does and how to control it.'], ar: ['قائمة زواحف الذكاء الاصطناعي', 'كل وكيل، وظيفته، وطريقة التحكم فيه.'] },
 ];
 
-export default function HomeClient({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
+export default function HomeClient({ lang: pageLang = 'en' }: { lang?: 'en' | 'ar' }) {
+  const lang = useUiLang(pageLang);
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   const faq = HOME_FAQ[lang];
   const areas = CHECK_AREAS[lang];

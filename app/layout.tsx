@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Cairo, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { UiLangProvider } from "@/components/UiLangProvider";
 import { sitewideGraph } from "@/lib/seo/jsonld";
 import { ogImageUrl, SITE_ORIGIN } from "@/lib/seo/urls";
 
@@ -90,7 +92,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen w-full max-w-full bg-[#060608] text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white overflow-x-hidden">
-        {children}
+        <Script id="sc-lang" strategy="beforeInteractive">
+          {`(function(){try{var l=localStorage.getItem('sc-lang');var p=location.pathname;if(l==='ar'&&(p==='/'||p==='')){location.replace('/ar/'+location.search+location.hash);return;}var ar=l==='ar'||p==='/ar'||p.indexOf('/ar/')===0;if(ar){document.documentElement.lang='ar';document.documentElement.dir='rtl';}if(l==='ar'&&p!=='/ar'&&p.indexOf('/ar/')!==0){document.documentElement.classList.add('sc-lang-pending');setTimeout(function(){document.documentElement.classList.remove('sc-lang-pending');},3000);}}catch(e){}})();`}
+        </Script>
+        <UiLangProvider>{children}</UiLangProvider>
       </body>
     </html>
   );

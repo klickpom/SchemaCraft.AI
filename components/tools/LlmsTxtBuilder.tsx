@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { AlertTriangle, Check, Copy, Download, Loader2, Plus, Trash2, Wand2 } from 'lucide-react';
 import { buildLlmsTxt, draftSections, lintLlms, pageMeta, sitemapLocs, type LlmsDoc, type LlmsSection } from '@/lib/tools/llmsBuilder';
+import { useUiLang } from '@/components/UiLangProvider';
 import { fetchAuditPayload, normalizeAuditUrl } from '@/lib/audit/client';
 
 const START: LlmsDoc = {
@@ -18,7 +19,8 @@ const START: LlmsDoc = {
 
 const input = 'w-full px-3 py-2 rounded-xl bg-black/60 border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500/60';
 
-export default function LlmsTxtBuilder({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
+export default function LlmsTxtBuilder({ lang: pageLang = 'en' }: { lang?: 'en' | 'ar' }) {
+  const lang = useUiLang(pageLang);
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   const [doc, setDoc] = useState<LlmsDoc>(START);
   const [site, setSite] = useState('');

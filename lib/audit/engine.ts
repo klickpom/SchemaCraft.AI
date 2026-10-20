@@ -429,8 +429,8 @@ export function buildReport(requestedUrl: string, payload: ServerPayload | null,
   } else if (ctx.jsDependent === 'yes' && overall !== null && overall > THIN_CAP) {
     scoreCap = {
       cap: THIN_CAP,
-      reason: `Capped at ${THIN_CAP} because the server HTML has only ${page.wordCount} words — AI crawlers that don't run JavaScript see an almost empty page.`,
-      reasonAr: `الدرجة محدودة بـ ${THIN_CAP} لأن HTML السيرفر فيه ${page.wordCount} كلمة فقط — زواحف الذكاء الاصطناعي التي لا تشغّل الجافاسكربت ترى صفحة شبه فارغة.`,
+      reason: `Capped at ${THIN_CAP} because the server HTML has only ${page.wordCount} words. ChatGPT, Perplexity and Claude do not run JavaScript, so they see an almost empty page. Google does run JavaScript and can still index and rank this page — this cap is not a traffic or ranking score.`,
+      reasonAr: `الدرجة محدودة بـ ${THIN_CAP} لأن HTML السيرفر فيه ${page.wordCount} كلمة فقط. ChatGPT وPerplexity وClaude لا يشغّلون الجافاسكربت فيرون صفحة شبه فارغة. جوجل يشغّل الجافاسكربت وقد يفهرس الصفحة ويرتبها — هذا السقف ليس عدد زيارات ولا ترتيب بحث.`,
     };
     overall = THIN_CAP;
   } else if (thin && overall !== null && overall > THIN_CAP) {

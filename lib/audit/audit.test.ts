@@ -273,7 +273,11 @@ describe('audit engine', () => {
     assertConsistent(report);
     expect(report.checks.find((c) => c.id === 'ai-javascript')?.status).toBe('fail');
     expect(report.checks.find((c) => c.id === 'content-depth')?.status).toBe('info');
+    expect(report.checks.find((c) => c.id === 'freshness')?.status).toBe('info');
+    expect(report.categoryScores.contentAnswerability).toBeNull();
     expect(report.overallScore).toBeLessThanOrEqual(50);
+    expect(report.scoreCap?.reason).toMatch(/Google does run JavaScript/);
+    expect(report.scoreCap?.reasonAr).toMatch(/ليس عدد زيارات ولا ترتيب بحث/);
   });
 
   it('marks checks without data as not assessed (v1 payload without probes)', () => {

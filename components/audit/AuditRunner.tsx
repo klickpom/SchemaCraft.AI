@@ -3,9 +3,32 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CheckCircle2, Circle, RotateCcw, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useUiLang } from '@/components/UiLangProvider';
 import { normalizeAuditUrl } from '@/lib/audit/client';
 import type { AuditReport } from '@/lib/audit/types';
 import { L, type Lang } from './i18n';
+
+const REPORT_KEY = 'sc-last-audit';
+
+function recallAudit(url: string): AuditReport | null {
+  try {
+    const raw = sessionStorage.getItem(REPORT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { url?: string; report?: AuditReport };
+    if (parsed.url === url && parsed.report?.engineVersion) return parsed.report;
+  } catch {
+    /* ignore broken storage */
+  }
+  return null;
+}
+
+function rememberAudit(url: string, report: AuditReport) {
+  try {
+    sessionStorage.setItem(REPORT_KEY, JSON.stringify({ url, report }));
+  } catch {
+    /* quota or private mode */
+  }
+}
 
 const AuditReportView = dynamic(() => import('./AuditReportView'));
 const ShareSnapshotModal = dynamic(() => import('@/components/ShareSnapshotModal'));
@@ -27,7 +50,8 @@ export interface AuditRunnerProps {
   inputId?: string;
 }
 
-export default function AuditRunner({ lang, focus = 'full', examples = [], autoRunFromQuery = true, inputId = 'audit-url' }: AuditRunnerProps) {
+export default function AuditRunner({ lang: pageLang, focus = 'full', examples = [], autoRunFromQuery = true, inputId = 'audit-url' }: AuditRunnerProps) {
+  const lang = useUiLang(pageLang);
   const [input, setInput] = useState('');
   const [running, setRunning] = useState(false);
   const [step, setStep] = useState(0);
@@ -45,7 +69,8 @@ export default function AuditRunner({ lang, focus = 'full', examples = [], autoR
     setInputError(null);
     setInput(url);
     setRunning(true);
-    setReport(null);
+    const kept = recallAudit(url);
+    if (!kept) setReport(null);
     setStep(0);
     const began = Date.now();
     const timer = setInterval(() => {
@@ -56,12 +81,13 @@ export default function AuditRunner({ lang, focus = 'full', examples = [], autoR
       const { runAudit } = await import('@/lib/audit/engine');
       const result = await runAudit(url);
       setReport(result);
+      rememberAudit(url, result);
       if (typeof window !== 'undefined') {
         const params = new URLSearchParams(window.location.search);
         params.set('url', url);
         window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
       }
-      setTimeout(() => document.getElementById('audit-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+      if (!kept) setTimeout(() => document.getElementById('audit-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
     } finally {
       clearInterval(timer);
       setRunning(false);
@@ -73,7 +99,12 @@ export default function AuditRunner({ lang, focus = 'full', examples = [], autoR
     const q = new URLSearchParams(window.location.search).get('url');
     if (q) {
       started.current = true;
-      setInput(q);
+      const url = normalizeAuditUrl(q);
+      if (url) {
+        setInput(url);
+        const kept = recallAudit(url);
+        if (kept) setReport(kept);
+      }
       start(q);
     }
   }, [autoRunFromQuery, start]);
@@ -83,6 +114,7 @@ export default function AuditRunner({ lang, focus = 'full', examples = [], autoR
     setInput('');
     if (typeof window !== 'undefined') {
       window.history.replaceState(null, '', window.location.pathname);
+      try { sessionStorage.removeItem(REPORT_KEY); } catch { /* ignore */ }
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => (document.getElementById(inputId) as HTMLInputElement | null)?.focus(), 350);
     }
@@ -134,7 +166,7 @@ export default function AuditRunner({ lang, focus = 'full', examples = [], autoR
         )}
       </form>
 
-      {running && (
+      {running && !report && (
         <section className="max-w-2xl mx-auto p-5 sm:p-6 rounded-2xl border border-indigo-500/40 bg-[#0d0d16] space-y-4 shadow-2xl" aria-live="polite">
           <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider">
             <span className="text-cyan-300 flex items-center gap-2">
@@ -157,8 +189,9 @@ export default function AuditRunner({ lang, focus = 'full', examples = [], autoR
         </section>
       )}
 
-      {report && !running && (
+      {report && (
         <div id="audit-results" className="scroll-mt-24 text-start">
+          {running && <p className="text-center text-[11px] text-slate-400 mb-3">{L(lang, 'Refreshing this audit…', 'جاري تحديث نفس الفحص…')}</p>}
           <AuditReportView report={report} lang={lang} focus={focus} onNewAudit={reset} onShare={() => setSharing(true)} />
         </div>
       )}

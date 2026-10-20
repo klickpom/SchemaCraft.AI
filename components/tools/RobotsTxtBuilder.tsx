@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { Check, Copy, Download } from 'lucide-react';
 import { ACTIVE_BOTS, type BotPurpose } from '@/lib/bots/registry';
+import { useUiLang } from '@/components/UiLangProvider';
 import { buildRobotsTxt, normalizePaths, presetBlocked, type RobotsPreset } from '@/lib/tools/robotsBuilder';
 
 const PURPOSE: Record<BotPurpose, { en: string; ar: string; cls: string }> = {
@@ -17,7 +18,8 @@ const PRESETS: { id: RobotsPreset; en: [string, string]; ar: [string, string] }[
   { id: 'block-ai', en: ['Block all AI', 'Keep only Google, Bing, Apple search'], ar: ['حجب كل الذكاء الاصطناعي', 'الإبقاء على بحث جوجل وBing وآبل فقط'] },
 ];
 
-export default function RobotsTxtBuilder({ lang = 'en' }: { lang?: 'en' | 'ar' }) {
+export default function RobotsTxtBuilder({ lang: pageLang = 'en' }: { lang?: 'en' | 'ar' }) {
+  const lang = useUiLang(pageLang);
   const t = (en: string, ar: string) => (lang === 'ar' ? ar : en);
   const [preset, setPreset] = useState<RobotsPreset | null>('search-not-training');
   const [blocked, setBlocked] = useState<string[]>(presetBlocked('search-not-training'));
