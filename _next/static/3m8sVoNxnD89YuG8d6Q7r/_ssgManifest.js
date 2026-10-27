@@ -1,1 +1,0 @@
-self.__SSG_MANIFEST=new Set(["\u002Far\u002Fschema\u002F[type]","\u002Fschema\u002F[type]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()

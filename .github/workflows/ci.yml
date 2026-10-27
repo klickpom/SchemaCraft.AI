@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+      - name: Check the published sitemap URL set
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const xml = fs.readFileSync('apps/web/out/sitemap.xml', 'utf8');
+          const got = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]).sort();
+          const want = fs.readFileSync('apps/web/lib/seo/public-urls.txt', 'utf8')
+            .replace(/^\uFEFF/, '')
+            .trim()
+            .split(/\r?\n/)
+            .filter(Boolean)
+            .sort();
+          const missing = want.filter((url) => !got.includes(url));
+          const extra = got.filter((url) => !want.includes(url));
+          if (missing.length || extra.length || got.length !== want.length) {
+            console.error('sitemap URL set changed');
+            console.error('missing', missing);
+            console.error('extra', extra);
+            process.exit(1);
+          }
+          for (const file of ['apps/web/out/index.html', 'apps/web/out/ar/index.html', 'apps/web/out/api/audit.php', 'apps/web/out/.htaccess']) {
+            if (!fs.existsSync(file)) {
+              console.error('missing build output', file);
+              process.exit(1);
+            }
+          }
+          console.log('sitemap URLs unchanged:', got.length);
+          NODE
+
+      - name: Publish static site to the deploy branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          DEST="$(mktemp -d)"
+          AUTH="http.extraheader=AUTHORIZATION: bearer ${GITHUB_TOKEN}"
+          REMOTE="https://github.com/${GITHUB_REPOSITORY}.git"
+          if git -c "$AUTH" ls-remote --heads "$REMOTE" deploy | grep -q deploy; then
+            git -c "$AUTH" clone --branch deploy --single-branch --depth 1 "$REMOTE" "$DEST"
+          else
+            git init -b deploy "$DEST"
+          fi
+          find "$DEST" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a apps/web/out/. "$DEST/"
+          mkdir -p "$DEST/api"
+          cp apps/web/public/api/audit.php "$DEST/api/audit.php"
+          cp apps/web/public/.htaccess "$DEST/.htaccess"
+          git -C "$DEST" add -A
+          if git -C "$DEST" diff --cached --quiet; then
+            echo "deploy branch already matches this build"
+            exit 0
+          fi
+          git -C "$DEST" -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Publish static site from ${GITHUB_SHA}"
+          git -C "$DEST" -c "$AUTH" push "$REMOTE" HEAD:deploy
