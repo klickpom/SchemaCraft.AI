@@ -12,13 +12,13 @@ Working rules:
 
 ## Phase 0 — Foundation
 
-- [ ] npm workspaces, with no public URL changes
-- [ ] `apps/web`: current static site and free audit (`output: 'export'`, `trailingSlash: true`)
-- [ ] `packages/audit-core`: `lib/audit`, `lib/bots`, `lib/tools`, and their tests
-- [ ] Stop tracking repo-root build output (`_next`, generated HTML/TXT, `deploy_sync.js`, `zip_build.js`) and gitignore it
-- [ ] GitHub Action: install, test, build `apps/web`, publish `out/` plus `public/api/audit.php` and `.htaccess` to the `deploy` branch
-- [ ] `.cursor/rules/schemacraft.mdc` with the non-negotiable rules, `alwaysApply: true`
-- [ ] Acceptance: tests pass, sitemap URL set unchanged, `git status` clean after a build
+- [x] npm workspaces, with no public URL changes
+- [x] `apps/web`: current static site and free audit (`output: 'export'`, `trailingSlash: true`)
+- [x] `packages/audit-core`: `lib/audit`, `lib/bots`, `lib/tools`, and their tests
+- [x] Stop tracking repo-root build output (`_next`, generated HTML/TXT, `deploy_sync.js`, `zip_build.js`) and gitignore it
+- [x] GitHub Action: install, test, build `apps/web`, publish `out/` plus `public/api/audit.php` and `.htaccess` to the `deploy` branch
+- [x] `.cursor/rules/schemacraft.mdc` with the non-negotiable rules, `alwaysApply: true`
+- [x] Acceptance: tests pass, sitemap URL set unchanged, `git status` clean after a build
 
 ## Phase 1 — Accounts + AI visibility radar
 
