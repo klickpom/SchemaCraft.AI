@@ -1,0 +1,70 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { describe, expect, it } from 'vitest';
+import { isNoindexRoute, listPublicRoutes } from './routeManifest';
+import { canonicalUrl } from './urls';
+
+describe('route manifest', () => {
+  it('keeps the public URL set frozen in phase 0', () => {
+    const frozen = readFileSync(path.join(process.cwd(), 'lib/seo/public-urls.txt'), 'utf8')
+      .replace(/^\uFEFF/, '')
+      .trim()
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .sort();
+    const live = listPublicRoutes()
+      .filter((route) => !isNoindexRoute(route.path))
+      .map((route) => canonicalUrl(route.path))
+      .sort();
+    expect(live).toEqual(frozen);
+  });
+
+  it('emits trailing-slash canonical URLs for every live page', () => {
+    const routes = listPublicRoutes();
+    expect(routes.length).toBeGreaterThan(1);
+    for (const route of routes) {
+      const url = canonicalUrl(route.path);
+      expect(url.startsWith('https://schemacraft-ai.site/')).toBe(true);
+      expect(url.endsWith('/')).toBe(true);
+      expect(url.includes('?')).toBe(false);
+      expect(url.includes('#')).toBe(false);
+    }
+  });
+
+  it('includes trust pages and the JSON-LD hub once', () => {
+    const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
+    expect(urls).toEqual(expect.arrayContaining([
+      'https://schemacraft-ai.site/about/',
+      'https://schemacraft-ai.site/privacy/',
+      'https://schemacraft-ai.site/terms/',
+      'https://schemacraft-ai.site/json-ld-generator/',
+    ]));
+  });
+
+  it('includes the tool pages, guides and the Arabic homepage', () => {
+    const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
+    expect(urls).toEqual(expect.arrayContaining([
+      'https://schemacraft-ai.site/ar/',
+      'https://schemacraft-ai.site/ai-crawler-checker/',
+      'https://schemacraft-ai.site/robots-txt-generator/',
+      'https://schemacraft-ai.site/llms-txt-generator/',
+      'https://schemacraft-ai.site/schema-validator/',
+      'https://schemacraft-ai.site/ai-crawlers/',
+      'https://schemacraft-ai.site/geo-vs-aeo/',
+      'https://schemacraft-ai.site/should-i-block-gptbot/',
+      'https://schemacraft-ai.site/chatgpt-search/',
+      'https://schemacraft-ai.site/ar/chatgpt-search/',
+      'https://schemacraft-ai.site/ar/about/',
+      'https://schemacraft-ai.site/ar/privacy/',
+    ]));
+  });
+
+  it('includes the shopify generator in English and Arabic once each', () => {
+    const urls = listPublicRoutes().map((route) => canonicalUrl(route.path));
+    const shopify = urls.filter((url) => url.includes('/schema/shopify-product/'));
+    expect(shopify.sort()).toEqual([
+      'https://schemacraft-ai.site/ar/schema/shopify-product/',
+      'https://schemacraft-ai.site/schema/shopify-product/',
+    ]);
+  });
+});

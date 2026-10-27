@@ -1,22 +1,23 @@
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
 
 # testing
-/coverage
+coverage
 _madar_api.json
 _verify_live.mjs
 _splice_eval.js
 _audit_body.json
 
-# next.js
-/.next/
-/out/
+# next.js (any workspace)
+.next/
+out/
 
 # production
 /build
+hostinger_public_html.zip
 
 # misc
 .DS_Store
@@ -30,6 +31,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+!.env.example
 
 # vercel
 .vercel
@@ -37,3 +39,39 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Repo-root copies of the static export. The deploy branch is the only published copy.
+/_next/
+/404/
+/404.html
+/index.html
+/sitemap.xml
+/*.txt
+/about/
+/ai-crawler-checker/
+/ai-crawlers/
+/api/
+/ar/
+/chatgpt-search/
+/geo-vs-aeo/
+/json-ld-generator/
+/llms-txt-generator/
+/privacy/
+/robots-txt-generator/
+/schema/
+/schema-validator/
+/should-i-block-gptbot/
+/terms/
+/.htaccess
+/android-chrome-*.png
+/apple-touch-icon.png
+/badge.svg
+/favicon*
+/icon.png
+/icon.svg
+/logo.png
+/og-image.png
+/llms.txt
+/llms-full.txt
+/robots.txt
+/site.webmanifest

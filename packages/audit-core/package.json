@@ -1,0 +1,27 @@
+{
+  "name": "@schemacraft/audit-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./audit/engine": "./src/audit/engine.ts",
+    "./audit/client": "./src/audit/client.ts",
+    "./audit/types": "./src/audit/types.ts",
+    "./audit/html": "./src/audit/html.ts",
+    "./audit/schema": "./src/audit/schema.ts",
+    "./audit/robots": "./src/audit/robots.ts",
+    "./audit/checks": "./src/audit/checks.ts",
+    "./bots/registry": "./src/bots/registry.ts",
+    "./tools/jsonldValidator": "./src/tools/jsonldValidator.ts",
+    "./tools/robotsBuilder": "./src/tools/robotsBuilder.ts",
+    "./tools/llmsBuilder": "./src/tools/llmsBuilder.ts"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "linkedom": "^0.18.13",
+    "typescript": "^5",
+    "vitest": "^5.0.0"
+  }
+}

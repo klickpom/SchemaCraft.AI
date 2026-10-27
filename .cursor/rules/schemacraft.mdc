@@ -1,0 +1,24 @@
+---
+description: SchemaCraft non-negotiable rules for URLs, honesty, crawlers, and secrets
+alwaysApply: true
+---
+
+# SchemaCraft
+
+Public English and Arabic URLs are live rankings. Do not rename, drop, or change them. Diff the sitemap URL set before and after each phase against `apps/web/lib/seo/public-urls.txt`.
+
+- Ship every user-facing feature in English and Arabic (RTL). Arabic copy is clear, friendly Modern Standard Arabic.
+- Never invent scores, mentions, or crawl results. Unverified items are "not assessed". Do not promise rankings or guaranteed AI visibility.
+- AI crawlers do not run JavaScript. Fixes ship as server-rendered HTML (WordPress `wp_head`, Cloudflare HTMLRewriter, or a code PR), never as client-side JS.
+- Call LLMs only through official APIs with web search or grounding enabled. Do not scrape chatgpt.com or any consumer UI.
+- New crawlers copy the SSRF checks in `apps/web/public/api/audit.php` exactly, and test them.
+- Secrets live in environment variables. List every variable in `.env.example`. Never commit keys.
+- Until real keys exist, each external provider (LLM, payments, email) has an interface and a dry-run mode backed by fixtures.
+- Scoring and parsing rules need unit tests. `npm test` and `npm run build` pass before a phase is done.
+- Small commits. Before deleting files, rewriting history, or changing deploy, explain it and wait for approval.
+- Stop at the end of each phase. Do not start the next one until the user replies `continue`.
+
+```ts
+// Missing evidence stays not assessed. Do not guess a pass.
+if (!payload?.robotsTxt) return { status: 'not_assessed' };
+```
