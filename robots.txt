@@ -1,0 +1,11 @@
+# SchemaCraft AI
+# All crawlers, including AI search and training crawlers, follow the * group.
+# We want this documentation available to search engines, AI assistants and
+# model training alike. Customer sites can choose otherwise:
+# https://schemacraft-ai.site/robots-txt-generator/
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://schemacraft-ai.site/sitemap.xml

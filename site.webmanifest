@@ -1,0 +1,21 @@
+{
+  "name": "SchemaCraft AI",
+  "short_name": "SchemaCraft",
+  "description": "0ms Real-Time JSON-LD Schema Generator for Search & AI Engines",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060608",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
