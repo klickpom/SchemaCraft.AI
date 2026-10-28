@@ -62,7 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           DEST="$(mktemp -d)"
-          AUTH="http.extraheader=AUTHORIZATION: bearer ${GITHUB_TOKEN}"
+          AUTH="http.https://github.com/.extraheader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w0)"
           REMOTE="https://github.com/${GITHUB_REPOSITORY}.git"
           if git -c "$AUTH" ls-remote --heads "$REMOTE" deploy | grep -q deploy; then
             git -c "$AUTH" clone --branch deploy --single-branch --depth 1 "$REMOTE" "$DEST"
