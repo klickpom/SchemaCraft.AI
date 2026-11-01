@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import RadarFunnel from './RadarFunnel';
 import {
   AlertTriangle,
   Bot,
@@ -322,6 +323,7 @@ export default function AuditReportView({ report, lang, onNewAudit, onShare, foc
     <div className="space-y-8">
       <div className="rounded-3xl border border-white/15 bg-gradient-to-br from-[#12121a] via-[#0c0c12] to-[#07070a] p-5 sm:p-8 shadow-2xl space-y-6">
         {header}
+        <RadarFunnel lang={lang} url={report.finalUrl || report.url} score={overall} />
 
         <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase font-mono font-bold">
           <span className="px-2.5 py-1 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-300">{count(lang, counts.fail, ['failed check', 'failed checks'], ['فحص فاشل', 'فحصان فاشلان', 'فحوص فاشلة', 'فحصاً فاشلاً'])}</span>
