@@ -1,8 +1,43 @@
 const APP_ORIGIN = 'https://app.schemacraft-ai.site';
 
+export type RadarLang = 'en' | 'ar';
+
+const COPY: Record<RadarLang, { title: string; body: string; link: string; download: string }> = {
+  en: {
+    title: 'See whether AI answers mention this site',
+    body: 'The button opens the radar. The first 3 questions run after you sign in. This audit score is not what ChatGPT says.',
+    link: 'Check what ChatGPT says about you',
+    download: 'Download result card',
+  },
+  ar: {
+    title: 'انظر هل تذكر إجابات الذكاء الاصطناعي هذا الموقع',
+    body: 'الزر يفتح الرادار. أول 3 أسئلة تعمل بعد تسجيل الدخول. درجة هذا الفحص ليست ما يقوله ChatGPT.',
+    link: 'اعرف ماذا يقول ChatGPT عنك',
+    download: 'نزّل بطاقة النتيجة',
+  },
+};
+
 /** The radar host is hidden until this build flag is exactly "1". */
 export function radarAppLive(flag: string | undefined = process.env.NEXT_PUBLIC_RADAR_APP_LIVE): boolean {
   return flag === '1';
+}
+
+export function radarDownloadLabel(lang: RadarLang): string {
+  return COPY[lang].download;
+}
+
+export interface RadarBlock {
+  title: string;
+  body: string;
+  linkLabel: string;
+  href: string;
+}
+
+/** Null means the page must not mention the radar. */
+export function radarBlock(lang: RadarLang, auditedUrl: string, flag: string | undefined = process.env.NEXT_PUBLIC_RADAR_APP_LIVE): RadarBlock | null {
+  if (!radarAppLive(flag)) return null;
+  const copy = COPY[lang];
+  return { title: copy.title, body: copy.body, linkLabel: copy.link, href: radarAppUrl(auditedUrl) };
 }
 
 /** External radar link. This must stay off the marketing sitemap. */
