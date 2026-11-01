@@ -22,18 +22,18 @@ Working rules:
 
 ## Phase 1 — Accounts + AI visibility radar
 
-- [ ] `apps/app`: Next.js 15 (no static export) for `app.schemacraft-ai.site`, deployable to Vercel, reusing `apps/web` design tokens, English and Arabic with an RTL toggle
-- [ ] Supabase (Postgres + Auth: email magic link and Google)
-- [ ] Tables: `users`, `sites`, `prompts`, `runs`, `mentions`, `fixes`, `subscriptions`, `usage_costs`
-- [ ] Row-level security on every table, with tests that user A cannot read user B
-- [ ] Background jobs (Trigger.dev or Inngest; choice logged in `docs/DECISIONS.md`)
-- [ ] Prompt generator: homepage text + niche + city + language → 30 buyer questions in English, Egyptian Arabic, Gulf Arabic, and MSA; user can edit, add, and delete
-- [ ] Radar runner: each prompt × each enabled engine (OpenAI web search and Perplexity Sonar first), 3 runs each, raw answers stored
-- [ ] Mention parser: brand or domain mentioned, position, competitor brands, cited URLs, sentiment; fixture tests in Arabic and English
-- [ ] Report: share of voice per engine as a percentage with the min–max range across the 3 runs, top competitors, top cited domains
-- [ ] Cost control: token cost per run in `usage_costs`, monthly budget cap per plan, hard stop when exceeded
-- [ ] Free funnel on the existing audit result: "Check what ChatGPT says about you" → 3 free radar prompts after signup, plus a shareable result card (English and Arabic)
-- [ ] Acceptance: full flow works in dry-run mode, parser tests pass, a report renders with ranges
+- [x] `apps/app`: Next.js 15 (no static export) for `app.schemacraft-ai.site`, deployable to Vercel, reusing `apps/web` design tokens, English and Arabic with an RTL toggle
+- [x] Supabase (Postgres + Auth: email magic link and Google)
+- [x] Tables: `users`, `sites`, `prompts`, `runs`, `mentions`, `fixes`, `subscriptions`, `usage_costs`
+- [x] Row-level security on every table, with tests that user A cannot read user B
+- [x] Background jobs (Trigger.dev or Inngest; choice logged in `docs/DECISIONS.md`)
+- [x] Prompt generator: homepage text + niche + city + language → 30 buyer questions in English, Egyptian Arabic, Gulf Arabic, and MSA; user can edit, add, and delete
+- [x] Radar runner: each prompt × each enabled engine (OpenAI web search and Perplexity Sonar first), 3 runs each, raw answers stored
+- [x] Mention parser: brand or domain mentioned, position, competitor brands, cited URLs, sentiment; fixture tests in Arabic and English
+- [x] Report: share of voice per engine as a percentage with the min–max range across the 3 runs, top competitors, top cited domains
+- [x] Cost control: token cost per run in `usage_costs`, monthly budget cap per plan, hard stop when exceeded
+- [x] Free funnel on the existing audit result: "Check what ChatGPT says about you" → 3 free radar prompts after signup, plus a shareable result card (English and Arabic)
+- [x] Acceptance: full flow works in dry-run mode, parser tests pass, a report renders with ranges
 
 ## Phase 2 — Site-wide crawl + "what the bot sees" + paid plans
 
