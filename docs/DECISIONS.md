@@ -29,3 +29,4 @@ Each line is a choice and the reason it was made. Add new lines at the bottom. D
 - `gen_random_uuid()` is the built-in Postgres function: PGlite does not ship the pgcrypto extension, and Postgres 13+ already includes the function.
 - Dry-run radar rows stay in the browser until Supabase is configured. Google sign-in stays "not assessed" and does not invent a Google account.
 - The audit CTA is an external link to `https://app.schemacraft-ai.site/?url=...`, and the result card downloads from the existing report: a new marketing page would change the frozen sitemap.
+- The browser writes the dry-run session only after it has read the saved one: writing the empty initial state first would erase that session on refresh.

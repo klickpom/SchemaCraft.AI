@@ -35,17 +35,20 @@ export function RadarScreen() {
   const [lang, setLang] = useState<Lang>('en');
   const [snapshot, setSnapshot] = useState<Snapshot>(emptySnapshot);
   const [email, setEmail] = useState('');
-  const [notice, setNotice] = useState('');
+  const [notice, setNotice] = useState<'sent' | 'dry-run' | 'google-off' | 'google-on' | 'templates' | null>(null);
   const [siteId, setSiteId] = useState<string | null>(null);
   const [draft, setDraft] = useState({ domain: '', country: '', city: '', language: 'en', niche: '', brand: '', homepageText: '' });
   const [busy, setBusy] = useState(false);
   const [stopped, setStopped] = useState<'budget' | 'done' | null>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const savedLang = localStorage.getItem('sc-app-lang');
     if (savedLang === 'ar' || savedLang === 'en') setLang(savedLang);
     const data = loadSnapshot();
     setSnapshot(data);
+    const ownSites = data.sites.filter((item) => item.userId === data.user?.id);
+    if (ownSites.length === 1) setSiteId(ownSites[0].id);
     const params = new URLSearchParams(window.location.search);
     const url = params.get('url');
     if (url) {
@@ -55,17 +58,16 @@ export function RadarScreen() {
         setDraft((current) => ({ ...current, domain: url }));
       }
     }
+    setReady(true);
   }, []);
 
   useEffect(() => {
+    if (!ready) return;
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     localStorage.setItem('sc-app-lang', lang);
-  }, [lang]);
-
-  useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
-  }, [snapshot]);
+  }, [ready, lang, snapshot]);
 
   const user = snapshot.user;
   const sites = snapshot.sites.filter((site) => site.userId === user?.id);
@@ -87,18 +89,16 @@ export function RadarScreen() {
     event.preventDefault();
     const mode = await requestMagicLink(email);
     if (mode === 'sent') {
-      setNotice(t(lang, 'Check your email for the sign-in link.', 'تفقد بريدك لفتح رابط الدخول.'));
+      setNotice('sent');
       return;
     }
     setSnapshot((current) => ({ ...current, user: { id: idFromEmail(email), email: email.trim().toLowerCase() } }));
-    setNotice(t(lang, 'Dry-run: no email was sent. This sign-in stays in this browser only.', 'تشغيل تجريبي: لم يُرسل بريد. هذا الدخول يبقى في هذا المتصفح فقط.'));
+    setNotice('dry-run');
   }
 
   async function google() {
     const mode = await requestGoogleSignIn();
-    setNotice(mode === 'unconfigured'
-      ? t(lang, 'Google sign-in is not assessed until Supabase is configured.', 'تسجيل Google غير مُقيَّم حتى يتم ربط Supabase.')
-      : t(lang, 'Redirecting to Google.', 'جارٍ التحويل إلى Google.'));
+    setNotice(mode === 'unconfigured' ? 'google-off' : 'google-on');
   }
 
   function saveSite(event: React.FormEvent) {
@@ -121,7 +121,7 @@ export function RadarScreen() {
       position: index,
     }));
     setSnapshot((current) => ({ ...current, prompts: [...current.prompts.filter((prompt) => prompt.siteId !== site.id || prompt.userId !== user.id), ...drafts] }));
-    setNotice(t(lang, 'These 30 questions are templates filled from your niche, city, and homepage text. They are not model output.', 'هذه الأسئلة الثلاثون قوالب مُلئت من تخصصك ومدينتك ونص الصفحة. ليست ناتجة عن نموذج.'));
+    setNotice('templates');
   }
 
   function updatePrompt(id: string, body: string) {
@@ -196,7 +196,11 @@ export function RadarScreen() {
       <p className="text-sm leading-relaxed text-slate-400">
         {t(lang, 'Without API keys, answers are recorded fixtures. They are not live ChatGPT or Perplexity replies, and they do not promise a mention or a ranking.', 'بدون مفاتيح API الإجابات عيّنات مسجّلة. ليست ردوداً حية من ChatGPT أو Perplexity، ولا تعد بذكر أو ترتيب.')}
       </p>
-      {notice && <p className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">{notice}</p>}
+      {notice === 'sent' && <p className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">{t(lang, 'Check your email for the sign-in link.', 'تفقد بريدك لفتح رابط الدخول.')}</p>}
+      {notice === 'dry-run' && <p className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">{t(lang, 'Dry-run: no email was sent. This sign-in stays in this browser only.', 'تشغيل تجريبي: لم يُرسل بريد. هذا الدخول يبقى في هذا المتصفح فقط.')}</p>}
+      {notice === 'google-off' && <p className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">{t(lang, 'Google sign-in is not assessed until Supabase is configured.', 'تسجيل Google غير مُقيَّم حتى يتم ربط Supabase.')}</p>}
+      {notice === 'google-on' && <p className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">{t(lang, 'Redirecting to Google.', 'جارٍ التحويل إلى Google.')}</p>}
+      {notice === 'templates' && <p className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-100">{t(lang, 'These 30 questions are templates filled from your niche, city, and homepage text. They are not model output.', 'هذه الأسئلة الثلاثون قوالب مُلئت من تخصصك ومدينتك ونص الصفحة. ليست ناتجة عن نموذج.')}</p>}
 
       {!user && (
         <form onSubmit={signIn} className="luxury-card space-y-3 rounded-3xl p-6">
@@ -277,7 +281,7 @@ export function RadarScreen() {
               <h3 className="font-black text-white">{t(lang, 'Share of voice', 'حصة الظهور')}</h3>
               {report.map((row) => (
                 <p key={row.engine} className="text-sm text-slate-200">
-                  {row.engine}: {row.shareOfVoice === null ? t(lang, 'not assessed', 'غير مُقيَّم') : `${row.shareOfVoice}%`}
+                  <span dir="ltr">{row.engine}: {row.shareOfVoice === null ? t(lang, 'not assessed', 'غير مُقيَّم') : `${row.shareOfVoice}%`}</span>
                   {row.min !== null && row.max !== null ? ` (${t(lang, 'range', 'المدى')} ${row.min}–${row.max}%)` : ''}
                 </p>
               ))}
