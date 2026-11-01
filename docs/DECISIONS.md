@@ -16,3 +16,16 @@ Each line is a choice and the reason it was made. Add new lines at the bottom. D
 - The Action publishes only on a push to `main`: pull requests run install, test, and build, and do not move the live branch.
 - `.env.example` lists `SC_AUDIT_FIXTURES` only: it is the only environment variable in the tree, and it is an optional local path, not a secret.
 - The public URL set is frozen in `apps/web/lib/seo/public-urls.txt` and checked in Vitest and in CI: route order may differ by filesystem, and the guard compares the sorted set.
+
+## 2026-11-01 — Phase 1
+
+- Inngest, not Trigger.dev: the job handler is a route in the Next.js app, so Vercel hosts the UI and the jobs together, and dry-run calls the same function without Inngest.
+- Dry-run stays on unless `SCHEMACRAFT_DRY_RUN=0`: CI has no provider keys, and a missing key must not stop the marketing site from publishing.
+- The signed-in app is built in CI and is not copied to the `deploy` branch: Hostinger serves only `apps/web/out`.
+- Row-level security is proved with PGlite as a non-superuser: the test does not need a Supabase project.
+- Homepage text is pasted in this phase: fetching it would be a new crawler and would need the `audit.php` SSRF rules copied first.
+- Dry-run buyer questions are templates filled with the site's niche, city, and homepage words, and the screen says they are templates, not model output.
+- The free radar runs at most 3 prompts on 2 engines, 3 times each, and stops before a call that would exceed the monthly budget.
+- `gen_random_uuid()` is the built-in Postgres function: PGlite does not ship the pgcrypto extension, and Postgres 13+ already includes the function.
+- Dry-run radar rows stay in the browser until Supabase is configured. Google sign-in stays "not assessed" and does not invent a Google account.
+- The audit CTA is an external link to `https://app.schemacraft-ai.site/?url=...`, and the result card downloads from the existing report: a new marketing page would change the frozen sitemap.

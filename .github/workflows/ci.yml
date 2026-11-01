@@ -24,6 +24,8 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+      - name: Build the signed-in app
+        run: npm run build -w @schemacraft/app
 
       - name: Check the published sitemap URL set
         run: |
