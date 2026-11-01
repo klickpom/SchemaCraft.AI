@@ -12,6 +12,7 @@
   "dependencies": {
     "@paypal/react-paypal-js": "^10.3.0",
     "@schemacraft/audit-core": "*",
+    "@schemacraft/fixes": "*",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",

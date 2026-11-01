@@ -2,8 +2,8 @@
 
 import React, { useMemo, useState } from 'react';
 import RadarFunnel from './RadarFunnel';
+import TopFixes from './TopFixes';
 import {
-  AlertTriangle,
   Bot,
   ChevronDown,
   Cpu,
@@ -150,10 +150,13 @@ export interface AuditReportViewProps {
   lang: Lang;
   onNewAudit?: () => void;
   onShare?: () => void;
+  onRecheck?: () => void;
+  previous?: AuditReport | null;
+  recheckUsed?: boolean;
   focus?: 'full' | 'ai';
 }
 
-export default function AuditReportView({ report, lang, onNewAudit, onShare, focus = 'full' }: AuditReportViewProps) {
+export default function AuditReportView({ report, lang, onNewAudit, onShare, onRecheck, previous, recheckUsed, focus = 'full' }: AuditReportViewProps) {
   const [fixCheck, setFixCheck] = useState<AuditCheck | null>(null);
   const [filter, setFilter] = useState<Filter>('issues');
   const [showTraining, setShowTraining] = useState(false);
@@ -317,7 +320,6 @@ export default function AuditReportView({ report, lang, onNewAudit, onShare, foc
   );
 
   const issues = report.allIssues;
-  const topFixes = report.criticalBlockers;
 
   return (
     <div className="space-y-8">
@@ -400,38 +402,7 @@ export default function AuditReportView({ report, lang, onNewAudit, onShare, foc
 
       {focus === 'ai' && aiSection}
 
-      {topFixes.length > 0 && (
-        <section className="space-y-4">
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-400">
-              <AlertTriangle className="w-4 h-4" /> {L(lang, 'Fix these first', 'أصلح هذه أولاً')}
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black text-white">{L(lang, 'Highest-impact fixes', 'الإصلاحات الأعلى تأثيراً')}</h3>
-            <p className="text-xs text-slate-400">{L(lang, 'Ranked by severity × status. Each one links to the exact evidence and a copy-paste fix.', 'مرتبة حسب الخطورة والحالة. كل واحدة مرتبطة بالدليل الدقيق وإصلاح جاهز للنسخ.')}</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {topFixes.map((issue) => {
-              const check = report.checks.find((c) => c.id === issue.id) as AuditCheck;
-              return (
-                <div key={issue.id} className={`rounded-2xl border p-5 space-y-3 flex flex-col justify-between ${issue.status === 'fail' ? 'border-rose-500/30 bg-[#0f0b12]' : 'border-amber-500/30 bg-[#0f0d0b]'}`}>
-                  <div className="space-y-2.5">
-                    <div className="flex items-center justify-between gap-2">
-                      <StatusPill status={issue.status} lang={lang} />
-                      <span className="text-[10px] font-mono uppercase text-slate-400">{issue.severity}</span>
-                    </div>
-                    <h4 className="text-sm font-bold text-white leading-snug">{L(lang, issue.title, issue.titleAr)}</h4>
-                    <p className="text-[12px] text-slate-300 leading-relaxed">{L(lang, issue.signalDetected, issue.signalDetectedAr)}</p>
-                    <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-3">{L(lang, issue.whyItMatters, issue.whyItMattersAr)}</p>
-                  </div>
-                  <button type="button" onClick={() => setFixCheck(check)} className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs print:hidden">
-                    <Wrench className="w-3.5 h-3.5" /> {issue.fixSnippet ? L(lang, 'Show the fix code', 'اعرض كود الإصلاح') : L(lang, 'How to fix', 'طريقة الإصلاح')}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
+      <TopFixes report={report} lang={lang} previous={previous} onRecheck={onRecheck} recheckUsed={recheckUsed} />
 
       {focus !== 'ai' && aiSection}
 

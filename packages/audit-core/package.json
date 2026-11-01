@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./audit/engine": "./src/audit/engine.ts",
+    "./audit/testParser": "./src/audit/testParser.ts",
     "./audit/client": "./src/audit/client.ts",
     "./audit/types": "./src/audit/types.ts",
     "./audit/html": "./src/audit/html.ts",

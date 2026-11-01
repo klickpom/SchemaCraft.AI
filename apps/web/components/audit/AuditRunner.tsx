@@ -56,6 +56,8 @@ export default function AuditRunner({ lang: pageLang, focus = 'full', examples =
   const [running, setRunning] = useState(false);
   const [step, setStep] = useState(0);
   const [report, setReport] = useState<AuditReport | null>(null);
+  const [previous, setPrevious] = useState<AuditReport | null>(null);
+  const [recheckUsed, setRecheckUsed] = useState(false);
   const [inputError, setInputError] = useState<string | null>(null);
   const [sharing, setSharing] = useState(false);
   const started = useRef(false);
@@ -69,6 +71,11 @@ export default function AuditRunner({ lang: pageLang, focus = 'full', examples =
     setInputError(null);
     setInput(url);
     setRunning(true);
+    try {
+      setRecheckUsed(sessionStorage.getItem(`sc-recheck:${url}`) === '1');
+    } catch {
+      /* private mode */
+    }
     const kept = recallAudit(url);
     if (!kept) setReport(null);
     setStep(0);
@@ -109,8 +116,19 @@ export default function AuditRunner({ lang: pageLang, focus = 'full', examples =
     }
   }, [autoRunFromQuery, start]);
 
+  const recheck = () => {
+    if (!report || recheckUsed) return;
+    const url = report.finalUrl || report.url;
+    setPrevious(report);
+    setRecheckUsed(true);
+    try { sessionStorage.setItem(`sc-recheck:${url}`, '1'); } catch { /* private mode */ }
+    void start(url);
+  };
+
   const reset = () => {
     setReport(null);
+    setPrevious(null);
+    setRecheckUsed(false);
     setInput('');
     if (typeof window !== 'undefined') {
       window.history.replaceState(null, '', window.location.pathname);
@@ -192,7 +210,7 @@ export default function AuditRunner({ lang: pageLang, focus = 'full', examples =
       {report && (
         <div id="audit-results" className="scroll-mt-24 text-start">
           {running && <p className="text-center text-[11px] text-slate-400 mb-3">{L(lang, 'Refreshing this audit…', 'جاري تحديث نفس الفحص…')}</p>}
-          <AuditReportView report={report} lang={lang} focus={focus} onNewAudit={reset} onShare={() => setSharing(true)} />
+          <AuditReportView report={report} lang={lang} focus={focus} previous={previous} recheckUsed={recheckUsed} onRecheck={recheck} onNewAudit={reset} onShare={() => setSharing(true)} />
         </div>
       )}
 

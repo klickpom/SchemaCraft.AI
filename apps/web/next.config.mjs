@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@schemacraft/audit-core'],
+  transpilePackages: ['@schemacraft/audit-core', '@schemacraft/fixes'],
   output: 'export',
   // Canonical URL form is WITH trailing slash (Hostinger + this export).
   trailingSlash: true,

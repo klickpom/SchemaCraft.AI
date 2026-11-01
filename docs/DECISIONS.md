@@ -32,3 +32,10 @@ Each line is a choice and the reason it was made. Add new lines at the bottom. D
 - The browser writes the dry-run session only after it has read the saved one: writing the empty initial state first would erase that session on refresh.
 - The audit radar link is rendered only when `NEXT_PUBLIC_RADAR_APP_LIVE=1`: `app.schemacraft-ai.site` is not attached yet, and the result card does not need that host.
 - With that flag unset, the audit result renders only the result-card download: a sentence about the radar would describe a button that is not on the page.
+
+## 2026-11-01 — Core product, speed mode
+
+- The rank score is impact × pages × ease. Ease is 3 for a copy block, 2 when the fix needs an answer, and 1 when only the host can change it. Multiplying by raw effort would have put host checklists ahead of the copy the shop owner can paste.
+- The free audit stores one "Check again" comparison per URL in the browser. The form can still start a new audit, and audit.php still rate-limits fetches.
+- IndexNow on the public audit is a copy of the `ping_indexnow.js` JSON body (host, key, keyLocation, urlList) sent to https://api.indexnow.org/indexnow. The page does not call IndexNow. The key in the sample is `YOUR_INDEXNOW_KEY`, not the site's own ops key.
+- JSON-LD omits telephone, legal name, hours, and sameAs unless that string is already on the page or the user typed it.
