@@ -1,5 +1,10 @@
 const APP_ORIGIN = 'https://app.schemacraft-ai.site';
 
+/** The radar host is hidden until this build flag is exactly "1". */
+export function radarAppLive(flag: string | undefined = process.env.NEXT_PUBLIC_RADAR_APP_LIVE): boolean {
+  return flag === '1';
+}
+
 /** External radar link. This must stay off the marketing sitemap. */
 export function radarAppUrl(auditedUrl: string): string {
   const target = new URL(APP_ORIGIN);

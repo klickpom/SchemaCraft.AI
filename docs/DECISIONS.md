@@ -30,3 +30,4 @@ Each line is a choice and the reason it was made. Add new lines at the bottom. D
 - Dry-run radar rows stay in the browser until Supabase is configured. Google sign-in stays "not assessed" and does not invent a Google account.
 - The audit CTA is an external link to `https://app.schemacraft-ai.site/?url=...`, and the result card downloads from the existing report: a new marketing page would change the frozen sitemap.
 - The browser writes the dry-run session only after it has read the saved one: writing the empty initial state first would erase that session on refresh.
+- The audit radar link is rendered only when `NEXT_PUBLIC_RADAR_APP_LIVE=1`: `app.schemacraft-ai.site` is not attached yet, and the result card does not need that host.
